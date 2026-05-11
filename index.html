@@ -296,10 +296,10 @@ body { font-family:var(--font); background:var(--bg); color:var(--text-body); li
   <!-- Trust -->
   <section class="ts">
     <div class="ts-in">
-      <div class="ts-item"><div class="n">30</div><div class="l">年企业服务</div></div>
-      <div class="ts-item"><div class="n">315</div><div class="l">篇深度文章</div></div>
+      <div class="ts-item"><div class="n">25+</div><div class="l">年企业服务</div></div>
+      <div class="ts-item"><div class="n">300+</div><div class="l">篇公众号文章</div></div>
       <div class="ts-item"><div class="n">27</div><div class="l">专题系列</div></div>
-      <div class="ts-item"><div class="n">16</div><div class="l">可交付Skill</div></div>
+      <div class="ts-item"><div class="n">20+</div><div class="l">交付Agent Skill</div></div>
       <div class="ts-item"><div class="n">6</div><div class="l">原创方法论</div></div>
     </div>
   </section>
@@ -311,29 +311,29 @@ body { font-family:var(--font); background:var(--bg); color:var(--text-body); li
       <h2>AI时代不可替代的底层能力</h2>
     </div>
     <div class="caps-g">
-      <div class="cap-card">
+      <div class="cap-card" onclick="switchPageAndTab('toolbox','def')">
         <div class="cc-num">01</div>
         <div class="cc-emoji">🎯</div>
         <h3>定义问题的能力</h3>
         <p class="cc-desc">当所有人都急着找答案，你先停下来问：我们要解决的到底是什么问题？</p>
         <div class="cc-q">"A problem well stated is a problem half solved."</div>
-        <div class="cc-info">→ 3个方法论 · 7个专题 · 2个Skill</div>
+        <div class="cc-info">→ 3个方法论 · 7个专题 · 2个智能体Agent Skill</div>
       </div>
-      <div class="cap-card">
+      <div class="cap-card" onclick="switchPageAndTab('toolbox','str')">
         <div class="cc-num">02</div>
         <div class="cc-emoji">🧩</div>
         <h3>梳理问题的能力</h3>
         <p class="cc-desc">把复杂问题拆解成可执行的框架，让模糊的焦虑变成清晰的路径。</p>
         <div class="cc-q">"55分钟思考问题本身，5分钟解决问题。"</div>
-        <div class="cc-info">→ 4个方法论 · 10个专题 · 6个Skill</div>
+        <div class="cc-info">→ 4个方法论 · 10个专题 · 6个智能体Agent Skill</div>
       </div>
-      <div class="cap-card">
+      <div class="cap-card" onclick="switchPageAndTab('toolbox','jud')">
         <div class="cc-num">03</div>
         <div class="cc-emoji">⚖️</div>
         <h3>做出判断的能力</h3>
         <p class="cc-desc">在多种可能性中做出选择——不只是选对，还要知道什么不该做。</p>
         <div class="cc-q">"高效地做不该做的事，比不做更糟。"</div>
-        <div class="cc-info">→ 2个方法论 · 10个专题 · 8个Skill</div>
+        <div class="cc-info">→ 2个方法论 · 10个专题 · 8个智能体Agent Skill</div>
       </div>
     </div>
   </section>
@@ -345,7 +345,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text-body); li
       <div class="rs-g">
         <div class="rs-btn" onclick="switchPageAndTab('toolbox','def')"><div class="rse">👔</div><div class="rsn">企业决策者</div><div class="rss">战略 · 变革 · 评估</div></div>
         <div class="rs-btn" onclick="switchPageAndTab('toolbox','str')"><div class="rse">🏭</div><div class="rsn">制造业管理者</div><div class="rss">AI改造 · 产线 · 落地</div></div>
-        <div class="rs-btn" onclick="switchPageAndTab('toolbox','jud')"><div class="rse">🔧</div><div class="rsn">技术实践者</div><div class="rss">Skill · Agent · 工具</div></div>
+        <div class="rs-btn" onclick="switchPageAndTab('toolbox','jud')"><div class="rse">🔧</div><div class="rsn">技术实践者</div><div class="rss">Agent Skill · Agent · 工具</div></div>
         <div class="rs-btn" onclick="switchPageAndTab('toolbox','str')"><div class="rse">📖</div><div class="rsn">学习者</div><div class="rss">认知 · 思维模型 · 入门</div></div>
       </div>
     </div>
@@ -390,7 +390,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text-body); li
 
     <!-- 全部 -->
     <div class="tb-section show" data-cap="all">
-      <p style="text-align:center;color:var(--text-dim);font-size:13px;margin-bottom:16px;">选择一个能力维度，看为你准备的方法论、文章和工具</p>
+      <p style="text-align:center;color:var(--text-dim);font-size:13px;margin-bottom:16px;">选择一个能力维度，看为你准备的方法论、公众号文章和工具</p>
     </div>
 
     <!-- 定义问题 -->
@@ -400,21 +400,25 @@ body { font-family:var(--font); background:var(--bg); color:var(--text-body); li
         <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>三才四象</h4><p>组织认知健康度评估体系。天时地利人和+四象，量化诊断企业AI就绪度。<br><span style="color:var(--text-dimmer);font-size:10px;">概念频次：三才四象9 · 关联专题：破局·重构·共生</span></p><span class="tbm">适合：CEO · HR负责人 · OD专家</span></div>
         <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>思维模型工具箱</h4><p>21+17个思维模型组成的决策框架，涵盖第一性原理、系统思考、二阶效应等。<br><span style="color:var(--text-dimmer);font-size:10px;">概念频次：多元思维模型2 · 17篇·10案例</span></p><span class="tbm">适合：每个想提升认知质量的人</span></div>
         <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>本体论框架</h4><p>用哲学本体论定义业务语义层——客户到底是什么？订单的本质是什么？<br><span style="color:var(--text-dimmer);font-size:10px;">概念频次：本体论15+ · 关联专题：本体迷雾·重塑工业世界观</span></p><span class="tbm">适合：企业架构师 · 业务负责人</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深熵·变革罗盘</h4><p>六维AI冲击评估（战略/组织/流程/IT/文化/ROI），对话式交互，一键出诊断报告。</p><span class="tbm">决策者 · 售前场景</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深渡·成长适配诊断</h4><p>企业成长阶段×数字化就绪度双轴诊断，定位阶段并输出定制化路径。</p><span class="tbm">决策者场景</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>流程重构器</h4><p>企业业务流程的AI驱动诊断与重构工具。分析瓶颈，自动生成优化方案。</p><span class="tbm">IT · 流程管理</span></div>
+      </div>
+      <div style="margin:20px 0 10px;padding:8px 12px;background:var(--cream);border-left:3px solid var(--gold);border-radius:0 var(--radius) var(--radius) 0;"><span style="font-size:11px;font-weight:600;color:var(--deep);letter-spacing:0.5px;">📖 理论 · 公众号专题</span><span style="font-size:10px;color:var(--text-dim);margin-left:8px;">深度原创内容，每个专题10-20篇</span></div>
+      <div class="tb-row">
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4461755093671067650#wechat_redirect','_blank')"><span class="tcb tcb-a">推荐专题 → 从这里开始</span><h4>断层之上：决策者认知重构</h4><p>8篇公众号文章构成完整的认知重构路径。核心概念：认知负债(5次)·AI渗透率自检(4次)·三大深层结构(3次)。案例：化工老厂长的至暗时刻、30岁程序员的超能力失效。</p><span class="tbm">8篇 · 6个案例 · 帮决策者从"用旧框架想新问题"的陷阱跳出来</span></div>
       </div>
       <div class="tb-row">
-        <div class="tb-card" style="grid-column:1/-1;border-left:3px solid var(--gold);"><span class="tcb tcb-a">推荐专题 → 从这里开始</span><h4>断层之上：决策者认知重构</h4><p>8篇文章构成完整的认知重构路径。核心概念：认知负债(5次)·AI渗透率自检(4次)·三大深层结构(3次)。案例：化工老厂长的至暗时刻、30岁程序员的超能力失效。</p><span class="tbm">8篇 · 6个案例 · 帮决策者从"用旧框架想新问题"的陷阱跳出来</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4332739109564563483#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>破局·重构·共生：三才四象</h4><p>组织健康评估体系，含量表和指南。</p><span class="tbm">12篇 · 4案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4400747438668365826#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>AI时代的本体迷雾</h4><p>Ontology是认知系统的底层重构。</p><span class="tbm">10篇 · 1案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4454933457294704641#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>趋近的悖论</h4><p>五千年信息史追问技术的本质。</p><span class="tbm">7篇 · 2案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4455001100496257028#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>AI的终极追问</h4><p>解决真问题还是贴新标签？</p><span class="tbm">5篇 · 1案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4430233717172862982#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>AI时代思维模型工具箱</h4><p>21个思维模型的结构化框架。</p><span class="tbm">17篇 · 5案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4349052543134449677#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>思维模型工具箱</h4><p>17个重启大脑操作系统的思维模型。</p><span class="tbm">17篇 · 10案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4464965786306199556#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>AI时代的职场进化论</h4><p>当"快"不再是超能力，价值在哪？</p><span class="tbm">4篇 · 2案例</span></div>
       </div>
+      <div style="margin:20px 0 10px;padding:8px 12px;background:var(--bg-card);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;"><span style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.5px;">🔧 实践 · 智能体Agent Skill</span><span style="font-size:10px;color:var(--text-dim);margin-left:8px;">可交互的智能助手，联系获取</span></div>
       <div class="tb-row">
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>破局·重构·共生：三才四象</h4><p>组织健康评估体系，含量表和指南。</p><span class="tbm">12篇 · 4案例 · 三才四象9</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI时代的本体迷雾</h4><p>Ontology是认知系统的底层重构。</p><span class="tbm">10篇 · 1案例 · 本体论</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>趋近的悖论</h4><p>五千年信息史追问技术的本质。</p><span class="tbm">7篇 · 2案例 · 本体论2</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI的终极追问</h4><p>解决真问题还是贴新标签？</p><span class="tbm">5篇 · 1案例 · 本体论4</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI时代思维模型工具箱</h4><p>21个思维模型的结构化框架。</p><span class="tbm">17篇 · 5案例</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>思维模型工具箱</h4><p>17个重启大脑操作系统的思维模型。</p><span class="tbm">17篇 · 10案例</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI时代的职场进化论</h4><p>当"快"不再是超能力，价值在哪？</p><span class="tbm">4篇 · 2案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=深熵·变革罗盘','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>深熵·变革罗盘</h4><p>六维AI冲击评估（战略/组织/流程/IT/文化/ROI），对话式交互，一键出诊断报告。</p><span class="tbm">决策者 · 售前场景 · 联系 →</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=深渡·成长适配诊断','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>深渡·成长适配诊断</h4><p>企业成长阶段×数字化就绪度双轴诊断，定位阶段并输出定制化路径。</p><span class="tbm">决策者场景 · 联系 →</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=流程重构器','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>流程重构器</h4><p>企业业务流程的AI驱动诊断与重构工具。分析瓶颈，自动生成优化方案。</p><span class="tbm">IT · 流程管理 · 联系 →</span></div>
       </div>
     </div>
 
@@ -427,54 +431,62 @@ body { font-family:var(--font); background:var(--bg); color:var(--text-body); li
         <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>四层十二维</h4><p>制造业AI原生的完整变革路径。从本体层到应用层，12个维度逐层拆解。</p><span class="tbm">制造业CIO</span></div>
         <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>CORE引擎</h4><p>企业能力重构的底层操作系统。认知→执行的四环驱动模型。</p><span class="tbm">组织变革者</span></div>
         <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>脱耦</h4><p>AI重铸中国制造的核心逻辑——不切断连接，而是重建连接的方式。</p><span class="tbm">制造企业</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深谋·售前咨询</h4><p>十二大模块覆盖售前全链路：会议纪要→竞对攻防→方案骨架→报价谈判。</p><span class="tbm">售前顾问</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深策·制造咨询套件</h4><p>诊断→设计→落地，七步诊断+九步设计+五大运营模式。</p><span class="tbm">制造咨询</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深构·研发协同</h4><p>4子Agent编排混合研发流程。</p><span class="tbm">技术团队</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深达·交付管理</h4><p>9原子能力×3角色，YAML三层状态管理，集成飞书/钉钉/企微。</p><span class="tbm">PM · PMO</span></div>
+      </div>
+      <div style="margin:20px 0 10px;padding:8px 12px;background:var(--cream);border-left:3px solid var(--gold);border-radius:0 var(--radius) var(--radius) 0;"><span style="font-size:11px;font-weight:600;color:var(--deep);letter-spacing:0.5px;">📖 理论 · 公众号专题</span><span style="font-size:10px;color:var(--text-dim);margin-left:8px;">深度原创内容，每个专题10-20篇</span></div>
+      <div class="tb-row">
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4298296039049904137#wechat_redirect','_blank')"><span class="tcb tcb-a">推荐专题 → 从这里开始</span><h4>智能体革命：重构企业流程的底层逻辑</h4><p>20篇完整论述Agent如何重塑BPM。核心概念：智能体(18次)·AI Agent(14次)。从固化流程到动态编排，从人执行到人机协作。</p><span class="tbm">20篇 · 5个案例 · 流程重构的第一性原理</span></div>
       </div>
       <div class="tb-row">
-        <div class="tb-card" style="grid-column:1/-1;border-left:3px solid var(--gold);"><span class="tcb tcb-a">推荐专题 → 从这里开始</span><h4>智能体革命：重构企业流程的底层逻辑</h4><p>20篇完整论述Agent如何重塑BPM。核心概念：智能体(18次)·AI Agent(14次)。从固化流程到动态编排，从人执行到人机协作。</p><span class="tbm">20篇 · 5个案例 · 流程重构的第一性原理</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4343207432618098718#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>知识新基建</h4><p>TO B企业的场景智能革命。</p><span class="tbm">12篇 · 5案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4415258602425286668#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>AI原生：重构软件公司</h4><p>代码到商业模式的五维度重构。</p><span class="tbm">10篇 · 6案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4499591036012445698#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>SaaS转型AI原生</h4><p>从定价到组织的转型路径。</p><span class="tbm">15篇 · 10案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4311180684431048705#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>CLIMB模型</h4><p>从"买系统"到"建能力"。</p><span class="tbm">10篇 · 3案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4415371163065909256#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>重塑工业世界观：四层十二维</h4><p>12封思考信，本体层到应用层。</p><span class="tbm">16篇 · 5案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4326776036446027782#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>脱藕：AI重铸中国制造</h4><p>二十年在车间产线间的求索。</p><span class="tbm">14篇 · 2案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4499584696137400323#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>AI数字团队设计实战</h4><p>手把手组建人机协作AI团队。</p><span class="tbm">9篇 · 2案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4424351762162122758#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>养龙虾指南</h4><p>人机协作内容创作方法论。</p><span class="tbm">20篇 · 3案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4360570797636042767#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>进阶专题C：驾驭组织与变革</h4><p>变革管理八步法+RACI+杨三角。</p><span class="tbm">7篇 · 4案例</span></div>
       </div>
+      <div style="margin:20px 0 10px;padding:8px 12px;background:var(--bg-card);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;"><span style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.5px;">🔧 实践 · 智能体Agent Skill</span><span style="font-size:10px;color:var(--text-dim);margin-left:8px;">可交互的智能助手，联系获取</span></div>
       <div class="tb-row">
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>知识新基建</h4><p>TO B企业的场景智能革命。</p><span class="tbm">12篇 · 5案例 · 场景智能6</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI原生：重构软件公司</h4><p>代码到商业模式的五维度重构。</p><span class="tbm">10篇 · 6案例 · AI原生9</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>SaaS转型AI原生</h4><p>从定价到组织的转型路径。</p><span class="tbm">15篇 · 10案例 · 本体论15</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>CLIMB模型</h4><p>从"买系统"到"建能力"。</p><span class="tbm">10篇 · 3案例 · 数字化转型9</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>重塑工业世界观：四层十二维</h4><p>12封思考信，本体层到应用层。</p><span class="tbm">16篇 · 5案例 · 本体论13</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>脱藕：AI重铸中国制造</h4><p>二十年在车间产线间的求索。</p><span class="tbm">14篇 · 2案例 · 脱耦14</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI数字团队设计实战</h4><p>手把手组建人机协作AI团队。</p><span class="tbm">9篇 · 2案例 · AI Agent2</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>养龙虾指南</h4><p>人机协作内容创作方法论。</p><span class="tbm">20篇 · 3案例 · 本体论20</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>进阶专题C：驾驭组织与变革</h4><p>变革管理八步法+RACI+杨三角。</p><span class="tbm">7篇 · 4案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=深谋·售前咨询','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>深谋·售前咨询</h4><p>十二大模块覆盖售前全链路：会议纪要→竞对攻防→方案骨架→报价谈判。</p><span class="tbm">售前顾问 · 联系 →</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=深策·制造咨询套件','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>深策·制造咨询套件</h4><p>诊断→设计→落地，七步诊断+九步设计+五大运营模式。</p><span class="tbm">制造咨询 · 联系 →</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=深构·研发协同','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>深构·研发协同</h4><p>4子Agent编排混合研发流程。</p><span class="tbm">技术团队 · 联系 →</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=深达·交付管理','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>深达·交付管理</h4><p>9原子能力×3角色，YAML三层状态管理，集成飞书/钉钉/企微。</p><span class="tbm">PM · PMO · 联系 →</span></div>
       </div>
     </div>
 
     <!-- 做出判断 -->
     <div class="tb-section" data-cap="jud">
-      <div class="tb-cap-h"><h2>⚖️ 做出判断的能力</h2><span class="tb-cap-label">在多种可能性中做出选择——知道什么该做，更知道什么不该做</span><p>核心方法：Skill工程 · 反脆弱设计 · AI渗透率自检</p></div>
+      <div class="tb-cap-h"><h2>⚖️ 做出判断的能力</h2><span class="tb-cap-label">在多种可能性中做出选择——知道什么该做，更知道什么不该做</span><p>核心方法：Agent Skill工程 · 反脆弱设计 · AI渗透率自检</p></div>
       <div class="tb-row">
-        <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>Skill工程</h4><p>16+可交付智能体Skill的完整方法论。需求分析→设计→开发→部署→使用。</p><span class="tbm">AI实践者 · 技术团队</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深略·战略对齐</h4><p>愿景→BSC分解→AI潜力三维评分→投资路线图。8大行业Playbook。</p><span class="tbm">决策者 · 售前</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>资金导航</h4><p>三层过滤六种模式，辅助投融资决策。</p><span class="tbm">CFO · 财务</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深筹·产销协同</h4><p>十一项约束引擎+DAG级联，插单影响全链路评估。</p><span class="tbm">生产 · 供应链</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深驭·制造运营套件</h4><p>决策大脑+分析透镜，5大实时决策+5大分析。</p><span class="tbm">制造运营</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深拓·市场增长</h4><p>7大模块覆盖市场全链路。</p><span class="tbm">市场团队</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深耕·销售管理</h4><p>25+能力覆盖完整销售周期。</p><span class="tbm">销售团队</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深算·报价管理</h4><p>六步完成完整报价流程。</p><span class="tbm">销售 · 商务</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深声·内容运营</h4><p>三种创作模式，五大平台自动适配。</p><span class="tbm">内容团队</span></div>
-        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深益·客户成功</h4><p>17子智能体覆盖客户全生命周期6阶段。</p><span class="tbm">CSM</span></div>
+        <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>Agent Skill工程</h4><p>20+可交付智能体Agent Skill的完整方法论。需求分析→设计→开发→部署→使用。</p><span class="tbm">AI实践者 · 技术团队</span></div>
+      </div>
+      <div style="margin:20px 0 10px;padding:8px 12px;background:var(--cream);border-left:3px solid var(--gold);border-radius:0 var(--radius) var(--radius) 0;"><span style="font-size:11px;font-weight:600;color:var(--deep);letter-spacing:0.5px;">📖 理论 · 公众号专题</span><span style="font-size:10px;color:var(--text-dim);margin-left:8px;">深度原创内容，每个专题10-20篇</span></div>
+      <div class="tb-row">
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4328267473251581976#wechat_redirect','_blank')"><span class="tcb tcb-a">推荐专题 → 从这里开始</span><h4>价值重构：AI原生的增长逻辑</h4><p>20篇从"价值原子"重新定义增长。核心概念：AI原生(11次)·价值重构(6次)·反脆弱设计(2次)。当AI成为基础设施，怎么赚钱？</p><span class="tbm">20篇 · 3案例 · 适合：创业者 · 增长负责人</span></div>
       </div>
       <div class="tb-row">
-        <div class="tb-card" style="grid-column:1/-1;border-left:3px solid var(--gold);"><span class="tcb tcb-a">推荐专题 → 从这里开始</span><h4>价值重构：AI原生的增长逻辑</h4><p>20篇从"价值原子"重新定义增长。核心概念：AI原生(11次)·价值重构(6次)·反脆弱设计(2次)。当AI成为基础设施，怎么赚钱？</p><span class="tbm">20篇 · 3案例 · 适合：创业者 · 增长负责人</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4412358901493252097#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>AI工具人养成记</h4><p>把AI变成真能干活的工具。</p><span class="tbm">20篇 · 6案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4427520314641743876#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>制造企业AI原生之路</h4><p>五大本体AI改造施工图。</p><span class="tbm">20篇</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4380405060275388426#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>AI战略内参</h4><p>写给制造业老板的紧急备忘录。</p><span class="tbm">16篇 · 5案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4360276437606449152#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>成为战略分析师</h4><p>MECE、波特五力、BCG矩阵。</p><span class="tbm">7篇 · 4案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4499453521309843463#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>Agent Skill实战</h4><p>用Hermes打造真实Agent Skill。</p><span class="tbm">6篇 · 4案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4358873457967611913#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>进阶专题A：增长引擎</h4><p>AARRR出发组装增长引擎。</p><span class="tbm">7篇 · 2案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4499586128106340353#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>养马日记</h4><p>技术小白的Agent学习笔记。</p><span class="tbm">5篇 · 1案例</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4481087617945681928#wechat_redirect','_blank')"><span class="tcb tcb-a">公众号专题</span><h4>职场认知</h4><p>拉开收入差距的不是能力，是认知。</p><span class="tbm">1篇</span></div>
       </div>
+      <div style="margin:20px 0 10px;padding:8px 12px;background:var(--bg-card);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;"><span style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.5px;">🔧 实践 · 智能体Agent Skill</span><span style="font-size:10px;color:var(--text-dim);margin-left:8px;">可交互的智能助手，联系获取</span></div>
       <div class="tb-row">
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI工具人养成记</h4><p>把AI变成真能干活的工具。</p><span class="tbm">20篇 · 6案例 · Skill5</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>制造企业AI原生之路</h4><p>五大本体AI改造施工图。</p><span class="tbm">20篇 · 本体论13</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI战略内参</h4><p>写给制造业老板的紧急备忘录。</p><span class="tbm">16篇 · 5案例 · 智能化6</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>成为战略分析师</h4><p>MECE、波特五力、BCG矩阵。</p><span class="tbm">7篇 · 4案例</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>Agent Skill实战</h4><p>用Hermes打造真实Skill。</p><span class="tbm">6篇 · 4案例 · Skill2</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>进阶专题A：增长引擎</h4><p>AARRR出发组装增长引擎。</p><span class="tbm">7篇 · 2案例</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>养马日记</h4><p>技术小白的Agent学习笔记。</p><span class="tbm">5篇 · 1案例 · Skill4</span></div>
-        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>职场认知</h4><p>拉开收入差距的不是能力，是认知。</p><span class="tbm">1篇</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=深略·战略对齐','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>深略·战略对齐</h4><p>愿景→BSC分解→AI潜力三维评分→投资路线图。8大行业Playbook。</p><span class="tbm">决策者 · 售前 · 联系 →</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=资金导航','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>资金导航</h4><p>三层过滤六种模式，辅助投融资决策。</p><span class="tbm">CFO · 财务 · 联系 →</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=深筹·产销协同','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>深筹·产销协同</h4><p>十一项约束引擎+DAG级联，插单影响全链路评估。</p><span class="tbm">生产 · 供应链 · 联系 →</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=深驭·制造运营套件','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>深驭·制造运营套件</h4><p>决策大脑+分析透镜，5大实时决策+5大分析。</p><span class="tbm">制造运营 · 联系 →</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=深拓·市场增长','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>深拓·市场增长</h4><p>7大模块覆盖市场全链路。</p><span class="tbm">市场团队 · 联系 →</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=深耕·销售管理','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>深耕·销售管理</h4><p>25+能力覆盖完整销售周期。</p><span class="tbm">销售团队 · 联系 →</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=深算·报价管理','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>深算·报价管理</h4><p>六步完成完整报价流程。</p><span class="tbm">销售 · 商务 · 联系 →</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=深声·内容运营','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>深声·内容运营</h4><p>三种创作模式，五大平台自动适配。</p><span class="tbm">内容团队 · 联系 →</span></div>
+        <div class="tb-card" style="cursor:pointer;" onclick="window.open('mailto:wangguobao007@outlook.com?subject=深益·客户成功','_blank')"><span class="tcb tcb-s">智能体Agent Skill</span><h4>深益·客户成功</h4><p>17子智能体覆盖客户全生命周期6阶段。</p><span class="tbm">CSM · 联系 →</span></div>
       </div>
     </div>
 
@@ -526,7 +538,7 @@ body { font-family:var(--font); background:var(--bg); color:var(--text-body); li
       <div class="tli"><div class="tld" style="background:#c92a2a;">1</div><div class="tlb"><h3>中石化</h3><span class="tlo">能源 · 数字化转型起点</span><p>理解"系统上线"和"真正用起来"之间的鸿沟。这段经历让我后来做的每一个方法论都先问：到底能不能落地？<strong style="color:var(--deep);"> → 定义问题的能力</strong></p></div></div>
       <div class="tli"><div class="tld" style="background:#e8590c;">2</div><div class="tlb"><h3>霍尼韦尔</h3><span class="tlo">制造 · 自动化</span><p>从甲方到乙方的视角转换，看到不同企业面对技术变革时的共同困境——不是技术选型，是组织和人。<strong style="color:var(--deep);"> → 梳理问题的能力</strong></p></div></div>
       <div class="tli"><div class="tld" style="background:#0055aa;">3</div><div class="tlb"><h3>毕博 · 德勤</h3><span class="tlo">管理咨询 · 战略咨询</span><p>系统化了自己的方法论体系。从帮单一企业解决问题到帮行业解决问题，视角完全不同了。<strong style="color:var(--deep);"> → 做出判断的能力</strong></p></div></div>
-      <div class="tli"><div class="tld" style="background:var(--accent);">4</div><div class="tlb"><h3>现在</h3><span class="tlo">专注企业智能落地</span><p>把三十年经验蒸馏为可复用的方法论和Skill，通过公众号持续输出，为企业提供培训与咨询。<strong style="color:var(--deep);"> → 三种能力的整合输出</strong></p></div></div>
+      <div class="tli"><div class="tld" style="background:var(--accent);">4</div><div class="tlb"><h3>现在</h3><span class="tlo">专注企业智能落地</span><p>把三十年经验蒸馏为可复用的方法论和智能体Agent Skill，通过公众号持续输出，为企业提供培训与咨询。<strong style="color:var(--deep);"> → 三种能力的整合输出</strong></p></div></div>
     </div>
 
     <div class="ab-cap"><h3>方法论的源头</h3><p>每个方法论背后都是一段真实经历——不是想出来的，是磨出来的</p></div>
@@ -536,14 +548,14 @@ body { font-family:var(--font); background:var(--bg); color:var(--text-body); li
       <div class="moc"><h4>🏗️ 四层十二维</h4><p>制造业项目里反复被问"我们从哪里开始？"这个框架就是答案。</p></div>
       <div class="moc"><h4>⚙️ CORE引擎</h4><p>所有转型失败的根因，都能在认知到执行的四个环里找到断点。</p></div>
       <div class="moc"><h4>☯️ 三才四象</h4><p>组织变革中"人"最难量化。这套评估让隐性的组织健康变得可衡量。</p></div>
-      <div class="moc"><h4>🛠️ Skill工程</h4><p>AI Agent真的能干活了，最缺的不是模型，是"怎么让它帮我干活"的方法论。</p></div>
+      <div class="moc"><h4>🛠️ Agent Skill工程</h4><p>AI Agent真的能干活了，最缺的不是模型，是"怎么让它帮我干活"的方法论。</p></div>
     </div>
 
-    <div class="ab-cap"><h3>三种能力，一个体系</h3><p>六个方法论 + 27个专题 + 16个Skill = 帮你建立AI时代不可替代的底层能力</p></div>
+    <div class="ab-cap"><h3>三种能力，一个体系</h3><p>六个方法论 + 27个专题 + 20+个智能体Agent Skill = 帮你建立AI时代不可替代的底层能力</p></div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0;">
-      <div style="padding:16px;background:var(--cream);border:1px solid var(--border);border-radius:var(--radius);border-top:3px solid var(--gold);"><div style="font-size:20px;margin-bottom:6px;">🎯</div><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">定义问题</div><div style="font-size:11px;color:var(--text-dim);">3个方法论 · 7个专题 · 2个Skill</div></div>
-      <div style="padding:16px;background:var(--cream);border:1px solid var(--border);border-radius:var(--radius);border-top:3px solid var(--gold);"><div style="font-size:20px;margin-bottom:6px;">🧩</div><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">梳理问题</div><div style="font-size:11px;color:var(--text-dim);">5个方法论 · 9个专题 · 4个Skill</div></div>
-      <div style="padding:16px;background:var(--cream);border:1px solid var(--border);border-radius:var(--radius);border-top:3px solid var(--gold);"><div style="font-size:20px;margin-bottom:6px;">⚖️</div><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">做出判断</div><div style="font-size:11px;color:var(--text-dim);">2个方法论 · 11个专题 · 10个Skill</div></div>
+      <div style="padding:16px;background:var(--cream);border:1px solid var(--border);border-radius:var(--radius);border-top:3px solid var(--gold);"><div style="font-size:20px;margin-bottom:6px;">🎯</div><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">定义问题</div><div style="font-size:11px;color:var(--text-dim);">3个方法论 · 7个专题 · 2个智能体Agent Skill</div></div>
+      <div style="padding:16px;background:var(--cream);border:1px solid var(--border);border-radius:var(--radius);border-top:3px solid var(--gold);"><div style="font-size:20px;margin-bottom:6px;">🧩</div><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">梳理问题</div><div style="font-size:11px;color:var(--text-dim);">5个方法论 · 9个专题 · 4个智能体Agent Skill</div></div>
+      <div style="padding:16px;background:var(--cream);border:1px solid var(--border);border-radius:var(--radius);border-top:3px solid var(--gold);"><div style="font-size:20px;margin-bottom:6px;">⚖️</div><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">做出判断</div><div style="font-size:11px;color:var(--text-dim);">2个方法论 · 11个专题 · 10个智能体Agent Skill</div></div>
     </div>
 
     <div style="text-align:center;margin-top:32px;">
@@ -560,40 +572,41 @@ body { font-family:var(--font); background:var(--bg); color:var(--text-body); li
 
 <script>
 // All topics data
+const WX = 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=';
 const CATS = {
   ai: {t:'🧠 AI认知觉醒',c:'7专题',co:'cc-ai',cards:[
-    {t:'AI工具人养成记',s:'把AI变成真能干活的工具',a:['AI','实操'],n:'20篇'},
-    {t:'养龙虾指南',s:'人机协作内容创作方法论',a:['创作','方法'],n:'20篇'},
-    {t:'AI时代思维模型工具箱',s:'21个思维模型',a:['思维'],n:'17篇'},
-    {t:'思维模型工具箱',s:'17个思维模型',a:['思维模型'],n:'17篇'},
-    {t:'趋近的悖论',s:'五千年追问技术的本质',a:['哲学'],n:'7篇'},
-    {t:'AI的终极追问',s:'解决真问题还是贴标签',a:['哲学'],n:'5篇'},
-    {t:'AI时代的职场进化论',s:'当快不再是超能力',a:['职场'],n:'4篇'},
+    {t:'AI工具人养成记',s:'把AI变成真能干活的工具',a:['AI','实操'],n:'20篇',l:'4412358901493252097'},
+    {t:'养龙虾指南',s:'人机协作内容创作方法论',a:['创作','方法'],n:'20篇',l:'4424351762162122758'},
+    {t:'AI时代思维模型工具箱',s:'21个思维模型',a:['思维'],n:'17篇',l:'4430233717172862982'},
+    {t:'思维模型工具箱',s:'17个思维模型',a:['思维模型'],n:'17篇',l:'4349052543134449677'},
+    {t:'趋近的悖论',s:'五千年追问技术的本质',a:['哲学'],n:'7篇',l:'4454933457294704641'},
+    {t:'AI的终极追问',s:'解决真问题还是贴标签',a:['哲学'],n:'5篇',l:'4455001100496257028'},
+    {t:'AI时代的职场进化论',s:'当快不再是超能力',a:['职场'],n:'4篇',l:'4464965786306199556'},
   ]},
   org: {t:'🔄 组织变革方法论',c:'10专题',co:'cc-org',cards:[
-    {t:'智能体革命',s:'Agent重塑BPM',a:['Agent'],n:'20篇',f:true},
-    {t:'价值重构：AI原生的增长逻辑',s:'从价值原子定义增长',a:['战略'],n:'20篇'},
-    {t:'破局·重构·共生：三才四象',s:'组织健康评估体系',a:['组织'],n:'12篇'},
-    {t:'知识新基建',s:'TO B场景智能',a:['知识管理'],n:'12篇'},
-    {t:'AI原生：重构软件公司',s:'五维度重构',a:['软件'],n:'10篇'},
-    {t:'CLIMB模型',s:'从买到建的能力转换器',a:['数字化'],n:'10篇'},
-    {t:'AI数字团队设计实战',s:'人机协作团队',a:['团队'],n:'9篇'},
-    {t:'SaaS转型AI原生',s:'从定价到组织',a:['SaaS'],n:'15篇'},
-    {t:'本体迷雾：Ontology颠覆ERP？',s:'认知系统重构',a:['本体论'],n:'10篇'},
-    {t:'成为战略分析师',s:'MECE·波特五力·BCG',a:['战略'],n:'7篇'},
+    {t:'智能体革命',s:'Agent重塑BPM',a:['Agent'],n:'20篇',l:'4298296039049904137'},
+    {t:'价值重构：AI原生的增长逻辑',s:'从价值原子定义增长',a:['战略'],n:'20篇',l:'4328267473251581976'},
+    {t:'破局·重构·共生：三才四象',s:'组织健康评估体系',a:['组织'],n:'12篇',l:'4332739109564563483'},
+    {t:'知识新基建',s:'TO B场景智能',a:['知识管理'],n:'12篇',l:'4343207432618098718'},
+    {t:'AI原生：重构软件公司',s:'五维度重构',a:['软件'],n:'10篇',l:'4415258602425286668'},
+    {t:'CLIMB模型',s:'从买到建的能力转换器',a:['数字化'],n:'10篇',l:'4311180684431048705'},
+    {t:'AI数字团队设计实战',s:'人机协作团队',a:['团队'],n:'9篇',l:'4499584696137400323'},
+    {t:'SaaS转型AI原生',s:'从定价到组织',a:['SaaS'],n:'15篇',l:'4499591036012445698'},
+    {t:'本体迷雾：Ontology颠覆ERP？',s:'认知系统重构',a:['本体论'],n:'10篇',l:'4400747438668365826'},
+    {t:'成为战略分析师',s:'MECE·波特五力·BCG',a:['战略'],n:'7篇',l:'4360276437606449152'},
   ]},
   mfg: {t:'🏭 制造业AI实战',c:'4专题',co:'cc-mfg',cards:[
-    {t:'制造企业AI原生之路',s:'五大本体施工图',a:['制造'],n:'20篇',f:true},
-    {t:'脱藕：AI重铸中国制造',s:'二十年求索笔记',a:['制造'],n:'14篇'},
-    {t:'AI战略内参',s:'写给制造业老板',a:['战略'],n:'16篇'},
-    {t:'重塑工业世界观：四层十二维',s:'12封思考信',a:['制造业'],n:'16篇'},
+    {t:'制造企业AI原生之路',s:'五大本体施工图',a:['制造'],n:'20篇',l:'4427520314641743876'},
+    {t:'脱藕：AI重铸中国制造',s:'二十年求索笔记',a:['制造'],n:'14篇',l:'4326776036446027782'},
+    {t:'AI战略内参',s:'写给制造业老板',a:['战略'],n:'16篇',l:'4380405060275388426'},
+    {t:'重塑工业世界观：四层十二维',s:'12封思考信',a:['制造业'],n:'16篇',l:'4415371163065909256'},
   ]},
   sk: {t:'🛠️ 技能工程实战',c:'2专题',co:'cc-sk',cards:[
-    {t:'Agent Skill实战',s:'用Hermes打造Skill',a:['Agent'],n:'6篇',f:true},
-    {t:'养马日记',s:'技术小白学习笔记',a:['Hermes'],n:'5篇'},
+    {t:'Agent Skill实战',s:'用Hermes打造真实Agent Skill',a:['Agent'],n:'6篇',l:'4499453521309843463'},
+    {t:'养马日记',s:'技术小白学习笔记',a:['Hermes'],n:'5篇',l:'4499586128106340353'},
   ]},
   rd: {t:'📚 慢读经典',c:'1专题',co:'cc-rd',cards:[
-    {t:'慢读经典·中西经典对读',s:'52周经典对读',a:['经典'],n:'1篇'},
+    {t:'慢读经典·中西经典对读',s:'52周经典对读',a:['经典'],n:'1篇',l:'4502561891516530693'},
   ]},
 };
 
@@ -603,9 +616,10 @@ function renderAll() {
   for (const [k,cat] of Object.entries(CATS)) {
     h += `<div class="cb show ${cat.co}" data-c="${k}"><div class="cbh"><h3>${cat.t}</h3><span class="cbc">${cat.c}</span></div>`;
     for (const cd of cat.cards) {
-      h += `<div class="acd2${cd.f?'':''}"><h4>${cd.t}</h4><div class="as2">${cd.s}</div><div class="am2">`;
+      var wxUrl = cd.l ? WX + cd.l + '#wechat_redirect' : '#';
+      h += `<div class="acd2" style="cursor:pointer;" onclick="window.open('${wxUrl}','_blank')"><h4>${cd.t}</h4><div class="as2">${cd.s}</div><div class="am2">`;
       for (const t of cd.a) h += `<span class="at2">${t}</span>`;
-      h += `<span class="ac2">${cd.n}</span><a class="al2" href="#">阅读专题 →</a></div></div>`;
+      h += `<span class="ac2">${cd.n}</span><span class="al2">阅读专题 →</span></div></div>`;
     }
     h += `</div>`;
   }
