@@ -1,59 +1,649 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>树懒老K · AI认知与实践者</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="assets/avatar.png" type="image/png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>树懒老K</title>
+<style>
+:root {
+  --ink: #0f1724; --deep: #1a2a3d; --mid: #2d4055;
+  --accent: #5B9BC8; --accent-dim: #3a7aa3; --glow: #7ec8e3;
+  --gold: #C8B99B; --gold-light: #d9c9b0;
+  --blue-dim: #B4CDE1;
+  --bg: #f5f4f0; --bg-card: #ffffff; --cream: #faf8f5;
+  --border: #e4e2dc; --border-light: #eeede8;
+  --text-primary: #0f1724; --text-body: #2d4055; --text-dim: #6b7f95; --text-dimmer: #94a7bd;
+  --radius: 8px; --max-w: 960px;
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:var(--font); background:var(--bg); color:var(--text-body); line-height:1.7; -webkit-font-smoothing:antialiased; }
+
+/* NAV */
+.nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 48px; height:56px; background:rgba(255,255,255,0.88); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid var(--border); }
+.nav-brand { display:flex; align-items:center; gap:8px; cursor:pointer; }
+.nav-brand img { width:20px; height:20px; border-radius:50%; border:1px solid var(--blue-dim); }
+.nb-text { font-size:13px; color:var(--deep); letter-spacing:2px; font-weight:600; }
+.nav-links { display:flex; gap:24px; list-style:none; }
+.nav-links a { font-size:12px; color:var(--text-dim); letter-spacing:0.5px; padding:4px 0; position:relative; cursor:pointer; transition:color 0.2s; }
+.nav-links a::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:2px; background:var(--accent); transform:scaleX(0); transition:transform 0.2s; }
+.nav-links a:hover { color:var(--deep); }
+.nav-links a.active { color:var(--deep); }
+.nav-links a.active::after { transform:scaleX(1); }
+
+.page { display:none; padding-top:56px; }
+.page.active { display:block; }
+
+/* ========== HOME ========== */
+/* Hero */
+.hero { min-height:calc(100vh - 56px); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:56px 24px 60px; background:linear-gradient(150deg,#0a121f 0%,#0f1724 30%,#1a2a3d 65%,#2d4055 100%); position:relative; overflow:hidden; }
+.hg { position:absolute; top:-30%; right:-15%; width:600px; height:600px; background:radial-gradient(circle,rgba(91,155,200,0.08) 0%,transparent 70%); pointer-events:none; }
+.hi { position:relative; z-index:1; max-width:760px; text-align:center; }
+.h-av { width:60px; height:60px; border-radius:50%; border:2px solid rgba(255,255,255,0.15); margin-bottom:12px; box-shadow:0 4px 24px rgba(0,0,0,0.25); }
+.h-name { font-size:28px; font-weight:700; color:#fff; letter-spacing:6px; margin-bottom:16px; }
+.h-claim { font-size:19px; color:rgba(255,255,255,0.88); line-height:1.7; font-weight:400; letter-spacing:0.3px; margin-bottom:6px; max-width:620px; margin-left:auto; margin-right:auto; }
+.h-claim em { color:var(--glow); font-style:normal; font-weight:500; }
+.h-sub { font-size:13px; color:rgba(180,205,225,0.45); letter-spacing:3px; margin-bottom:6px; }
+.h-what { font-size:13px; color:rgba(255,255,255,0.55); letter-spacing:0.3px; margin-bottom:28px; }
+
+/* Quotes */
+.h-qt { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; max-width:820px; margin:0 auto 28px; }
+@media(max-width:720px){.h-qt{grid-template-columns:1fr;max-width:420px}}
+.h-q { padding:12px 14px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:6px; text-align:left; }
+.h-q .hqn { font-size:10px; font-weight:600; color:var(--gold); letter-spacing:0.3px; margin-bottom:3px; }
+.h-q .hqe { font-size:10px; color:rgba(180,205,225,0.45); line-height:1.5; margin-bottom:2px; font-style:italic; }
+.h-q .hqc { font-size:11px; color:rgba(255,255,255,0.65); line-height:1.5; }
+.h-cta { display:inline-flex; align-items:center; gap:8px; padding:13px 32px; background:var(--accent); color:#fff; border-radius:6px; font-size:13px; font-weight:600; letter-spacing:0.5px; cursor:pointer; border:none; transition:all 0.3s; }
+.h-cta:hover { background:var(--accent-dim); transform:translateY(-2px); box-shadow:0 8px 28px rgba(91,155,200,0.2); }
+
+/* Trust strip */
+.ts { padding:18px 24px; background:var(--cream); border-bottom:1px solid var(--border); }
+.ts-in { max-width:var(--max-w); margin:0 auto; display:flex; justify-content:center; gap:28px; flex-wrap:wrap; }
+.ts-item { text-align:center; }
+.ts-item .n { font-size:22px; font-weight:700; color:var(--deep); line-height:1.1; }
+.ts-item .l { font-size:11px; color:var(--text-dim); letter-spacing:0.5px; margin-top:2px; }
+
+/* Three capabilities */
+.caps { padding:48px 24px; max-width:var(--max-w); margin:0 auto; }
+.caps-h { text-align:center; margin-bottom:28px; }
+.caps-h .cl { font-size:11px; color:var(--text-dimmer); letter-spacing:3px; text-transform:uppercase; margin-bottom:6px; }
+.caps-h h2 { font-size:20px; font-weight:700; color:var(--text-primary); }
+.caps-g { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+@media(max-width:720px){.caps-g{grid-template-columns:1fr}}
+
+.cap-card { padding:24px 22px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); cursor:pointer; transition:all 0.3s; position:relative; }
+.cap-card:hover { box-shadow:0 8px 28px rgba(15,23,36,0.06); border-color:var(--gold); transform:translateY(-3px); }
+.cap-card .cc-num { position:absolute; top:14px; right:16px; font-size:36px; font-weight:800; color:var(--gold); opacity:0.15; line-height:1; }
+.cap-card .cc-emoji { font-size:22px; margin-bottom:8px; }
+.cap-card h3 { font-size:15px; font-weight:700; color:var(--text-primary); margin-bottom:6px; }
+.cap-card .cc-desc { font-size:12px; color:var(--text-dim); line-height:1.7; margin-bottom:10px; }
+.cap-card .cc-q { font-size:11px; color:var(--gold); font-style:italic; font-weight:500; }
+.cap-card .cc-info { font-size:11px; color:var(--accent); font-weight:500; margin-top:8px; }
+
+/* Role entry strip */
+.role-strip { padding:32px 24px; background:var(--cream); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.rs-in { max-width:var(--max-w); margin:0 auto; text-align:center; }
+.rs-in .rl { font-size:11px; color:var(--text-dimmer); letter-spacing:3px; text-transform:uppercase; margin-bottom:10px; }
+.rs-g { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:6px; }
+@media(max-width:720px){.rs-g{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:440px){.rs-g{grid-template-columns:1fr}}
+.rs-btn { padding:14px 16px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); cursor:pointer; transition:all 0.2s; text-align:left; }
+.rs-btn:hover { border-color:var(--accent); box-shadow:0 4px 16px rgba(15,23,36,0.04); }
+.rs-btn .rse { font-size:18px; }
+.rs-btn .rsn { font-size:13px; font-weight:600; color:var(--text-primary); }
+.rs-btn .rss { font-size:11px; color:var(--text-dim); }
+
+/* Action */
+.act { background:linear-gradient(150deg,#0f1724 0%,#1a2a3d 40%,#2d4055 100%); }
+.ah { padding:40px 24px 28px; max-width:var(--max-w); margin:0 auto; }
+.ah-h { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.ah-h h2 { font-size:15px; font-weight:600; color:rgba(255,255,255,0.9); }
+.ah-h a { font-size:11px; color:rgba(180,205,225,0.5); cursor:pointer; }
+.ah-h a:hover { color:var(--glow); }
+.ahg { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+@media(max-width:600px){.ahg{grid-template-columns:1fr}}
+.ahi { display:flex; align-items:center; gap:12px; padding:12px 16px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:var(--radius); cursor:pointer; transition:all 0.25s; }
+.ahi:hover { background:rgba(255,255,255,0.07); }
+.ahi .ai { font-size:18px; }
+.ahi .an { flex:1; }
+.ahi .an .nm { font-size:12px; font-weight:600; color:rgba(255,255,255,0.82); }
+.ahi .an .mt { font-size:10px; color:rgba(180,205,225,0.45); }
+
+.ac { padding:28px 24px 40px; max-width:var(--max-w); margin:0 auto; text-align:center; }
+.ac h2 { font-size:16px; font-weight:700; color:#fff; margin-bottom:4px; }
+.ac .acd { font-size:12px; color:rgba(180,205,225,0.55); margin-bottom:20px; }
+.acr { display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; }
+.acq { display:flex; align-items:center; gap:12px; padding:10px 18px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); border-radius:var(--radius); }
+.acq img { width:40px; height:40px; border-radius:4px; }
+.acq .qt { text-align:left; color:rgba(255,255,255,0.65); font-size:11px; line-height:1.5; }
+.acq .qt strong { color:#fff; }
+.acb { padding:12px 26px; background:var(--accent); color:#fff; border-radius:var(--radius); font-size:12px; font-weight:600; transition:all 0.2s; display:inline-flex; align-items:center; gap:8px; }
+.acb:hover { background:var(--accent-dim); color:#fff; transform:translateY(-2px); box-shadow:0 4px 16px rgba(91,155,200,0.25); }
+
+.ft { text-align:center; padding:18px 24px; font-size:11px; }
+.ftl { color:var(--text-dimmer); border-top:1px solid var(--border); }
+.ftd { color:rgba(255,255,255,0.25); }
+
+/* ========== TOOLBOX ========== */
+.tbh { padding:72px 24px 36px; text-align:center; background:var(--cream); border-bottom:1px solid var(--border); }
+.tbh h1 { font-size:26px; font-weight:700; color:var(--text-primary); margin-bottom:4px; }
+.tbh p { font-size:13px; color:var(--text-dim); max-width:500px; margin:0 auto; }
+
+.tbc { max-width:var(--max-w); margin:0 auto; padding:0 24px 48px; }
+
+.tb-tabs { display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin:28px auto; max-width:600px; }
+.tb-tab { padding:7px 18px; border-radius:6px; font-size:12px; font-weight:500; cursor:pointer; border:1px solid var(--border); background:var(--bg-card); color:var(--text-dim); transition:all 0.2s; }
+.tb-tab:hover { border-color:var(--gold); color:var(--deep); }
+.tb-tab.active { background:var(--deep); border-color:var(--deep); color:#fff; }
+
+.tb-section { display:none; }
+.tb-section.show { display:block; }
+
+.tb-cap-h { margin-bottom:18px; }
+.tb-cap-h h2 { font-size:17px; font-weight:700; color:var(--text-primary); margin-bottom:2px; }
+.tb-cap-h .tb-cap-label { font-size:11px; color:var(--gold); font-weight:500; letter-spacing:0.5px; }
+.tb-cap-h p { font-size:12px; color:var(--text-dim); margin-top:4px; }
+
+.tb-row { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:12px; }
+@media(max-width:640px){.tb-row{grid-template-columns:1fr}}
+
+.tb-card { padding:16px 18px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); transition:all 0.25s; }
+.tb-card:hover { box-shadow:0 4px 16px rgba(15,23,36,0.04); border-color:var(--gold); }
+.tb-card .tcb { font-size:9px; padding:2px 7px; border-radius:4px; font-weight:600; display:inline-block; margin-bottom:5px; }
+.tcb-m { background:rgba(91,155,200,0.1); color:var(--accent); }
+.tcb-a { background:rgba(200,185,155,0.15); color:#8a7a5a; }
+.tcb-s { background:rgba(58,78,102,0.1); color:var(--deep); }
+.tb-card h4 { font-size:13px; font-weight:600; color:var(--text-primary); margin-bottom:3px; }
+.tb-card p { font-size:11.5px; color:var(--text-dim); line-height:1.6; margin-bottom:5px; }
+.tb-card .tbm { font-size:10px; color:var(--text-dimmer); }
+
+/* All topics fold */
+.all-t { margin-top:28px; text-align:center; }
+.all-t button { padding:9px 22px; border:1px solid var(--border); background:var(--bg-card); border-radius:6px; font-size:12px; color:var(--text-dim); cursor:pointer; transition:all 0.2s; }
+.all-t button:hover { border-color:var(--gold); color:var(--deep); }
+
+.all-c { margin-top:18px; display:none; }
+.all-c.open { display:block; }
+
+.ct { display:flex; gap:5px; justify-content:center; flex-wrap:wrap; margin-bottom:14px; }
+.ctab { padding:4px 12px; border-radius:20px; font-size:11px; font-weight:500; color:var(--text-dim); background:var(--bg-card); border:1px solid var(--border); cursor:pointer; transition:all 0.2s; }
+.ctab:hover { border-color:var(--accent); color:var(--accent); }
+.ctab.active { background:var(--deep); border-color:var(--deep); color:#fff; }
+
+.cb { margin-bottom:20px; display:none; }
+.cb.show { display:block; }
+.cbh { display:flex; align-items:center; gap:8px; padding-bottom:8px; border-bottom:1px solid var(--border); margin-bottom:8px; }
+.cbh h3 { font-size:13px; font-weight:600; color:var(--text-primary); }
+.cbh .cbc { font-size:10px; color:var(--text-dimmer); margin-left:auto; }
+
+.cc-ai { --cc:#5B9BC8; }
+.cc-org { --cc:#3A4E66; }
+.cc-mfg { --cc:#48607C; }
+.cc-sk { --cc:#C8B99B; }
+.cc-rd { --cc:#B4CDE1; }
+
+.acd2 { padding:12px 12px 12px 0; border-radius:0 5px 5px 0; background:var(--bg-card); border:1px solid var(--border); border-left:3px solid var(--cc,var(--accent)); margin-bottom:6px; transition:all 0.2s; }
+.acd2:hover { border-color:var(--blue-dim); }
+.acd2 h4 { font-size:12.5px; font-weight:600; color:var(--text-primary); margin-bottom:2px; }
+.acd2 .as2 { font-size:11px; color:var(--text-dim); line-height:1.5; margin-bottom:4px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+.acd2 .am2 { display:flex; align-items:center; gap:4px; flex-wrap:wrap; }
+.acd2 .at2 { font-size:9px; color:var(--accent); background:rgba(91,155,200,0.07); padding:1px 6px; border-radius:20px; }
+.acd2 .ac2 { font-size:10px; color:var(--text-dimmer); }
+.acd2 .al2 { font-size:10px; color:var(--gold); margin-left:auto; white-space:nowrap; }
+.acd2:hover .al2 { color:var(--accent); }
+
+/* ========== ABOUT ========== */
+.ab-h { min-height:45vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:56px 24px; background:linear-gradient(150deg,#0f1724 0%,#1a2a3d 50%,#2d4055 100%); }
+.ab-h h1 { font-size:28px; font-weight:700; color:#fff; letter-spacing:6px; }
+.ab-h p { font-size:15px; color:rgba(180,205,225,0.6); letter-spacing:2px; margin-top:8px; }
+
+.abc { padding:48px 24px; max-width:var(--max-w); margin:0 auto; }
+
+.ab2 { display:grid; grid-template-columns:1.3fr 1fr; gap:36px; }
+@media(max-width:768px){.ab2{grid-template-columns:1fr;gap:24px}}
+.abl h2 { font-size:19px; font-weight:700; color:var(--text-primary); margin-bottom:10px; }
+.abl p { font-size:13px; color:var(--text-dim); line-height:1.8; margin-bottom:8px; }
+.abl .abh { color:var(--accent); font-weight:600; }
+.abl .abq { font-size:13px; color:var(--text-primary); font-weight:600; padding:12px 18px; background:var(--cream); border-left:3px solid var(--gold); border-radius:0 var(--radius) var(--radius) 0; margin-top:10px; }
+
+.ls { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.lc { padding:12px 14px; background:var(--cream); border:1px solid var(--border); border-radius:var(--radius); display:flex; align-items:center; gap:8px; }
+.lc .ld { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+.lc .ln { font-size:12px; font-weight:600; color:var(--text-primary); }
+.lc .lr { font-size:9px; color:var(--text-dimmer); display:block; }
+
+.tl { margin:28px 0; }
+.tli { display:flex; gap:18px; padding-bottom:24px; position:relative; }
+.tli:not(:last-child)::before { content:''; position:absolute; left:10px; top:26px; bottom:0; width:2px; background:var(--border); }
+.tld { width:22px; height:22px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:9px; color:#fff; font-weight:700; }
+.tlb h3 { font-size:14px; font-weight:600; color:var(--text-primary); }
+.tlb .tlo { font-size:11px; color:var(--accent); font-weight:500; }
+.tlb p { font-size:12px; color:var(--text-dim); line-height:1.6; margin-top:3px; }
+
+.mo { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:16px 0; }
+@media(max-width:600px){.mo{grid-template-columns:1fr}}
+.moc { padding:16px 18px; background:var(--cream); border:1px solid var(--border); border-radius:var(--radius); }
+.moc h4 { font-size:13px; font-weight:600; color:var(--text-primary); margin-bottom:3px; }
+.moc p { font-size:11px; color:var(--text-dim); line-height:1.6; }
+
+.abc .ab-cap { margin:28px 0 16px; }
+.abc .ab-cap h3 { font-size:16px; font-weight:700; color:var(--text-primary); margin-bottom:4px; }
+.abc .ab-cap p { font-size:12px; color:var(--text-dim); }
+.abc .ab-cap .gold { color:var(--gold); font-weight:600; }
+
+.demo { position:fixed; bottom:12px; right:12px; z-index:99999; padding:4px 10px; background:rgba(0,0,0,0.6); color:#fff; font-size:9px; border-radius:20px; backdrop-filter:blur(6px); pointer-events:none; letter-spacing:0.3px; }
+
+@media(max-width:640px){
+  .nav { padding:0 20px; }
+  .nav-links { gap:12px; }
+  .nav-links a { font-size:11px; }
+  .h-name { font-size:22px; letter-spacing:4px; }
+  .h-claim { font-size:15px; }
+  .cap-card { padding:18px; }
+  .rs-g { gap:8px; }
+  .ab-h h1 { font-size:22px; }
+}
+</style>
 </head>
 <body>
 
-<!-- Navigation -->
 <nav class="nav">
-  <div class="nav-brand">
-    <a href="/" style="display:flex;align-items:center;gap:8px;color:inherit;text-decoration:none;">
-      <img src="assets/avatar.png" alt="" class="nav-avatar">
-      树懒老K
-    </a>
+  <div class="nav-brand" onclick="switchPage('home')">
+    <img src="https://wangguobao0215.github.io/assets/avatar.png" alt="" onerror="this.style.display='none'">
+    <span class="nb-text">树懒老K</span>
   </div>
   <ul class="nav-links">
-    <li><a href="/" class="active">首页</a></li>
-    <li><a href="skills/">智能体Skill</a></li>
-    <li><a href="articles/">文章</a></li>
-    <li><a href="about/">关于</a></li>
+    <li><a class="active" onclick="switchPage('home')">首页</a></li>
+    <li><a onclick="switchPage('toolbox')">工具箱</a></li>
+    <li><a onclick="switchPage('about')">关于</a></li>
   </ul>
 </nav>
 
-<!-- Hero -->
-<section class="hero">
-  <img src="assets/avatar.png" alt="树懒老K" class="hero-avatar">
-  <h1>树懒老K</h1>
-  <p class="tagline">AI认知 · 组织变革 · 智能体Skill工程</p>
-  <p class="sub">公众号「树懒老K」主理人 · 笔名拙一</p>
+<!-- ==================== HOME ==================== -->
+<div id="page-home" class="page active">
 
-  <div>
-    <img src="assets/qrcode.jpg" alt="公众号二维码" class="qrcode">
-    <p class="qrcode-label">扫码关注 · 树懒老K</p>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hg"></div>
+    <div class="hi">
+      <img src="https://wangguobao0215.github.io/assets/avatar.png" alt="" class="h-av" onerror="this.style.display='none'">
+      <div class="h-name">树懒老K</div>
+      <p class="h-claim">在车间和会议室之间走了<em>三十年</em>。<br>AI时代最值钱的不是技术，<br>是<em>定义问题、梳理问题、做出判断</em>的能力。</p>
+      <p class="h-what">用原创方法论帮你建立这些能力</p>
+
+      <div class="h-qt">
+        <div class="h-q">
+          <div class="hqn">约翰·杜威 · John Dewey</div>
+          <div class="hqe">"A problem well stated is a problem half solved."</div>
+          <div class="hqc">"一个问题被清晰地定义出来，就已经解决了一半。"</div>
+        </div>
+        <div class="h-q">
+          <div class="hqn">阿尔伯特·爱因斯坦 · Albert Einstein</div>
+          <div class="hqe">"If I had an hour to solve a problem, I'd spend 55 minutes thinking about the problem."</div>
+          <div class="hqc">"如果我一小时解决问题，先花55分钟思考问题本身。"</div>
+        </div>
+        <div class="h-q">
+          <div class="hqn">彼得·德鲁克 · Peter Drucker</div>
+          <div class="hqe">"Nothing is so useless as doing efficiently what should not be done at all."</div>
+          <div class="hqc">"没有什么比高效地做一件不该做的事更无用的了。"</div>
+        </div>
+      </div>
+
+      <button class="h-cta" onclick="switchPage('toolbox')">👆 打开工具箱</button>
+    </div>
+  </section>
+
+  <!-- Trust -->
+  <section class="ts">
+    <div class="ts-in">
+      <div class="ts-item"><div class="n">30</div><div class="l">年企业服务</div></div>
+      <div class="ts-item"><div class="n">315</div><div class="l">篇深度文章</div></div>
+      <div class="ts-item"><div class="n">27</div><div class="l">专题系列</div></div>
+      <div class="ts-item"><div class="n">16</div><div class="l">可交付Skill</div></div>
+      <div class="ts-item"><div class="n">6</div><div class="l">原创方法论</div></div>
+    </div>
+  </section>
+
+  <!-- Three capabilities -->
+  <section class="caps">
+    <div class="caps-h">
+      <div class="cl">三种能力</div>
+      <h2>AI时代不可替代的底层能力</h2>
+    </div>
+    <div class="caps-g">
+      <div class="cap-card">
+        <div class="cc-num">01</div>
+        <div class="cc-emoji">🎯</div>
+        <h3>定义问题的能力</h3>
+        <p class="cc-desc">当所有人都急着找答案，你先停下来问：我们要解决的到底是什么问题？</p>
+        <div class="cc-q">"A problem well stated is a problem half solved."</div>
+        <div class="cc-info">→ 3个方法论 · 7个专题 · 2个Skill</div>
+      </div>
+      <div class="cap-card">
+        <div class="cc-num">02</div>
+        <div class="cc-emoji">🧩</div>
+        <h3>梳理问题的能力</h3>
+        <p class="cc-desc">把复杂问题拆解成可执行的框架，让模糊的焦虑变成清晰的路径。</p>
+        <div class="cc-q">"55分钟思考问题本身，5分钟解决问题。"</div>
+        <div class="cc-info">→ 4个方法论 · 10个专题 · 6个Skill</div>
+      </div>
+      <div class="cap-card">
+        <div class="cc-num">03</div>
+        <div class="cc-emoji">⚖️</div>
+        <h3>做出判断的能力</h3>
+        <p class="cc-desc">在多种可能性中做出选择——不只是选对，还要知道什么不该做。</p>
+        <div class="cc-q">"高效地做不该做的事，比不做更糟。"</div>
+        <div class="cc-info">→ 2个方法论 · 10个专题 · 8个Skill</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Role strip -->
+  <section class="role-strip">
+    <div class="rs-in">
+      <div class="rl">从你的角色开始</div>
+      <div class="rs-g">
+        <div class="rs-btn" onclick="switchPageAndTab('toolbox','def')"><div class="rse">👔</div><div class="rsn">企业决策者</div><div class="rss">战略 · 变革 · 评估</div></div>
+        <div class="rs-btn" onclick="switchPageAndTab('toolbox','str')"><div class="rse">🏭</div><div class="rsn">制造业管理者</div><div class="rss">AI改造 · 产线 · 落地</div></div>
+        <div class="rs-btn" onclick="switchPageAndTab('toolbox','jud')"><div class="rse">🔧</div><div class="rsn">技术实践者</div><div class="rss">Skill · Agent · 工具</div></div>
+        <div class="rs-btn" onclick="switchPageAndTab('toolbox','str')"><div class="rse">📖</div><div class="rsn">学习者</div><div class="rss">认知 · 思维模型 · 入门</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Action -->
+  <section class="act">
+    <div class="ah">
+      <div class="ah-h"><h2>🔥 热门专题</h2><a onclick="switchPage('toolbox')">进入工具箱 →</a></div>
+      <div class="ahg">
+        <div class="ahi" onclick="switchPageAndTab('toolbox','str')"><span class="ai">🤖</span><div class="an"><div class="nm">智能体革命</div><div class="mt">20篇 · Agent重塑企业流程</div></div></div>
+        <div class="ahi" onclick="switchPageAndTab('toolbox','str')"><span class="ai">🦞</span><div class="an"><div class="nm">养龙虾指南</div><div class="mt">20篇 · 人机协作内容创作</div></div></div>
+        <div class="ahi" onclick="switchPageAndTab('toolbox','jud')"><span class="ai">🛠️</span><div class="an"><div class="nm">AI工具人养成记</div><div class="mt">20篇 · 手把手用AI干活</div></div></div>
+        <div class="ahi" onclick="switchPageAndTab('toolbox','jud')"><span class="ai">🏗️</span><div class="an"><div class="nm">制造企业AI原生之路</div><div class="mt">20篇 · 五大本体逐层拆解</div></div></div>
+      </div>
+    </div>
+    <div class="ac">
+      <h2>保持连接</h2>
+      <p class="acd">深度内容每周更新 · 培训与咨询请联系</p>
+      <div class="acr">
+        <div class="acq"><img src="https://wangguobao0215.github.io/assets/qrcode.jpg" alt="" onerror="this.style.display='none'"><div class="qt"><strong>公众号「树懒老K」</strong><br>每周一篇深度内容</div></div>
+        <a href="mailto:wangguobao007@outlook.com" class="acb">✉️ wangguobao007@outlook.com</a>
+      </div>
+    </div>
+  </section>
+  <footer class="ft ftl"><p>© 2026 树懒老K（拙一）</p></footer>
+</div>
+
+<!-- ==================== TOOLBOX ==================== -->
+<div id="page-toolbox" class="page">
+  <div class="tbh">
+    <h1>🧰 工具箱</h1>
+    <p>按能力维度浏览——定义问题 · 梳理问题 · 做出判断</p>
   </div>
+  <div class="tbc">
+    <div class="tb-tabs" id="tb-tabs">
+      <span class="tb-tab active" data-cap="all" onclick="switchCap('all',this)">全部</span>
+      <span class="tb-tab" data-cap="def" onclick="switchCap('def',this)">🎯 定义问题</span>
+      <span class="tb-tab" data-cap="str" onclick="switchCap('str',this)">🧩 梳理问题</span>
+      <span class="tb-tab" data-cap="jud" onclick="switchCap('jud',this)">⚖️ 做出判断</span>
+    </div>
 
-  <div class="entries">
-    <a href="skills/" class="entry-btn">
-      <span class="icon">🧩</span> 我的智能体Skill
-    </a>
-    <a href="articles/" class="entry-btn">
-      <span class="icon">📝</span> 文章专题
-    </a>
-    <a href="about/" class="entry-btn">
-      <span class="icon">🦥</span> 关于我
-    </a>
+    <!-- 全部 -->
+    <div class="tb-section show" data-cap="all">
+      <p style="text-align:center;color:var(--text-dim);font-size:13px;margin-bottom:16px;">选择一个能力维度，看为你准备的方法论、文章和工具</p>
+    </div>
+
+    <!-- 定义问题 -->
+    <div class="tb-section" data-cap="def">
+      <div class="tb-cap-h"><h2>🎯 定义问题的能力</h2><span class="tb-cap-label">当所有人都急着找答案，你先停下来问：我们到底在解决什么？</span><p>核心方法：三才四象 · 思维模型 · 本体论</p></div>
+      <div class="tb-row">
+        <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>三才四象</h4><p>组织认知健康度评估体系。天时地利人和+四象，量化诊断企业AI就绪度。<br><span style="color:var(--text-dimmer);font-size:10px;">概念频次：三才四象9 · 关联专题：破局·重构·共生</span></p><span class="tbm">适合：CEO · HR负责人 · OD专家</span></div>
+        <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>思维模型工具箱</h4><p>21+17个思维模型组成的决策框架，涵盖第一性原理、系统思考、二阶效应等。<br><span style="color:var(--text-dimmer);font-size:10px;">概念频次：多元思维模型2 · 17篇·10案例</span></p><span class="tbm">适合：每个想提升认知质量的人</span></div>
+        <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>本体论框架</h4><p>用哲学本体论定义业务语义层——客户到底是什么？订单的本质是什么？<br><span style="color:var(--text-dimmer);font-size:10px;">概念频次：本体论15+ · 关联专题：本体迷雾·重塑工业世界观</span></p><span class="tbm">适合：企业架构师 · 业务负责人</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深熵·变革罗盘</h4><p>六维AI冲击评估（战略/组织/流程/IT/文化/ROI），对话式交互，一键出诊断报告。</p><span class="tbm">决策者 · 售前场景</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深渡·成长适配诊断</h4><p>企业成长阶段×数字化就绪度双轴诊断，定位阶段并输出定制化路径。</p><span class="tbm">决策者场景</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>流程重构器</h4><p>企业业务流程的AI驱动诊断与重构工具。分析瓶颈，自动生成优化方案。</p><span class="tbm">IT · 流程管理</span></div>
+      </div>
+      <div class="tb-row">
+        <div class="tb-card" style="grid-column:1/-1;border-left:3px solid var(--gold);"><span class="tcb tcb-a">推荐专题 → 从这里开始</span><h4>断层之上：决策者认知重构</h4><p>8篇文章构成完整的认知重构路径。核心概念：认知负债(5次)·AI渗透率自检(4次)·三大深层结构(3次)。案例：化工老厂长的至暗时刻、30岁程序员的超能力失效。</p><span class="tbm">8篇 · 6个案例 · 帮决策者从"用旧框架想新问题"的陷阱跳出来</span></div>
+      </div>
+      <div class="tb-row">
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>破局·重构·共生：三才四象</h4><p>组织健康评估体系，含量表和指南。</p><span class="tbm">12篇 · 4案例 · 三才四象9</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI时代的本体迷雾</h4><p>Ontology是认知系统的底层重构。</p><span class="tbm">10篇 · 1案例 · 本体论</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>趋近的悖论</h4><p>五千年信息史追问技术的本质。</p><span class="tbm">7篇 · 2案例 · 本体论2</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI的终极追问</h4><p>解决真问题还是贴新标签？</p><span class="tbm">5篇 · 1案例 · 本体论4</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI时代思维模型工具箱</h4><p>21个思维模型的结构化框架。</p><span class="tbm">17篇 · 5案例</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>思维模型工具箱</h4><p>17个重启大脑操作系统的思维模型。</p><span class="tbm">17篇 · 10案例</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI时代的职场进化论</h4><p>当"快"不再是超能力，价值在哪？</p><span class="tbm">4篇 · 2案例</span></div>
+      </div>
+    </div>
+
+    <!-- 梳理问题 -->
+    <div class="tb-section" data-cap="str">
+      <div class="tb-cap-h"><h2>🧩 梳理问题的能力</h2><span class="tb-cap-label">把模糊的焦虑变成清晰的路径——复杂问题的结构化框架</span><p>核心方法：变革罗盘 · CLIMB · 四层十二维 · CORE引擎 · 脱耦</p></div>
+      <div class="tb-row">
+        <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>变革罗盘</h4><p>从战略到执行的完整导航框架。四象限定位变革阶段，每个阶段的关键动作。</p><span class="tbm">转型推动者</span></div>
+        <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>CLIMB模型</h4><p>从"买系统"到"建能力"的转换器。五层框架跳出投入大效果差的困境。</p><span class="tbm">数字化决策者</span></div>
+        <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>四层十二维</h4><p>制造业AI原生的完整变革路径。从本体层到应用层，12个维度逐层拆解。</p><span class="tbm">制造业CIO</span></div>
+        <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>CORE引擎</h4><p>企业能力重构的底层操作系统。认知→执行的四环驱动模型。</p><span class="tbm">组织变革者</span></div>
+        <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>脱耦</h4><p>AI重铸中国制造的核心逻辑——不切断连接，而是重建连接的方式。</p><span class="tbm">制造企业</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深谋·售前咨询</h4><p>十二大模块覆盖售前全链路：会议纪要→竞对攻防→方案骨架→报价谈判。</p><span class="tbm">售前顾问</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深策·制造咨询套件</h4><p>诊断→设计→落地，七步诊断+九步设计+五大运营模式。</p><span class="tbm">制造咨询</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深构·研发协同</h4><p>4子Agent编排混合研发流程。</p><span class="tbm">技术团队</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深达·交付管理</h4><p>9原子能力×3角色，YAML三层状态管理，集成飞书/钉钉/企微。</p><span class="tbm">PM · PMO</span></div>
+      </div>
+      <div class="tb-row">
+        <div class="tb-card" style="grid-column:1/-1;border-left:3px solid var(--gold);"><span class="tcb tcb-a">推荐专题 → 从这里开始</span><h4>智能体革命：重构企业流程的底层逻辑</h4><p>20篇完整论述Agent如何重塑BPM。核心概念：智能体(18次)·AI Agent(14次)。从固化流程到动态编排，从人执行到人机协作。</p><span class="tbm">20篇 · 5个案例 · 流程重构的第一性原理</span></div>
+      </div>
+      <div class="tb-row">
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>知识新基建</h4><p>TO B企业的场景智能革命。</p><span class="tbm">12篇 · 5案例 · 场景智能6</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI原生：重构软件公司</h4><p>代码到商业模式的五维度重构。</p><span class="tbm">10篇 · 6案例 · AI原生9</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>SaaS转型AI原生</h4><p>从定价到组织的转型路径。</p><span class="tbm">15篇 · 10案例 · 本体论15</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>CLIMB模型</h4><p>从"买系统"到"建能力"。</p><span class="tbm">10篇 · 3案例 · 数字化转型9</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>重塑工业世界观：四层十二维</h4><p>12封思考信，本体层到应用层。</p><span class="tbm">16篇 · 5案例 · 本体论13</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>脱藕：AI重铸中国制造</h4><p>二十年在车间产线间的求索。</p><span class="tbm">14篇 · 2案例 · 脱耦14</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI数字团队设计实战</h4><p>手把手组建人机协作AI团队。</p><span class="tbm">9篇 · 2案例 · AI Agent2</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>养龙虾指南</h4><p>人机协作内容创作方法论。</p><span class="tbm">20篇 · 3案例 · 本体论20</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>进阶专题C：驾驭组织与变革</h4><p>变革管理八步法+RACI+杨三角。</p><span class="tbm">7篇 · 4案例</span></div>
+      </div>
+    </div>
+
+    <!-- 做出判断 -->
+    <div class="tb-section" data-cap="jud">
+      <div class="tb-cap-h"><h2>⚖️ 做出判断的能力</h2><span class="tb-cap-label">在多种可能性中做出选择——知道什么该做，更知道什么不该做</span><p>核心方法：Skill工程 · 反脆弱设计 · AI渗透率自检</p></div>
+      <div class="tb-row">
+        <div class="tb-card"><span class="tcb tcb-m">方法论</span><h4>Skill工程</h4><p>16+可交付智能体Skill的完整方法论。需求分析→设计→开发→部署→使用。</p><span class="tbm">AI实践者 · 技术团队</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深略·战略对齐</h4><p>愿景→BSC分解→AI潜力三维评分→投资路线图。8大行业Playbook。</p><span class="tbm">决策者 · 售前</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>资金导航</h4><p>三层过滤六种模式，辅助投融资决策。</p><span class="tbm">CFO · 财务</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深筹·产销协同</h4><p>十一项约束引擎+DAG级联，插单影响全链路评估。</p><span class="tbm">生产 · 供应链</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深驭·制造运营套件</h4><p>决策大脑+分析透镜，5大实时决策+5大分析。</p><span class="tbm">制造运营</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深拓·市场增长</h4><p>7大模块覆盖市场全链路。</p><span class="tbm">市场团队</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深耕·销售管理</h4><p>25+能力覆盖完整销售周期。</p><span class="tbm">销售团队</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深算·报价管理</h4><p>六步完成完整报价流程。</p><span class="tbm">销售 · 商务</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深声·内容运营</h4><p>三种创作模式，五大平台自动适配。</p><span class="tbm">内容团队</span></div>
+        <div class="tb-card"><span class="tcb tcb-s">Skill</span><h4>深益·客户成功</h4><p>17子智能体覆盖客户全生命周期6阶段。</p><span class="tbm">CSM</span></div>
+      </div>
+      <div class="tb-row">
+        <div class="tb-card" style="grid-column:1/-1;border-left:3px solid var(--gold);"><span class="tcb tcb-a">推荐专题 → 从这里开始</span><h4>价值重构：AI原生的增长逻辑</h4><p>20篇从"价值原子"重新定义增长。核心概念：AI原生(11次)·价值重构(6次)·反脆弱设计(2次)。当AI成为基础设施，怎么赚钱？</p><span class="tbm">20篇 · 3案例 · 适合：创业者 · 增长负责人</span></div>
+      </div>
+      <div class="tb-row">
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI工具人养成记</h4><p>把AI变成真能干活的工具。</p><span class="tbm">20篇 · 6案例 · Skill5</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>制造企业AI原生之路</h4><p>五大本体AI改造施工图。</p><span class="tbm">20篇 · 本体论13</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>AI战略内参</h4><p>写给制造业老板的紧急备忘录。</p><span class="tbm">16篇 · 5案例 · 智能化6</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>成为战略分析师</h4><p>MECE、波特五力、BCG矩阵。</p><span class="tbm">7篇 · 4案例</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>Agent Skill实战</h4><p>用Hermes打造真实Skill。</p><span class="tbm">6篇 · 4案例 · Skill2</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>进阶专题A：增长引擎</h4><p>AARRR出发组装增长引擎。</p><span class="tbm">7篇 · 2案例</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>养马日记</h4><p>技术小白的Agent学习笔记。</p><span class="tbm">5篇 · 1案例 · Skill4</span></div>
+        <div class="tb-card"><span class="tcb tcb-a">专题</span><h4>职场认知</h4><p>拉开收入差距的不是能力，是认知。</p><span class="tbm">1篇</span></div>
+      </div>
+    </div>
+
+    <!-- 全部专题折叠 -->
+    <div class="all-t"><button onclick="document.querySelector('.all-c').classList.toggle('open');this.textContent=this.textContent.includes('展开')?'收起全部专题':'展开全部专题 ↓'">展开全部专题 ↓</button></div>
+    <div class="all-c" id="all-c">
+      <p style="font-size:11px;color:var(--text-dim);text-align:center;margin-bottom:12px;">按主题浏览全部27个专题</p>
+      <div class="ct">
+        <span class="ctab active" data-c="all" onclick="fc('all',this)">全部</span>
+        <span class="ctab" data-c="ai" onclick="fc('ai',this)">🧠 AI认知觉醒</span>
+        <span class="ctab" data-c="org" onclick="fc('org',this)">🔄 组织变革</span>
+        <span class="ctab" data-c="mfg" onclick="fc('mfg',this)">🏭 制造业AI</span>
+        <span class="ctab" data-c="sk" onclick="fc('sk',this)">🛠️ 技能工程</span>
+        <span class="ctab" data-c="rd" onclick="fc('rd',this)">📚 慢读经典</span>
+      </div>
+      <div id="all-topics"></div>
+    </div>
   </div>
-</section>
+  <footer class="ft ftl"><p>© 2026 树懒老K（拙一） · 公众号「树懒老K」</p></footer>
+</div>
 
-<!-- Footer -->
-<footer class="footer">
-  <p>© 2026 树懒老K（拙一） · 公众号「树懒老K」</p>
-</footer>
+<!-- ==================== ABOUT ==================== -->
+<div id="page-about" class="page">
+  <section class="ab-h">
+    <h1>树懒老K</h1>
+    <p>三十年的跨度，一个核心能力</p>
+  </section>
+  <div class="abc">
+    <div class="ab2">
+      <div class="abl">
+        <h2>我不是来教AI的</h2>
+        <p>先后服务于<span class="abh">中石化、霍尼韦尔、毕博、德勤</span>，在能源、制造、物流等重资产行业亲历完整的多轮数字化转型周期。</p>
+        <p>这些年最大的感悟：<strong>技术从来不缺，缺的是让人和组织能接住技术的方法。</strong></p>
+        <p>所以我做的事很简单——把三十年经验蒸馏成可复用的方法论，帮企业和个人建立<strong>定义问题、梳理问题、做出判断</strong>这三种AI时代最需要的能力。</p>
+        <div class="abq">「不是给你一套通用方案，是帮你建立属于自己的判断框架。」</div>
+      </div>
+      <div>
+        <div class="ls">
+          <div class="lc"><span class="ld" style="background:#c92a2a;"></span><span><span class="ln">中石化</span><span class="lr">能源 · 数字化</span></span></div>
+          <div class="lc"><span class="ld" style="background:#e8590c;"></span><span><span class="ln">霍尼韦尔</span><span class="lr">制造 · 自动化</span></span></div>
+          <div class="lc"><span class="ld" style="background:#0055aa;"></span><span><span class="ln">毕博</span><span class="lr">管理咨询</span></span></div>
+          <div class="lc"><span class="ld" style="background:#1a4a3a;"></span><span><span class="ln">德勤</span><span class="lr">战略咨询</span></span></div>
+        </div>
+      </div>
+    </div>
 
+    <div class="ab-cap" style="margin-top:40px;"><h3>三十年跨度</h3><p>每一段经历都是一种能力的源头</p></div>
+    <div class="tl">
+      <div class="tli"><div class="tld" style="background:#c92a2a;">1</div><div class="tlb"><h3>中石化</h3><span class="tlo">能源 · 数字化转型起点</span><p>理解"系统上线"和"真正用起来"之间的鸿沟。这段经历让我后来做的每一个方法论都先问：到底能不能落地？<strong style="color:var(--deep);"> → 定义问题的能力</strong></p></div></div>
+      <div class="tli"><div class="tld" style="background:#e8590c;">2</div><div class="tlb"><h3>霍尼韦尔</h3><span class="tlo">制造 · 自动化</span><p>从甲方到乙方的视角转换，看到不同企业面对技术变革时的共同困境——不是技术选型，是组织和人。<strong style="color:var(--deep);"> → 梳理问题的能力</strong></p></div></div>
+      <div class="tli"><div class="tld" style="background:#0055aa;">3</div><div class="tlb"><h3>毕博 · 德勤</h3><span class="tlo">管理咨询 · 战略咨询</span><p>系统化了自己的方法论体系。从帮单一企业解决问题到帮行业解决问题，视角完全不同了。<strong style="color:var(--deep);"> → 做出判断的能力</strong></p></div></div>
+      <div class="tli"><div class="tld" style="background:var(--accent);">4</div><div class="tlb"><h3>现在</h3><span class="tlo">专注企业智能落地</span><p>把三十年经验蒸馏为可复用的方法论和Skill，通过公众号持续输出，为企业提供培训与咨询。<strong style="color:var(--deep);"> → 三种能力的整合输出</strong></p></div></div>
+    </div>
+
+    <div class="ab-cap"><h3>方法论的源头</h3><p>每个方法论背后都是一段真实经历——不是想出来的，是磨出来的</p></div>
+    <div class="mo">
+      <div class="moc"><h4>🧭 变革罗盘</h4><p>做多个企业转型项目时发现，失败原因惊人的一致：战略和执行之间缺一个导航仪。</p></div>
+      <div class="moc"><h4>🪜 CLIMB模型</h4><p>太多企业"系统上了效果没来"——缺的不是工具，是从买到用的转换器。</p></div>
+      <div class="moc"><h4>🏗️ 四层十二维</h4><p>制造业项目里反复被问"我们从哪里开始？"这个框架就是答案。</p></div>
+      <div class="moc"><h4>⚙️ CORE引擎</h4><p>所有转型失败的根因，都能在认知到执行的四个环里找到断点。</p></div>
+      <div class="moc"><h4>☯️ 三才四象</h4><p>组织变革中"人"最难量化。这套评估让隐性的组织健康变得可衡量。</p></div>
+      <div class="moc"><h4>🛠️ Skill工程</h4><p>AI Agent真的能干活了，最缺的不是模型，是"怎么让它帮我干活"的方法论。</p></div>
+    </div>
+
+    <div class="ab-cap"><h3>三种能力，一个体系</h3><p>六个方法论 + 27个专题 + 16个Skill = 帮你建立AI时代不可替代的底层能力</p></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0;">
+      <div style="padding:16px;background:var(--cream);border:1px solid var(--border);border-radius:var(--radius);border-top:3px solid var(--gold);"><div style="font-size:20px;margin-bottom:6px;">🎯</div><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">定义问题</div><div style="font-size:11px;color:var(--text-dim);">3个方法论 · 7个专题 · 2个Skill</div></div>
+      <div style="padding:16px;background:var(--cream);border:1px solid var(--border);border-radius:var(--radius);border-top:3px solid var(--gold);"><div style="font-size:20px;margin-bottom:6px;">🧩</div><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">梳理问题</div><div style="font-size:11px;color:var(--text-dim);">5个方法论 · 9个专题 · 4个Skill</div></div>
+      <div style="padding:16px;background:var(--cream);border:1px solid var(--border);border-radius:var(--radius);border-top:3px solid var(--gold);"><div style="font-size:20px;margin-bottom:6px;">⚖️</div><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">做出判断</div><div style="font-size:11px;color:var(--text-dim);">2个方法论 · 11个专题 · 10个Skill</div></div>
+    </div>
+
+    <div style="text-align:center;margin-top:32px;">
+      <div style="display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;">
+        <div class="acq"><img src="https://wangguobao0215.github.io/assets/qrcode.jpg" alt="" style="width:40px;height:40px;border-radius:4px;" onerror="this.style.display='none'"><div class="qt" style="text-align:left;font-size:11px;line-height:1.5;"><strong style="color:var(--text-primary);">公众号「树懒老K」</strong><br><span style="color:var(--text-dim);">每周一篇深度内容</span></div></div>
+        <a href="mailto:wangguobao007@outlook.com" class="acb" style="padding:12px 26px;background:var(--accent);color:#fff;border-radius:var(--radius);font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:8px;">✉️ wangguobao007@outlook.com</a>
+      </div>
+    </div>
+  </div>
+  <footer class="ft ftl"><p>© 2026 树懒老K（拙一）</p></footer>
+</div>
+
+<div class="demo">最终版 · 三能力体系</div>
+
+<script>
+// All topics data
+const CATS = {
+  ai: {t:'🧠 AI认知觉醒',c:'7专题',co:'cc-ai',cards:[
+    {t:'AI工具人养成记',s:'把AI变成真能干活的工具',a:['AI','实操'],n:'20篇'},
+    {t:'养龙虾指南',s:'人机协作内容创作方法论',a:['创作','方法'],n:'20篇'},
+    {t:'AI时代思维模型工具箱',s:'21个思维模型',a:['思维'],n:'17篇'},
+    {t:'思维模型工具箱',s:'17个思维模型',a:['思维模型'],n:'17篇'},
+    {t:'趋近的悖论',s:'五千年追问技术的本质',a:['哲学'],n:'7篇'},
+    {t:'AI的终极追问',s:'解决真问题还是贴标签',a:['哲学'],n:'5篇'},
+    {t:'AI时代的职场进化论',s:'当快不再是超能力',a:['职场'],n:'4篇'},
+  ]},
+  org: {t:'🔄 组织变革方法论',c:'10专题',co:'cc-org',cards:[
+    {t:'智能体革命',s:'Agent重塑BPM',a:['Agent'],n:'20篇',f:true},
+    {t:'价值重构：AI原生的增长逻辑',s:'从价值原子定义增长',a:['战略'],n:'20篇'},
+    {t:'破局·重构·共生：三才四象',s:'组织健康评估体系',a:['组织'],n:'12篇'},
+    {t:'知识新基建',s:'TO B场景智能',a:['知识管理'],n:'12篇'},
+    {t:'AI原生：重构软件公司',s:'五维度重构',a:['软件'],n:'10篇'},
+    {t:'CLIMB模型',s:'从买到建的能力转换器',a:['数字化'],n:'10篇'},
+    {t:'AI数字团队设计实战',s:'人机协作团队',a:['团队'],n:'9篇'},
+    {t:'SaaS转型AI原生',s:'从定价到组织',a:['SaaS'],n:'15篇'},
+    {t:'本体迷雾：Ontology颠覆ERP？',s:'认知系统重构',a:['本体论'],n:'10篇'},
+    {t:'成为战略分析师',s:'MECE·波特五力·BCG',a:['战略'],n:'7篇'},
+  ]},
+  mfg: {t:'🏭 制造业AI实战',c:'4专题',co:'cc-mfg',cards:[
+    {t:'制造企业AI原生之路',s:'五大本体施工图',a:['制造'],n:'20篇',f:true},
+    {t:'脱藕：AI重铸中国制造',s:'二十年求索笔记',a:['制造'],n:'14篇'},
+    {t:'AI战略内参',s:'写给制造业老板',a:['战略'],n:'16篇'},
+    {t:'重塑工业世界观：四层十二维',s:'12封思考信',a:['制造业'],n:'16篇'},
+  ]},
+  sk: {t:'🛠️ 技能工程实战',c:'2专题',co:'cc-sk',cards:[
+    {t:'Agent Skill实战',s:'用Hermes打造Skill',a:['Agent'],n:'6篇',f:true},
+    {t:'养马日记',s:'技术小白学习笔记',a:['Hermes'],n:'5篇'},
+  ]},
+  rd: {t:'📚 慢读经典',c:'1专题',co:'cc-rd',cards:[
+    {t:'慢读经典·中西经典对读',s:'52周经典对读',a:['经典'],n:'1篇'},
+  ]},
+};
+
+function renderAll() {
+  const c = document.getElementById('all-topics');
+  let h = '';
+  for (const [k,cat] of Object.entries(CATS)) {
+    h += `<div class="cb show ${cat.co}" data-c="${k}"><div class="cbh"><h3>${cat.t}</h3><span class="cbc">${cat.c}</span></div>`;
+    for (const cd of cat.cards) {
+      h += `<div class="acd2${cd.f?'':''}"><h4>${cd.t}</h4><div class="as2">${cd.s}</div><div class="am2">`;
+      for (const t of cd.a) h += `<span class="at2">${t}</span>`;
+      h += `<span class="ac2">${cd.n}</span><a class="al2" href="#">阅读专题 →</a></div></div>`;
+    }
+    h += `</div>`;
+  }
+  c.innerHTML = h;
+}
+renderAll();
+
+function switchPage(n) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('page-'+n).classList.add('active');
+  const m={home:0,toolbox:1,about:2};
+  document.querySelectorAll('.nav-links a')[m[n]].classList.add('active');
+  window.scrollTo({top:0});
+}
+
+function switchPageAndTab(p,tab) {
+  switchPage(p);
+  if(p==='toolbox') setTimeout(()=>{
+    document.querySelectorAll('.tb-tab').forEach(t=>{if(t.dataset.cap===tab)switchCap(tab,t);});
+  },50);
+}
+
+function switchCap(cap,el) {
+  document.querySelectorAll('.tb-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.tb-section').forEach(s=>{
+    s.classList.toggle('show', cap==='all' || s.dataset.cap===cap);
+  });
+}
+
+function fc(c,el) {
+  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  document.querySelectorAll('#all-topics .cb').forEach(b=>{
+    b.classList.toggle('show', c==='all' || b.dataset.c===c);
+  });
+}
+</script>
 </body>
 </html>
