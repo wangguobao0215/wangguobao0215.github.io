@@ -1651,6 +1651,20 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tr-book .be{ font-size: 22px; display: block; margin-bottom: 4px; }
 .tr-book .bn{ font-size: 12px; font-weight: 600; color: var(--blue-700); display: block; margin-bottom: 2px; }
 .tr-book .bs{ font-size: 10px; color: var(--text-faint); }
+/* Method detail page */
+.md-stats{ display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+.md-stat{ flex: 1; min-width: 80px; padding: 16px 14px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; text-align: center; }
+.md-stat .num{ font-size: 28px; font-weight: 800; color: var(--blue-500); line-height: 1; margin-bottom: 4px; }
+.md-stat .label{ font-size: 11px; color: var(--text-muted); }
+.md-stage{ margin-bottom: 20px; border-radius: 8px; background: var(--white); border: 1px solid var(--border); overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.02); }
+.md-stage .stage-h{ display: flex; align-items: center; gap: 10px; padding: 14px 20px; background: var(--blue-50); border-bottom: 1px solid var(--border); }
+.md-stage .stage-h .phase{ font-size: 10px; font-weight: 700; color: var(--blue-400); letter-spacing: 1px; }
+.md-stage .stage-h .icon{ font-size: 18px; }
+.md-stage .stage-h h3{ font-size: 15px; font-weight: 700; color: var(--blue-700); margin: 0; }
+.md-stage .stage-body{ padding: 16px 20px; }
+.md-stage .stage-body p{ font-size: 12.5px; color: var(--text-muted); line-height: 1.75; margin-bottom: 10px; }
+.md-stage .stage-items{ display: flex; gap: 6px; flex-wrap: wrap; }
+.md-stage .stage-item{ font-size: 11px; padding: 5px 12px; background: var(--bg); border-radius: 6px; color: var(--text-body); border: 1px solid var(--border-light); }
 </style>
 </head>
 <body>
@@ -2158,6 +2172,40 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       </div>
     </div>
 
+    <!-- DIFFERENTIATION -->
+    <div class="tr-section">
+      <div class="tr-section-header">
+        <h2>与市面其他AI培训有什么不同</h2>
+        <span class="line"></span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:22px 20px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <span style="font-size:22px;">📖</span>
+            <span style="font-size:13px;font-weight:700;color:var(--blue-700);">大多数培训</span>
+          </div>
+          <ul style="list-style:none;padding:0;margin:0;">
+            <li style="font-size:12px;color:var(--text-muted);padding:4px 0;line-height:1.6;">教AI工具操作（Prompt/API）</li>
+            <li style="font-size:12px;color:var(--text-muted);padding:4px 0;line-height:1.6;">通用案例，跟你的行业无关</li>
+            <li style="font-size:12px;color:var(--text-muted);padding:4px 0;line-height:1.6;">听完就结束，没有后续</li>
+          </ul>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--blue-200);letter-spacing:4px;">→</div>
+        <div style="background:linear-gradient(135deg,var(--blue-50),var(--white));border:2px solid var(--blue-400);border-radius:8px;padding:22px 20px;position:relative;overflow:hidden;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <span style="font-size:22px;">🦥</span>
+            <span style="font-size:13px;font-weight:700;color:var(--blue-500);">树懒老K的培训</span>
+          </div>
+          <ul style="list-style:none;padding:0;margin:0;">
+            <li style="font-size:12px;color:var(--blue-600);padding:4px 0;line-height:1.6;font-weight:500;">教判断框架+诊断方法，不教工具操作</li>
+            <li style="font-size:12px;color:var(--blue-600);padding:4px 0;line-height:1.6;font-weight:500;">用客户自己的数据，现场出诊断报告</li>
+            <li style="font-size:12px;color:var(--blue-600);padding:4px 0;line-height:1.6;font-weight:500;">课前送书+课中送Skill+课后可复盘陪跑</li>
+          </ul>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--text-faint);text-align:center;margin-top:10px;line-height:1.6;">不是让你学会用AI工具——是帮你建立知道<strong style="color:var(--text-muted);">「该不该用、用在哪、怎么用」</strong>的判断力</p>
+    </div>
+
     <!-- CREDENTIALS -->
     <div class="tr-section">
       <div class="tr-section-header">
@@ -2232,13 +2280,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           </div>
         </div>
         <div class="tr-case">
-          <div class="tcase-org">连锁药店 · 200+门店</div>
-          <div class="tcase-title">某医药连锁企业AI赋能门店运营工作坊</div>
-          <div class="tcase-desc">为运营+采购团队提供1天诊断工作坊，聚焦品类管理、库存优化、店员培训三大场景。课后团队用AI工具完成了首批品类分析报告。</div>
+          <div class="tcase-org">电子高科技 · 150+人</div>
+          <div class="tcase-title">某电子制造企业AI赋能研发+供应链诊断工作坊</div>
+          <div class="tcase-desc">为研发+供应链团队提供1天诊断工作坊，聚焦产品设计辅助、供应商评估、质量预测三大场景。课后团队用AI工具完成了首批供应商风险评估报告。</div>
           <div class="tcase-tags">
             <span class="tcase-tag">诊断工作坊</span>
-            <span class="tcase-tag">门店运营</span>
-            <span class="tcase-tag">品类分析</span>
+            <span class="tcase-tag">研发赋能</span>
+            <span class="tcase-tag">供应链</span>
           </div>
         </div>
       </div>
@@ -2699,6 +2747,7 @@ const solutions = [
     name: '企业AI知识管理平台',
     subtitle: '基于价值链的知识复用、增值和反哺',
     desc: '双树架构+Obsidian Vault+SQLite索引，九大Skill知识资产统一沉淀，研发→市场→销售→售前→交付→客户成功全链路闭环。',
+    fit: '适合：CEO · CTO · 知识管理负责人 · ToB企业',
     skills: ['knowledgehub', 'leadrole', 'ainativerole'],
     stats: [{ num: '9+', label: 'Skill接入' }, { num: '13', label: '场景节点' }, { num: '8', label: '知识生命周期' }],
     poster: 'skills/poster-knowledgehub.html',
@@ -2709,6 +2758,7 @@ const solutions = [
     name: '装备制造智能报价方案',
     subtitle: '正向/反向双模式报价引擎',
     desc: '成本穿透、交期验证、审批路由与利润预测，覆盖装备制造等四大行业的端到端AI报价。',
+    fit: '适合：装备/汽车/电子制造企业 · 销售总监 · 报价经理',
     skills: ['cpq'],
     stats: [{ num: '10', label: '步工作流' }, { num: '4', label: '大行业' }, { num: '24', label: '项回归测试' }],
     poster: 'skills/poster-cpq.html',
@@ -2719,6 +2769,7 @@ const solutions = [
     name: '产销平衡解决方案',
     subtitle: '十一项约束引擎+DAG级联传导',
     desc: '快消品产销协同智能副驾，插单影响全链路评估，What-if情景推演辅助决策。',
+    fit: '适合：快消/食品/日化企业 · 运营总监 · 计划经理',
     skills: ['prodsync'],
     stats: [{ num: '11', label: '项约束' }, { num: '370+', label: '可配参数' }, { num: '3', label: '种战略模式' }],
     poster: 'skills/poster-prodsync.html',
@@ -2729,6 +2780,7 @@ const solutions = [
     name: '制造运营解决方案',
     subtitle: 'Brain决策大脑+Lens分析透镜',
     desc: 'HMLV制造企业一站式AI助手，十大模式覆盖接单决策、排程优化、交期速算、成本真相、产能透视、趋势预警全链路。',
+    fit: '适合：制造业CEO · 厂长 · 生产/运营总监',
     skills: ['mfgsuite', 'mfgconsult', 'deliverymatrix'],
     stats: [{ num: '10', label: '种运营模式' }, { num: '2', label: '大核心模块' }, { num: '3', label: '级数据接入' }],
     poster: 'skills/poster-mfgsuite.html',
@@ -2739,6 +2791,7 @@ const solutions = [
     name: '深适·成长适配诊断',
     subtitle: '企业成长阶段×数字化就绪度双轴诊断',
     desc: '格雷纳成长五阶段×数字化就绪度三级模型，7大场景覆盖售前诊断、项目升级、M&A整合、新CIO上任、年度体检、指标看板、选型前置。对话模式+问卷模式双入口，诊断结果自动匹配Obsidian方案库。',
+    fit: '适合：CEO · CIO · 转型负责人 · 投资/并购团队',
     skills: ['growthdigital'],
     stats: [{ num: '7', label: '大诊断场景' }, { num: '3', label: '级指标体系' }, { num: '2', label: '种交互模式' }],
     poster: 'skills/poster-growthdigital.html',
@@ -2824,6 +2877,38 @@ function renderMethodList() {
       '</div>';
   });
   container.innerHTML = html;
+}
+
+// ===== METHOD DETAIL =====
+function showMethodDetail(id) {
+  var m = methods.find(function(x) { return x.id === id; });
+  if (!m || !m.detail) { switchPage('methodology'); return; }
+  document.getElementById('md-title').textContent = m.name;
+  document.getElementById('md-sub').textContent = m.sub;
+  var d = m.detail;
+  var html = '';
+  // Stats
+  if (d.stats && d.stats.length) {
+    html += '<div class="md-stats">';
+    d.stats.forEach(function(s) { html += '<div class="md-stat"><div class="num">' + s.num + '</div><div class="label">' + s.label + '</div></div>'; });
+    html += '</div>';
+  }
+  // Stages
+  if (d.stages && d.stages.length) {
+    d.stages.forEach(function(st) {
+      html += '<div class="md-stage"><div class="stage-h"><span class="phase">' + st.phase + '</span><span class="icon">' + st.icon + '</span><h3>' + st.title + '</h3></div><div class="stage-body"><p>' + st.desc + '</p>';
+      if (st.items && st.items.length) {
+        html += '<div class="stage-items">';
+        st.items.forEach(function(it) { html += '<span class="stage-item">' + it + '</span>'; });
+        html += '</div>';
+      }
+      html += '</div></div>';
+    });
+  }
+  // Training link
+  html += '<div style="text-align:center;margin-top:32px;padding:20px;background:var(--blue-50);border-radius:8px;"><p style="font-size:12px;color:var(--text-muted);margin-bottom:10px;line-height:1.6;">该方法论已融入企业培训课程<br>每套方法论在课程中都有对应的诊断工具和实操环节</p><a onclick="switchPage(\'training\')" style="display:inline-flex;align-items:center;gap:6px;padding:9px 22px;background:linear-gradient(135deg,var(--blue-400),var(--blue-500));color:#fff;border-radius:40px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;">查看培训课程 →</a></div>';
+  document.getElementById('md-content').innerHTML = html;
+  switchPage('method-detail');
 }
 
 // ===== RENDER TOPICS PAGE =====
@@ -2966,6 +3051,7 @@ function renderSolutionView(container) {
     html += '<h3 style="font-size:20px;font-weight:700;color:var(--blue-700);margin:0 0 4px;">' + sol.name + '</h3>';
     html += '<p style="font-size:13px;color:' + sol.color + ';font-weight:600;margin:0 0 8px;">' + sol.subtitle + '</p>';
     html += '<p style="font-size:13px;color:var(--text-muted);line-height:1.7;max-width:640px;margin:0;">' + sol.desc + '</p>';
+    if (sol.fit) { html += '<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:10px;"><span style="font-size:11px;color:var(--text-faint);font-weight:500;">' + sol.fit + '</span></div>'; }
     html += '</div>';
     html += '<div style="flex-shrink:0;">' + posterLink + '</div>';
     html += '</div>';
