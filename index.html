@@ -3234,7 +3234,7 @@ function showMethodDetail(id) {
     // Featured image
     if (m.visualization) {
       html += '<div style="text-align:center;margin:40px 0;">';
-      html += '<img src="assets/' + m.visualization + '" alt="' + m.name + '" style="max-width:100%;width:900px;border-radius:var(--radius);box-shadow:0 16px 48px rgba(0,0,0,0.12);">';
+      html += '<img src="assets/' + m.visualization + '" alt="' + m.name + '" style="max-width:100%;width:900px;border-radius:var(--radius);box-shadow:0 16px 48px rgba(0,0,0,0.12);" onerror="this.style.display=\'none\'">';
       html += '</div>';
     }
 
@@ -3308,7 +3308,7 @@ function showMethodDetail(id) {
       var imgName = imgMap[m.id];
       if (imgName) {
         html += '<div style="text-align:center;margin:40px 0;">';
-        html += '<img src="assets/' + imgName + '" alt="' + m.name + '" style="max-width:100%;width:900px;border-radius:var(--radius);box-shadow:0 16px 48px rgba(0,0,0,0.12);">';
+        html += '<img src="assets/' + imgName + '" alt="' + m.name + '" style="max-width:100%;width:900px;border-radius:var(--radius);box-shadow:0 16px 48px rgba(0,0,0,0.12);" onerror="this.style.display=\'none\'">';
         html += '</div>';
       }
     }
