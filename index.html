@@ -2532,6 +2532,18 @@ const methods = [
     desc: '在企业已看清起点（四阶飞轮·诊）之后，需要把「诊断结果」转化为「具体的流程改造方案」。深智工坊提供四步法——需求萃取、设计蓝图、构造交付、运营迭代——让每一个AI改造项目都有章可循。',
     fit: '适合：CIO · 流程负责人 · 技术团队 · 转型推动者',
     detail: {
+      paragraphs: [
+        '「诊完了、看清了，然后呢？」——这是四阶飞轮做完诊断后最常听到的问题。深智工坊·AI流程重构就是那个「然后」。它回答一个具体的业务问题：诊断报告里的那些发现，怎么变成一条条真正能跑的AI流程？',
+        '不是从零开始教你怎么写代码。是从你现有的业务流出发——你的审批流、你的对账流程、你的客户跟进SOP——帮你看清楚哪些环节该AI做、哪些该人做、哪些需要系统配合。然后给你一套标准化的四步法，把改造方案做出来。'
+      ],
+      deliverables: [
+        'As-Is vs To-Be 流程对比图（可交付）',
+        '人机分工矩阵（谁做什么）',
+        'AI嵌入点评估报告',
+        '改造优先级排序与ROI预估',
+        'Agent Skill设计方案',
+        '实施路线图（三阶段）'
+      ],
       stats: [
         { num: '4', label: '步方法' },
         { num: '10+', label: '可交付Skill' },
@@ -2880,7 +2892,8 @@ const methodSkillMap = {
   'core': ['hybriddev', 'mgo', 'smm', 'prodsync', 'mfgsuite', 'sales', 'cpq', 'stratalign', 'psc', 'mfgconsult', 'deliverymatrix', 'skyhub', 'processreconstructor'],
   '3c4q': ['ainativerole', 'leadrole', 'knowledgehub'],
   'ai-factory': ['aifactory', 'ainativerole', 'leadrole', 'changecompass', 'stratalign', 'flowdoctor'],
-  'compass': ['changecompass']
+  'compass': ['changecompass'],
+  'process-reconstructor': ['processreconstructor'],
 };
 
 // ===== TOPICS DATA (28个专题系列) =====
@@ -2952,67 +2965,7 @@ function renderMethodList() {
   container.innerHTML = html;
 }
 
-// ===== METHOD DETAIL =====
-function showMethodDetail(id) {
-  var m = methods.find(function(x) { return x.id === id; });
-  if (!m || !m.detail) { switchPage('methodology'); return; }
-  document.getElementById('md-title').textContent = m.name;
-  document.getElementById('md-sub').textContent = m.sub;
-  var d = m.detail;
-  var html = '';
-  // Stats
-  if (d.stats && d.stats.length) {
-    html += '<div class="md-stats">';
-    d.stats.forEach(function(s) { html += '<div class="md-stat"><div class="num">' + s.num + '</div><div class="label">' + s.label + '</div></div>'; });
-    html += '</div>';
-  }
-  // Stages
-  if (d.stages && d.stages.length) {
-    d.stages.forEach(function(st) {
-      html += '<div class="md-stage"><div class="stage-h"><span class="phase">' + st.phase + '</span><span class="icon">' + st.icon + '</span><h3>' + st.title + '</h3></div><div class="stage-body"><p>' + st.desc + '</p>';
-      if (st.items && st.items.length) {
-        html += '<div class="stage-items">';
-        st.items.forEach(function(it) { html += '<span class="stage-item">' + it + '</span>'; });
-        html += '</div>';
-      }
-      html += '</div></div>';
-    });
-  }
-  // Compare table
-  if (d.compare && d.compare.length) {
-    html += '<div class="md-compare"><table><tr><th></th><th>传统做法</th><th>' + m.name + '</th></tr>';
-    d.compare.forEach(function(c) {
-      html += '<tr><td>' + c.aspect + '</td><td class="trad">' + c.traditional + '</td><td class="fact">' + (c.fact || c.our) + '</td></tr>';
-    });
-    html += '</table></div>';
-  }
-  // Audience
-  if (d.audience && d.audience.length) {
-    html += '<h3 style="font-size:14px;font-weight:700;color:var(--blue-700);margin:28px 0 10px;">适合谁</h3><div class="md-audience">';
-    d.audience.forEach(function(a) {
-      html += '<div class="md-aud-card"><span class="au-icon">' + a.icon + '</span><h4>' + a.name + '</h4><p>' + a.desc + '</p></div>';
-    });
-    html += '</div>';
-  }
-  // External links from related skills
-  var related = skills.filter(function(s) { return s.method && s.method.indexOf(m.name) !== -1; });
-  if (related.length > 0) {
-    var linkSet = {};
-    related.forEach(function(s) {
-      s.links.forEach(function(l) { linkSet[l.text + l.url] = l; });
-    });
-    var linkHtml = '';
-    for (var k in linkSet) {
-      var l = linkSet[k];
-      linkHtml += '<a href="' + l.url + '" target="_blank">' + l.text + '</a>';
-    }
-    if (linkHtml) { html += '<div class="md-links">' + linkHtml + '</div>'; }
-  }
-  // Training link
-  html += '<div style="text-align:center;margin-top:32px;padding:20px;background:var(--blue-50);border-radius:8px;"><p style="font-size:12px;color:var(--text-muted);margin-bottom:10px;line-height:1.6;">该方法论已融入企业培训课程<br>每套方法论在课程中都有对应的诊断工具和实操环节</p><a onclick="switchPage(\'training\')" style="display:inline-flex;align-items:center;gap:6px;padding:9px 22px;background:linear-gradient(135deg,var(--blue-400),var(--blue-500));color:#fff;border-radius:40px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;">查看培训课程 →</a></div>';
-  document.getElementById('md-content').innerHTML = html;
-  switchPage('method-detail');
-}
+
 
 // ===== RENDER TOPICS PAGE =====
 function renderTopics() {
