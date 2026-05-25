@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>申远医药 · AI实战研修方案</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg1: #1A2A3A;
+  --bg2: #2C4A63;
+  --primary: #5B9BC8;
+  --accent: #8FAECC;
+  --gold: #C8B89A;
+  --text: #EBF0F8;
+  --text-dim: rgba(235,240,248,0.5);
+  --card-bg: rgba(255,255,255,0.04);
+  --card-border: rgba(91,155,200,0.15);
+}
+
+body {
+  font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', sans-serif;
+  background: linear-gradient(135deg, var(--bg1), var(--bg2));
+  color: var(--text);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+.slides-container { height:100vh; width:100vw; position:relative; }
+
+.slide {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 80px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  overflow-y: auto;
+}
+.slide.active { opacity:1; pointer-events:auto; }
+
+.nav-arrow {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(91,155,200,0.3);
+  background: rgba(26,42,58,0.6);
+  color: rgba(235,240,248,0.4);
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(8px);
+}
+.nav-arrow:hover { border-color:var(--primary); color:var(--primary); }
+.nav-arrow.prev { left:20px; }
+.nav-arrow.next { right:20px; }
+.nav-arrow.hidden { display:none; }
+
+.page-indicator {
+  position: fixed; bottom: 30px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 8px;
+  z-index: 100;
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(235,240,248,0.15);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.dot.active { background:var(--primary); width:24px; border-radius:4px; }
+
+.slide-inner { max-width:960px; width:100%; text-align:center; }
+
+/* Cover */
+.cover-slide .title-main {
+  font-size: 48px; font-weight: 700;
+  letter-spacing: 6px; margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--text) 0%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cover-slide .company-name {
+  font-size: 22px; color: var(--gold);
+  letter-spacing: 4px; margin-bottom: 24px;
+}
+.cover-slide .title-sub {
+  font-size: 20px; color: var(--accent);
+  letter-spacing: 4px; margin-bottom: 30px;
+}
+.cover-slide .divider {
+  width: 60px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto 24px;
+}
+.cover-slide .meta { font-size: 15px; color: var(--text-dim); line-height: 2; }
+.cover-slide .avatar-area {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; margin-bottom: 24px;
+}
+.cover-slide .avatar {
+  width: 72px; height: 72px; border-radius: 50%;
+  object-fit: cover; border: 2px solid rgba(91,155,200,0.3);
+}
+
+/* Section */
+.section-badge {
+  display: inline-block; padding: 4px 16px;
+  border: 1px solid var(--primary); border-radius: 20px;
+  font-size: 12px; color: var(--primary); letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+.section-title { font-size: 36px; font-weight: 700; margin-bottom: 12px; }
+.section-sub { font-size: 16px; color: var(--accent); margin-bottom: 30px; }
+
+/* Module cards */
+.module-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  margin-top: 10px;
+}
+.module-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px; padding: 18px 22px;
+  text-align: left; transition: all 0.3s;
+}
+.module-card:hover {
+  border-color: rgba(91,155,200,0.4);
+  background: rgba(91,155,200,0.06);
+}
+.module-card .num { font-size: 24px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+.module-card .label { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.module-card .desc { font-size: 12px; color: var(--text-dim); line-height: 1.6; }
+
+/* Full-width module */
+.module-full {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px; padding: 18px 22px;
+  text-align: left; margin-top: 14px;
+}
+.module-full .num { font-size: 24px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+.module-full .label { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.module-full .desc { font-size: 12px; color: var(--text-dim); line-height: 1.6; }
+
+.highlight-box {
+  background: linear-gradient(135deg, rgba(91,155,200,0.1), rgba(200,184,154,0.05));
+  border: 1px solid rgba(91,155,200,0.2);
+  border-radius: 12px; padding: 20px 30px;
+  margin-top: 16px; text-align: left;
+}
+
+/* Deliverables */
+.deliver-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.deliver-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px; padding: 24px; text-align: center;
+}
+.deliver-card .icon { font-size: 32px; margin-bottom: 10px; }
+.deliver-card .label { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+.deliver-card .desc { font-size: 12px; color: var(--text-dim); line-height: 1.6; }
+
+/* Last slide */
+.last-slide .avatar-large {
+  width: 88px; height: 88px; border-radius: 50%;
+  object-fit: cover; border: 2px solid rgba(91,155,200,0.3);
+  margin-bottom: 14px;
+}
+.last-slide .qrcode {
+  width: 110px; height: 110px;
+  object-fit: contain; border-radius: 8px;
+  margin-bottom: 10px;
+}
+.last-slide .qr-label { font-size: 12px; color: var(--text-dim); }
+
+/* Table */
+.comp-table { width:100%; border-collapse:collapse; margin-top:16px; font-size:14px; }
+.comp-table th, .comp-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(91,155,200,0.1);
+  text-align: left;
+}
+.comp-table th {
+  color: var(--primary); font-weight: 500;
+  font-size: 13px; letter-spacing: 2px;
+}
+.comp-table td:first-child { color: var(--gold); font-weight: 500; }
+
+/* Reading list */
+.reading-list {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  margin-top: 16px;
+}
+.reading-item {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px; padding: 14px 18px;
+  text-align: left;
+}
+.reading-item .cat { font-size: 11px; color: var(--primary); letter-spacing: 2px; }
+.reading-item .topic { font-size: 13px; font-weight: 500; margin: 4px 0; }
+.reading-item .sub { font-size: 11px; color: var(--text-dim); }
+
+@media (max-width:768px) {
+  .slide { padding:30px 24px; }
+  .cover-slide .title-main { font-size:28px; }
+  .cover-slide .company-name { font-size:18px; }
+  .section-title { font-size:24px; }
+  .module-grid { grid-template-columns:1fr; }
+  .deliver-grid { grid-template-columns:1fr; }
+  .reading-list { grid-template-columns:1fr; }
+  .nav-arrow { width:36px; height:36px; font-size:16px; }
+  .nav-arrow.prev { left:8px; }
+  .nav-arrow.next { right:8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="slides-container" id="slides">
+
+<!-- ===== SLIDE 1: COVER ===== -->
+<div class="slide cover-slide active" data-index="0">
+  <div class="slide-inner">
+    <div class="avatar-area">
+      <img src="assets/sloth-avatar.png" class="avatar" alt="树懒老K">
+    </div>
+    <div class="title-main">AI实战研修方案</div>
+    <div class="company-name">吉林省申远医药有限责任公司</div>
+    <div class="divider"></div>
+    <div class="title-sub">从认知升级到落地思路</div>
+    <div class="meta">
+      主讲：拙一（树懒老K）<br>
+      授课对象：中高级管理干部<br>
+      形式：线上直播授课<br>
+      课时：3晚 × 2小时（共6课时）
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 2: COURSE VALUE ===== -->
+<div class="slide" data-index="1">
+  <div class="slide-inner">
+    <div class="section-badge">课程价值</div>
+    <div class="section-title">学员将收获什么</div>
+    <div style="margin-top:28px">
+      <div class="module-grid">
+        <div class="module-card">
+          <div class="num">01</div>
+          <div class="label">AI战略视野</div>
+          <div class="desc">从「被动焦虑」转向「主动布局」，建立管理者应具备的AI系统认知</div>
+        </div>
+        <div class="module-card">
+          <div class="num">02</div>
+          <div class="label">落地路径</div>
+          <div class="desc">了解AI在研发、临床、医学、营销、合规等场景的应用逻辑与边界</div>
+        </div>
+        <div class="module-card">
+          <div class="num">03</div>
+          <div class="label">合规红线</div>
+          <div class="desc">理解GxP环境下AI使用的核心风险、监管要求与管控方法</div>
+        </div>
+        <div class="module-card">
+          <div class="num">04</div>
+          <div class="label">整体视野</div>
+          <div class="desc">形成从认知到行动的完整知识框架</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 3: OVERVIEW ===== -->
+<div class="slide" data-index="2">
+  <div class="slide-inner">
+    <div class="section-badge">整体设计</div>
+    <div class="section-title">课程总览</div>
+    <div style="margin-top:24px">
+      <table class="comp-table">
+        <tr><th></th><th>第一晚 · 认知筑基</th><th>第二晚 · 场景深潜</th><th>第三晚 · 行动思路</th></tr>
+        <tr><td>主题</td><td>AI战略视野</td><td>业务落地实战</td><td>从方案到执行</td></tr>
+        <tr><td>课时</td><td>2课时</td><td>2课时</td><td>2课时</td></tr>
+        <tr><td>核心内容</td><td>AI底层逻辑<br>行业全景地图</td><td>场景落地方向<br>合规风险评估</td><td>变革管理<br>行动框架</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 4: NIGHT 1 OVERVIEW ===== -->
+<div class="slide" data-index="3">
+  <div class="slide-inner">
+    <div class="section-badge">第一晚</div>
+    <div class="section-title">认知筑基</div>
+    <div class="section-sub">AI时代的战略视野 · 2课时</div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 5: NIGHT 1 - SESSION 1 ===== -->
+<div class="slide" data-index="4">
+  <div class="slide-inner">
+    <div class="section-badge" style="border-color:var(--gold);color:var(--gold);">第一晚 · 第1课时</div>
+    <div class="section-title" style="font-size:28px;">AI底层逻辑与能力边界</div>
+    <div style="margin-top:24px">
+      <div class="module-grid">
+        <div class="module-card">
+          <div class="num">▸</div>
+          <div class="label">AI能做什么、不能做什么</div>
+          <div class="desc">管理者需要建立的AI系统认知，跳出「工具崇拜」陷阱</div>
+        </div>
+        <div class="module-card">
+          <div class="num">▸</div>
+          <div class="label">判别式/生成式/多模态</div>
+          <div class="desc">一张图看懂AI技术栈，不被销售概念迷惑</div>
+        </div>
+        <div class="module-card">
+          <div class="num">▸</div>
+          <div class="label">医药行业AI全景地图</div>
+          <div class="desc">AI在医药全价值链的渗透逻辑——从靶点发现到患者管理</div>
+        </div>
+        <div class="module-card">
+          <div class="num">▸</div>
+          <div class="label">头部药企布局洞察</div>
+          <div class="desc">全球TOP药企AI战略的核心启示与可借鉴路径</div>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top:16px;">
+        <strong style="color:var(--gold);">【管理者视角】</strong>
+        <div style="font-size:13px;color:var(--accent);margin-top:6px;line-height:1.8;">
+          为什么「懂AI的管理者」比「懂技术的人」更稀缺<br>
+          从「决策者认知重构」到「四层十二维变革模型」
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 6: NIGHT 1 - SESSION 2 ===== -->
+<div class="slide" data-index="5">
+  <div class="slide-inner">
+    <div class="section-badge" style="border-color:var(--gold);color:var(--gold);">第一晚 · 第2课时</div>
+    <div class="section-title" style="font-size:28px;">医药制造业AI原生之路</div>
+    <div style="margin-top:24px">
+      <div class="module-grid">
+        <div class="module-card">
+          <div class="num">▸</div>
+          <div class="label">AI如何重塑医药价值链</div>
+          <div class="desc">从CXO转型到创新药出海——AI重铸医药制造的底层逻辑</div>
+        </div>
+        <div class="module-card">
+          <div class="num">▸</div>
+          <div class="label">变革路线图</div>
+          <div class="desc">一家药企从0到1的AI落地路线图：诊断、规划、试点、推广</div>
+        </div>
+        <div class="module-card">
+          <div class="num">▸</div>
+          <div class="label">管理者角色重塑</div>
+          <div class="desc">AI时代决策者的认知重构模型——从管控到赋能</div>
+        </div>
+        <div class="module-card">
+          <div class="num">▸</div>
+          <div class="label">认知升维总结</div>
+          <div class="desc"><strong>「趋近的悖论」</strong>：当AI成为我们的镜子，我们在镜中看见什么</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 7: NIGHT 2 OVERVIEW ===== -->
+<div class="slide" data-index="6">
+  <div class="slide-inner">
+    <div class="section-badge">第二晚</div>
+    <div class="section-title">场景深潜</div>
+    <div class="section-sub">医药业务AI落地方向 · 2课时</div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 8: NIGHT 2 - SESSION 3 ===== -->
+<div class="slide" data-index="7">
+  <div class="slide-inner">
+    <div class="section-badge" style="border-color:var(--gold);color:var(--gold);">第二晚 · 第3课时</div>
+    <div class="section-title" style="font-size:28px;">研发与临床场景</div>
+    <div style="margin-top:24px">
+      <div class="module-grid">
+        <div class="module-card">
+          <div class="num">▸</div>
+          <div class="label">药物发现与临床前</div>
+          <div class="desc">AI在靶点发现、分子设计、晶型预测中的应用逻辑</div>
+        </div>
+        <div class="module-card">
+          <div class="num">▸</div>
+          <div class="label">临床运营智能化</div>
+          <div class="desc">方案设计、中心筛选、患者招募预测的效率提升路径</div>
+        </div>
+        <div class="module-card">
+          <div class="num">▸</div>
+          <div class="label">医学文档智能化</div>
+          <div class="desc">CSR、IB、CTD的AI辅助撰写——效率与质量控制的平衡</div>
+        </div>
+        <div class="module-card">
+          <div class="num">▸</div>
+          <div class="label">医学事务赋能</div>
+          <div class="desc">AI医学信息应答、文献综述、MSL学术拜访支持</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 9: NIGHT 2 - SESSION 4 ===== -->
+<div class="slide" data-index="8">
+  <div class="slide-inner">
+    <div class="section-badge" style="border-color:var(--gold);color:var(--gold);">第二晚 · 第4课时</div>
+    <div class="section-title" style="font-size:28px;">营销与合规专题</div>
+    <div style="margin-top:24px">
+      <div class="module-grid">
+        <div class="module-card" style="border-color:rgba(255,100,100,0.2);">
+          <div class="num" style="color:#FF6B6B;">⚠️</div>
+          <div class="label">合规红线</div>
+          <div class="desc">GxP环境下的AI使用边界：21 CFR Part 11、数据完整性、可追溯性</div>
+        </div>
+        <div class="module-card">
+          <div class="num">▸</div>
+          <div class="label">学术推广智能化</div>
+          <div class="desc">AI辅助内容生成、医生画像、精准触达的合规提效路径</div>
+        </div>
+        <div class="module-card" style="border-color:rgba(255,150,50,0.2);">
+          <div class="num" style="color:#FF9632;">!</div>
+          <div class="label">风险管控</div>
+          <div class="desc">AI幻觉识别、数据隐私、知识产权归属——管理层须知红线</div>
+        </div>
+        <div class="module-card">
+          <div class="num">▸</div>
+          <div class="label">案例复盘</div>
+          <div class="desc">医药行业AI落地典型失败教训与成功要素分析</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 10: NIGHT 3 OVERVIEW ===== -->
+<div class="slide" data-index="9">
+  <div class="slide-inner">
+    <div class="section-badge">第三晚</div>
+    <div class="section-title">思路落地</div>
+    <div class="section-sub">从认知到行动 · 2课时</div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 11: NIGHT 3 - SESSION 5 ===== -->
+<div class="slide" data-index="10">
+  <div class="slide-inner">
+    <div class="section-badge" style="border-color:var(--gold);color:var(--gold);">第三晚 · 第5课时</div>
+    <div class="section-title" style="font-size:28px;">AI落地变革管理</div>
+    <div style="margin-top:24px">
+      <div class="module-grid">
+        <div class="module-card">
+          <div class="num">01</div>
+          <div class="label">5大阻力识别</div>
+          <div class="desc">认知、技能、信任、数据、合规——每种阻力有对应策略</div>
+        </div>
+        <div class="module-card">
+          <div class="num">02</div>
+          <div class="label">组织架构选型</div>
+          <div class="desc">CoE vs 分散式 vs 混合模式——企业适合哪一种</div>
+        </div>
+        <div class="module-card">
+          <div class="num">03</div>
+          <div class="label">选型决策框架</div>
+          <div class="desc">自研 vs 外采 vs 共创——三个维度的决策思路</div>
+        </div>
+        <div class="module-card">
+          <div class="num">04</div>
+          <div class="label">ROI评估逻辑</div>
+          <div class="desc">短期降本 vs 长期创新 vs 合规成本——三层平衡</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 12: NIGHT 3 - SESSION 6 ===== -->
+<div class="slide" data-index="11">
+  <div class="slide-inner">
+    <div class="section-badge" style="border-color:var(--gold);color:var(--gold);">第三晚 · 第6课时</div>
+    <div class="section-title" style="font-size:28px;">整体回顾与行动框架</div>
+    <div style="margin-top:24px">
+      <div class="module-grid">
+        <div class="module-card">
+          <div class="num">🔄</div>
+          <div class="label">三晚体系回顾</div>
+          <div class="desc">从认知重构 → 场景认知 → 行动方向——一条完整的知识链路</div>
+        </div>
+        <div class="module-card">
+          <div class="num">📋</div>
+          <div class="label">行动框架</div>
+          <div class="desc">课后即可开始思考：你所在部门可以从哪里起步</div>
+        </div>
+        <div class="module-card">
+          <div class="num">📚</div>
+          <div class="label">延伸学习资源</div>
+          <div class="desc">课件 + 后续阅读专题清单（内附完整专题目录）</div>
+        </div>
+        <div class="module-card">
+          <div class="num">🎵</div>
+          <div class="label">结语</div>
+          <div class="desc">AI时代最稀缺的不是速度，是深度——「慢一点，深一度」</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 13: DELIVERABLES ===== -->
+<div class="slide" data-index="12">
+  <div class="slide-inner">
+    <div class="section-badge">交付物</div>
+    <div class="section-title">课后提供</div>
+    <div style="margin-top:28px">
+      <div class="deliver-grid">
+        <div class="deliver-card">
+          <div class="icon">📘</div>
+          <div class="label">培训课件</div>
+          <div class="desc">完整课件PDF<br>含全部讲授内容</div>
+        </div>
+        <div class="deliver-card">
+          <div class="icon">📚</div>
+          <div class="label">专题阅读清单</div>
+          <div class="desc">五大专题深度文章目录<br>内嵌于课件中方便延展学习</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 14: READING LIST ===== -->
+<div class="slide" data-index="13">
+  <div class="slide-inner">
+    <div class="section-badge">延伸学习</div>
+    <div class="section-title">讲义内嵌专题清单</div>
+    <div class="section-sub">以下专题文章目录将附在课件中，供课后深度阅读</div>
+    <div class="reading-list">
+      <div class="reading-item">
+        <div class="cat">一、核心认知</div>
+        <div class="topic">AI时代底层重构</div>
+        <div class="sub">智能体革命 · 价值重构 · 趋近的悖论 · AI的终极追问 · 断层之上</div>
+      </div>
+      <div class="reading-item">
+        <div class="cat">二、产业变革</div>
+        <div class="topic">制造与实体经济重塑</div>
+        <div class="sub">脱藕 · 重塑工业世界观 · 四层十二维 · AI原生之路 · 老板AI焦虑自救指南</div>
+      </div>
+      <div class="reading-item">
+        <div class="cat">三、组织与战略</div>
+        <div class="topic">企业增长新框架</div>
+        <div class="sub">三才四象 · CLIMB模型 · AI战略内参</div>
+      </div>
+      <div class="reading-item">
+        <div class="cat">四、技术与产品</div>
+        <div class="topic">ToB软件底层革新</div>
+        <div class="sub">知识新基建 · 本体迷雾 · AI原生重构软件公司</div>
+      </div>
+      <div class="reading-item">
+        <div class="cat">五、思维工具</div>
+        <div class="topic">个人能力体系</div>
+        <div class="sub">思维模型工具箱 · 增长引擎 · 战略分析师 · 组织与变革 · AI工具人 · 养龙虾指南</div>
+      </div>
+      <div class="reading-item">
+        <div class="cat">🎵 主题歌</div>
+        <div class="topic">《慢一点，深一度》</div>
+        <div class="sub">Slow Down, Dig Deep</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 15: CLOSING ===== -->
+<div class="slide last-slide" data-index="14">
+  <div class="slide-inner">
+    <img src="assets/sloth-avatar.png" class="avatar-large" alt="树懒老K">
+    <div class="title-main" style="font-size:32px;margin-bottom:8px;">感谢垂注</div>
+    <div class="section-sub" style="margin-bottom:20px;">期待与申远医药的深度交流</div>
+    <img src="assets/qrcode.jpg" class="qrcode" alt="二维码">
+    <div class="qr-label">更多行业洞察</div>
+    <div style="margin-top:24px;font-size:13px;color:var(--text-dim);line-height:1.8;">
+      主讲：拙一（树懒老K）
+    </div>
+  </div>
+</div>
+
+</div>
+
+<button class="nav-arrow prev hidden" id="prevBtn">◀</button>
+<button class="nav-arrow next" id="nextBtn">▶</button>
+<div class="page-indicator" id="dots"></div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+
+const dotsContainer = document.getElementById('dots');
+for (let i = 0; i < total; i++) {
+  const dot = document.createElement('div');
+  dot.className = 'dot' + (i === 0 ? ' active' : '');
+  dot.dataset.index = i;
+  dot.addEventListener('click', () => goTo(i));
+  dotsContainer.appendChild(dot);
+}
+
+function goTo(index) {
+  if (index < 0 || index >= total) return;
+  slides[current].classList.remove('active');
+  dotsContainer.children[current].classList.remove('active');
+  current = index;
+  slides[current].classList.add('active');
+  dotsContainer.children[current].classList.add('active');
+  document.getElementById('prevBtn').classList.toggle('hidden', current === 0);
+  document.getElementById('nextBtn').classList.toggle('hidden', current === total - 1);
+}
+
+document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goTo(current + 1); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
+});
+
+let touchX = 0;
+document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchX;
+  if (Math.abs(dx) > 50) goTo(current + (dx < 0 ? 1 : -1));
+});
+
+document.addEventListener('wheel', e => {
+  e.preventDefault();
+  if (e.deltaY > 0) goTo(current + 1);
+  else goTo(current - 1);
+}, { passive: false });
+</script>
+</body>
+</html>

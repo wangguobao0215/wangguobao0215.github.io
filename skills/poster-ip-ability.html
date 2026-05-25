@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>树懒老K · 三种能力</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: #D8E0EA;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .poster {
+    width: 440px;
+    background: linear-gradient(170deg, #EDF1F6 0%, #E2E8F0 40%, #D6DEE8 100%);
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 16px 56px rgba(90, 122, 150, 0.12), 0 4px 12px rgba(90, 122, 150, 0.06);
+    position: relative;
+  }
+  .poster::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(90, 122, 150, 0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .poster::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(90, 122, 150, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 32px 32px 20px;
+  }
+  .ip-avatar-wrap {
+    width: 64px; height: 64px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, #5A7A96, #3D5A78);
+    box-shadow: 0 6px 18px rgba(90, 122, 150, 0.22);
+  }
+  .ip-avatar {
+    width: 58px; height: 58px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #EDF1F6;
+    display: block;
+  }
+  .brand {
+    font-size: 12px;
+    color: #6B8299;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+  }
+  .main-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #334155;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .sub-title {
+    font-size: 14px;
+    color: #64748B;
+    line-height: 1.5;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding: 0 28px 0 56px;
+    margin-bottom: 24px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 36px;
+    top: 12px;
+    bottom: 20px;
+    width: 2px;
+    background: linear-gradient(180deg, #5A7A96, #3D5A78, #6B8299);
+    border-radius: 2px;
+  }
+  .tl-item {
+    position: relative;
+    padding-bottom: 22px;
+  }
+  .tl-dot {
+    position: absolute;
+    left: -28px;
+    top: 4px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 1;
+  }
+  .tl-item:nth-child(1) .tl-dot { background: linear-gradient(135deg, #c92a2a, #a02020); }
+  .tl-item:nth-child(2) .tl-dot { background: linear-gradient(135deg, #e8590c, #c04000); }
+  .tl-item:nth-child(3) .tl-dot { background: linear-gradient(135deg, #0055aa, #003380); }
+
+  .tl-card {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 14px;
+    padding: 16px 18px;
+    border: 1px solid rgba(90, 122, 150, 0.12);
+  }
+  .tl-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 6px;
+  }
+  .tl-org {
+    font-size: 12px;
+    color: #6B8299;
+    margin-bottom: 8px;
+  }
+  .tl-desc {
+    font-size: 13px;
+    color: #4A5568;
+    line-height: 1.7;
+  }
+  .tl-desc strong {
+    color: #5A7A96;
+  }
+
+  /* Summary */
+  .summary {
+    margin: 0 28px 24px;
+    padding: 18px 20px;
+    background: rgba(90, 122, 150, 0.08);
+    border-radius: 14px;
+    border: 1px dashed rgba(90, 122, 150, 0.2);
+    text-align: center;
+  }
+  .summary p {
+    font-size: 13px;
+    color: #3D4F5F;
+    line-height: 1.7;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 0 32px 36px;
+  }
+  .qr-wrap {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 14px;
+    padding: 8px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(90, 122, 150, 0.08);
+  }
+  .qr-wrap img {
+    width: 124px;
+    height: 124px;
+    display: block;
+    border-radius: 8px;
+  }
+  .qr-text {
+    font-size: 13px;
+    color: #4A5568;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .qr-sub {
+    font-size: 11px;
+    color: #6B8299;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="header">
+    <div class="ip-avatar-wrap">
+      <img src="../assets/logo-new.png" alt="树懒老K" class="ip-avatar" onerror="this.style.display='none'" style="width: 200px; height: auto; border-radius: 0; object-fit: contain; display: block;" >
+    </div>
+    <div class="brand">树 懒 老 K 的 能 力 地 图</div>
+    <div class="main-title">AI时代，企业最需要<br>三种能力</div>
+    <div class="sub-title">28年，从能源巨头到跨国咨询，再到国产软件领军<br>每一段经历，都是一种能力的源头</div>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot">1</div>
+      <div class="tl-card">
+        <div class="tl-title">定义问题的能力</div>
+        <div class="tl-org">中石化 → 毕博（中国）</div>
+        <div class="tl-desc">在能源行业亲历数字化转型，在管理咨询中理解"系统上线"和"真正用起来"之间的鸿沟。<strong>→ 先定义对的问题，再找对的方法</strong></div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">2</div>
+      <div class="tl-card">
+        <div class="tl-title">梳理问题的能力</div>
+        <div class="tl-org">霍尼韦尔 → 德勤</div>
+        <div class="tl-desc">从甲方到乙方的视角转换，在战略咨询的深度历练中，学会把混乱的业务现状梳理成可执行的转型路径。<strong>→ 把复杂变简单，把模糊变清晰</strong></div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">3</div>
+      <div class="tl-card">
+        <div class="tl-title">做出判断的能力</div>
+        <div class="tl-org"> → 现在</div>
+        <div class="tl-desc">横跨战略咨询与企业软件交付，见过太多"上了系统、废了流程"的教训。现在，把这三种能力整合输出为方法论和智能体。<strong>→ 不盲从，不犹豫，做对的选择</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <p>不是给你一套通用方案<br>是帮你建立属于自己的<strong>判断框架</strong></p>
+  </div>
+
+  <div class="footer">
+    <div class="qr-wrap">
+      <img src="../assets/qrcode-poster.png" alt="OPC网站二维码">
+    </div>
+    <div class="qr-text">树懒老K · 慢一点深一度</div>
+    <div class="qr-sub">扫码访问个人网站，获取更多AI转型方法论</div>
+  </div>
+</div>
+</body>
+</html>

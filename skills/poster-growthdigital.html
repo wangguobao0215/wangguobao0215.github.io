@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深适 · 成长适配诊断 — 产品海报</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: #0a0e1a;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+.poster {
+  width: 900px;
+  background: linear-gradient(160deg, #0d1326 0%, #1a1f3a 40%, #0d1326 100%);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+  position: relative;
+}
+.poster::before {
+  content: '';
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(46,91,255,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.poster::after {
+  content: '';
+  position: absolute;
+  bottom: -150px; left: -150px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(46,91,255,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 48px 60px 32px;
+  position: relative;
+  z-index: 1;
+}
+.brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.brand-row img {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  border: 2px solid rgba(46,91,255,0.4);
+  box-shadow: 0 0 20px rgba(46,91,255,0.3);
+}
+.brand-tag {
+  font-size: 13px;
+  color: #2E5BFF;
+  letter-spacing: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.title {
+  font-size: 52px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #fff 0%, #a8b8ff 50%, #2E5BFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.subtitle {
+  font-size: 20px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+.slogan {
+  margin-top: 16px;
+  font-size: 15px;
+  color: #2E5BFF;
+  font-weight: 500;
+  letter-spacing: 3px;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(46,91,255,0.5) 50%, transparent 100%);
+  margin: 0 60px;
+}
+
+/* Core Concept */
+.concept {
+  padding: 36px 60px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.concept-text {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.6;
+}
+.concept-text span {
+  color: #2E5BFF;
+}
+
+/* Dual Axis Section */
+.axis-section {
+  padding: 0 60px 36px;
+  position: relative;
+  z-index: 1;
+}
+.section-title {
+  font-size: 14px;
+  color: #2E5BFF;
+  letter-spacing: 3px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-title::before {
+  content: '';
+  width: 24px; height: 2px;
+  background: #2E5BFF;
+  border-radius: 1px;
+}
+.axis-card {
+  background: rgba(46,91,255,0.06);
+  border: 1px solid rgba(46,91,255,0.15);
+  border-radius: 16px;
+  padding: 28px 32px;
+}
+.axis-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.axis-item h4 {
+  font-size: 16px;
+  color: #2E5BFF;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.axis-item p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.8;
+}
+.stages {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.stage-tag {
+  background: rgba(46,91,255,0.15);
+  color: #8aabff;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(46,91,255,0.2);
+}
+
+/* Scenarios */
+.scenarios {
+  padding: 0 60px 36px;
+  position: relative;
+  z-index: 1;
+}
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.scenario-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 18px 14px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+.scenario-card:hover {
+  background: rgba(46,91,255,0.08);
+  border-color: rgba(46,91,255,0.25);
+  transform: translateY(-2px);
+}
+.scenario-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+.scenario-name {
+  font-size: 13px;
+  color: #fff;
+  font-weight: 500;
+}
+.scenario-desc {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 4px;
+}
+
+/* Features */
+.features {
+  padding: 0 60px 36px;
+  position: relative;
+  z-index: 1;
+}
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.feature-card {
+  background: linear-gradient(135deg, rgba(46,91,255,0.08) 0%, rgba(46,91,255,0.02) 100%);
+  border: 1px solid rgba(46,91,255,0.12);
+  border-radius: 12px;
+  padding: 20px;
+}
+.feature-num {
+  font-size: 32px;
+  font-weight: 800;
+  color: rgba(46,91,255,0.25);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.feature-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.feature-desc {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+}
+
+/* Trigger */
+.trigger {
+  padding: 0 60px 36px;
+  position: relative;
+  z-index: 1;
+}
+.trigger-box {
+  background: linear-gradient(135deg, rgba(46,91,255,0.12) 0%, rgba(46,91,255,0.04) 100%);
+  border: 1px solid rgba(46,91,255,0.2);
+  border-radius: 16px;
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.trigger-label {
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+}
+.trigger-code {
+  font-family: "SF Mono", "Fira Code", monospace;
+  font-size: 18px;
+  color: #2E5BFF;
+  font-weight: 600;
+  background: rgba(0,0,0,0.3);
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(46,91,255,0.2);
+}
+
+/* Footer */
+.footer {
+  padding: 32px 60px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin: 0 40px;
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.footer-brand img {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  border: 2px solid rgba(46,91,255,0.3);
+}
+.footer-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+}
+.footer-slogan {
+  font-size: 13px;
+  color: #2E5BFF;
+  margin-top: 2px;
+  letter-spacing: 2px;
+}
+.footer-qr {
+  text-align: center;
+}
+.footer-qr img {
+  width: 80px; height: 80px;
+  border-radius: 8px;
+  border: 2px solid rgba(46,91,255,0.2);
+}
+.footer-qr p {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 6px;
+}
+
+/* Print */
+@media print {
+  body { background: #0a0e1a; padding: 0; }
+  .poster { box-shadow: none; border-radius: 0; }
+}
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="brand-row">
+      <img src="../assets/sloth-avatar-round.png" alt="树懒老K">
+      <span class="brand-tag">Sloth-Eido Family</span>
+    </div>
+    <h1 class="title">深适 · 成长适配诊断</h1>
+    <p class="subtitle">企业成长阶段 × 数字化就绪度 双轴诊断工具</p>
+    <p class="slogan">不卖产品先卖认知，不算贡献算瓶颈消除</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Core Concept -->
+  <div class="concept">
+    <p class="concept-text">
+      基于格雷纳五阶段模型<br>
+      <span>定位企业成长阶段 → 评估数字化就绪度 → 规划适配路径</span>
+    </p>
+  </div>
+
+  <!-- Dual Axis -->
+  <div class="axis-section">
+    <div class="section-title">双轴诊断模型</div>
+    <div class="axis-card">
+      <div class="axis-grid">
+        <div class="axis-item">
+          <h4>横轴 · 企业成长阶段</h4>
+          <p>格雷纳企业成长五阶段模型，识别企业所处发展阶段及面临的管理危机</p>
+          <div class="stages">
+            <span class="stage-tag">创业期</span>
+            <span class="stage-tag">成长期</span>
+            <span class="stage-tag">扩张期</span>
+            <span class="stage-tag">成熟期</span>
+            <span class="stage-tag">整合期</span>
+          </div>
+        </div>
+        <div class="axis-item">
+          <h4>纵轴 · 数字化就绪度</h4>
+          <p>三级能力模型 + AI 就绪度评估，量化企业数字化水平</p>
+          <div class="stages">
+            <span class="stage-tag">L1 效率层</span>
+            <span class="stage-tag">L2 重构层</span>
+            <span class="stage-tag">L3 定义层</span>
+            <span class="stage-tag">AI 就绪度</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scenarios -->
+  <div class="scenarios">
+    <div class="section-title">七大应用场景</div>
+    <div class="scenario-grid">
+      <div class="scenario-card">
+        <div class="scenario-icon">🔍</div>
+        <div class="scenario-name">售前诊断</div>
+        <div class="scenario-desc">首次接触客户</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-icon">📈</div>
+        <div class="scenario-name">项目升级</div>
+        <div class="scenario-desc">推动加模块</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-icon">🤝</div>
+        <div class="scenario-name">M&A整合</div>
+        <div class="scenario-desc">合并系统摸底</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-icon">👋</div>
+        <div class="scenario-name">新CIO上任</div>
+        <div class="scenario-desc">数字化家底</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-icon">🏥</div>
+        <div class="scenario-name">年度体检</div>
+        <div class="scenario-desc">追踪年度变化</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-icon">📊</div>
+        <div class="scenario-name">指标看板</div>
+        <div class="scenario-desc">实时指标变化</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-icon">🛒</div>
+        <div class="scenario-name">选型前置</div>
+        <div class="scenario-desc">不确定上什么</div>
+      </div>
+      <div class="scenario-card">
+        <div class="scenario-icon">⚡</div>
+        <div class="scenario-name">快捷模式</div>
+        <div class="scenario-desc">5分钟快速摸底</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="features">
+    <div class="section-title">核心能力</div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-num">01</div>
+        <div class="feature-title">双模式入口</div>
+        <div class="feature-desc">对话模式（售前现场）+ 问卷模式（自评/批量导入）</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">02</div>
+        <div class="feature-title">系统扫描验证</div>
+        <div class="feature-desc">连接ERP自动验证，/用友/SAP多厂商适配</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">03</div>
+        <div class="feature-title">基线追踪</div>
+        <div class="feature-desc">设定数字化基线，定期复查生成对比报告</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">04</div>
+        <div class="feature-title">方案知识库</div>
+        <div class="feature-desc">诊断结果自动匹配Obsidian方案库，智能推荐</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">05</div>
+        <div class="feature-title">交叉验证</div>
+        <div class="feature-desc">问卷数据与系统扫描对比，标记高估/低估</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">06</div>
+        <div class="feature-title">HTML报告输出</div>
+        <div class="feature-desc">一键导出PDF，支持键盘翻页，可直接交付客户</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trigger -->
+  <div class="trigger">
+    <div class="section-title">快速触发</div>
+    <div class="trigger-box">
+      <span class="trigger-label">在 QoderWork 中输入：</span>
+      <code class="trigger-code">/sloth-growthdigital-eido</code>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-brand">
+      <img src="../assets/sloth-avatar-round.png" alt="树懒老K">
+      <div>
+        <div class="footer-name">树懒老K</div>
+        <div class="footer-slogan">慢一点，深一度</div>
+      </div>
+    </div>
+    <div class="footer-qr">
+      <img src="../assets/qrcode-growthdigital.jpg" alt="扫码关注">
+      <p>扫码关注 · 获取更多 AI 技能</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

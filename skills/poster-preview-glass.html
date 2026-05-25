@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>树懒老K · Glassmorphism 毛玻璃拟态</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+    background-size: 400% 400%;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .poster {
+    width: 440px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255,255,255,0.2);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    position: relative;
+  }
+
+  /* Floating elements */
+  .float-1 {
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    filter: blur(10px);
+  }
+  .float-2 {
+    position: absolute;
+    bottom: -20px; left: -20px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    filter: blur(8px);
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 40px 32px 28px;
+    position: relative;
+  }
+  .avatar-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    padding: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 auto 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+  .avatar {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.5);
+    display: block;
+  }
+  .brand {
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  .main-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 6px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .sub-title {
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  /* Glass Cards */
+  .glass-card {
+    margin: 0 24px 16px;
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05), inset 0 0 0 1px rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .glass-card-title {
+    font-size: 10px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  /* Stats */
+  .stats-row {
+    display: flex;
+    justify-content: space-around;
+    gap: 12px;
+  }
+  .stat-item {
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 4px;
+    font-weight: 400;
+  }
+
+  /* Journey */
+  .journey-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .j-dot {
+    font-size: 12px;
+    color: rgba(255,255,255,0.9);
+    font-weight: 500;
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .j-arrow {
+    color: rgba(255,255,255,0.5);
+    font-size: 10px;
+  }
+
+  /* Abilities */
+  .ability-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ability-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .ability-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fff;
+    margin-top: 5px;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(255,255,255,0.5);
+  }
+  .ability-text {
+    font-size: 13px;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.6;
+  }
+  .ability-text strong {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  /* Quote */
+  .quote-card {
+    margin: 0 24px 20px;
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .quote-text {
+    font-size: 15px;
+    color: #fff;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.8;
+    text-align: center;
+  }
+  .quote-source {
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 12px;
+    text-align: right;
+    font-weight: 400;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 20px 32px 36px;
+    text-align: center;
+  }
+  .qr-wrap {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 14px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.3);
+  }
+  .qr-wrap img {
+    width: 104px;
+    height: 104px;
+    display: block;
+    border-radius: 8px;
+  }
+  .qr-text {
+    font-size: 13px;
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .qr-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="float-1"></div>
+  <div class="float-2"></div>
+
+  <div class="header">
+    <div class="avatar-wrap">
+      <img src="../assets/logo-new.png" alt="树懒老K" class="avatar" onerror="this.style.display='none'" style="width: 200px; height: auto; border-radius: 0; object-fit: contain; display: block;" >
+    </div>
+    <div class="brand">S L O T H  M A S T E R</div>
+    
+    <div class="sub-title">慢一点，深一度 · AI转型方法论架构师</div>
+  </div>
+
+  <div class="glass-card">
+    <div class="glass-card-title">Experience</div>
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-num">28</div>
+        <div class="stat-label">年跨度</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">6</div>
+        <div class="stat-label">方法论</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">24</div>
+        <div class="stat-label">智能体</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">400+</div>
+        <div class="stat-label">篇原创</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="glass-card">
+    <div class="glass-card-title">Journey</div>
+    <div class="journey-dots">
+      <span class="j-dot">中石化</span>
+      <span class="j-arrow">→</span>
+      <span class="j-dot">霍尼韦尔</span>
+      <span class="j-arrow">→</span>
+      <span class="j-dot">毕博</span>
+      <span class="j-arrow">→</span>
+      <span class="j-dot">德勤</span>
+      <span class="j-arrow">→</span>
+      <span class="j-dot"></span>
+    </div>
+  </div>
+
+  <div class="glass-card">
+    <div class="glass-card-title">Core Abilities</div>
+    <div class="ability-list">
+      <div class="ability-item">
+        <div class="ability-dot"></div>
+        <div class="ability-text"><strong>定义问题</strong> — 先定义对的问题，再找对的方法</div>
+      </div>
+      <div class="ability-item">
+        <div class="ability-dot"></div>
+        <div class="ability-text"><strong>梳理问题</strong> — 把复杂变简单，把模糊变清晰</div>
+      </div>
+      <div class="ability-item">
+        <div class="ability-dot"></div>
+        <div class="ability-text"><strong>做出判断</strong> — 不盲从，不犹豫，做对的选择</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="quote-text">技术从来不缺，缺的是让组织接住技术的方法。</div>
+    <div class="quote-source">— 树懒老K</div>
+  </div>
+
+  <div class="footer">
+    <div class="qr-wrap">
+      <img src="../assets/qrcode-poster.png" alt="OPC网站二维码">
+    </div>
+    <div class="qr-text">树懒老K · 个人网站</div>
+    <div class="qr-sub">扫码访问，获取更多AI转型方法论</div>
+  </div>
+</div>
+</body>
+</html>

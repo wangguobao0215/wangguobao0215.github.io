@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深熵 · 变革罗盘 — 产品介绍</title>
+<style>
+  :root {
+    --bg: #1a1210;
+    --bg-light: #2a1a15;
+    --primary: #2a1a12;
+    --accent: #6a3a2a;
+    --highlight: #e0a070;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --card-bg: rgba(255,255,255,0.06);
+    --card-border: rgba(255,255,255,0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .deck { width: 100%; height: 100%; position: relative; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 100px 80px 80px;
+    opacity: 0; pointer-events: none; transform: translateX(60px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+  }
+  .slide.active { opacity: 1; pointer-events: auto; transform: translateX(0); }
+  .slide.prev { transform: translateX(-60px); }
+  .slide::before {
+    content: ""; position: fixed; top: -50%; right: -30%;
+    width: 80vw; height: 80vw;
+    background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  .slide-content { max-width: 1100px; width: 100%; position: relative; z-index: 1; }
+  h1 {
+    font-size: 52px; font-weight: 800; line-height: 1.2; margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 30%, var(--highlight) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  h2 {
+    font-size: 38px; font-weight: 700; margin-bottom: 32px; color: #fff;
+    display: flex; align-items: center; gap: 14px;
+  }
+  h2 .num {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 800; color: var(--highlight); flex-shrink: 0;
+  }
+  h3 { font-size: 22px; font-weight: 600; margin-bottom: 12px; color: var(--highlight); }
+  p, li { font-size: 18px; line-height: 1.7; color: var(--text-dim); }
+  .subtitle { font-size: 22px; color: var(--text-dim); margin-bottom: 40px; max-width: 700px; }
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--highlight);
+    padding: 6px 16px; border-radius: 20px;
+    font-size: 13px; font-weight: 600; letter-spacing: 1px;
+    margin-bottom: 20px; text-transform: uppercase;
+  }
+  .flex-row { display: flex; gap: 28px; flex-wrap: wrap; }
+  .flex-col { display: flex; flex-direction: column; gap: 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 24px;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .card:hover { transform: translateY(-3px); border-color: var(--highlight); }
+  .card-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 14px;
+  }
+  .card h4 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .card p { font-size: 14px; line-height: 1.6; color: var(--text-dim); }
+  .timeline { display: flex; gap: 16px; margin-top: 10px; }
+  .timeline-step {
+    flex: 1; background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 12px; padding: 18px 14px; text-align: center; position: relative;
+  }
+  .timeline-step::after {
+    content: "\2192"; position: absolute; right: -18px; top: 50%;
+    transform: translateY(-50%); color: var(--accent); font-size: 18px; font-weight: 700;
+  }
+  .timeline-step:last-child::after { display: none; }
+  .timeline-step .t-num {
+    width: 32px; height: 32px; background: var(--accent); color: #fff;
+    border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; margin-bottom: 10px;
+  }
+  .timeline-step .t-title { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.4; }
+  ul.feature-list { list-style: none; padding: 0; }
+  ul.feature-list li {
+    padding: 10px 0 10px 32px; position: relative; font-size: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  ul.feature-list li::before {
+    content: "\2713"; position: absolute; left: 0; color: var(--highlight); font-weight: 700;
+  }
+  .cta-box {
+    background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border: 1px dashed rgba(255,255,255,0.15);
+    border-radius: 14px; padding: 28px 32px; margin-top: 24px;
+  }
+  .cover-slide { text-align: center; }
+  .cover-slide h1 { font-size: 56px; margin-bottom: 20px; }
+  .cover-logo {
+    font-size: 13px; letter-spacing: 3px; color: var(--text-dim);
+    margin-bottom: 24px; text-transform: uppercase;
+  }
+  .cover-sub {
+    font-size: 22px; color: var(--text-dim); margin-bottom: 48px;
+    max-width: 640px; margin-left: auto; margin-right: auto; line-height: 1.6;
+  }
+  .cover-meta {
+    display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
+  }
+  .cover-meta-item { text-align: center; }
+  .cover-meta-item .big {
+    font-size: 40px; font-weight: 800; color: var(--highlight); line-height: 1;
+  }
+  .cover-meta-item .small { font-size: 13px; color: var(--text-dim); margin-top: 6px; }
+  .last-slide { text-align: center; }
+  .last-slide h1 { font-size: 48px; margin-bottom: 24px; }
+  .link-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+  .link-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: #fff; padding: 12px 24px; border-radius: 8px;
+    text-decoration: none; font-size: 14px; font-weight: 600;
+    transition: opacity 0.2s; border: 1px solid rgba(255,255,255,0.2);
+  }
+  .link-btn:hover { opacity: 0.85; }
+  .link-btn.secondary {
+    background: transparent; border: 1px solid rgba(255,255,255,0.2);
+  }
+  .progress-bg {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 3px;
+    background: rgba(255,255,255,0.06); z-index: 100;
+  }
+  .progress-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--highlight));
+    transition: width 0.4s ease;
+  }
+  @media (max-width: 900px) {
+    .slide { padding: 80px 24px 70px; }
+    h1 { font-size: 36px; }
+    h2 { font-size: 26px; }
+    .cover-slide h1 { font-size: 42px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .timeline { flex-wrap: wrap; }
+    .timeline-step::after { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- Slide 1: Cover -->
+  <div class="slide cover-slide">
+    <div class="slide-content">
+      <div class="cover-logo">Sloth-Eido Skill Family</div>
+      <h1>深熵 · <span>变革罗盘</span></h1>
+      <p class="cover-sub">AI 对制造企业组织变革的冲击评估与路径规划<br>六维诊断 · 三档模式 · 一键报告</p>
+      <div class="cover-meta">
+        <div class="cover-meta-item"><div class="big">6</div><div class="small">评估维度</div></div>
+        <div class="cover-meta-item"><div class="big">3</div><div class="small">诊断模式</div></div>
+        <div class="cover-meta-item"><div class="big">4</div><div class="small">核心理念</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 2: Pain Points -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="badge">Why 深熵</div>
+      <h2><span class="num">01</span>制造企业变革，卡在什么地方？</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-icon">&#128172;</div>
+          <h4>冲击感知模糊</h4>
+          <p>知道 AI 会来，但不知道具体会冲击哪些岗位、流程、系统，缺乏系统性评估框架。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128739;</div>
+          <h4>变革路径缺失</h4>
+          <p>没有清晰的变革路线图，不知道从何开始、分几步走、优先级如何排序。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128200;</div>
+          <h4>ROI 无法量化</h4>
+          <p>变革投入巨大，但无法测算回报，董事会难以决策，项目难以获得预算支持。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128101;</div>
+          <h4>组织准备不足</h4>
+          <p>企业文化、员工心态、管理层共识尚未就绪，强行变革阻力巨大。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 3: Core Capabilities -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="badge">Solution</div>
+      <h2><span class="num">02</span>六维评估，四化理念，三种模式</h2>
+      <p style="margin-bottom:28px; max-width:720px;">深熵覆盖战略、组织、流程、IT、文化、ROI 六大维度，以"去中介化、去中心化、去经验化、去边界化"四化理念为指导。</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon">&#127919;</div>
+          <h4>六维评估体系</h4>
+          <p>战略/组织/流程/IT/文化/ROI 全覆盖，系统性诊断变革 readiness</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128200;</div>
+          <h4>变革 ROI 测算</h4>
+          <p>量化 AI 变革的投入产出，为董事会决策提供数据支撑</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128161;</div>
+          <h4>四化核心理念</h4>
+          <p>去中介化、去中心化、去经验化、去边界化，重构组织价值</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128736;</div>
+          <h4>分阶段路径规划</h4>
+          <p>快速扫描→标准诊断→深度尽调，三种模式适配不同场景</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128203;</div>
+          <h4>HTML 诊断报告</h4>
+          <p>对话式交互完成诊断，一键输出可直接汇报的 HTML 报告</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 4: Three Modes -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="badge">Modes</div>
+      <h2><span class="num">03</span>三种诊断模式，适配不同深度需求</h2>
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="t-num">15m</div>
+          <div class="t-title">快速扫描</div>
+          <p style="font-size:13px;margin-top:8px;">初次接触、临时需要方向性判断，快速定位变革敏感区域</p>
+        </div>
+        <div class="timeline-step">
+          <div class="t-num">1h</div>
+          <div class="t-title">标准诊断</div>
+          <p style="font-size:13px;margin-top:8px;">常规项目启动，逐维度展开，输出完整六维评估报告</p>
+        </div>
+        <div class="timeline-step">
+          <div class="t-num">0.5d</div>
+          <div class="t-title">深度尽调</div>
+          <p style="font-size:13px;margin-top:8px;">CEO/董事会层面战略性变革项目，深度定制变革路径</p>
+        </div>
+      </div>
+      <div class="cta-box" style="margin-top:40px;">
+        <h3 style="margin-bottom:12px;">交互设计原则</h3>
+        <ul class="feature-list">
+          <li>对话式选择 — 所有选择题用字母 A/B/C/D，用户直接打字母回复</li>
+          <li>一次一问 — 用户答完一个再问下一个，不 overwhelm</li>
+          <li>先搜后问 — 每个维度先搜索补齐企业信息，用户只需确认</li>
+          <li>可跳过 — 每个专题入口问"要做还是跳过"，尊重用户时间</li>
+          <li>建议权留给 Skill，选择权留给客户</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 5: CTA -->
+  <div class="slide last-slide">
+    <div class="slide-content">
+      <h1>开启变革诊断</h1>
+      <p class="subtitle">输入 /changecompass，让 AI 为你的组织做一次全面体检</p>
+      <div class="link-group">
+        <a class="link-btn" href="https://github.com/wangguobao0215/Sloth-ChangeCompass-Eido" target="_blank">&#128187; GitHub 仓库</a>
+        <a class="link-btn secondary" href="changecompass-eido.html" target="_blank">&#128240; 宣传海报</a>
+      </div>
+      <p style="margin-top:32px; font-size:14px; color:#64748b;">适用对象：制造企业 CEO/董事会/变革负责人</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="progress-bg"><div class="progress-fill" id="progressFill"></div></div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let current = 0;
+let isPlaying = true;
+let interval = 6000;
+let timer = null;
+
+function showSlide(i) {
+  slides.forEach((s, idx) => {
+    s.classList.remove('active', 'prev');
+    if (idx === i) s.classList.add('active');
+    else if (idx < i) s.classList.add('prev');
+  });
+  document.getElementById('progressFill').style.width = ((i + 1) / slides.length * 100) + '%';
+}
+function nextSlide() { current = (current + 1) % slides.length; showSlide(current); }
+function prevSlide() { current = (current - 1 + slides.length) % slides.length; showSlide(current); }
+function startAutoPlay() { if (timer) clearInterval(timer); timer = setInterval(nextSlide, interval); isPlaying = true; }
+function stopAutoPlay() { if (timer) clearInterval(timer); isPlaying = false; }
+function togglePause() { isPlaying ? stopAutoPlay() : startAutoPlay(); }
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); if (isPlaying) startAutoPlay(); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); if (isPlaying) startAutoPlay(); }
+  else if (e.key === 'p' || e.key === 'P') { togglePause(); }
+});
+document.addEventListener('click', (e) => {
+  if (e.target.closest('a') || e.target.closest('button')) return;
+  const cx = e.clientX; const w = window.innerWidth;
+  if (cx < w * 0.35) { stopAutoPlay(); prevSlide(); }
+  else if (cx > w * 0.65) { stopAutoPlay(); nextSlide(); }
+  else { togglePause(); }
+});
+document.addEventListener('wheel', (e) => {
+  if (Math.abs(e.deltaY) < 30) return;
+  e.preventDefault(); stopAutoPlay();
+  if (e.deltaY > 0) nextSlide(); else prevSlide();
+}, { passive: false });
+
+showSlide(0);
+startAutoPlay();
+</script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>树懒老K · Dark Academia 暗黑学院</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Noto+Serif+SC:wght@300;400;600;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Crimson Text", "Noto Serif SC", "PingFang SC", serif;
+    background: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .poster {
+    width: 440px;
+    background: #2c2419;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(139, 119, 79, 0.2);
+    position: relative;
+  }
+
+  /* Book texture overlay */
+  .poster::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      linear-gradient(180deg, rgba(60,50,30,0.1) 0%, transparent 20%),
+      linear-gradient(0deg, rgba(60,50,30,0.1) 0%, transparent 20%);
+    pointer-events: none;
+  }
+
+  /* Header */
+  .header {
+    padding: 40px 36px 28px;
+    position: relative;
+  }
+  .avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(139, 119, 79, 0.4);
+    margin-bottom: 16px;
+    filter: sepia(0.3) contrast(0.95);
+  }
+  .brand {
+    font-size: 10px;
+    color: #8b7750;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 400;
+  }
+  .main-title {
+    font-family: "Crimson Text", serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #d4c5a0;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .sub-title {
+    font-size: 14px;
+    color: rgba(212, 197, 160, 0.6);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* Divider */
+  .divider {
+    margin: 0 36px 28px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(139, 119, 79, 0.3), transparent);
+  }
+
+  /* Stats - styled as old library cards */
+  .stats {
+    display: flex;
+    margin: 0 32px 28px;
+    gap: 12px;
+  }
+  .stat {
+    flex: 1;
+    text-align: center;
+    padding: 14px 6px;
+    background: rgba(30, 25, 15, 0.5);
+    border: 1px solid rgba(139, 119, 79, 0.15);
+    position: relative;
+  }
+  .stat-num {
+    font-family: "Crimson Text", serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #d4c5a0;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 10px;
+    color: #8b7750;
+    margin-top: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* Journey - styled as book spines */
+  .journey {
+    margin: 0 36px 28px;
+    padding: 20px;
+    background: rgba(30, 25, 15, 0.3);
+    border: 1px solid rgba(139, 119, 79, 0.1);
+  }
+  .journey-label {
+    font-size: 10px;
+    color: #8b7750;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .journey-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .j-dot {
+    font-size: 12px;
+    color: rgba(212, 197, 160, 0.8);
+    padding: 4px 10px;
+    background: rgba(139, 119, 79, 0.1);
+    border: 1px solid rgba(139, 119, 79, 0.15);
+  }
+  .j-sep {
+    color: #8b7750;
+    font-size: 12px;
+  }
+
+  /* Quote - styled as old manuscript */
+  .quote {
+    margin: 0 36px 28px;
+    padding: 24px;
+    border-left: 3px solid #8b7750;
+    background: rgba(30, 25, 15, 0.3);
+  }
+  .quote-text {
+    font-family: "Crimson Text", serif;
+    font-size: 15px;
+    color: rgba(212, 197, 160, 0.9);
+    line-height: 1.9;
+    font-style: italic;
+  }
+  .quote-source {
+    font-size: 12px;
+    color: #8b7750;
+    margin-top: 12px;
+    text-align: right;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 28px 36px 36px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-top: 1px solid rgba(139, 119, 79, 0.1);
+  }
+  .qr-wrap {
+    width: 72px;
+    height: 72px;
+    padding: 4px;
+    background: rgba(30, 25, 15, 0.5);
+    border: 1px solid rgba(139, 119, 79, 0.2);
+  }
+  .qr-wrap img {
+    width: 64px;
+    height: 64px;
+    display: block;
+    filter: sepia(0.2);
+  }
+  .footer-info {
+    flex: 1;
+  }
+  .footer-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #d4c5a0;
+    margin-bottom: 2px;
+  }
+  .footer-url {
+    font-size: 11px;
+    color: #8b7750;
+  }
+  .footer-quote {
+    margin-top: 8px;
+    font-size: 11px;
+    color: rgba(212, 197, 160, 0.5);
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="header">
+    <img src="../assets/logo-new.png" alt="树懒老K" class="avatar" onerror="this.style.display='none'" style="width: 200px; height: auto; border-radius: 0; object-fit: contain; display: block;" >
+    <div class="brand">S L O T H  M A S T E R</div>
+    
+    <div class="sub-title">"慢一点，深一度" — 企业AI转型方法论架构师</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">28</div>
+      <div class="stat-label">Years</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">6</div>
+      <div class="stat-label">Methods</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">24</div>
+      <div class="stat-label">Agents</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">400+</div>
+      <div class="stat-label">Articles</div>
+    </div>
+  </div>
+
+  <div class="journey">
+    <div class="journey-label">The Journey</div>
+    <div class="journey-dots">
+      <span class="j-dot">中石化</span>
+      <span class="j-sep">→</span>
+      <span class="j-dot">霍尼韦尔</span>
+      <span class="j-sep">→</span>
+      <span class="j-dot">毕博</span>
+      <span class="j-sep">→</span>
+      <span class="j-dot">德勤</span>
+      <span class="j-sep">→</span>
+      <span class="j-dot"></span>
+    </div>
+  </div>
+
+  <div class="quote">
+    <div class="quote-text">技术从来不缺，缺的是让组织接住技术的方法。</div>
+    <div class="quote-source">— 树懒老K</div>
+  </div>
+
+  <div class="footer">
+    <div class="qr-wrap">
+      <img src="../assets/qrcode-poster.png" alt="OPC网站二维码">
+    </div>
+    <div class="footer-info">
+      <div class="footer-name">SLOTH MASTER</div>
+      <div class="footer-url">wangguobao0215.github.io</div>
+      <div class="footer-quote">"慢一点，深一度"</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

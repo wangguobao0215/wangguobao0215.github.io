@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>树懒老K · 慢一点，深一度</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: #D8E0EA;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .poster {
+    width: 440px;
+    background: linear-gradient(170deg, #EDF1F6 0%, #E2E8F0 40%, #D6DEE8 100%);
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 16px 56px rgba(90, 122, 150, 0.12), 0 4px 12px rgba(90, 122, 150, 0.06);
+    position: relative;
+  }
+  .poster::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: -60px;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(90, 122, 150, 0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .poster::after {
+    content: '';
+    position: absolute;
+    bottom: -50px; right: -50px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(90, 122, 150, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* IP Header */
+  .ip-header {
+    text-align: center;
+    padding-top: 32px;
+    margin-bottom: 4px;
+  }
+  .ip-avatar-wrap {
+    width: 64px; height: 64px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, #5A7A96, #3D5A78);
+    box-shadow: 0 6px 18px rgba(90, 122, 150, 0.22);
+  }
+  .ip-avatar {
+    width: 58px; height: 58px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #EDF1F6;
+    display: block;
+  }
+  .top-label {
+    text-align: center;
+    font-size: 12px;
+    color: #6B8299;
+    letter-spacing: 4px;
+    margin-bottom: 24px;
+  }
+
+  /* Main title */
+  .title-area {
+    text-align: center;
+    padding: 0 32px 28px;
+  }
+  .main-title {
+    font-size: 40px;
+    font-weight: 800;
+    color: #334155;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .main-title span {
+    color: #5A7A96;
+  }
+  .sub-title {
+    font-size: 15px;
+    color: #64748B;
+    line-height: 1.6;
+  }
+
+  /* Cards */
+  .cards {
+    padding: 0 28px;
+    margin-bottom: 24px;
+  }
+  .card {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 18px;
+    padding: 22px 24px;
+    margin-bottom: 14px;
+    border: 1px solid rgba(90, 122, 150, 0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(to bottom, #5A7A96, #3D5A78);
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .card-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #5A7A96, #3D5A78);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .card-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #334155;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: #4A5568;
+    line-height: 1.7;
+    padding-left: 46px;
+  }
+
+  /* Divider */
+  .divider {
+    margin: 0 32px 24px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(90, 122, 150, 0.3), transparent);
+  }
+
+  /* Bottom text */
+  .bottom-text {
+    text-align: center;
+    padding: 0 36px;
+    margin-bottom: 24px;
+  }
+  .bottom-text p {
+    font-size: 14px;
+    color: #4A5568;
+    line-height: 1.8;
+  }
+  .bottom-text strong {
+    color: #5A7A96;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 0 32px 36px;
+  }
+  .qr-wrap {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 14px;
+    padding: 8px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(90, 122, 150, 0.08);
+  }
+  .qr-wrap img {
+    width: 124px;
+    height: 124px;
+    display: block;
+    border-radius: 8px;
+  }
+  .qr-text {
+    font-size: 13px;
+    color: #4A5568;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .qr-sub {
+    font-size: 11px;
+    color: #6B8299;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="ip-header">
+    <div class="ip-avatar-wrap">
+      <img src="../assets/logo-new.png" alt="树懒老K" class="ip-avatar" onerror="this.style.display='none'" style="width: 200px; height: auto; border-radius: 0; object-fit: contain; display: block;" >
+    </div>
+  </div>
+  <div class="top-label">树 懒 老 K 的 信 念</div>
+
+  <div class="title-area">
+    <div class="main-title">慢一点<span>，</span>深一度</div>
+    <div class="sub-title">当所有人都在追风口<br>我们选择深耕</div>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🐌</div>
+        <div class="card-title">慢，不是拖延</div>
+      </div>
+      <div class="card-desc">是留出思考的缝隙。在AI时代，快是本能，慢是选择。只有慢下来，才能看清问题的根在哪里。</div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🔍</div>
+        <div class="card-title">深，不是钻牛角尖</div>
+      </div>
+      <div class="card-desc">是找到问题的根。28年咨询经验告诉我，80%的转型失败，不是因为技术不够，而是因为问题定义错了。</div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">⚖️</div>
+        <div class="card-title">一度，是分寸感</div>
+      </div>
+      <div class="card-desc">知道什么时候该进，什么时候该停。不盲目追逐新技术，也不固步自封——找到最适合自己的节奏。</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="bottom-text">
+    <p>不是给你一套通用方案<br>是帮你建立属于自己的<strong>判断框架</strong></p>
+  </div>
+
+  <div class="footer">
+    <div class="qr-wrap">
+      <img src="../assets/qrcode-poster.png" alt="OPC网站二维码">
+    </div>
+    <div class="qr-text">树懒老K · 慢一点深一度</div>
+    <div class="qr-sub">扫码访问个人网站，获取更多AI转型方法论</div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>深筹 · 产销协同 宣传海报</title>
+<style>
+  @page { size: A4 portrait; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: #f5f7fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .poster {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fff;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+  }
+  .header {
+    background: linear-gradient(135deg, #3a2a1a 0%, #8a6a3a 60%, #3a2a1a 100%);
+    color: #fff;
+    padding: 44px 40px 28px;
+    position: relative;
+  }
+  .header::after {
+    content: "";
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: #fff;
+    clip-path: ellipse(70% 100% at 50% 0%);
+  }
+  .brand-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 1;
+  }
+  .brand {
+    font-size: 13px;
+    letter-spacing: 2px;
+    opacity: 0.85;
+    text-transform: uppercase;
+  }
+  .version-badge {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+  .title {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  .title span {
+    color: #f59e0b;
+  }
+  .subtitle {
+    font-size: 18px;
+    opacity: 0.9;
+    font-weight: 400;
+    position: relative;
+    z-index: 1;
+  }
+  .tagline {
+    margin-top: 16px;
+    display: flex;
+    gap: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .tag {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #f59e0b;
+    padding: 5px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .body {
+    padding: 30px 40px 20px;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #3a2a1a;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::before {
+    content: "";
+    width: 5px;
+    height: 22px;
+    background: #8a6a3a;
+    border-radius: 3px;
+  }
+  .highlights {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .card {
+    background: #f8fafc;
+    border: 1px solid #e8ecf1;
+    border-radius: 10px;
+    padding: 16px 18px;
+    transition: transform 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    border-color: #f59e0b;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #8a6a3a, #3a2a1a);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #3a2a1a;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: #55667a;
+    line-height: 1.6;
+  }
+  .scenarios {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+  .scenario {
+    background: #eef2f7;
+    color: #8a6a3a;
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .stats-bar {
+    display: flex;
+    justify-content: space-around;
+    background: linear-gradient(135deg, #3a2a1a, #8a6a3a);
+    color: #fff;
+    padding: 22px 20px;
+    border-radius: 12px;
+    margin-bottom: 22px;
+    text-align: center;
+  }
+  .stat-number {
+    font-size: 32px;
+    font-weight: 800;
+    color: #f59e0b;
+  }
+  .stat-label {
+    font-size: 13px;
+    opacity: 0.85;
+    margin-top: 4px;
+  }
+  .cta-section {
+    background: #f0f5fa;
+    border: 2px dashed #8a6a3a;
+    border-radius: 12px;
+    padding: 22px 24px;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .cta-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #3a2a1a;
+    margin-bottom: 10px;
+  }
+  .cta-steps {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .cta-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #8a6a3a;
+    font-weight: 600;
+  }
+  .cta-step-num {
+    width: 26px;
+    height: 26px;
+    background: #8a6a3a;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .cta-links {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed #c5d5e8;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+  }
+  .cta-link-row {
+    font-size: 11px;
+    color: #4a6588;
+    line-height: 1.5;
+  }
+  .cta-link-row strong {
+    color: #8a6a3a;
+    font-weight: 600;
+  }
+  .footer {
+    background: #3a2a1a;
+    color: #fff;
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  .footer-brand {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .footer-slogan {
+    font-size: 12px;
+    opacity: 0.7;
+    font-style: italic;
+  }
+  .footer-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .footer-qr {
+    width: 64px;
+    height: 64px;
+    border-radius: 6px;
+    background: #fff;
+    padding: 3px;
+    flex-shrink: 0;
+  }
+  .footer-qr img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  .footer-contact {
+    font-size: 12px;
+    opacity: 0.8;
+    text-align: right;
+    line-height: 1.6;
+  }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .poster { box-shadow: none; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="header">
+    <div class="brand-row">
+      <div class="brand">Sloth-Eido Skill Family</div>
+      <div class="version-badge">v2.3.0 正式版</div>
+    </div>
+    <div class="title">深筹 · <span>产销协同</span></div>
+    <div class="subtitle">快消品（肉制品）产销协同智能副驾 —— 十一项约束满足 + DAG 级联传导 + 情景推演</div>
+    <div class="tagline">
+      <span class="tag">11项约束引擎</span><span class="tag">情景推演</span><span class="tag">可视化看板</span>
+    </div>
+  </div>
+  <div class="body">
+    <div class="stats-bar">
+      <div><div class="stat-number">11</div><div class="stat-label">项约束检查</div></div><div><div class="stat-number">370+</div><div class="stat-label">可配参数</div></div><div><div class="stat-number">3</div><div class="stat-label">种战略模式</div></div>
+    </div>
+    <div class="section-title">核心能力</div>
+    <div class="highlights">
+      <div class="card"><div class="card-header"><div class="card-icon">&#128202;</div><div class="card-title">联产品约束建模</div></div><div class="card-desc">基于屠宰出成率模型，自动计算各部位供需平衡（含品种×季节二级修正）</div></div><div class="card"><div class="card-header"><div class="card-icon">&#9889;</div><div class="card-title">插单影响评估</div></div><div class="card-desc">十一项硬约束逐一检查 + DAG 五层级联传导 + 综合紧急指数量化，看得清影响</div></div><div class="card"><div class="card-header"><div class="card-icon">&#127758;</div><div class="card-title">What-if 情景推演</div></div><div class="card-desc">三种战略模式：旺季保供 / 淡季利润 / 临期清库，四维评分对比辅助决策</div></div><div class="card"><div class="card-header"><div class="card-icon">&#128444;</div><div class="card-title">可视化数据生成</div></div><div class="card-desc">甘特图 / 桑基图 / 库存热力图 / 紧急指数仪表盘，一键生成 60KB 交互式 HTML 看板</div></div><div class="card"><div class="card-header"><div class="card-icon">&#128230;</div><div class="card-title">企业级配置</div></div><div class="card-desc">370+ 参数从 enterprise-profile.yaml 加载，支持跨企业部署，Excel 模板驱动零代码门槛</div></div><div class="card"><div class="card-header"><div class="card-icon">&#9989;</div><div class="card-title">标准化输出</div></div><div class="card-desc">影响评估卡 + 排产建议书 + 执行闭环清单，每个判断都有量化支撑</div></div>
+    </div>
+    <div class="section-title">适合谁用</div>
+    <div class="scenarios">
+      <span class="scenario">计划经理</span><span class="scenario">车间计划员</span><span class="scenario">生产调度</span><span class="scenario">肉制品加工</span><span class="scenario">快消品</span><span class="scenario">产销平衡</span>
+    </div>
+    <div class="cta-section">
+      <div class="cta-title">三步开始试用</div>
+      <div class="cta-steps">
+        <div class="cta-step"><span class="cta-step-num">1</span>安装技能到 QoderWork</div><div class="cta-step"><span class="cta-step-num">2</span>上传 Excel 模板数据</div><div class="cta-step"><span class="cta-step-num">3</span>说“帮我评估插单”或“做排产建议”</div>
+      </div>
+      <div class="cta-links">
+        <div class="cta-link-row"><strong>GitHub 仓库：</strong>github.com/wangguobao0215/Sloth-ProdSync-Eido</div>
+        <div class="cta-link-row"><strong>用户手册：</strong>github.com/wangguobao0215/Sloth-ProdSync-Eido/blob/main/用户使用手册.md</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div>
+      <div class="footer-brand">树懒老K · Sloth-Eido 技能家族</div>
+      <div class="footer-slogan">慢一点，深一度</div>
+    </div>
+    <div class="footer-right">
+      <div class="footer-qr">
+        <img src="assets/qrcode.jpg" alt="公众号二维码">
+      </div>
+      <div class="footer-contact">
+        扫码关注公众号「树懒老K」<br>
+        获取更多 AI 技能与实战案例
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>树懒老K · Swiss 瑞士国际主义</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
+    background: #d4d4d4;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .poster {
+    width: 440px;
+    background: #ffffff;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  /* Grid overlay - visible on poster */
+  .grid-line {
+    position: absolute;
+    background: rgba(230, 0, 0, 0.08);
+    pointer-events: none;
+  }
+
+  /* Asymmetric Layout - Hero Left */
+  .hero-left {
+    background: #e60000;
+    padding: 48px 36px;
+    position: relative;
+  }
+  .hero-left-content {
+    max-width: 200px;
+  }
+  .hero-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 0;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 2px solid #fff;
+  }
+  .hero-num {
+    font-size: 72px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+  }
+  .hero-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .hero-tagline {
+    margin-top: 24px;
+    font-size: 13px;
+    color: #fff;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* White Right Section */
+  .right-section {
+    padding: 36px;
+    position: relative;
+  }
+  .right-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 3px solid #000;
+  }
+  .right-title {
+    font-size: 32px;
+    font-weight: 900;
+    color: #000;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+  }
+  .right-meta {
+    text-align: right;
+    font-size: 9px;
+    color: #999;
+    letter-spacing: 1px;
+    line-height: 1.8;
+  }
+
+  /* Stats Grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .stat-item {
+    border-top: 2px solid #000;
+    padding-top: 12px;
+  }
+  .stat-num {
+    font-size: 28px;
+    font-weight: 900;
+    color: #000;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 10px;
+    color: #666;
+    margin-top: 6px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  /* Journey Block */
+  .journey-block {
+    margin-bottom: 28px;
+  }
+  .journey-title {
+    font-size: 9px;
+    color: #e60000;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .journey-content {
+    font-size: 13px;
+    color: #333;
+    font-weight: 400;
+    line-height: 1.8;
+  }
+  .journey-content strong {
+    font-weight: 700;
+    color: #000;
+  }
+
+  /* Quote Block */
+  .quote-block {
+    background: #000;
+    color: #fff;
+    padding: 20px;
+    margin-bottom: 28px;
+  }
+  .quote-block p {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  /* Footer */
+  .footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 24px 36px 36px;
+    border-top: 3px solid #000;
+  }
+  .qr-wrap {
+    width: 64px;
+    height: 64px;
+    background: #fff;
+    border: 2px solid #000;
+    padding: 3px;
+  }
+  .qr-wrap img {
+    width: 56px;
+    height: 56px;
+    display: block;
+  }
+  .footer-info {
+    text-align: right;
+  }
+  .footer-name {
+    font-size: 14px;
+    font-weight: 900;
+    color: #000;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .footer-url {
+    font-size: 10px;
+    color: #666;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .footer-red {
+    margin-top: 6px;
+    font-size: 9px;
+    color: #e60000;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="hero-left">
+    <img src="../assets/logo-new.png" alt="树懒老K" class="hero-avatar" onerror="this.style.display='none'" style="width: 200px; height: auto; border-radius: 0; object-fit: contain; display: block;" >
+    <div class="hero-left-content">
+      <div class="hero-num">28</div>
+      <div class="hero-label">Years of Experience</div>
+      <div class="hero-tagline">中石化 → 霍尼韦尔 → 毕博 → 德勤 → </div>
+    </div>
+  </div>
+
+  <div class="right-section">
+    <div class="right-header">
+      
+      <div class="right-meta">
+        AI方法论<br>架构师<br>慢 / 深 / 度
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-num">6</div>
+        <div class="stat-label">方法论</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">24</div>
+        <div class="stat-label">智能体</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">400+</div>
+        <div class="stat-label">篇原创</div>
+      </div>
+    </div>
+
+    <div class="journey-block">
+      <div class="journey-title">Core Capabilities</div>
+      <div class="journey-content">
+        <strong>定义问题</strong> — 先定义对的问题，再找对的方法<br>
+        <strong>梳理问题</strong> — 把复杂变简单，把模糊变清晰<br>
+        <strong>做出判断</strong> — 不盲从，不犹豫，做对的选择
+      </div>
+    </div>
+
+    <div class="quote-block">
+      <p>技术从来不缺，缺的是让组织接住技术的方法。</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="qr-wrap">
+      <img src="../assets/qrcode-poster.png" alt="OPC网站二维码">
+    </div>
+    <div class="footer-info">
+      <div class="footer-name">SLOTH MASTER</div>
+      <div class="footer-url">wangguobao0215.github.io</div>
+      <div class="footer-red">Scan to Visit</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

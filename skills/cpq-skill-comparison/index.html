@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPQ 技能综合评比报告</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/theme/white.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+    :root {
+      --primary: #1a5276;
+      --secondary: #2874a6;
+      --accent: #e67e22;
+      --success: #27ae60;
+      --warning: #f39c12;
+      --danger: #c0392b;
+      --text: #2c3e50;
+      --text-light: #5d6d7e;
+      --bg-light: #f4f6f7;
+    }
+
+    .reveal {
+      font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+      color: var(--text);
+    }
+
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+      font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .reveal h1 { font-size: 2.2em; }
+    .reveal h2 { font-size: 1.6em; margin-bottom: 0.6em; }
+    .reveal h3 { font-size: 1.2em; color: var(--secondary); }
+    .reveal p, .reveal li { font-size: 0.75em; line-height: 1.6; }
+    .reveal ul { margin-left: 0; }
+    .reveal table { font-size: 0.55em; width: 100%; border-collapse: collapse; margin: 0.8em 0; }
+    .reveal table th, .reveal table td { padding: 8px 12px; border: 1px solid #d5dbdb; text-align: left; }
+    .reveal table th { background: var(--primary); color: white; font-weight: 500; }
+    .reveal table tr:nth-child(even) { background: var(--bg-light); }
+
+    .cover { background: linear-gradient(135deg, #1a5276 0%, #2874a6 50%, #5dade2 100%); }
+    .cover h1, .cover h2, .cover p { color: white !important; }
+    .cover .subtitle { font-size: 1em; opacity: 0.9; margin-top: 1em; }
+    .cover .meta { font-size: 0.65em; opacity: 0.75; margin-top: 2em; }
+
+    .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.7em; font-weight: 500; margin-left: 6px; }
+    .badge-blue { background: #d6eaf8; color: var(--primary); }
+    .badge-orange { background: #fdebd0; color: var(--accent); }
+    .badge-green { background: #d5f5e3; color: var(--success); }
+    .badge-red { background: #fadbd8; color: var(--danger); }
+    .badge-yellow { background: #fcf3cf; color: var(--warning); }
+
+    .score-box { display: flex; justify-content: center; gap: 40px; margin: 1em 0; }
+    .score-item { text-align: center; padding: 20px 30px; border-radius: 12px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.08); min-width: 160px; }
+    .score-item .label { font-size: 0.6em; color: var(--text-light); margin-bottom: 6px; }
+    .score-item .score { font-size: 2em; font-weight: 700; }
+    .score-item.cpq .score { color: var(--secondary); }
+    .score-item.sloth .score { color: var(--accent); }
+    .score-item .total { font-size: 0.55em; color: var(--text-light); margin-top: 4px; }
+
+    .radar-container { display: flex; justify-content: center; align-items: center; gap: 30px; margin-top: 0.5em; }
+    .radar-legend { font-size: 0.6em; text-align: left; }
+    .radar-legend span { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; }
+    .col-box { padding: 16px; border-radius: 10px; background: var(--bg-light); }
+    .col-box h4 { font-size: 0.85em; margin-bottom: 10px; }
+    .col-box ul { font-size: 0.65em; margin-left: 1em; }
+    .col-box li { margin-bottom: 6px; }
+
+    .timeline { position: relative; padding-left: 20px; border-left: 3px solid var(--primary); text-align: left; margin: 0.8em 0; }
+    .timeline-item { margin-bottom: 14px; position: relative; }
+    .timeline-item::before { content: ''; position: absolute; left: -26px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--primary); }
+    .timeline-item .phase { font-size: 0.75em; font-weight: 700; color: var(--primary); }
+    .timeline-item .desc { font-size: 0.65em; color: var(--text-light); margin-top: 4px; }
+
+    .callout { padding: 14px 18px; border-radius: 8px; margin: 0.8em 0; text-align: left; font-size: 0.7em; border-left: 4px solid; }
+    .callout-info { background: #eaf2f8; border-color: var(--secondary); }
+    .callout-warn { background: #fef5e7; border-color: var(--warning); }
+    .callout-danger { background: #fdedec; border-color: var(--danger); }
+    .callout-success { background: #e9f7ef; border-color: var(--success); }
+
+    .reveal .slides section { height: 100%; }
+    .reveal .progress { background: rgba(26, 82, 118, 0.2); }
+    .reveal .progress span { background: var(--primary); }
+
+    .small-text { font-size: 0.6em !important; color: var(--text-light); }
+
+    .highlight-green { color: var(--success); font-weight: 700; }
+    .highlight-red { color: var(--danger); font-weight: 700; }
+    .highlight-orange { color: var(--accent); font-weight: 700; }
+
+    canvas.radar-chart { max-height: 380px; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Slide 1: Cover -->
+      <section class="cover">
+        <h1 style="font-size:2.4em;margin-bottom:0.3em;">CPQ 技能综合评比报告</h1>
+        <p class="subtitle">cpq-configure-price-quote vs sloth-cpq-eido</p>
+        <p class="meta">深度评估 · 选型指南 · 融合建议<br/>2026年4月 · v2.0.0 更新版</p>
+      </section>
+
+      <!-- Slide 2: Overview -->
+      <section>
+        <h2>参评对象概览</h2>
+        <div class="two-col" style="margin-top:1em;">
+          <div class="col-box">
+            <h4>cpq-configure-price-quote <span class="badge badge-blue">金蝶星空</span></h4>
+            <ul>
+              <li>面向<strong>金蝶云AI星空</strong>平台的通用 CPQ 框架</li>
+              <li>五步流程：需求确认 → 产品配置 → 定价比价 → 折扣毛利 → 报价输出</li>
+              <li>强依赖 ERP/MCP，定义了 32 个工具接口</li>
+              <li>多方案并行（1-3 方案）、配置快照不可变、审批流转</li>
+              <li>定位：<strong>企业级端到端自动化系统</strong></li>
+            </ul>
+          </div>
+          <div class="col-box">
+            <h4>sloth-cpq-eido <span class="badge badge-orange">多行业CPQ</span></h4>
+            <ul>
+              <li>面向<strong>装备制造、机械加工、电子制造、汽车零部件</strong>的智能报价引擎</li>
+              <li>十步工作流：需求解析 → 产品配置 → 成本穿透 → 交期验证 → 合同风险 → 正向报价 → 反向报价 → 多行项聚合 → 多层折扣 → 审批路由 → 报价单生成 → 版本管理</li>
+              <li>6个 MCP 工具完整 JSON Schema + 金蝶云星空 265行字段映射 + AI Suite 增强</li>
+              <li>渐进式数据降级：MCP → CSV → 对话 → 默认值，四级降级 + A/B/C 信心分级</li>
+              <li>深耕成本工程：三级费率、系数矩阵、Wright 学习曲线、连续交期压缩系数、质保准备金、外汇风险、材料锁价溢价</li>
+              <li>定位：<strong>可独立运行、可渐进集成 ERP 的端到端报价引擎</strong></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 3: Radar Chart -->
+      <section>
+        <h2>五维雷达评分</h2>
+        <div class="radar-container">
+          <canvas id="radarChart" width="420" height="380" class="radar-chart"></canvas>
+          <div class="radar-legend">
+            <div style="margin-bottom:8px;"><span style="background:#2874a6;"></span> cpq-configure-price-quote</div>
+            <div><span style="background:#e67e22;"></span> sloth-cpq-eido</div>
+            <div style="margin-top:20px;font-size:0.65em;color:#5d6d7e;">
+              <div>架构设计：流程完整度 vs 数据策略</div>
+              <div>工程实现：代码资产与可运行性</div>
+              <div>领域知识：成本模型与行业深度</div>
+              <div>风险可控：降级能力与缺陷影响</div>
+              <div>当前价值：今天就能用的程度</div>
+            </div>
+          </div>
+        </div>
+        <div class="score-box">
+          <div class="score-item cpq">
+            <div class="label">cpq-configure-price-quote</div>
+            <div class="score">25<span style="font-size:0.5em;">/50</span></div>
+            <div class="total">蓝图型 · 设计华丽</div>
+          </div>
+          <div class="score-item sloth">
+            <div class="label">sloth-cpq-eido</div>
+            <div class="score">42<span style="font-size:0.5em;">/50</span></div>
+            <div class="total">引擎型 · 可运行可扩展</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 4: Architecture -->
+      <section>
+        <h2>维度一：架构设计</h2>
+        <table>
+          <tr>
+            <th style="width:22%">子项</th>
+            <th style="width:39%">cpq-configure-price-quote</th>
+            <th style="width:39%">sloth-cpq-eido</th>
+          </tr>
+          <tr>
+            <td>流程完整性</td>
+            <td><span class="highlight-green">★★★★★</span> 五步链路完整，含折扣策略与审批流转</td>
+            <td><span class="highlight-green">★★★★★</span> 十步工作流，含正向/反向/多行项/多层折扣/审批/报价单/快照审计</td>
+          </tr>
+          <tr>
+            <td>多方案支持</td>
+            <td><span class="highlight-green">★★★★★</span> 1-3方案并行 + 配置×取价矩阵</td>
+            <td><span class="highlight-green">★★★★★</span> 保守/标准/激进三场景 × 正向/反向/多行项三种模式</td>
+          </tr>
+          <tr>
+            <td>数据降级策略</td>
+            <td><span class="highlight-red">★</span> 零降级，无ERP即瘫痪</td>
+            <td><span class="highlight-green">★★★★★</span> 四级降级 + A/B/C信心分级</td>
+          </tr>
+          <tr>
+            <td>版本与审计</td>
+            <td><span class="highlight-green">★★★★</span> 配置快照不可变，V1→V2自动递增</td>
+            <td><span class="highlight-green">★★★★</span> 不可变快照 + SHA-256校验 + 差异对比 + 篡改检测</td>
+          </tr>
+        </table>
+        <div class="callout callout-info">
+          <strong>结论：</strong>sloth 的流程覆盖度已超过 cpq（10步 vs 5步），且具备完整的审批工作流、多层折扣、不可变快照审计。cpq 的优势仅在文档层面的约束规则定义更详尽，但无可执行代码。
+        </div>
+      </section>
+
+      <!-- Slide 5: Engineering -->
+      <section>
+        <h2>维度二：工程实现</h2>
+        <table>
+          <tr>
+            <th style="width:22%">子项</th>
+            <th style="width:39%">cpq-configure-price-quote</th>
+            <th style="width:39%">sloth-cpq-eido</th>
+          </tr>
+          <tr>
+            <td>代码资产</td>
+            <td><span class="highlight-red">无</span> 纯编排文档，无可执行代码</td>
+            <td><span class="highlight-green">有</span> Python ×10 + CSV ×15 + JSON 配置，可独立运行</td>
+          </tr>
+          <tr>
+            <td>MCP 接口定义</td>
+            <td><span class="highlight-green">详尽</span> 32个工具入参/出参完整定义（纯文档级）</td>
+            <td><span class="highlight-green">详尽</span> 6个工具完整 JSON Schema + 金蝶 ERP 265行字段映射 + 6个金蝶特有错误码 + AI Suite 增强（已落地）</td>
+          </tr>
+          <tr>
+            <td>计算准确性</td>
+            <td><span class="highlight-orange">无法验证</span> 无代码即无bug，但也无法运行</td>
+            <td><span class="highlight-green">已验证</span> 4轮gap修复 + 28项回归测试 100%通过</td>
+          </tr>
+          <tr>
+            <td>错误处理</td>
+            <td><span class="highlight-green">完善</span> 有明确的降级策略与错误码表</td>
+            <td><span class="highlight-green">完善</span> 3类结构化错误码（ERR_INPUT/CALC/CONN）+ 11个错误码</td>
+          </tr>
+        </table>
+        <div class="callout callout-success">
+          <strong>关键发现：</strong>sloth v2.0.0 已完成4轮gap修复，28项回归测试100%通过，Playbook + ConventionGuard 双审计合规。既有可运行的工程资产，又有严谨的质量门禁。
+        </div>
+      </section>
+
+      <!-- Slide 6: Domain Knowledge -->
+      <section>
+        <h2>维度三：领域知识深度</h2>
+        <div class="two-col">
+          <div class="col-box">
+            <h4>cpq-configure-price-quote</h4>
+            <ul>
+              <li>成本模型：<strong>六维成本</strong>（材料/人工/制造/运输/场地/非标）</li>
+              <li>定价路径：价目表 → 成本加成 → 手工询价 → 参数规则</li>
+              <li>折扣策略：四层折扣（等级/阶梯/组合/促销）+ 60%底线</li>
+              <li>约束规则：五种约束优先级（P1范围→P5数量）</li>
+              <li>行业覆盖：<strong>单行业</strong>（金蝶星空通用）</li>
+            </ul>
+          </div>
+          <div class="col-box">
+            <h4>sloth-cpq-eido</h4>
+            <ul>
+              <li>成本模型：<strong>三级费率 + 系数矩阵 + 学习曲线 + 质保准备金 + 外汇风险 + 材料锁价</strong></li>
+              <li>费率结构：直接人工 → 含间接费(120-180%) → 全负荷费率(+20-30%)</li>
+              <li>系数矩阵：材料系数(0.85-1.8) × 复杂度(0.8-2.0) × 精度(0.9-1.8)</li>
+              <li>学习曲线：Yn = Y1 × n^b，焊接85%、机加工80%、SMT 90%、冲压88%</li>
+              <li>质保准备金：contract_amount × base_rate × (1+complexity) × (1+condition)，覆盖12/18/24/36月</li>
+              <li>行业覆盖：<strong>四行业</strong>（装备/机加/电子/汽车零部件）</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout callout-success">
+          <strong>结论：</strong>sloth 在装备制造领域有明显知识壁垒，其 cost-calculation-guide.md 可直接作为成本工程师培训教材。cpq 是通用框架，领域知识完全依赖 ERP 供给。
+        </div>
+      </section>
+
+      <!-- Slide 7: Risk -->
+      <section>
+        <h2>维度四：风险与缺陷</h2>
+        <table>
+          <tr>
+            <th style="width:28%">风险项</th>
+            <th style="width:36%">cpq</th>
+            <th style="width:36%">sloth</th>
+          </tr>
+          <tr>
+            <td>无ERP可用性</td>
+            <td><span class="highlight-red">完全不可用</span></td>
+            <td><span class="highlight-green">可用（CSV/默认值）</span></td>
+          </tr>
+          <tr>
+            <td>计算错误</td>
+            <td>无代码，风险未知</td>
+            <td><span class="highlight-green">已修复</span> 净利润公式修正、批量折扣因子修正，24项回归测试验证</td>
+          </tr>
+          <tr>
+            <td>数据时效性</td>
+            <td>实时ERP取数</td>
+            <td><span class="highlight-green">自动检测</span> 三套脚本全覆盖：parse_bom_csv.py 校验 price_valid_until / last_updated；search_similar.py 检测 completed_date >730天陈旧项目；validate_template.py 内容级日期校验（过期/陈旧）。均输出 data_freshness 报告并标注警告</td>
+          </tr>
+          <tr>
+            <td>概念混淆</td>
+            <td>无</td>
+            <td><span class="highlight-green">已修复</span> gross_profit/margin 与 net_profit/margin 分离，文档统一术语</td>
+          </tr>
+          <tr>
+            <td>多行业深度</td>
+            <td>不涉及</td>
+            <td><span class="highlight-green">已增强</span> 汽车511行知识库 + 49种材料模板 + IATF16949/PPAP/APQP</td>
+          </tr>
+        </table>
+        <div class="callout callout-danger">
+          <strong>致命伤对比：</strong>cpq 的致命伤仍是<strong>零降级能力</strong>——没有ERP就是一堆废纸；sloth 的原始致命伤（代码计算错误）已在 v2.0.0 彻底修复，现具备 28项回归测试 + Playbook + ConventionGuard 三重质量保障。
+        </div>
+      </section>
+
+      <!-- Slide 8: Business Value -->
+      <section>
+        <h2>维度五：业务价值</h2>
+        <div class="two-col">
+          <div class="col-box" style="border-top:4px solid #c0392b;">
+            <h4>当前价值（今天就能用）</h4>
+            <div style="font-size:2em;font-weight:700;color:#c0392b;text-align:center;margin:10px 0;">cpq: 2/10</div>
+            <ul>
+              <li>需要 32 个 MCP 服务 + ERP 连接</li>
+              <li>用户环境中 MCP 列表为空</li>
+              <li>只能做演示 walkthrough</li>
+            </ul>
+          </div>
+          <div class="col-box" style="border-top:4px solid #27ae60;">
+            <h4>当前价值（今天就能用）</h4>
+            <div style="font-size:2em;font-weight:700;color:#27ae60;text-align:center;margin:10px 0;">sloth: 9/10</div>
+            <ul>
+              <li>10个 Python 脚本 + 15个 CSV 模板，今天就能跑出报价</li>
+              <li>正向/反向/多行项三种模式覆盖真实销售场景</li>
+              <li>28项回归测试 100%通过，计算逻辑经审计验证</li>
+            </ul>
+          </div>
+        </div>
+        <div class="two-col" style="margin-top:16px;">
+          <div class="col-box" style="border-top:4px solid #2980b9;">
+            <h4>理想价值（全部条件满足）</h4>
+            <div style="font-size:2em;font-weight:700;color:#2980b9;text-align:center;margin:10px 0;">cpq: 9/10</div>
+            <ul>
+              <li>端到端自动化（需求→报价单）</li>
+              <li>多方案并行 + 审批流转</li>
+              <li>配置快照不可变，审计完整</li>
+            </ul>
+          </div>
+          <div class="col-box" style="border-top:4px solid #f39c12;">
+            <h4>理想价值（全部条件满足）</h4>
+            <div style="font-size:2em;font-weight:700;color:#f39c12;text-align:center;margin:10px 0;">sloth: 8/10</div>
+            <ul>
+              <li>端到端报价引擎：正向/反向/多行项/折扣/审批/报价单</li>
+              <li>金蝶云星空 ERP 双向集成（265行字段映射 + 6个 MCP 工具）</li>
+              <li>不可变快照审计 + 结构化错误码 + 24项回归测试门禁</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 9: Selection Guide -->
+      <section>
+        <h2>选型建议矩阵</h2>
+        <table>
+          <tr>
+            <th style="width:30%">你的情况</th>
+            <th style="width:15%">推荐</th>
+            <th style="width:55%">理由</th>
+          </tr>
+          <tr>
+            <td>已使用<strong>金蝶云AI星空</strong>，有IT团队，计划3-6个月完成MCP对接</td>
+            <td><span class="highlight-green">sloth</span></td>
+            <td>sloth 已有完整金蝶字段映射（265行）和6个 MCP 工具 Schema，可直接对接。无需另选cpq</td>
+          </tr>
+          <tr>
+            <td>销售工程师需要<strong>今天就能用</strong>的报价工具</td>
+            <td><span class="highlight-green">sloth</span></td>
+            <td>开箱即用。10个脚本 + 15个模板，24项测试验证，无需等待ERP对接</td>
+          </tr>
+          <tr>
+            <td>装备制造企业，希望<strong>先验证可行性</strong>再决定是否ERP集成</td>
+            <td><span class="highlight-green">sloth</span></td>
+            <td>sloth 支持无 ERP 独立运行（CSV/默认值），也支持渐进接入金蝶 MCP。无需切换技能</td>
+          </tr>
+          <tr>
+            <td>需要<strong>多行业覆盖</strong>（装备+机加+电子+汽车）</td>
+            <td><span class="highlight-green">sloth</span></td>
+            <td>四行业知识库 + 分行业物料模板 + 选项矩阵，汽车零部件深度达511行</td>
+          </tr>
+          <tr>
+            <td>追求<strong>报价单合规与审计追溯</strong></td>
+            <td><span class="highlight-orange">两者均可</span></td>
+            <td>cpq 配置快照不可变；sloth v2.0.0 新增 SHA-256 校验 + 篡改检测 + 差异对比</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- Slide 10: Roadmap -->
+      <section>
+        <h2>最优路径：融合演进</h2>
+        <p class="small-text" style="margin-bottom:1em;">不要二选一，而是“先修房、再扩城”</p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="phase">阶段一（立即）：sloth v2.0.0 开箱即用</div>
+            <div class="desc">所有已知bug已修复，28项回归测试通过 → 用真实历史项目校准CSV模板参数 → 验证装备/机加/电子/汽车四行业知识库深度 → 利用内置数据新鲜度检测确保CSV时效性</div>
+          </div>
+          <div class="timeline-item">
+            <div class="phase">阶段二（2-4 周）：按需接入金蝶 ERP</div>
+            <div class="desc">sloth 已内置265行金蝶字段映射和6个 MCP 工具 Schema → 优先接入物料/产能/库存查询 → 每接入一个 MCP，CSV 降级路径自动标记为“已升级” → 保留 CSV 作为离线灾备</div>
+          </div>
+          <div class="timeline-item">
+            <div class="phase">阶段三（持续）：吸收 cpq 的优秀设计</div>
+            <div class="desc">将 cpq 的配置约束规则、多方案并行比较等设计思想融入 sloth → 最终目标：sloth 的领域深度 + 工程可运行性 + cpq 的流程严谨性 + 真实 ERP 数据</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 11: Summary -->
+      <section>
+        <h2>最终结论</h2>
+        <div class="two-col">
+          <div class="col-box" style="background:#eaf2f8;">
+            <h4>cpq-configure-price-quote</h4>
+            <p style="font-size:0.7em;margin:8px 0;"><strong>设计完善的蓝图，但缺少可运行代码</strong></p>
+            <ul style="font-size:0.65em;">
+              <li>32个 MCP 工具定义详尽，流程框架完整</li>
+              <li>但无可执行代码，零降级能力，无ERP即瘫痪</li>
+              <li>领域知识完全依赖 ERP 供给，无行业深度壁垒</li>
+              <li>适合：<strong>作为参考框架，供有完整IT基础设施的企业长期规划</strong></li>
+            </ul>
+          </div>
+          <div class="col-box" style="background:#fef5e7;">
+            <h4>sloth-cpq-eido</h4>
+            <p style="font-size:0.7em;margin:8px 0;"><strong>从一间房，长成一座带地基的楼</strong></p>
+            <ul style="font-size:0.65em;">
+              <li>务实可用、四行业知识库、今天就能跑报价</li>
+              <li>v2.0.0 修复全部已知bug，28项回归测试 + 双审计合规</li>
+              <li>新增审批工作流、不可变快照、金蝶ERP集成、结构化错误码</li>
+              <li>适合：<strong>快速验证、个人提效、团队标准化、ERP渐进集成</strong></li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout callout-success" style="margin-top:1em;text-align:center;">
+          <strong>sloth-cpq-eido v2.0.0 已具备企业级报价引擎的完整能力：可独立运行、可渐进集成ERP、有质量门禁保障。cpq-configure-price-quote 可作为流程设计的参考框架，但不具备直接运行价值。</strong>
+        </div>
+      </section>
+
+      <!-- Slide 12: End -->
+      <section class="cover">
+        <h1 style="font-size:1.8em;">谢谢</h1>
+        <p class="subtitle">CPQ 技能综合评比报告 · 完整版</p>
+        <p class="meta">由 QoderWork 生成<br/>基于对两套技能文档与代码的深度评估</p>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      transition: 'slide',
+      width: 1280,
+      height: 720,
+      margin: 0.04
+    });
+
+    // Radar Chart
+    const ctx = document.getElementById('radarChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: ['架构设计', '工程实现', '领域知识', '风险可控', '当前价值'],
+        datasets: [
+          {
+            label: 'cpq-configure-price-quote',
+            data: [7, 3, 5, 4, 2],
+            borderColor: '#2874a6',
+            backgroundColor: 'rgba(40, 116, 166, 0.2)',
+            borderWidth: 2,
+            pointRadius: 4
+          },
+          {
+            label: 'sloth-cpq-eido',
+            data: [9, 9, 9, 8, 9],
+            borderColor: '#e67e22',
+            backgroundColor: 'rgba(230, 126, 34, 0.2)',
+            borderWidth: 2,
+            pointRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          r: {
+            min: 0,
+            max: 10,
+            ticks: { stepSize: 2, font: { size: 10 } },
+            pointLabels: { font: { size: 12, weight: 'bold' } }
+          }
+        },
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

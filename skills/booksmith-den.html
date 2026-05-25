@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>匠书 · 出版排版引擎 v2.0.0 — 宣传海报</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; background: linear-gradient(160deg, #e8eef5 0%, #dce5f0 100%); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
+  .container { max-width: 860px; width: 100%; }
+  .page-header { text-align: center; margin-bottom: 30px; }
+  .page-header h1 { font-size: 26px; font-weight: 700; color: #1a2a4a; margin-bottom: 8px; }
+  .page-header p { font-size: 14px; color: #55667a; }
+  .poster-display { display: flex; justify-content: center; margin-bottom: 24px; }
+  .page-footer { text-align: center; color: #7a92a8; font-size: 12px; margin-top: 10px; }
+  .page-footer a { color: #4a80a8; text-decoration: none; }
+  @page { size: A4 portrait; margin: 0; }
+  .poster { width: 210mm; margin: 0 auto; min-height: 297mm; background: #fff; box-shadow: 0 8px 40px rgba(0,0,0,0.12); position: relative; overflow: hidden; padding: 0; }
+  .header { background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7c 60%, #1a2a4a 100%); color: #fff; padding: 44px 40px 28px; position: relative; }
+  .header::after { content: ""; position: absolute; bottom: -30px; left: 0; right: 0; height: 60px; background: #fff; clip-path: ellipse(70% 100% at 50% 0%); }
+  .brand-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; position: relative; z-index: 1; }
+  .brand { font-size: 13px; letter-spacing: 2px; opacity: 0.85; text-transform: uppercase; }
+  .version-badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); padding: 4px 14px; border-radius: 20px; font-size: 12px; letter-spacing: 1px; }
+  .title { font-size: 42px; font-weight: 800; line-height: 1.15; margin-bottom: 10px; position: relative; z-index: 1; }
+  .title span { color: #7ec8e3; }
+  .subtitle { font-size: 18px; opacity: 0.9; font-weight: 400; position: relative; z-index: 1; }
+  .tagline { margin-top: 16px; display: flex; gap: 12px; position: relative; z-index: 1; flex-wrap: wrap; }
+  .tag { background: rgba(126,200,227,0.2); border: 1px solid rgba(126,200,227,0.4); color: #7ec8e3; padding: 5px 14px; border-radius: 6px; font-size: 13px; font-weight: 600; }
+  .body { padding: 30px 40px 20px; }
+  .section-title { font-size: 20px; font-weight: 700; color: #1a2a4a; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .section-title::before { content: ""; width: 5px; height: 22px; background: #2d4a7c; border-radius: 3px; }
+  .highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+  .card { background: #f8fafc; border: 1px solid #e8ecf1; border-radius: 10px; padding: 16px 18px; transition: transform 0.2s; }
+  .card:hover { transform: translateY(-2px); border-color: #c5d5e8; }
+  .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .card-icon { width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, #2d4a7c, #1a2a4a); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .card-title { font-size: 15px; font-weight: 700; color: #1a2a4a; }
+  .card-desc { font-size: 13px; color: #55667a; line-height: 1.6; }
+  .scenarios { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
+  .scenario { background: #eef2f7; color: #2d4a7c; padding: 7px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; }
+  .stats-bar { display: flex; justify-content: space-around; background: linear-gradient(135deg, #1a2a4a, #2d4a7c); color: #fff; padding: 22px 20px; border-radius: 12px; margin-bottom: 22px; text-align: center; }
+  .stat-number { font-size: 32px; font-weight: 800; color: #7ec8e3; }
+  .stat-label { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+  .cta-section { background: #f0f5fa; border: 2px dashed #2d4a7c; border-radius: 12px; padding: 22px 24px; text-align: center; margin-bottom: 18px; }
+  .cta-title { font-size: 18px; font-weight: 700; color: #1a2a4a; margin-bottom: 10px; }
+  .cta-steps { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
+  .cta-step { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #2d4a7c; font-weight: 600; }
+  .cta-step-num { width: 26px; height: 26px; background: #2d4a7c; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
+  .cta-links { margin-top: 14px; padding-top: 12px; border-top: 1px dashed #c5d5e8; display: flex; flex-direction: column; gap: 6px; align-items: center; }
+  .cta-link-row { font-size: 11px; color: #4a6588; line-height: 1.5; }
+  .cta-link-row strong { color: #2d4a7c; font-weight: 600; }
+  .footer { background: #1a2a4a; color: #fff; padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-brand { font-size: 14px; font-weight: 600; letter-spacing: 1px; }
+  .footer-slogan { font-size: 12px; opacity: 0.7; font-style: italic; }
+  .footer-right { display: flex; align-items: center; gap: 12px; }
+  .footer-qr { width: 64px; height: 64px; border-radius: 6px; background: #fff; padding: 3px; flex-shrink: 0; }
+  .footer-contact { font-size: 12px; opacity: 0.8; text-align: right; line-height: 1.6; }
+  @media print { body { background: #fff; padding: 0; } .poster { box-shadow: none; width: 100%; } .page-header, .page-footer { display: none; } }
+  @media (max-width: 900px) { .poster { width: 100%; min-height: auto; } }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="page-header">
+    <h1>匠书 · 出版排版引擎 v2.0.0</h1>
+    <p>将 Markdown 与 Word 书稿转换为出版级电子书 —— 5 种格式输出 · 6 种主题</p>
+  </div>
+  <div class="poster-display">
+    <div class="poster">
+      <div class="header">
+        <div class="brand-row"><div class="brand">Sloth-Eido Skill Family</div><div class="version-badge">v2.0.0 正式版</div></div>
+        <div class="title">匠书 · <span>出版排版引擎</span></div>
+        <div class="subtitle">将 Markdown 与 Word 书稿一键转换为出版级电子书 —— 专业排版 = 字体 × 间距 × 版式 × 封面</div>
+        <div class="tagline"><span class="tag">5种格式</span><span class="tag">6种主题</span><span class="tag">5种封面</span><span class="tag">CJK混排</span><span class="tag">出版级品质</span></div>
+      </div>
+      <div class="body">
+        <div class="stats-bar">
+          <div><div class="stat-number">5</div><div class="stat-label">种输出格式</div></div>
+          <div><div class="stat-number">6</div><div class="stat-label">种预设主题</div></div>
+          <div><div class="stat-number">12</div><div class="stat-label">项质量检查</div></div>
+        </div>
+        <div class="section-title">核心能力</div>
+        <div class="highlights">
+          <div class="card"><div class="card-header"><div class="card-icon">📖</div><div class="card-title">五格式输出</div></div><div class="card-desc">单一代码库生成 PDF / HTML / ePub / MOBI / AZW3 五种电子书格式，覆盖所有阅读场景。</div></div>
+          <div class="card"><div class="card-header"><div class="card-icon">🎨</div><div class="card-title">专业封面系统</div></div><div class="card-desc">5 种版式（纯色/渐变/图片/纹理/学术），自动配色，专业版权页自动生成（ISBN/版本/声明）。</div></div>
+          <div class="card"><div class="card-header"><div class="card-icon">📑</div><div class="card-title">完整导航体系</div></div><div class="card-desc">可点击目录（PDF 动态页码 + ePub NCX 导航），每章独立扉页，页眉左右交替（书名/章名），H2 子章节锚点跳转。</div></div>
+          <div class="card"><div class="card-header"><div class="card-icon">🔤</div><div class="card-title">CJK 专业排版</div></div><div class="card-desc">首行缩进 2em、行距 1.75、避头尾处理、中英文混排不断行、字体回退链（Windows/macOS/Linux 全覆盖）。</div></div>
+          <div class="card"><div class="card-header"><div class="card-icon">💡</div><div class="card-title">代码高亮 + 交叉引用</div></div><div class="card-desc">Pygments 语法高亮支持 fenced code，自动识别"参见/参阅/参考/见"并生成可点击链接。</div></div>
+          <div class="card"><div class="card-header"><div class="card-icon">📐</div><div class="card-title">6 种主题预设</div></div><div class="card-desc">经典出版 / 学术期刊 / 科技现代 / 咨询深蓝 / 文学极简 / 深色电子书，自动适配不同内容类型。</div></div>
+        </div>
+        <div class="section-title">适合谁用</div>
+        <div class="scenarios">
+          <span class="scenario">技术书籍作者</span><span class="scenario">自媒体创作者</span><span class="scenario">学术专著作者</span><span class="scenario">企业内训教材</span><span class="strategy">电子书出版</span>
+        </div>
+        <div class="cta-section">
+          <div class="cta-title">三步开始使用</div>
+          <div class="cta-steps">
+            <div class="cta-step"><span class="cta-step-num">1</span>在 QoderWork 安装 BookSmith 技能</div>
+            <div class="cta-step"><span class="cta-step-num">2</span>提供 Markdown 或 Word (.docx) 书稿</div>
+            <div class="cta-step"><span class="cta-step-num">3</span>选择格式、主题、封面版式，一键生成出版级电子书</div>
+          </div>
+          <div class="cta-links"><div class="cta-link-row"><strong>GitHub 仓库：</strong>github.com/wangguobao0215/Sloth-BookSmith-Den</div></div>
+        </div>
+      </div>
+      <div class="footer">
+        <div><div class="footer-brand">树懒老K · Sloth-Eido 技能家族</div><div class="footer-slogan">慢一点，深一度</div></div>
+        <div class="footer-right"><div class="footer-qr"><img src="assets/qrcode.jpg" alt="公众号二维码"></div><div class="footer-contact">扫码关注公众号「树懒老K」<br>获取更多 AI 排版技能</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer"><p>树懒老K · Sloth-Eido 技能家族 · <a href="https://github.com/wangguobao0215/sloth-skills-poster" target="_blank">sloth-skills-poster</a></p></div>
+</div>
+</body>
+</html>

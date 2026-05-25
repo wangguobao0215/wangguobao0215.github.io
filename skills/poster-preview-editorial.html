@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>树懒老K · Editorial 编辑杂志风</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Noto+Serif+SC:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Inter", "Noto Serif SC", "PingFang SC", serif;
+    background: #f2f0eb;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .poster {
+    width: 440px;
+    background: #faf9f6;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    position: relative;
+  }
+
+  /* Masthead */
+  .masthead {
+    padding: 32px 36px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0ddd5;
+  }
+  .masthead-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    color: #2a2a2a;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .masthead-issue {
+    font-size: 9px;
+    color: #999;
+    letter-spacing: 2px;
+  }
+
+  /* Hero Section */
+  .hero {
+    padding: 40px 36px 32px;
+    position: relative;
+  }
+  .hero-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 8px;
+  }
+  .hero-eyebrow {
+    font-size: 10px;
+    color: #c9a84c;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .hero-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    color: #1a1a1a;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
+  .hero-headline em {
+    font-style: italic;
+    color: #8b6914;
+  }
+  .hero-sub {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* Feature Image Bar */
+  .feature-bar {
+    margin: 0 36px 32px;
+    padding: 20px;
+    background: #1a1a1a;
+    color: #faf9f6;
+    display: flex;
+    justify-content: space-around;
+  }
+  .fb-item {
+    text-align: center;
+  }
+  .fb-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #c9a84c;
+  }
+  .fb-label {
+    font-size: 9px;
+    color: #888;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* Article Section */
+  .article {
+    padding: 0 36px 32px;
+  }
+  .article-divider {
+    width: 40px;
+    height: 1px;
+    background: #c9a84c;
+    margin-bottom: 20px;
+  }
+  .article-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+    font-weight: 600;
+    font-style: italic;
+  }
+  .article-body {
+    font-size: 12px;
+    color: #555;
+    line-height: 2;
+    font-weight: 300;
+  }
+  .article-body strong {
+    color: #1a1a1a;
+    font-weight: 500;
+  }
+
+  /* Journey */
+  .journey {
+    margin: 0 36px 32px;
+    padding: 20px;
+    border: 1px solid #e0ddd5;
+    background: rgba(255,255,255,0.6);
+  }
+  .j-label {
+    font-size: 9px;
+    color: #999;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .j-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .j-dot {
+    font-size: 11px;
+    color: #555;
+    font-weight: 400;
+  }
+  .j-sep {
+    color: #c9a84c;
+    font-size: 10px;
+  }
+
+  /* Quote */
+  .quote {
+    margin: 0 36px 32px;
+    padding: 24px;
+    background: #faf9f6;
+    border-top: 1px solid #e0ddd5;
+    border-bottom: 1px solid #e0ddd5;
+  }
+  .quote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.8;
+    font-style: italic;
+  }
+  .quote-source {
+    font-size: 10px;
+    color: #999;
+    margin-top: 12px;
+    text-align: right;
+    letter-spacing: 1px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 28px 36px 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .qr-wrap {
+    width: 72px;
+    height: 72px;
+    padding: 4px;
+    background: #faf9f6;
+    border: 1px solid #e0ddd5;
+  }
+  .qr-wrap img {
+    width: 64px;
+    height: 64px;
+    display: block;
+  }
+  .footer-text {
+    flex: 1;
+  }
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: #1a1a1a;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .footer-url {
+    font-size: 10px;
+    color: #999;
+    letter-spacing: 1px;
+  }
+  .footer-cta {
+    font-size: 9px;
+    color: #c9a84c;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  /* Bottom Rule */
+  .bottom-rule {
+    margin: 0 36px 24px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e0ddd5, transparent);
+  }
+  .bottom-text {
+    text-align: center;
+    padding: 0 36px 32px;
+    font-size: 9px;
+    color: #bbb;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="masthead">
+    <div class="masthead-brand">Sloth Master</div>
+    <div class="masthead-issue">Issue 001</div>
+  </div>
+
+  <div class="hero">
+    <img src="../assets/logo-new.png" alt="树懒老K" class="hero-avatar" onerror="this.style.display='none'" style="width: 200px; height: auto; border-radius: 0; object-fit: contain; display: block;" >
+    <div class="hero-eyebrow">Profile · 人物专访</div>
+    
+    <div class="hero-sub">企业AI转型方法论架构师。28年，从能源巨头到跨国咨询，把经验蒸馏为可复用的方法论。</div>
+  </div>
+
+  <div class="feature-bar">
+    <div class="fb-item">
+      <div class="fb-num">28</div>
+      <div class="fb-label">Years</div>
+    </div>
+    <div class="fb-item">
+      <div class="fb-num">6</div>
+      <div class="fb-label">Methods</div>
+    </div>
+    <div class="fb-item">
+      <div class="fb-num">24</div>
+      <div class="fb-label">Agents</div>
+    </div>
+    <div class="fb-item">
+      <div class="fb-num">400+</div>
+      <div class="fb-label">Articles</div>
+    </div>
+  </div>
+
+  <div class="article">
+    <div class="article-divider"></div>
+    <div class="article-section-title">The Journey</div>
+    <div class="article-body">
+      <strong>中石化</strong> → <strong>霍尼韦尔</strong> → <strong>毕博</strong> → <strong>德勤</strong> → <strong></strong>
+    </div>
+  </div>
+
+  <div class="quote">
+    <div class="quote-text">"技术从来不缺，缺的是让组织接住技术的方法。"</div>
+    <div class="quote-source">— 树懒老K</div>
+  </div>
+
+  <div class="footer">
+    <div class="qr-wrap">
+      <img src="../assets/qrcode-poster.png" alt="OPC网站二维码">
+    </div>
+    <div class="footer-text">
+      <div class="footer-brand">树懒老K</div>
+      <div class="footer-url">wangguobao0215.github.io</div>
+      <div class="footer-cta">Scan to visit</div>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+  <div class="bottom-text">Slow down · Go deeper</div>
+</div>
+</body>
+</html>
