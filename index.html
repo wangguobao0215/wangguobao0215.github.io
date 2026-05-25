@@ -1665,6 +1665,26 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .md-stage .stage-body p{ font-size: 12.5px; color: var(--text-muted); line-height: 1.75; margin-bottom: 10px; }
 .md-stage .stage-items{ display: flex; gap: 6px; flex-wrap: wrap; }
 .md-stage .stage-item{ font-size: 11px; padding: 5px 12px; background: var(--bg); border-radius: 6px; color: var(--text-body); border: 1px solid var(--border-light); }
+/* Method compare table */
+.md-compare{ margin-top: 24px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.md-compare table{ width: 100%; border-collapse: collapse; font-size: 12px; }
+.md-compare th{ background: var(--blue-50); color: var(--blue-600); font-weight: 700; padding: 10px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+.md-compare td{ padding: 9px 16px; border-bottom: 1px solid var(--border-light); color: var(--text-muted); }
+.md-compare tr:last-child td{ border-bottom: none; }
+.md-compare td:first-child{ font-weight: 600; color: var(--text-body); width: 80px; }
+.md-compare .trad{ color: var(--text-faint); }
+.md-compare .fact{ color: var(--blue-600); font-weight: 500; }
+/* Method audience */
+.md-audience{ display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 24px; }
+@media(max-width:600px){ .md-audience{ grid-template-columns: 1fr; } }
+.md-aud-card{ padding: 16px 18px; background: var(--bg); border: 1px solid var(--border-light); border-radius: 8px; }
+.md-aud-card .au-icon{ font-size: 20px; display: block; margin-bottom: 4px; }
+.md-aud-card h4{ font-size: 13px; font-weight: 700; color: var(--blue-700); margin: 0 0 3px; }
+.md-aud-card p{ font-size: 11px; color: var(--text-muted); line-height: 1.6; margin: 0; }
+/* Method links */
+.md-links{ display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+.md-links a{ display: inline-flex; align-items: center; gap: 4px; padding: 7px 16px; border: 1px solid var(--border); border-radius: 20px; font-size: 12px; color: var(--blue-500); text-decoration: none; transition: all .2s; background: var(--white); }
+.md-links a:hover{ border-color: var(--blue-200); background: var(--blue-50); }
 </style>
 </head>
 <body>
@@ -2504,6 +2524,59 @@ const methods = [
     }
   },
   {
+    id: 'process-reconstructor',
+    badge: '方法论',
+    name: '深智工坊·AI流程重构',
+    sub: '企业流程AI化改造方法论',
+    visualization: 'ai-factory.png',
+    desc: '在企业已看清起点（四阶飞轮·诊）之后，需要把「诊断结果」转化为「具体的流程改造方案」。深智工坊提供四步法——需求萃取、设计蓝图、构造交付、运营迭代——让每一个AI改造项目都有章可循。',
+    fit: '适合：CIO · 流程负责人 · 技术团队 · 转型推动者',
+    detail: {
+      stats: [
+        { num: '4', label: '步方法' },
+        { num: '10+', label: '可交付Skill' },
+        { num: '2天', label: '实战营产出' },
+        { num: '3', label: '种改造模式' }
+      ],
+      stages: [
+        {
+          phase: 'STEP 1',
+          icon: '🔍',
+          title: '需求萃取',
+          desc: '用变革罗盘+四阶飞轮的诊断结论，定位最优先改造的业务流程。不是拍脑袋选，是数据驱动决策。',
+          items: ['流程审计与瓶颈识别', 'AI嵌入点评估', 'ROI预估与优先级排序', '干系人分析']
+        },
+        {
+          phase: 'STEP 2',
+          icon: '📋',
+          title: '设计蓝图',
+          desc: '画出To-Be流程——人做什么、AI做什么、系统怎么串。每一处改动都有业务逻辑支撑。',
+          items: ['As-Is vs To-Be对比图', '人机分工矩阵', '系统集成方案', '数据流设计']
+        },
+        {
+          phase: 'STEP 3',
+          icon: '🛠️',
+          title: '构造交付',
+          desc: '用Agent Skill四步法（需求→设计→构造→运营）把蓝图变成可运行的AI工具。每个Skill都是独立可交付的智能体。',
+          items: ['Skill工程四步法', 'Agent串联编排', '测试与验收标准', '部署与权限配置']
+        },
+        {
+          phase: 'STEP 4',
+          icon: '🔄',
+          title: '运营迭代',
+          desc: 'AI不是一次交付就结束的。建立效果跟踪、反馈回路和持续优化的机制，让流程越跑越聪明。',
+          items: ['效果看板与KPI', '反馈回路设计', '版本迭代机制', '知识沉淀与复用']
+        }
+      ],
+      audience: [
+        { icon: '💻', name: 'CIO/技术负责人', desc: '需要一套标准化的AI流程改造方法论，让团队有章可循' },
+        { icon: '📋', name: '流程/运营总监', desc: '需要把诊断结果转化为可执行的项目方案' },
+        { icon: '🔧', name: '技术团队', desc: '需要四步法指导从需求到交付的完整开发流程' },
+        { icon: '🏢', name: '转型推动者', desc: '需要可复用的改造模式，在不同业务线快速复制' }
+      ]
+    }
+  },
+  {
     id: 'climb',
     badge: '方法论',
     name: 'CLIMB模型',
@@ -2722,7 +2795,7 @@ const skills = [
   { id: 'hybriddev', name: '深构·研发协同', category: '组织变革', desc: '4子Agent编排混合研发流程，从需求到交付全链路协同。', method: ['CLIMB', '四层十二维', 'CORE引擎'], links: [{ text: '🖼️ 海报', url: 'skills/poster-hybriddev.html' }, { text: '📊 PPT', url: 'skills/hybriddev-deck.html' }] },
   { id: 'knowledgehub', name: '深知·知识中枢', category: '组织变革', desc: '组织知识管理、智能检索、经验沉淀与传承。', method: ['三才四象'], links: [{ text: '🖼️ 海报', url: 'skills/poster-knowledgehub.html' }, { text: '📊 PPT', url: 'skills/knowledgehub-deck.html' }] },
   { id: 'leadrole', name: '深知智行·岗位智囊', category: '组织变革', desc: '岗位能力建模、智能辅导、绩效提升一体化。', method: ['三才四象'], links: [{ text: '🖼️ 海报', url: 'skills/leadrole-eido.html' }, { text: '📊 PPT', url: 'skills/leadrole-deck.html' }] },
-  { id: 'processreconstructor', name: '流程重构器', category: '组织变革', desc: '业务流程挖掘、瓶颈识别、重构方案设计。', method: ['CLIMB', '四层十二维', 'CORE引擎'], links: [{ text: '🖼️ 海报', url: 'skills/processreconstructor-eido.html' }, { text: '📊 PPT', url: 'skills/processreconstructor-deck.html' }] },
+  { id: 'processreconstructor', name: '流程重构器', category: '组织变革', desc: '业务流程挖掘、瓶颈识别、重构方案设计。', method: ['深智工坊·AI流程重构', 'CLIMB', '四层十二维', 'CORE引擎'], links: [{ text: '🖼️ 海报', url: 'skills/processreconstructor-eido.html' }, { text: '📊 PPT', url: 'skills/processreconstructor-deck.html' }] },
   { id: 'ainativerole', name: '深原·AI原生岗位', category: '组织变革', desc: 'AI原生岗位设计与能力模型构建，帮助企业重新定义人机协作岗位。', method: ['AI-FACTORY'], links: [{ text: '🖼️ 海报', url: 'skills/ainativerole-eido.html' }, { text: '📊 PPT', url: 'skills/ainativerole-deck.html' }] },
 
   // 内容工具类
@@ -2904,6 +2977,36 @@ function showMethodDetail(id) {
       }
       html += '</div></div>';
     });
+  }
+  // Compare table
+  if (d.compare && d.compare.length) {
+    html += '<div class="md-compare"><table><tr><th></th><th>传统做法</th><th>' + m.name + '</th></tr>';
+    d.compare.forEach(function(c) {
+      html += '<tr><td>' + c.aspect + '</td><td class="trad">' + c.traditional + '</td><td class="fact">' + (c.fact || c.our) + '</td></tr>';
+    });
+    html += '</table></div>';
+  }
+  // Audience
+  if (d.audience && d.audience.length) {
+    html += '<h3 style="font-size:14px;font-weight:700;color:var(--blue-700);margin:28px 0 10px;">适合谁</h3><div class="md-audience">';
+    d.audience.forEach(function(a) {
+      html += '<div class="md-aud-card"><span class="au-icon">' + a.icon + '</span><h4>' + a.name + '</h4><p>' + a.desc + '</p></div>';
+    });
+    html += '</div>';
+  }
+  // External links from related skills
+  var related = skills.filter(function(s) { return s.method && s.method.indexOf(m.name) !== -1; });
+  if (related.length > 0) {
+    var linkSet = {};
+    related.forEach(function(s) {
+      s.links.forEach(function(l) { linkSet[l.text + l.url] = l; });
+    });
+    var linkHtml = '';
+    for (var k in linkSet) {
+      var l = linkSet[k];
+      linkHtml += '<a href="' + l.url + '" target="_blank">' + l.text + '</a>';
+    }
+    if (linkHtml) { html += '<div class="md-links">' + linkHtml + '</div>'; }
   }
   // Training link
   html += '<div style="text-align:center;margin-top:32px;padding:20px;background:var(--blue-50);border-radius:8px;"><p style="font-size:12px;color:var(--text-muted);margin-bottom:10px;line-height:1.6;">该方法论已融入企业培训课程<br>每套方法论在课程中都有对应的诊断工具和实操环节</p><a onclick="switchPage(\'training\')" style="display:inline-flex;align-items:center;gap:6px;padding:9px 22px;background:linear-gradient(135deg,var(--blue-400),var(--blue-500));color:#fff;border-radius:40px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;">查看培训课程 →</a></div>';
