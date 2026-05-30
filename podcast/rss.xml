@@ -82,5 +82,40 @@ Shownotes powered by Sloth-PodcastForge-Eido v0.4.2]]></content:encoded>
       <podcast:transcript url="https://wangguobao0215.github.io/podcast/2026-05-30_HMLV-Profit/04_transcript.txt" type="text/plain"/>
     </item>
 
+    <item>
+      <title>PwC「AI原生企业2026」——你的组织为AI做好准备了吗？</title>
+      <enclosure url="https://wangguobao0215.github.io/podcast/2026-05-30_PwC-AI-native/02_podcast_final.mp3" length="11682332" type="audio/mpeg"/>
+      <guid isPermaLink="false">AI报告解读-ep3-20260530</guid>
+      <pubDate>Sat, 30 May 2026 12:00:00 +0000</pubDate>
+      <itunes:duration>14:53</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:episode>3</itunes:episode>
+      <itunes:image href="https://wangguobao0215.github.io/podcast/2026-05-30_PwC-AI-native/03_cover_podcast.png"/>
+      <description></description>
+      <content:encoded><![CDATA[PwC「AI原生企业2026」——你的组织为AI做好准备了吗？
+
+本期播客基于PwC澳大利亚《AI原生企业2026》旗舰报告，由主持人小鹿与制造业分析师树懒老K进行深度解读。
+
+核心观点：AI正从「试点项目」进化为「原生基础设施」，2026年的分水岭不再是「是否采用AI」，而是「如何让AI成为企业原生能力」。
+
+本期亮点：
+- PwC全球CEO调研：70%认为GenAI三年内改变价值创造，50%技术领导者称AI已融入核心战略
+- 五大板块精读：战略优势、工作重构、构建智能系统、设计即信任、前沿思考
+- 反直觉洞察一：通用AI造不了护城河，行业语境才是壁垒
+- 反直觉洞察二：工作不是被AI工具增强，而是被端到端重新设计
+- 反直觉洞察三：计算成本已从「弹性公用事业」变为「CFO级战略议题」
+- 制造业特别视角：AI排产系统的「表演性监督」陷阱、AI碳足迹预警
+- AI原生企业四大支柱：Fluency素养、Strategy战略、Foundry铸造、Trust信任
+
+适合听众：企业CEO/CIO/CTO、制造业转型负责人、工业软件顾问、关注AI组织变革的投资人
+
+预计时长：14分53秒
+
+---
+关键词：AI原生企业、PwC、生成式AI、组织变革、智能体AI、计算策略、信任设计、制造业数字化
+Shownotes powered by Sloth-PodcastForge-Eido v0.4.2]]></content:encoded>
+      <podcast:transcript url="https://wangguobao0215.github.io/podcast/2026-05-30_PwC-AI-native/04_transcript.txt" type="text/plain"/>
+    </item>
+
   </channel>
 </rss>
