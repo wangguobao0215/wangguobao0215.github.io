@@ -48,5 +48,39 @@ Shownotes powered by Sloth-PodcastForge-Eido v0.3.0]]></content:encoded>
       <podcast:transcript url="https://wangguobao0215.github.io/podcast/2026-05-29_Anthropic/04_transcript.txt" type="text/plain"/>
     </item>
 
+    <item>
+      <title>HMLV工厂的利润真相——你最赚钱的产品可能不是你想的那个</title>
+      <enclosure url="https://wangguobao0215.github.io/podcast/2026-05-30_HMLV-Profit/02_podcast_final.mp3" length="10338491" type="audio/mpeg"/>
+      <guid isPermaLink="false">AI报告解读-ep2-20260530</guid>
+      <pubDate>Sat, 30 May 2026 10:39:00 +0000</pubDate>
+      <itunes:duration>13:23</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:episode>2</itunes:episode>
+      <itunes:image href="https://wangguobao0215.github.io/podcast/2026-05-30_HMLV-Profit/03_cover_podcast.png"/>
+      <description></description>
+      <content:encoded><![CDATA[HMLV工厂的利润真相——你最赚钱的产品可能不是你想的那个
+
+本期播客基于树懒老K知识库中的HMLV工厂有效产出核算实战笔记，由主持人小鹿与制造业分析师树懒老K进行深度解读。
+
+核心观点：标准成本法在HMLV工厂会掩盖真正的盈利和亏损产品，TOC有效产出法才能识别「利润真相」。
+
+本期亮点：
+- 有效产出（Throughput）vs 标准成本法的核心区别
+- 四款产品实战数据拆解：A(14.5)、D(14.0)、B(9.8)、C(4.7)
+- 隐藏亏损者产品C的惊人真相
+- 分产品行动建议：C提价/外包、D换型优化、A优先保障
+- 四个常见误区对号入座
+- 数字化落地三步走
+
+适合听众：制造业厂长、财务总监、ERP/MES从业者、工业软件顾问
+
+预计时长：13分23秒
+
+---
+关键词：TOC约束理论、有效产出会计、HMLV、瓶颈分析、SMED、MES、智能制造
+Shownotes powered by Sloth-PodcastForge-Eido v0.4.2]]></content:encoded>
+      <podcast:transcript url="https://wangguobao0215.github.io/podcast/2026-05-30_HMLV-Profit/04_transcript.txt" type="text/plain"/>
+    </item>
+
   </channel>
 </rss>
