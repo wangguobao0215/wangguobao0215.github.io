@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     xmlns:podcast="https://podcastindex.org/namespace/1.0"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     version="2.0">
+  <channel>
+    <title>AI报告解读</title>
+    <link>https://example.com/podcast</link>
+    <language>zh-cn</language>
+    <itunes:author>树懒老K / 小林</itunes:author>
+    <itunes:owner>
+      <itunes:name>树懒老K / 小林</itunes:name>
+      <itunes:email>podcast@example.com</itunes:email>
+    </itunes:owner>
+    <itunes:image href="https://wangguobao0215.github.io/podcast/2026-05-29_Anthropic/03_cover_podcast.png"/>
+    <itunes:category text="Technology"/>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:type>episodic</itunes:type>
+    <description></description>
+    <item>
+      <title>Agent正在从"效率工具"变成"生产基础设施"</title>
+      <enclosure url="https://wangguobao0215.github.io/podcast/2026-05-29_Anthropic/02_podcast_final.mp3" length="13409415" type="audio/mpeg"/>
+      <guid isPermaLink="false">AI报告解读-ep1-20260530</guid>
+      <pubDate>Sat, 30 May 2026 08:12:22 +0000</pubDate>
+      <itunes:duration>15:41</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:episode>1</itunes:episode>
+      <description></description>
+      <content:encoded><![CDATA[Agent正在从"效率工具"变成"生产基础设施"
+
+本期播客基于 Anthropic 联合 Material 发布的《2026年AI智能体现状报告》，由主持人小林与制造业AI分析师老K进行深度解读。
+
+核心观点：AI Agent 已完成从实验技术到生产基础设施的关键跨越。57%的企业已部署多步骤工作流，80%报告可衡量经济回报，近90%采用编程智能体。但真正的瓶颈已从模型能力转向系统集成（46%）、数据质量（42%）和变革管理（39%）。
+
+本期亮点：
+- 三个关键数字解读：57%、80%、46%
+- 标杆案例深度拆解：Novo Nordisk（临床报告10周→10分钟）、L'Oréal（对话准确率90%→99.9%）、eSentire（威胁分析5小时→7分钟）
+- 中国制造业特殊修正：设备联网率不足30%、OT/IT融合困境、"补课+跃迁"双重压力
+- 三个行动建议：排产优化、质检报告生成、设备维护工单智能化
+
+适合听众：制造业决策者、B2B企业管理者、技术领导者、关注AI产业落地的投资人
+
+预计时长：15分27秒
+
+---
+关键词：AI Agent、Anthropic、制造业数字化、多智能体编排、MCP、RAG、企业ROI
+Shownotes powered by Sloth-PodcastForge-Eido v0.3.0]]></content:encoded>
+      <podcast:transcript url="https://wangguobao0215.github.io/podcast/2026-05-29_Anthropic/04_transcript.txt" type="text/plain"/>
+    </item>
+
+  </channel>
+</rss>
