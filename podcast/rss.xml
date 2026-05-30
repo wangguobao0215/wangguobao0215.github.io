@@ -7,9 +7,9 @@
     <title>AI报告解读</title>
     <link>https://example.com/podcast</link>
     <language>zh-cn</language>
-    <itunes:author>树懒老K / 小林</itunes:author>
+    <itunes:author>树懒老K / 小鹿</itunes:author>
     <itunes:owner>
-      <itunes:name>树懒老K / 小林</itunes:name>
+      <itunes:name>树懒老K / 小鹿</itunes:name>
       <itunes:email>podcast@example.com</itunes:email>
     </itunes:owner>
     <itunes:image href="https://wangguobao0215.github.io/podcast/2026-05-29_Anthropic/03_cover_podcast.png"/>
@@ -19,16 +19,16 @@
     <description></description>
     <item>
       <title>Agent正在从"效率工具"变成"生产基础设施"</title>
-      <enclosure url="https://wangguobao0215.github.io/podcast/2026-05-29_Anthropic/02_podcast_final.mp3" length="13409415" type="audio/mpeg"/>
+      <enclosure url="https://wangguobao0215.github.io/podcast/2026-05-29_Anthropic/02_podcast_final.mp3" length="12364562" type="audio/mpeg"/>
       <guid isPermaLink="false">AI报告解读-ep1-20260530</guid>
       <pubDate>Sat, 30 May 2026 08:12:22 +0000</pubDate>
-      <itunes:duration>15:41</itunes:duration>
+      <itunes:duration>15:56</itunes:duration>
       <itunes:explicit>false</itunes:explicit>
       <itunes:episode>1</itunes:episode>
       <description></description>
       <content:encoded><![CDATA[Agent正在从"效率工具"变成"生产基础设施"
 
-本期播客基于 Anthropic 联合 Material 发布的《2026年AI智能体现状报告》，由主持人小林与制造业AI分析师老K进行深度解读。
+本期播客基于 Anthropic 联合 Material 发布的《2026年AI智能体现状报告》，由主持人小鹿与制造业AI分析师老K进行深度解读。
 
 核心观点：AI Agent 已完成从实验技术到生产基础设施的关键跨越。57%的企业已部署多步骤工作流，80%报告可衡量经济回报，近90%采用编程智能体。但真正的瓶颈已从模型能力转向系统集成（46%）、数据质量（42%）和变革管理（39%）。
 
