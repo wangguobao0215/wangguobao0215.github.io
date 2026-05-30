@@ -151,5 +151,41 @@ Shownotes powered by Sloth-PodcastForge-Eido v0.4.3]]></content:encoded>
       <podcast:transcript url="https://wangguobao0215.github.io/podcast/2026-05-30_AI-Safety/04_transcript.txt" type="text/plain"/>
     </item>
 
+    <item>
+      <title>Stanford HAI AI指数2026——88%采用率背后，制造业企业该警惕什么？</title>
+      <enclosure url="https://wangguobao0215.github.io/podcast/2026-05-30_AI-Index/02_podcast_final.mp3" length="7686507" type="audio/mpeg"/>
+      <guid isPermaLink="false">AI报告解读-ep5-20260530</guid>
+      <pubDate>Sat, 30 May 2026 16:00:00 +0000</pubDate>
+      <itunes:duration>10:55</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:episode>5</itunes:episode>
+      <itunes:image href="https://wangguobao0215.github.io/podcast/2026-05-30_AI-Index/03_cover_podcast.png"/>
+      <description></description>
+      <content:encoded><![CDATA[Stanford HAI AI指数2026——88%采用率背后，制造业企业该警惕什么？
+
+本期播客基于Stanford HAI发布的《人工智能指数报告2026》，由主持人小鹿与制造业分析师树懒老K进行深度解读。
+
+核心观点：AI投资飙升130%、采用率高达88%，但62%用户遇到障碍——价值转化鸿沟比技术差距更值得警惕。
+
+本期亮点：
+- 全球AI投资5817亿美元（+130%），八年增长14倍
+- 生成式AI独占1709亿美元，但制造业核心价值在决策式AI
+- 中美模型性能差距仅2.7%，技术不再是竞争壁垒
+- 88%采用率 vs 62%障碍率：价值鸿沟的真相
+- 美国AI采用指标全球第24位：技术领先≠应用领先
+- 实体AI家务成功率12%，制造业场景实际更高
+- AI透明度指数降至40分：黑箱AI的合规风险
+- 制造业三大行动：价值深度竞赛、数据基础设施优先、选择性投入（4:4:2）
+
+适合听众：制造业决策者、企业CIO/CTO、投资人、关注AI产业落地的管理者
+
+预计时长：10分55秒
+
+---
+关键词：AI指数、Stanford HAI、AI投资、采用率、价值鸿沟、中美差距、制造业数字化、决策式AI
+Shownotes powered by Sloth-PodcastForge-Eido v0.4.3]]></content:encoded>
+      <podcast:transcript url="https://wangguobao0215.github.io/podcast/2026-05-30_AI-Index/04_transcript.txt" type="text/plain"/>
+    </item>
+
   </channel>
 </rss>
