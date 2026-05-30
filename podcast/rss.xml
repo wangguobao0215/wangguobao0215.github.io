@@ -187,5 +187,43 @@ Shownotes powered by Sloth-PodcastForge-Eido v0.4.3]]></content:encoded>
       <podcast:transcript url="https://wangguobao0215.github.io/podcast/2026-05-30_AI-Index/04_transcript.txt" type="text/plain"/>
     </item>
 
+    <item>
+      <title>BCG AI Radar 2026——当CEO亲自下场，AI投资从"可选项"变为"生存项"</title>
+      <enclosure url="https://wangguobao0215.github.io/podcast/2026-05-30_BCG/02_podcast_final.mp3" length="9125574" type="audio/mpeg"/>
+      <guid isPermaLink="false">AI报告解读-ep6-20260530</guid>
+      <pubDate>Sat, 30 May 2026 18:00:00 +0000</pubDate>
+      <itunes:duration>12:53</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:episode>6</itunes:episode>
+      <itunes:image href="https://wangguobao0215.github.io/podcast/2026-05-30_BCG/03_cover_podcast.png"/>
+      <description></description>
+      <content:encoded><![CDATA[BCG AI Radar 2026——当CEO亲自下场，AI投资从"可选项"变为"生存项"
+
+本期播客基于BCG波士顿咨询集团《AI Radar 2026》调研报告，由主持人小鹿与制造业分析师树懒老K进行深度解读。
+
+核心观点：AI投资已从"ROI驱动"转向"生存驱动"，94%企业承诺即使无回报也继续投资。CEO主导权迁移（72%）与Agentic AI革命正在重塑竞争格局。
+
+本期亮点：
+- 2360名高管调研（含640位CEO），覆盖16个市场、10大行业
+- AI投资占收入比从0.8%翻倍至1.7%，两年内近3倍增长
+- CEO亲自下场：72%成为AI主要决策者，82%对ROI乐观
+- 三种CEO原型分化：开拓者15%、务实者70%、跟随者15%
+- Agentic AI成最大投资主题：90%CEO相信2026年带来ROI，30%+预算投向Agent
+- 制造业投资缺口：工业大类仅0.8%，不到全行业均值的一半
+- 灯塔案例：Foxconn（200+工厂、4亿美元节约）、利洁时（营销产出翻倍）
+- 东西方分化：大中华区73%相信回报 vs 欧洲44%
+- 风险变迁：技术故障+6pp、地缘政治+10pp快速上升
+- 制造业三大行动：首要优先事项、端到端改造、AI素养评估
+
+适合听众：制造业CEO/高管、企业决策者、B2B企业负责人、关注AI投资与转型的管理者
+
+预计时长：12分53秒
+
+---
+关键词：BCG AI Radar、CEO主导、Agentic AI、AI投资、制造业转型、端到端重塑、智能体AI
+Shownotes powered by Sloth-PodcastForge-Eido v0.4.3]]></content:encoded>
+      <podcast:transcript url="https://wangguobao0215.github.io/podcast/2026-05-30_BCG/04_transcript.txt" type="text/plain"/>
+    </item>
+
   </channel>
 </rss>
