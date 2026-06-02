@@ -1045,8 +1045,11 @@ function updateLinks() {
 }
 
 function updateLinkLabels() {
-  linkLabelGroup.selectAll('.link-label-g').each(function(e, i) {
+  linkLabelGroup.selectAll('.link-label-g').each(function() {
     const sel = d3.select(this);
+    const edgeIdx = parseInt(sel.attr('data-edge-idx'));
+    const e = displayEdges[edgeIdx];
+    if (!e || !e.source) return;
     const [mx, my] = getLinkMidpoint(e);
     sel.select('.link-label').attr('x', mx).attr('y', my + 2);
     const bbox = sel.select('.link-label').node().getBBox();
