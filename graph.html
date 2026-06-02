@@ -772,40 +772,54 @@ function animateParticles() {
 
 // ============ ENTRY ANIMATION ============
 function runEntryAnimation() {
-  // Start all nodes at center, opacity 0
-  nodeG.attr('transform', d => `translate(${cx},${cy})`).style('opacity', 0);
+  try {
+    // Start all nodes at center, opacity 0
+    nodeG.attr('transform', d => `translate(${cx},${cy})`).style('opacity', 0);
 
-  // Animate nodes outward with stagger + opacity fade in
-  nodeG.transition()
-    .duration(800)
-    .delay((d, i) => i * 25)
-    .ease(d3.easeBackOut)
-    .attr('transform', d => `translate(${d.x},${d.y})`)
-    .style('opacity', 1)
-    .on('end', function(d, i) {
-      if (i === nodes.length - 1) {
-        document.getElementById('loading-screen').classList.add('hidden');
-        restoreFromHash();
-      }
-    });
+    let completedCount = 0;
+    const totalNodes = nodes.length;
 
-  // Fade in links after nodes start moving
-  link.attr('stroke-opacity', 0)
-    .transition()
-    .duration(500)
-    .delay(400)
-    .attr('stroke-opacity', d => {
-      if (d.type === 'valueRing') return 0.12;
-      return d.suggested ? 0.65 : 0.85;
-    });
+    // Animate nodes outward with stagger + opacity fade in
+    nodeG.transition()
+      .duration(800)
+      .delay((d, i) => i * 25)
+      .ease(d3.easeCubicOut)
+      .attr('transform', d => `translate(${d.x},${d.y})`)
+      .style('opacity', 1)
+      .on('end', function() {
+        completedCount++;
+        if (completedCount >= totalNodes) {
+          document.getElementById('loading-screen').classList.add('hidden');
+          restoreFromHash();
+        }
+      });
 
-  // Fade in link labels
-  linkLabelGroup.selectAll('.link-label, .link-label-bg')
-    .classed('visible', false)
-    .transition()
-    .duration(400)
-    .delay(900)
-    .on('start', function() { d3.select(this).classed('visible', true); });
+    // Fade in links after nodes start moving
+    link.attr('stroke-opacity', 0)
+      .transition()
+      .duration(500)
+      .delay(400)
+      .attr('stroke-opacity', d => {
+        if (d.type === 'valueRing') return 0.12;
+        return d.suggested ? 0.65 : 0.85;
+      });
+
+    // Fade in link labels
+    linkLabelGroup.selectAll('.link-label, .link-label-bg')
+      .classed('visible', false)
+      .transition()
+      .duration(400)
+      .delay(900)
+      .on('start', function() { d3.select(this).classed('visible', true); });
+
+    // Fallback: force hide loading screen after 3s no matter what
+    setTimeout(function() {
+      document.getElementById('loading-screen').classList.add('hidden');
+    }, 3000);
+  } catch (e) {
+    console.error('Entry animation error:', e);
+    document.getElementById('loading-screen').classList.add('hidden');
+  }
 }
 
 // Run animation on load
