@@ -779,7 +779,7 @@ function runEntryAnimation() {
   nodeG.transition()
     .duration(800)
     .delay((d, i) => i * 25)
-    .ease(d3.easeBackOut.overshoot(1.2))
+    .ease(d3.easeBackOut)
     .attr('transform', d => `translate(${d.x},${d.y})`)
     .style('opacity', 1)
     .on('end', function(d, i) {
