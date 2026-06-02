@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sloth-Eido 技能家族关系图谱</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;overflow:hidden;background:#e8eef5;width:100vw;height:100vh}
+#graph-container{width:100%;height:100%;position:relative}
+
+#header-title{position:fixed;top:16px;left:50%;transform:translateX(-50%);font-size:14px;font-weight:700;color:#2a3e50;letter-spacing:3px;z-index:100;background:rgba(255,255,255,0.9);backdrop-filter:blur(10px);padding:8px 22px;border-radius:24px;box-shadow:0 2px 12px rgba(70,120,160,0.08);border:1px solid rgba(74,136,176,0.08);pointer-events:none}
+
+#controls{position:fixed;top:16px;left:16px;display:flex;gap:6px;z-index:100}
+#controls button{padding:7px 14px;border-radius:10px;border:1px solid rgba(74,136,176,0.15);background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);color:#4a5a6a;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s}
+#controls button:hover{background:#fff;box-shadow:0 2px 8px rgba(74,136,176,0.12)}
+#controls button.active{background:#4a80a8;color:#fff;border-color:#4a80a8}
+
+/* Search box */
+#search-box{position:fixed;top:56px;left:16px;z-index:100}
+#search-box input{width:200px;padding:7px 14px;border-radius:10px;border:1px solid rgba(74,136,176,0.15);background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);color:#4a5a6a;font-size:12px;outline:none;transition:all 0.2s}
+#search-box input:focus{border-color:#4a80a8;box-shadow:0 2px 8px rgba(74,136,176,0.12)}
+#search-box input::placeholder{color:#9aabbb}
+#search-count{font-size:10px;color:#7a92a8;margin-left:6px;vertical-align:middle}
+
+#legend{position:fixed;bottom:16px;left:16px;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-radius:12px;padding:14px 18px;box-shadow:0 4px 20px rgba(70,120,160,0.1);border:1px solid rgba(74,136,176,0.08);z-index:100;max-height:calc(100vh - 140px);overflow-y:auto}
+#legend .legend-title{font-size:11px;font-weight:700;color:#2a3e50;margin-bottom:8px;letter-spacing:0.5px}
+#legend .legend-row{display:flex;align-items:center;gap:7px;margin:4px 0;font-size:11px;color:#4a5a6a;cursor:pointer;padding:2px 4px;border-radius:6px;transition:all 0.15s;user-select:none}
+#legend .legend-row:hover{background:rgba(74,136,176,0.06)}
+#legend .legend-row.active-ring{background:rgba(74,136,176,0.1);font-weight:700}
+#legend .legend-row .ring-count{color:#7a92a8;font-size:10px;margin-left:auto;font-weight:500}
+#legend .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+#legend .legend-line{width:20px;height:2px;flex-shrink:0}
+
+#panel{position:fixed;top:16px;right:16px;width:300px;max-height:calc(100vh - 32px);background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-radius:14px;box-shadow:0 8px 32px rgba(70,120,160,0.15);border:1px solid rgba(74,136,176,0.1);padding:20px;overflow-y:auto;transform:translateX(340px);transition:transform 0.3s cubic-bezier(0.16,1,0.3,1);z-index:100}
+#panel.open{transform:translateX(0)}
+#panel .panel-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(74,136,176,0.1)}
+#panel .panel-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+#panel .panel-title{font-size:16px;font-weight:700;color:#2a3e50;line-height:1.3}
+#panel .panel-id{font-size:10px;color:#7a92a8;font-family:"SF Mono","Menlo",monospace;margin-top:2px}
+#panel .panel-version{font-size:12px;color:#4a80a8;font-family:"SF Mono","Menlo",monospace;font-weight:600}
+#panel .panel-badge{display:inline-block;font-size:10px;color:#fff;padding:2px 8px;border-radius:10px;font-weight:600;margin-top:4px}
+#panel .panel-desc{font-size:12px;color:#4a5a6a;line-height:1.7;margin-top:10px}
+#panel .panel-section{margin-top:14px}
+#panel .panel-section-title{font-size:10px;color:#7a92a8;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;font-weight:600}
+#panel .edge-list{list-style:none}
+#panel .edge-list li{font-size:11px;color:#4a5a6a;padding:5px 0;border-bottom:1px solid rgba(74,136,176,0.05);display:flex;align-items:center;gap:6px}
+#panel .edge-list li:last-child{border-bottom:none}
+#panel .edge-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+#panel .edge-label{color:#9aabbb;font-size:10px;margin-left:auto;white-space:nowrap}
+#panel .empty-state{font-size:11px;color:#9aabbb;font-style:italic;padding:6px 0}
+#panel .panel-link{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#4a80a8;text-decoration:none;margin-top:6px;padding:5px 10px;background:rgba(74,136,176,0.06);border-radius:7px}
+#panel .close-btn{position:absolute;top:12px;right:12px;width:26px;height:26px;border-radius:50%;border:none;background:rgba(74,136,176,0.08);color:#7a92a8;cursor:pointer;font-size:15px;line-height:1;display:flex;align-items:center;justify-content:center}
+#panel .close-btn:hover{background:rgba(74,136,176,0.18)}
+
+#tooltip{position:fixed;background:rgba(42,62,80,0.95);color:#fff;font-size:12px;padding:6px 12px;border-radius:6px;pointer-events:none;opacity:0;transition:opacity 0.15s;z-index:200;white-space:nowrap}
+#tooltip.visible{opacity:1}
+
+#stats{position:fixed;bottom:112px;right:16px;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-radius:10px;padding:10px 16px;box-shadow:0 2px 12px rgba(70,120,160,0.08);border:1px solid rgba(74,136,176,0.08);z-index:100;font-size:11px;color:#7a92a8}
+#stats span{color:#4a80a8;font-weight:700}
+
+/* Loading skeleton */
+#loading-screen{position:fixed;inset:0;background:#e8eef5;z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s}
+#loading-screen.hidden{opacity:0;pointer-events:none}
+#loading-screen .loading-ring{width:60px;height:60px;border:3px solid rgba(74,128,168,0.15);border-top-color:#4a80a8;border-radius:50%;animation:spin 1s linear infinite}
+#loading-screen .loading-text{margin-top:16px;font-size:13px;color:#4a5a6a;letter-spacing:2px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Search autocomplete */
+#search-autocomplete{position:absolute;top:36px;left:0;width:200px;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);border-radius:10px;box-shadow:0 4px 16px rgba(70,120,160,0.12);border:1px solid rgba(74,136,176,0.12);z-index:101;max-height:240px;overflow-y:auto;display:none}
+#search-autocomplete.visible{display:block}
+#search-autocomplete .ac-item{padding:7px 14px;font-size:12px;color:#4a5a6a;cursor:pointer;display:flex;align-items:center;gap:8px}
+#search-autocomplete .ac-item:hover{background:rgba(74,136,176,0.08)}
+#search-autocomplete .ac-item.active{background:rgba(74,136,176,0.15);font-weight:600}
+#search-autocomplete .ac-item .ac-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+#search-autocomplete .ac-empty{padding:10px 14px;font-size:11px;color:#9aabbb;font-style:italic}
+
+/* Mobile adaptations */
+@media (max-width: 768px) {
+  #header-title{font-size:11px;padding:6px 14px;letter-spacing:1px}
+  #controls button{padding:5px 10px;font-size:11px}
+  #search-box input{width:140px;padding:5px 10px;font-size:11px}
+  #legend{display:none}
+  #panel{width:calc(100vw - 32px);max-height:50vh;top:auto;bottom:16px;right:16px;transform:translateY(120%)}
+  #panel.open{transform:translateY(0)}
+  #stats{bottom:16px;right:auto;left:50%;transform:translateX(-50%)}
+  #minimap{display:none}
+}
+
+/* Minimap */
+#minimap{position:fixed;bottom:16px;right:16px;width:130px;height:90px;background:rgba(255,255,255,0.92);backdrop-filter:blur(6px);border-radius:10px;box-shadow:0 2px 12px rgba(70,120,160,0.12);border:1px solid rgba(74,136,176,0.12);z-index:100;overflow:hidden;cursor:pointer}
+#minimap svg{width:100%;height:100%}
+
+svg{width:100%;height:100%}
+.link{fill:none}
+.link-label{font-size:7px;font-weight:600;fill:#4a5a6a;text-anchor:middle;pointer-events:none;opacity:0}
+.link-label-bg{fill:rgba(255,255,255,0.88);rx:3;ry:3;pointer-events:none;opacity:0}
+.link-label.visible,.link-label-bg.visible{opacity:1}
+.node-circle{cursor:pointer;transition:filter 0.15s}
+.node-circle:hover{filter:brightness(1.15)}
+.node-label-cn{font-size:9px;font-weight:600;fill:#2a3e50;text-anchor:middle;pointer-events:none}
+.node-label-en{font-size:8px;font-weight:500;fill:#5a6a7a;text-anchor:middle;pointer-events:none}
+.node-label-bg{fill:rgba(255,255,255,0.9);rx:4;ry:4}
+.version-badge{font-size:6px;font-weight:700;fill:#fff;text-anchor:middle;pointer-events:none}
+.sector-label{font-size:12px;font-weight:700;text-anchor:middle;pointer-events:none}
+.sector-label-sub{font-size:9px;font-weight:500;fill:#7a92a8;text-anchor:middle;pointer-events:none}
+.sector-label-bg{fill:rgba(255,255,255,0.92);rx:6;ry:6}
+.knowledgehub-center{font-size:10px;fill:#fff;text-anchor:middle;pointer-events:none;font-weight:700}
+.value-ring-path{fill:none;stroke-linecap:round;animation:flowDash 30s linear infinite}
+@keyframes flowDash{to{stroke-dashoffset:-120}}
+
+.link{transition:stroke-width 0.15s,stroke-opacity 0.15s}
+.link-hover{stroke-width:3px !important;filter:drop-shadow(0 0 3px currentColor)}
+
+.particle{fill:#fff;pointer-events:none}
+
+/* Dark mode */
+body.dark{background:#1a1f2e}
+body.dark #header-title{background:rgba(30,40,60,0.9);color:#c8d4e0;border-color:rgba(80,120,180,0.15)}
+body.dark #controls button{background:rgba(30,40,60,0.92);color:#a0b0c0;border-color:rgba(80,120,180,0.2)}
+body.dark #controls button.active{background:#4a80a8;color:#fff}
+body.dark #search-box input{background:rgba(30,40,60,0.92);color:#c8d4e0;border-color:rgba(80,120,180,0.2)}
+body.dark #legend{background:rgba(30,40,60,0.92);border-color:rgba(80,120,180,0.15)}
+body.dark #legend .legend-title{color:#c8d4e0}
+body.dark #legend .legend-row{color:#a0b0c0}
+body.dark #panel{background:rgba(30,40,60,0.96);border-color:rgba(80,120,180,0.15)}
+body.dark #panel .panel-title{color:#c8d4e0}
+body.dark #panel .panel-desc{color:#a0b0c0}
+body.dark #stats{background:rgba(30,40,60,0.92);border-color:rgba(80,120,180,0.15);color:#7a92a8}
+body.dark #minimap{background:rgba(30,40,60,0.92);border-color:rgba(80,120,180,0.15)}
+body.dark .node-label-cn{fill:#c8d4e0}
+body.dark .node-label-en{fill:#8a9aaa}
+body.dark .sector-label-bg{fill:rgba(30,40,60,0.92)}
+body.dark .link-label{fill:#c8d4e0}
+body.dark .link-label-bg{fill:rgba(30,40,60,0.88)}
+body.dark #panel .panel-section-title{color:#7a92a8}
+
+/* Animation */
+.node-g{opacity:1}
+</style>
+</head>
+<body>
+
+<div id="header-title">SLOTH-EIDO 技能家族关系图谱 v2.0</div>
+<div id="controls">
+  <button id="btn-reset" onclick="resetView()">&#x21bb; 重置</button>
+  <button id="btn-labels" class="active" onclick="toggleLabels()">标签</button>
+  <button id="btn-tools" class="active" onclick="toggleTools()">工具</button>
+  <button id="btn-analyze" onclick="toggleAnalysis()">分析</button>
+  <button id="btn-dark" onclick="toggleDark()">&#x263d;</button>
+  <button id="btn-export" onclick="exportPNG()">&#x2193; 导出</button>
+</div>
+<div id="loading-screen"><div class="loading-ring"></div><div class="loading-text">加载技能图谱...</div></div>
+
+<div id="search-box">
+  <input type="text" id="search-input" placeholder="搜索技能..." oninput="handleSearch(this.value)" onkeydown="handleSearchKey(event)">
+  <span id="search-count"></span>
+  <div id="search-autocomplete"></div>
+</div>
+
+<div id="graph-container"></div>
+
+<div id="legend">
+  <div class="legend-title">价值环环节</div>
+  <div class="legend-row" data-ring="r&d" onclick="toggleRingFocus('r&d')"><span class="legend-dot" style="background:#6b5b95"></span>研发管理<span class="ring-count">1</span></div>
+  <div class="legend-row" data-ring="manufacturing" onclick="toggleRingFocus('manufacturing')"><span class="legend-dot" style="background:#8b6914"></span>生产制造<span class="ring-count">2</span></div>
+  <div class="legend-row" data-ring="brand" onclick="toggleRingFocus('brand')"><span class="legend-dot" style="background:#c45c3e"></span>品牌市场<span class="ring-count">15</span></div>
+  <div class="legend-row" data-ring="sales" onclick="toggleRingFocus('sales')"><span class="legend-dot" style="background:#2a6fa8"></span>销售管理<span class="ring-count">2</span></div>
+  <div class="legend-row" data-ring="pre-sales" onclick="toggleRingFocus('pre-sales')"><span class="legend-dot" style="background:#4a80a8"></span>售前管理<span class="ring-count">9</span></div>
+  <div class="legend-row" data-ring="delivery" onclick="toggleRingFocus('delivery')"><span class="legend-dot" style="background:#4a9a6d"></span>交付管理<span class="ring-count">1</span></div>
+  <div class="legend-row" data-ring="cs" onclick="toggleRingFocus('cs')"><span class="legend-dot" style="background:#5a9a8d"></span>客户成功<span class="ring-count">1</span></div>
+  <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(74,136,176,0.1)">
+  <div class="legend-title">连线</div>
+  <div class="legend-row"><span class="legend-line" style="background:#4a80a8"></span>业务数据流</div>
+  <div class="legend-row"><span class="legend-line" style="background:#7a92a8;border-top:2px dashed #7a92a8;height:0"></span>双向协同</div>
+  <div class="legend-row"><span class="legend-line" style="background:#b8924a;border-top:2px dotted #b8924a;height:0"></span>工具依赖</div>
+  <div class="legend-row"><span class="legend-line" style="background:#4a9a6d;border-top:2px solid #4a9a6d;height:0"></span>知识飞轮（双向）</div>
+  <div class="legend-row"><span class="legend-line" style="background:#e8a838;border-top:2px dashed #e8a838;height:0"></span>建议关系（金色）</div>
+  <div class="legend-row"><span class="legend-line" style="background:#2a3e50;border-top:3px solid #2a3e50;height:0;opacity:0.25"></span>价值环</div>
+  </div>
+</div>
+
+<div id="panel"><button class="close-btn" onclick="closePanel()">&times;</button><div id="panel-content"></div></div>
+<div id="tooltip"></div>
+<div id="stats"><span id="node-count">0</span> 个 Skill · <span id="edge-count">0</span> 条连接</div>
+<div id="minimap"></div>
+
+<script>
+// ============ DATA ============
+const categoryColors = {b2b:'#2a6fa8',ops:'#4a9a6d',mfg:'#8b6914',productivity:'#6b5b95',infra:'#5a5a5a',den:'#c45c3e'};
+const categoryLabels = {b2b:'B2B 核心业务',ops:'运营与增长',mfg:'制造业专项',productivity:'生产力工具',infra:'基础设施',den:'Den 系列'};
+
+// <GRAPH_DATA>
+const graphData = {"meta":{"title":"Sloth-Eido 技能家族关系图谱","version":"2.0.0","updated":"2026-06-01","description":"含建议关系（金色标识）的完整家族关系图谱"},"categories":[{"id":"b2b","label":"B2B 核心业务","color":"#2a6fa8"},{"id":"ops","label":"运营与增长","color":"#4a9a6d"},{"id":"mfg","label":"制造业专项","color":"#8b6914"},{"id":"productivity","label":"生产力工具","color":"#6b5b95"},{"id":"infra","label":"基础设施","color":"#5a5a5a"},{"id":"den","label":"Den 系列","color":"#c45c3e"}],"nodes":[{"id":"Sloth-StratAlign-Eido","name":"深略·战略对齐","category":"b2b","version":"1.4.0","description":"管理咨询顾问的战略对齐加速器","targetCustomers":"管理咨询公司、战略规划部门、CEO/高管层","painPoints":["战略与执行脱节","数字化转型路径模糊","投资优先级难排序"],"highlights":["战略解码标准化","数字化投资组合","AI原生评分模型"]},{"id":"Sloth-PSC-Eido","name":"深谋·售前咨询","category":"b2b","version":"2.0.0","description":"B2B售前顾问智能助理","targetCustomers":"B2B售前团队、解决方案架构师","painPoints":["方案制作耗时","客户需求理解偏差","跨团队协作低效"],"highlights":["智能方案生成","情感分析辅助","分层研究大纲"]},{"id":"Sloth-Sales-Eido","name":"深耕·销售管理","category":"b2b","version":"5.0.0","description":"关系驱动+每日聚焦+主动教练","targetCustomers":"B2B销售团队、客户经理、销售管理者","painPoints":["客户跟进不及时","销售漏斗不透明","新人成长慢"],"highlights":["关系驱动引擎","每日聚焦推送","主动式销售教练"]},{"id":"Sloth-CPQ-Eido","name":"深算·报价管理","category":"b2b","version":"1.0.0","description":"制造业销售工程师成本穿透估算","targetCustomers":"制造业销售工程师、报价部门","painPoints":["成本核算复杂","报价周期长","手工计算易出错"],"highlights":["成本穿透估算","制造业参数库","实时报价生成"]},{"id":"Sloth-SkyHub-Eido","name":"深信·客户成功","category":"b2b","version":"1.0.0","description":"客户成功智能体矩阵系统","targetCustomers":"客户成功团队、售后支持部门","painPoints":["客户健康度难评估","问题响应慢","续约风险预警缺失"],"highlights":["智能体矩阵","客户健康画像","主动式风险预警"]},{"id":"Sloth-Lead-Role-Eido","name":"深领·线索角色","category":"b2b","version":"1.0.0","description":"B2B线索管理与角色分配","targetCustomers":"B2B市场部、销售运营团队","painPoints":["线索分配不公","角色匹配不精准","跟进效率低"],"highlights":["智能角色匹配","线索自动路由","转化率追踪"]},{"id":"Sloth-KnowledgeHub-Eido","name":"深知·知识中枢","category":"ops","version":"2.0.0","description":"九大业务Skill的知识公共广场，双树架构知识飞轮","targetCustomers":"全企业知识管理团队、培训部门","painPoints":["知识孤岛严重","经验难以沉淀","重复造轮子"],"highlights":["双树架构飞轮","九大业务贯通","知识自动萃取"]},{"id":"Sloth-SMM-Eido","name":"深声·内容运营","category":"ops","version":"1.0.0","description":"自媒体全流程运营工具","targetCustomers":"品牌市场部、自媒体运营团队","painPoints":["内容选题困难","分发效率低","效果难以衡量"],"highlights":["全流程自动化","多平台一键分发","数据闭环追踪"]},{"id":"Sloth-MGO-Eido","name":"深拓·市场增长","category":"ops","version":"1.1.0","description":"B2B SaaS市场部AI增长搭档","targetCustomers":"B2B SaaS市场部、增长团队","painPoints":["获客成本高","增长策略难以落地","ROI难衡量"],"highlights":["AI增长搭档","全渠道归因","智能预算分配"]},{"id":"Sloth-DeliveryMatrix-Eido","name":"深达·交付管理","category":"ops","version":"1.0.0","description":"AI原生交付智能体","targetCustomers":"项目交付团队、实施部门","painPoints":["交付进度不透明","资源调配混乱","客户期望管理难"],"highlights":["AI原生交付","实时进度追踪","智能资源调度"]},{"id":"Sloth-HybridDev-Eido","name":"深构·研发协同","category":"ops","version":"1.1.1","description":"混合研发管理技能","targetCustomers":"研发团队、技术管理者","painPoints":["远程协作效率低","进度同步困难","代码质量不稳定"],"highlights":["混合研发管理","AI辅助代码审查","敏捷看板集成"]},{"id":"Sloth-MfgConsult-Eido","name":"深策·制造咨询","category":"mfg","version":"1.0.0","description":"制造咨询套件：诊断→设计→落地","targetCustomers":"制造企业管理层、精益改善团队","painPoints":["咨询方案落地难","诊断维度不全面","改善效果难量化"],"highlights":["诊断-设计-落地三段式","行业最佳实践库","改善效果追踪"]},{"id":"Sloth-MfgSuite-Eido","name":"深驭·制造运营","category":"mfg","version":"1.0.0","description":"制造运营套件：决策大脑+分析透镜","targetCustomers":"制造运营部门、生产计划部门","painPoints":["排产效率低","异常响应慢","数据决策困难"],"highlights":["决策大脑","分析透镜","实时产能透视"]},{"id":"Sloth-ProdSync-Eido","name":"深筹·产销协同","category":"mfg","version":"2.3.0","description":"快消品肉制品产销协同智能副驾","targetCustomers":"快消品制造企业、供应链部门","painPoints":["产销严重脱节","库存周转慢","需求预测不准"],"highlights":["产销协同智能副驾","需求预测算法","动态排产优化"]},{"id":"Sloth-ProcessReconstructor-Eido","name":"深析·流程重构","category":"mfg","version":"1.0.0","description":"企业业务流程AI驱动诊断与重构","targetCustomers":"企业流程管理部门、咨询公司","painPoints":["流程梳理耗时","瓶颈识别困难","优化方案难落地"],"highlights":["AI驱动诊断","流程数字孪生","自动化重构建议"]},{"id":"Sloth-DeckBuilder-Eido","name":"深演·PPT引擎","category":"productivity","version":"3.0.0","description":"专业级PPT生成引擎v3.0","targetCustomers":"咨询顾问、售前团队、高管助理","painPoints":["PPT制作耗时","风格不统一","内容质量参差"],"highlights":["专业级排版","八重确认机制","反AI味设计"]},{"id":"Sloth-DemoVideo-Eido","name":"深影·演示视频","category":"productivity","version":"2.0.0","description":"技能演示视频生成器","targetCustomers":"售前团队、市场部门、培训团队","painPoints":["视频制作成本高","制作周期长","更新维护困难"],"highlights":["一键生成","多风格模板","实时预览"]},{"id":"Sloth-NorthStar-Eido","name":"深航·全人发展","category":"productivity","version":"0.2.0","description":"滑铁卢CS Co-op全人发展","targetCustomers":"留学生、求职者、职业发展人士","painPoints":["职业规划不清晰","竞争力评估缺失","求职准备不足"],"highlights":["全人发展模型","Co-op经验沉淀","竞争力雷达图"]},{"id":"Sloth-PPTDeck-Eido","name":"深制·SVG演示","category":"productivity","version":"0.2.0","description":"基于SVG的精确PPT生成引擎","targetCustomers":"技术团队、开发者社区","painPoints":["SVG演示制作复杂","交互效果难实现","跨平台兼容差"],"highlights":["精确SVG控制","代码驱动演示","开发者友好"]},{"id":"Sloth-ChalkCast-Eido","name":"深绘·手绘视频","category":"productivity","version":"1.0.0","description":"手绘风格演示视频生成","targetCustomers":"教育工作者、培训师、知识博主","painPoints":["手绘视频制作门槛高","专业软件学习成本高","原创素材匮乏"],"highlights":["手绘风格自动生成","教学场景优化","素材库丰富"]},{"id":"Sloth-DoodleCast-Eido","name":"深涂·涂鸦视频","category":"productivity","version":"1.0.0","description":"涂鸦风格内容创作","targetCustomers":"创意团队、营销部门、自媒体","painPoints":["涂鸦风格难掌握","创意表达受限","制作效率低"],"highlights":["涂鸦风格AI生成","创意模板库","快速迭代"]},{"id":"Sloth-AIFactory-Eido","name":"深造·AI工厂","category":"productivity","version":"1.0.0","description":"AI内容生产流水线","targetCustomers":"内容生产团队、MCN机构","painPoints":["内容产能不足","质量不稳定","人力成本高"],"highlights":["流水线式生产","质量一致性保障","规模扩���"]},{"id":"Sloth-AINativeRole-Eido","name":"深角·原生角色","category":"productivity","version":"1.0.0","description":"AI原生角色扮演框架","targetCustomers":"AI应用开发者、创意团队","painPoints":["角色设定复杂","多轮对话管理难","个性一致性差"],"highlights":["原生角色框架","多维度人格设定","上下文记忆"]},{"id":"Sloth-ConventionGuard-Eido","name":"深律·公约守卫","category":"infra","version":"1.1.0","description":"技能家族公约合规审计","targetCustomers":"技能开发团队、技术管理者","painPoints":["代码规范难执行","质量标准不统一","人工审计效率低"],"highlights":["自动合规审计","低成本的自动修复","家族公约 enforce"]},{"id":"Sloth-SkillBrief-Eido","name":"深介·技能简报","category":"infra","version":"1.1.0","description":"技能组合简报与展示生成","targetCustomers":"技能市场运营、推广团队","painPoints":["展示形式单一","卖点提炼困难","推广效率低"],"highlights":["广告级展示生成","自动卖点提取","多格式输出"]},{"id":"Sloth-SkillForge-Eido","name":"深锻·技能锻造","category":"infra","version":"2.1.0","description":"从想法到发布的Skill锻造","targetCustomers":"技能开发者、AI产品经理","painPoints":["开发流程冗长","发布门槛高","版本管理混乱"],"highlights":["从想法到发布","标准化模板","一键发布"]},{"id":"Sloth-SkillPipeline-Eido","name":"深流·技能工厂","category":"infra","version":"1.0.0","description":"6步质量流水线生产Skill","targetCustomers":"技能工厂、批量生产团队","painPoints":["质量不稳定","流程不可控","缺乏标准化"],"highlights":["6步质量流水线","自动化测试","持续集成"]},{"id":"Sloth-PrivateDocs-Eido","name":"深匣·私有文档","category":"infra","version":"1.0.0","description":"家族私有文档管理","targetCustomers":"企业内部团队、机密项目组","painPoints":["文档安全难保障","权限管理复杂","版本追溯困难"],"highlights":["私有化部署","细粒度权限","完整审计日志"]},{"id":"Sloth-FundPilot-Eido","name":"深资·基金助手","category":"infra","version":"1.0.0","description":"基金分析与投资管理","targetCustomers":"投资机构、基金经理、高净值个人","painPoints":["基金筛选困难","风险评估不全面","投后管理繁琐"],"highlights":["智能基金筛选","多维度风险评估","自动化投后报告"]},{"id":"Sloth-Cover-Den","name":"深绘 · 封面插画","category":"den","version":"1.0.0","description":"公众号封面插画生成","targetCustomers":"公众号运营者、自媒体人","painPoints":["封面设计耗时","风格不统一","版权风险"],"highlights":["IP形象定制","一键生成","品牌一致性"]},{"id":"Sloth-AIreportinsight-Den","name":"树懒 · 研报洞察","category":"den","version":"1.0.0","description":"AI研报洞察生成","targetCustomers":"金融分析师、投资研究员","painPoints":["研报阅读耗时","核心观点难提取","交叉验证困难"],"highlights":["智能摘要","观点对比","风险预警"]},{"id":"Sloth-BookSmith-Den","name":"匠书 · 出版排版引擎","category":"den","version":"1.0.0","description":"图书内容创作助手","targetCustomers":"出版社、独立作者、知识IP","painPoints":["排版工作量大","格式转换复杂","多平台适配难"],"highlights":["出版级排版","多格式一键输出","专业样式库"]},{"id":"Sloth-ComicSmith-Den","name":"深匠绘 · 剧本到漫画视频流水线","category":"den","version":"1.0.0","description":"漫画内容生成","targetCustomers":"漫画创作者、短视频团队、IP运营","painPoints":["漫画制作周期长","分镜设计困难","角色一致性差"],"highlights":["剧本到漫画流水线","AI分镜生成","角色形象锁定"]},{"id":"Sloth-Ideagram-Den","name":"深图 · 概念可视化引擎","category":"den","version":"1.0.0","description":"信息图解生成","targetCustomers":"产品经理、咨询师、培训师","painPoints":["概念表达困难","可视化门槛高","图表制作耗时"],"highlights":["概念自动图解","多风格切换","交互式编辑"]},{"id":"Sloth-PodcastForge-Den","name":"树懒 · 音频播客","category":"den","version":"1.0.0","description":"播客内容制作","targetCustomers":"播客创作者、音频内容团队","painPoints":["音频制作门槛高","后期处理耗时","分发渠道单一"],"highlights":["AI语音合成","自动后期处理","多平台分发"]},{"id":"Sloth-SlideSmith-Den","name":"匠演 · 演示文稿工坊","category":"den","version":"1.0.0","description":"幻灯片内容生成","targetCustomers":"职场人士、培训讲师、学生","painPoints":["PPT设计耗时","模板选择困难","排版不专业"],"highlights":["智能排版","海量模板","一键美化"]},{"id":"Sloth-Wechat-Den","name":"树懒 · 微信记忆助手","category":"den","version":"1.0.0","description":"微信生态运营工具","targetCustomers":"公众号运营者、社群管理者","painPoints":["内容管理分散","数据分析困难","粉丝运营低效"],"highlights":["微信生态整合","智能数据分析","自动化运营"]},{"id":"Sloth-WechatHarvest-Den","name":"树懒 · 知识萃取","category":"den","version":"1.0.0","description":"微信内容采集与萃取","targetCustomers":"内容运营者、知识管理者","painPoints":["内容采集繁琐","信息过载","知识整理耗时"],"highlights":["智能采集","自动分类","知识图谱构建"]}],"edges":[{"source":"Sloth-StratAlign-Eido","target":"Sloth-PSC-Eido","type":"dataflow","label":"战略解码输入","suggested":false},{"source":"Sloth-PSC-Eido","target":"Sloth-Sales-Eido","type":"dataflow","label":"售前方案移交","suggested":false},{"source":"Sloth-Sales-Eido","target":"Sloth-CPQ-Eido","type":"dataflow","label":"报价请求","suggested":false},{"source":"Sloth-StratAlign-Eido","target":"Sloth-SMM-Eido","type":"dataflow","label":"传播策略","suggested":false},{"source":"Sloth-StratAlign-Eido","target":"Sloth-MGO-Eido","type":"dataflow","label":"增长策略","suggested":false},{"source":"Sloth-SMM-Eido","target":"Sloth-SkyHub-Eido","type":"dataflow","label":"线索孵化","suggested":false},{"source":"Sloth-MGO-Eido","target":"Sloth-SkyHub-Eido","type":"dataflow","label":"线索评分","suggested":false},{"source":"Sloth-SkyHub-Eido","target":"Sloth-DeliveryMatrix-Eido","type":"dataflow","label":"交付启动","suggested":false},{"source":"Sloth-Sales-Eido","target":"Sloth-SkyHub-Eido","type":"dataflow","label":"客户交接","suggested":false},{"source":"Sloth-MGO-Eido","target":"Sloth-Lead-Role-Eido","type":"dataflow","label":"线索分配","suggested":false},{"source":"Sloth-Lead-Role-Eido","target":"Sloth-Sales-Eido","type":"dataflow","label":"线索跟进","suggested":false},{"source":"Sloth-PSC-Eido","target":"Sloth-Sales-Eido","type":"bidirectional","label":"CRM双向同步","suggested":false},{"source":"Sloth-MGO-Eido","target":"Sloth-Sales-Eido","type":"bidirectional","label":"线索流转","suggested":false},{"source":"Sloth-Sales-Eido","target":"Sloth-SkyHub-Eido","type":"bidirectional","label":"客户数据同步","suggested":false},{"source":"Sloth-HybridDev-Eido","target":"Sloth-DeliveryMatrix-Eido","type":"bidirectional","label":"研发-交付协同","suggested":false},{"source":"Sloth-SkillForge-Eido","target":"Sloth-ConventionGuard-Eido","type":"dataflow","label":"锻造后审计","suggested":false},{"source":"Sloth-SkillPipeline-Eido","target":"Sloth-SkillForge-Eido","type":"dataflow","label":"工厂-锻造衔接","suggested":false},{"source":"Sloth-SkillBrief-Eido","target":"Sloth-SkillForge-Eido","type":"dataflow","label":"简报反馈迭代","suggested":false},{"source":"Sloth-DeckBuilder-Eido","target":"Sloth-StratAlign-Eido","type":"dependency","label":"战略报告输出","suggested":false},{"source":"Sloth-DeckBuilder-Eido","target":"Sloth-PSC-Eido","type":"dependency","label":"方案演示输出","suggested":false},{"source":"Sloth-DeckBuilder-Eido","target":"Sloth-MfgConsult-Eido","type":"dependency","label":"咨询报告输出","suggested":false},{"source":"Sloth-DemoVideo-Eido","target":"Sloth-PSC-Eido","type":"dependency","label":"演示视频制作","suggested":false},{"source":"Sloth-DemoVideo-Eido","target":"Sloth-Sales-Eido","type":"dependency","label":"销售视频制作","suggested":false},{"source":"Sloth-WechatHarvest-Den","target":"Sloth-Wechat-Den","type":"dataflow","label":"内容采集","suggested":false},{"source":"Sloth-Wechat-Den","target":"Sloth-Cover-Den","type":"dataflow","label":"封面制作","suggested":false},{"source":"Sloth-SlideSmith-Den","target":"Sloth-Wechat-Den","type":"dependency","label":"配图生成","suggested":false},{"source":"Sloth-MfgConsult-Eido","target":"Sloth-MfgSuite-Eido","type":"dataflow","label":"咨询方案→持续运营","suggested":true},{"source":"Sloth-MfgConsult-Eido","target":"Sloth-ProdSync-Eido","type":"dependency","label":"方法论→FMCG场景","suggested":true},{"source":"Sloth-MfgSuite-Eido","target":"Sloth-ProdSync-Eido","type":"bidirectional","label":"排程/插单能力交集","suggested":true},{"source":"Sloth-ProcessReconstructor-Eido","target":"Sloth-MfgConsult-Eido","type":"dataflow","label":"流程诊断→咨询输入","suggested":true},{"source":"Sloth-CPQ-Eido","target":"Sloth-MfgConsult-Eido","type":"bidirectional","label":"报价↔制造成本数据","suggested":true},{"source":"Sloth-CPQ-Eido","target":"Sloth-MfgSuite-Eido","type":"bidirectional","label":"报价↔产能透视数据","suggested":true},{"source":"Sloth-DeckBuilder-Eido","target":"Sloth-MfgSuite-Eido","type":"dependency","label":"运营报告输出","suggested":true},{"source":"Sloth-DeckBuilder-Eido","target":"Sloth-ProdSync-Eido","type":"dependency","label":"排产方案输出","suggested":true},{"source":"Sloth-DemoVideo-Eido","target":"Sloth-MfgConsult-Eido","type":"dependency","label":"咨询演示","suggested":true},{"source":"Sloth-DemoVideo-Eido","target":"Sloth-MfgSuite-Eido","type":"dependency","label":"运营演示","suggested":true},{"source":"Sloth-KnowledgeHub-Eido","target":"Sloth-StratAlign-Eido","type":"knowledgehub","label":"知识飞轮↔战略对齐","suggested":true},{"source":"Sloth-KnowledgeHub-Eido","target":"Sloth-PSC-Eido","type":"knowledgehub","label":"知识飞轮↔售前咨询","suggested":true},{"source":"Sloth-KnowledgeHub-Eido","target":"Sloth-Sales-Eido","type":"knowledgehub","label":"知识飞轮↔销售管理","suggested":true},{"source":"Sloth-KnowledgeHub-Eido","target":"Sloth-CPQ-Eido","type":"knowledgehub","label":"知识飞轮↔报价管理","suggested":true},{"source":"Sloth-KnowledgeHub-Eido","target":"Sloth-SkyHub-Eido","type":"knowledgehub","label":"知识飞轮↔客户成功","suggested":true},{"source":"Sloth-KnowledgeHub-Eido","target":"Sloth-Lead-Role-Eido","type":"knowledgehub","label":"知识飞轮↔线索管理","suggested":true},{"source":"Sloth-KnowledgeHub-Eido","target":"Sloth-SMM-Eido","type":"knowledgehub","label":"知识飞轮↔内容运营","suggested":true},{"source":"Sloth-KnowledgeHub-Eido","target":"Sloth-MGO-Eido","type":"knowledgehub","label":"知识飞轮市场增长","suggested":true},{"source":"Sloth-KnowledgeHub-Eido","target":"Sloth-DeliveryMatrix-Eido","type":"knowledgehub","label":"知识飞轮↔交付管理","suggested":true},{"source":"Sloth-KnowledgeHub-Eido","target":"Sloth-HybridDev-Eido","type":"knowledgehub","label":"知识飞轮↔研发协同","suggested":true},{"source":"Sloth-KnowledgeHub-Eido","target":"Sloth-MfgConsult-Eido","type":"knowledgehub","label":"知识飞轮制造咨询","suggested":true},{"source":"Sloth-KnowledgeHub-Eido","target":"Sloth-MfgSuite-Eido","type":"knowledgehub","label":"知识飞轮↔制造运营","suggested":true},{"source":"Sloth-KnowledgeHub-Eido","target":"Sloth-ProdSync-Eido","type":"knowledgehub","label":"知识飞轮↔产销协同","suggested":true},{"source":"Sloth-KnowledgeHub-Eido","target":"Sloth-ProcessReconstructor-Eido","type":"knowledgehub","label":"知识飞轮↔流程重构","suggested":true}],"infraEdges":[{"source":"Sloth-ConventionGuard-Eido","label":"公约审计"},{"source":"Sloth-SkillForge-Eido","label":"技能锻造"},{"source":"Sloth-SkillPipeline-Eido","label":"工厂流水线"},{"source":"Sloth-SkillBrief-Eido","label":"简报生成"}]};
+// </GRAPH_DATA>
+
+// ============ VALUE RING CONFIG ============
+const INNER_RADIUS = 260;
+const OUTER_RADIUS = 340;
+const LABEL_RADIUS = 390;
+const CENTER_RADIUS = 38;
+const GAP_ANGLE = 2;
+
+const ringConfig = {
+  'r&d': { label: '研发管理', color: '#6b5b95', nodes: ['Sloth-HybridDev-Eido'] },
+  'manufacturing': { label: '生产制造', color: '#8b6914', nodes: ['Sloth-MfgSuite-Eido','Sloth-ProdSync-Eido'] },
+  'brand': { label: '品牌市场', color: '#c45c3e', nodes: ['Sloth-MGO-Eido','Sloth-SMM-Eido','Sloth-DeckBuilder-Eido','Sloth-DemoVideo-Eido','Sloth-ChalkCast-Eido','Sloth-DoodleCast-Eido','Sloth-Cover-Den','Sloth-AIreportinsight-Den','Sloth-BookSmith-Den','Sloth-ComicSmith-Den','Sloth-Ideagram-Den','Sloth-PodcastForge-Den','Sloth-SlideSmith-Den','Sloth-Wechat-Den','Sloth-WechatHarvest-Den'] },
+  'sales': { label: '销售管理', color: '#2a6fa8', nodes: ['Sloth-Sales-Eido','Sloth-CPQ-Eido'] },
+  'pre-sales': { label: '售前管理', color: '#4a80a8', nodes: ['Sloth-StratAlign-Eido','Sloth-PSC-Eido','Sloth-Lead-Role-Eido','Sloth-MfgConsult-Eido','Sloth-ProcessReconstructor-Eido','Sloth-PPTDeck-Eido','Sloth-AIFactory-Eido','Sloth-NorthStar-Eido','Sloth-AINativeRole-Eido'] },
+  'delivery': { label: '交付管理', color: '#4a9a6d', nodes: ['Sloth-DeliveryMatrix-Eido'] },
+  'cs': { label: '客户成功', color: '#5a9a8d', nodes: ['Sloth-SkyHub-Eido'] }
+};
+
+const ringOrder = ['r&d','manufacturing','brand','sales','pre-sales','delivery','cs'];
+
+// ============ NODE SIZE TIERING ============
+function getNodeRadius(d) {
+  if (d.isCenter) return CENTER_RADIUS;
+  if (d.isAnchor) return 20;
+  if (d.category === 'productivity' || d.category === 'den') return 11;
+  return 15;
+}
+
+function getNodeTierLabel(d) {
+  if (d.isCenter) return 'center';
+  if (d.isAnchor) return 'core';
+  if (d.category === 'productivity' || d.category === 'den') return 'tool';
+  return 'normal';
+}
+
+function getShortVersion(v) {
+  const parts = v.split('.');
+  return parts.slice(0, 2).join('.');
+}
+
+// ============ HELPER FUNCTIONS ============
+function extractShortName(id) {
+  const m = id.match(/Sloth-(.+)-(?:Eido|Den)/);
+  return m ? m[1] : id;
+}
+
+function getNodeRing(id) {
+  for (const [ring, cfg] of Object.entries(ringConfig)) {
+    if (cfg.nodes.includes(id)) return ring;
+  }
+  return null;
+}
+
+function getEdgeTypeLabel(type) {
+  const labels = { dataflow: '业务数据流', bidirectional: '双向协同', dependency: '工具依赖', knowledgehub: '知识飞轮', valueRing: '价值环' };
+  return labels[type] || type;
+}
+
+function angleToRad(deg) { return (deg - 90) * Math.PI / 180; }
+
+// ============ PREPARE NODES ============
+const visibleNodeIds = new Set();
+Object.values(ringConfig).forEach(cfg => cfg.nodes.forEach(id => visibleNodeIds.add(id)));
+visibleNodeIds.add('Sloth-KnowledgeHub-Eido');
+
+const nodes = graphData.nodes
+  .filter(n => visibleNodeIds.has(n.id))
+  .map(n => {
+    const ring = n.id === 'Sloth-KnowledgeHub-Eido' ? 'center' : getNodeRing(n.id);
+    const cfg = ringConfig[ring];
+    return {
+      ...n,
+      ring,
+      shortName: extractShortName(n.id),
+      ringColor: cfg ? cfg.color : '#4a9a6d',
+      isCenter: n.id === 'Sloth-KnowledgeHub-Eido',
+      isAnchor: cfg ? cfg.nodes[0] === n.id : false
+    };
+  });
+
+const nodeIdMap = {};
+nodes.forEach(n => { nodeIdMap[n.id] = n; });
+
+// ============ PREPARE EDGES ============
+const allEdges = graphData.edges
+  .filter(e => visibleNodeIds.has(e.source) && visibleNodeIds.has(e.target))
+  .map(e => ({...e}));
+
+// Value ring edges (connecting anchors in ring order)
+const valueRingEdges = [];
+for (let i = 0; i < ringOrder.length; i++) {
+  const curr = ringOrder[i];
+  const next = ringOrder[(i + 1) % ringOrder.length];
+  valueRingEdges.push({
+    source: ringConfig[curr].nodes[0],
+    target: ringConfig[next].nodes[0],
+    type: 'valueRing',
+    label: `${ringConfig[curr].label} \u2192 ${ringConfig[next].label}`,
+    suggested: false
+  });
+}
+
+// Auto dataflow edges: anchor -> other nodes in same ring
+const existingPairs = new Set();
+allEdges.forEach(e => existingPairs.add(`${e.source}->${e.target}`));
+
+const anchorDataflowEdges = [];
+ringOrder.forEach(ring => {
+  const cfg = ringConfig[ring];
+  const anchorId = cfg.nodes[0];
+  cfg.nodes.slice(1).forEach(nodeId => {
+    const pairKey = `${anchorId}->${nodeId}`;
+    if (!existingPairs.has(pairKey)) {
+      anchorDataflowEdges.push({
+        source: anchorId,
+        target: nodeId,
+        type: 'dataflow',
+        label: '核心协同',
+        suggested: false
+      });
+    }
+  });
+});
+
+const displayEdges = [...allEdges, ...valueRingEdges, ...anchorDataflowEdges];
+
+// CRITICAL: Resolve string IDs to node objects
+const edgeIdMap = {};
+displayEdges.forEach((e, i) => {
+  edgeIdMap[i] = { source: e.source, target: e.target };
+  if (typeof e.source === 'string') e.source = nodeIdMap[e.source];
+  if (typeof e.target === 'string') e.target = nodeIdMap[e.target];
+});
+
+document.getElementById('node-count').textContent = nodes.length;
+document.getElementById('edge-count').textContent = displayEdges.length;
+
+// Update legend counts
+ringOrder.forEach(ring => {
+  const el = document.querySelector(`.legend-row[data-ring="${ring}"] .ring-count`);
+  if (el) el.textContent = ringConfig[ring].nodes.length;
+});
+
+// ============ CALCULATE POSITIONS ============
+let width = window.innerWidth;
+let height = window.innerHeight;
+let cx = width / 2;
+let cy = height / 2;
+
+function calculatePositions() {
+  cx = width / 2;
+  cy = height / 2;
+
+  const kh = nodes.find(n => n.isCenter);
+  if (kh) { kh.x = cx; kh.y = cy; }
+
+  const ringNodes = nodes.filter(n => !n.isCenter);
+  const totalGapAngle = GAP_ANGLE * ringOrder.length;
+  const availableAngle = 360 - totalGapAngle;
+  const anglePerNode = availableAngle / ringNodes.length;
+
+  let currentAngle = 270;
+
+  ringOrder.forEach(ring => {
+    const cfg = ringConfig[ring];
+    const thisRingNodes = ringNodes.filter(n => n.ring === ring);
+    const nodeCount = thisRingNodes.length;
+    const ringAngleRange = nodeCount * anglePerNode;
+
+    thisRingNodes.forEach((n, i) => {
+      const angleDeg = currentAngle + i * anglePerNode + anglePerNode / 2;
+      const angleRad = angleToRad(angleDeg);
+      const r = n.isAnchor ? INNER_RADIUS : OUTER_RADIUS;
+      n.x = cx + r * Math.cos(angleRad);
+      n.y = cy + r * Math.sin(angleRad);
+      n.angleDeg = angleDeg;
+      n.angleRad = angleRad;
+    });
+
+    const midAngleDeg = currentAngle + ringAngleRange / 2;
+    cfg.midAngleDeg = midAngleDeg;
+    cfg.midAngleRad = angleToRad(midAngleDeg);
+    cfg.angleRange = ringAngleRange;
+
+    currentAngle += ringAngleRange + GAP_ANGLE;
+  });
+}
+
+calculatePositions();
+
+// ============ SVG SETUP ============
+const svg = d3.select('#graph-container')
+  .append('svg')
+  .attr('width', width)
+  .attr('height', height)
+  .attr('viewBox', [0, 0, width, height]);
+
+const defs = svg.append('defs');
+
+// Arrow markers
+['dataflow','bidirectional','dependency','knowledgehub'].forEach(type => {
+  const colors = {dataflow:'#4a80a8',bidirectional:'#7a92a8',dependency:'#b8924a',knowledgehub:'#4a9a6d'};
+  defs.append('marker')
+    .attr('id', `arrow-${type}`)
+    .attr('viewBox', '0 -5 10 10')
+    .attr('refX', type === 'knowledgehub' ? 30 : 24)
+    .attr('refY', 0)
+    .attr('markerWidth', type === 'knowledgehub' ? 6 : 5)
+    .attr('markerHeight', type === 'knowledgehub' ? 6 : 5)
+    .attr('orient', 'auto')
+    .append('path')
+    .attr('d', 'M0,-4L8,0L0,4')
+    .attr('fill', colors[type]);
+});
+
+defs.append('marker')
+  .attr('id', 'arrow-suggested')
+  .attr('viewBox', '0 -5 10 10')
+  .attr('refX', 24).attr('refY', 0)
+  .attr('markerWidth', 5).attr('markerHeight', 5)
+  .attr('orient', 'auto')
+  .append('path').attr('d', 'M0,-4L8,0L0,4').attr('fill', '#e8a838');
+
+defs.append('marker')
+  .attr('id', 'arrow-valueRing')
+  .attr('viewBox', '0 -5 10 10')
+  .attr('refX', 26).attr('refY', 0)
+  .attr('markerWidth', 5).attr('markerHeight', 5)
+  .attr('orient', 'auto')
+  .append('path').attr('d', 'M0,-4L8,0L0,4').attr('fill', '#2a3e50');
+
+let zoomDebounce;
+const zoom = d3.zoom()
+  .scaleExtent([0.3, 3])
+  .on('zoom', (event) => {
+    g.attr('transform', event.transform);
+    updateMinimapViewport(event.transform);
+    clearTimeout(zoomDebounce);
+    zoomDebounce = setTimeout(updateHash, 300);
+  });
+svg.call(zoom);
+
+const g = svg.append('g');
+
+// ============ SECTOR BACKGROUNDS ============
+function ringSectorPath(midAngleDeg, halfRangeDeg, innerR, outerR) {
+  const a1 = angleToRad(midAngleDeg - halfRangeDeg);
+  const a2 = angleToRad(midAngleDeg + halfRangeDeg);
+  const x1 = cx + outerR * Math.cos(a1);
+  const y1 = cy + outerR * Math.sin(a1);
+  const x2 = cx + outerR * Math.cos(a2);
+  const y2 = cy + outerR * Math.sin(a2);
+  const x3 = cx + innerR * Math.cos(a2);
+  const y3 = cy + innerR * Math.sin(a2);
+  const x4 = cx + innerR * Math.cos(a1);
+  const y4 = cy + innerR * Math.sin(a1);
+  const largeArc = Math.abs(a2 - a1) > Math.PI ? 1 : 0;
+  return `M${x1},${y1} A${outerR},${outerR} 0 ${largeArc},1 ${x2},${y2} L${x3},${y3} A${innerR},${innerR} 0 ${largeArc},0 ${x4},${y4}Z`;
+}
+
+const sectorGroup = g.append('g').attr('class', 'sectors');
+const sectorData = ringOrder.map(ring => ({ ring }));
+
+function drawSectors() {
+  sectorGroup.selectAll('path')
+    .data(sectorData)
+    .join('path')
+    .attr('d', d => {
+      const cfg = ringConfig[d.ring];
+      return ringSectorPath(cfg.midAngleDeg, cfg.angleRange / 2 + 0.5, 180, 420);
+    })
+    .attr('fill', d => ringConfig[d.ring].color)
+    .attr('fill-opacity', d => focusedRing === d.ring ? 0.08 : 0.035)
+    .attr('stroke', d => ringConfig[d.ring].color)
+    .attr('stroke-opacity', 0.1)
+    .attr('stroke-width', 1)
+    .attr('stroke-dasharray', '3,3')
+    .attr('data-sector-ring', d => d.ring);
+}
+
+// ============ VALUE RING ============
+const valueRingGroup = g.append('g').attr('class', 'value-ring-group');
+
+function drawValueRing() {
+  const anchorNodes = ringOrder.map(ring => nodeIdMap[ringConfig[ring].nodes[0]]).filter(n => n);
+  if (anchorNodes.length < 2) return;
+
+  let d = `M${anchorNodes[0].x},${anchorNodes[0].y}`;
+  for (let i = 0; i < anchorNodes.length; i++) {
+    const curr = anchorNodes[i];
+    const next = anchorNodes[(i + 1) % anchorNodes.length];
+    const mx = (curr.x + next.x) / 2;
+    const my = (curr.y + next.y) / 2;
+    d += ` Q${curr.x},${curr.y} ${mx},${my} T${next.x},${next.y}`;
+  }
+
+  valueRingGroup.selectAll('.value-ring-path').remove();
+  valueRingGroup.append('path')
+    .attr('class', 'value-ring-path')
+    .attr('d', d)
+    .attr('stroke', '#2a3e50')
+    .attr('stroke-width', 2.5)
+    .attr('stroke-opacity', 0.12)
+    .attr('stroke-dasharray', '6,5');
+}
+
+drawValueRing();
+
+// ============ SECTOR LABELS ============
+ringOrder.forEach(ring => {
+  const cfg = ringConfig[ring];
+  const labelR = 405;
+  const lx = cx + labelR * Math.cos(cfg.midAngleRad);
+  const ly = cy + labelR * Math.sin(cfg.midAngleRad);
+  const nodeCount = cfg.nodes.length;
+
+  const labelGroup = g.append('g');
+  const textW = 70;
+  const textH = 28;
+
+  labelGroup.append('rect')
+    .attr('class', 'sector-label-bg')
+    .attr('x', lx - textW / 2)
+    .attr('y', ly - textH / 2)
+    .attr('width', textW)
+    .attr('height', textH)
+    .attr('rx', 10)
+    .attr('fill', cfg.color)
+    .attr('fill-opacity', 0.08)
+    .attr('stroke', cfg.color)
+    .attr('stroke-opacity', 0.2)
+    .attr('stroke-width', 0.5);
+
+  labelGroup.append('text')
+    .attr('class', 'sector-label')
+    .attr('x', lx)
+    .attr('y', ly - 2)
+    .attr('fill', cfg.color)
+    .text(cfg.label);
+
+  labelGroup.append('text')
+    .attr('class', 'sector-label-sub')
+    .attr('x', lx)
+    .attr('y', ly + 10)
+    .text(`${nodeCount} 个技能`);
+});
+
+// ============ CREATE LINKS ============
+const linkGroup = g.append('g').attr('class', 'links');
+
+const link = linkGroup.selectAll('.link')
+  .data(displayEdges)
+  .join('path')
+  .attr('class', 'link')
+  .attr('d', d => getLinkPath(d))
+  .attr('stroke', d => {
+    if (d.type === 'valueRing') return '#2a3e50';
+    if (d.type === 'knowledgehub') return '#4a9a6d';
+    if (d.suggested) return '#e8a838';
+    if (d.type === 'dataflow') return '#4a80a8';
+    if (d.type === 'bidirectional') return '#7a92a8';
+    if (d.type === 'dependency') return '#b8924a';
+    return '#a0a8b4';
+  })
+  .attr('stroke-width', d => {
+    if (d.type === 'valueRing') return 2.5;
+    if (d.type === 'knowledgehub') return 1.8;
+    if (d.type === 'dataflow' || d.type === 'bidirectional') return 1.5;
+    if (d.type === 'dependency') return 1;
+    return 0.7;
+  })
+  .attr('stroke-dasharray', d => {
+    if (d.type === 'valueRing') return '6,5';
+    if (d.type === 'knowledgehub') return '7,3';
+    if (d.type === 'bidirectional') return '5,3';
+    if (d.type === 'dependency') return '2,2';
+    return 'none';
+  })
+  .attr('stroke-opacity', d => {
+    if (d.type === 'valueRing') return 0.12;
+    if (d.type === 'knowledgehub') return 0.15; // dim by default, expand on hover
+    return d.suggested ? 0.65 : 0.85;
+  })
+  .attr('marker-end', d => {
+    if (d.type === 'valueRing') return 'url(#arrow-valueRing)';
+    if (d.type === 'knowledgehub') return null; // bidirectional, no arrow
+    if (d.suggested) return 'url(#arrow-suggested)';
+    return `url(#arrow-${d.type})`;
+  })
+  .on('mouseover', function(event, d) {
+    if (d.type === 'valueRing') return;
+    hoveredEdge = d;
+    d3.select(this).classed('link-hover', true);
+    const tt = document.getElementById('tooltip');
+    tt.textContent = `${d.source.name} → ${d.target.name} (${getEdgeTypeLabel(d.type)})`;
+    tt.classList.add('visible');
+    tt.style.left = (event.clientX + 12) + 'px';
+    tt.style.top = (event.clientY - 8) + 'px';
+    updateHighlight();
+  })
+  .on('mousemove', function(event) {
+    if (!hoveredEdge) return;
+    const tt = document.getElementById('tooltip');
+    tt.style.left = (event.clientX + 12) + 'px';
+    tt.style.top = (event.clientY - 8) + 'px';
+  })
+  .on('mouseout', function() {
+    hoveredEdge = null;
+    d3.select(this).classed('link-hover', false);
+    document.getElementById('tooltip').classList.remove('visible');
+    updateHighlight();
+  });
+
+// Link labels (for knowledgehub and valueRing edges)
+const linkLabelGroup = g.append('g').attr('class', 'link-labels');
+
+function createLinkLabels() {
+  linkLabelGroup.selectAll('*').remove();
+
+  displayEdges.forEach((e, i) => {
+    if (e.type !== 'knowledgehub' && e.type !== 'valueRing') return;
+
+    const [mx, my] = getLinkMidpoint(e);
+    const text = e.label;
+
+    const lblG = linkLabelGroup.append('g').attr('class', 'link-label-g').attr('data-edge-idx', i);
+
+    // Background rect
+    const rect = lblG.append('rect')
+      .attr('class', 'link-label-bg')
+      .attr('x', mx - 30)
+      .attr('y', my - 6)
+      .attr('width', 60)
+      .attr('height', 12)
+      .attr('rx', 3);
+
+    const txt = lblG.append('text')
+      .attr('class', 'link-label')
+      .attr('x', mx)
+      .attr('y', my + 2)
+      .text(text);
+
+    // Size rect to text
+    const bbox = txt.node().getBBox();
+    rect.attr('x', bbox.x - 3)
+        .attr('y', bbox.y - 1)
+        .attr('width', bbox.width + 6)
+        .attr('height', bbox.height + 2);
+  });
+}
+
+createLinkLabels();
+
+// ============ CREATE NODES ============
+const nodeGroup = g.append('g').attr('class', 'nodes');
+
+const nodeG = nodeGroup.selectAll('.node-g')
+  .data(nodes)
+  .join('g')
+  .attr('class', 'node-g')
+  .attr('transform', d => `translate(${d.x},${d.y})`)
+  .call(d3.drag()
+    .on('start', dragStarted)
+    .on('drag', dragged)
+    .on('end', dragEnded));
+
+// Node circles
+nodeG.append('circle')
+  .attr('class', 'node-circle')
+  .attr('r', d => getNodeRadius(d))
+  .attr('fill', d => {
+    if (d.isCenter) return '#4a9a6d';
+    if (d.isAnchor) return d3.color(d.ringColor).darker(0.5).formatHex();
+    return d.ringColor;
+  })
+  .attr('stroke', '#fff')
+  .attr('stroke-width', d => d.isCenter ? 3.5 : 2.5);
+
+// Version badges
+nodeG.filter(d => !d.isCenter)
+  .append('circle')
+  .attr('class', 'version-badge-bg')
+  .attr('cx', d => getNodeRadius(d) * 0.7)
+  .attr('cy', d => -getNodeRadius(d) * 0.7)
+  .attr('r', d => getNodeTierLabel(d) === 'tool' ? 5 : 7)
+  .attr('fill', '#2a3e50')
+  .attr('stroke', '#fff')
+  .attr('stroke-width', 1);
+
+nodeG.filter(d => !d.isCenter)
+  .append('text')
+  .attr('class', 'version-badge')
+  .attr('x', d => getNodeRadius(d) * 0.7)
+  .attr('y', d => -getNodeRadius(d) * 0.7 + (getNodeTierLabel(d) === 'tool' ? 1.5 : 2))
+  .text(d => getShortVersion(d.version));
+
+// KnowledgeHub center text
+nodeG.filter(d => d.isCenter)
+  .append('text')
+  .attr('class', 'knowledgehub-center')
+  .attr('dy', '0.35em')
+  .text('知识中枢');
+
+// Labels (two-line bilingual)
+const labelGroup = nodeG.filter(d => !d.isCenter).append('g').attr('class', 'label-group');
+
+labelGroup.append('rect')
+  .attr('class', 'node-label-bg')
+  .attr('rx', 4).attr('ry', 4)
+  .attr('opacity', 0.92);
+
+labelGroup.append('text')
+  .attr('class', 'node-label-cn')
+  .attr('dy', d => getNodeRadius(d) + 11)
+  .text(d => d.name);
+
+labelGroup.append('text')
+  .attr('class', 'node-label-en')
+  .attr('dy', d => getNodeRadius(d) + 21)
+  .text(d => `(${d.shortName})`);
+
+// Size label backgrounds
+nodeG.each(function(d) {
+  if (d.isCenter) return;
+  const sel = d3.select(this).select('.label-group');
+  const cn = sel.select('.node-label-cn');
+  const en = sel.select('.node-label-en');
+  const cnBox = cn.node().getBBox();
+  const enBox = en.node().getBBox();
+  const maxW = Math.max(cnBox.width, enBox.width) + 6;
+  const totalH = cnBox.height + enBox.height + 2;
+  const startY = Math.min(cnBox.y, enBox.y);
+
+  sel.select('.node-label-bg')
+    .attr('x', -maxW / 2)
+    .attr('y', startY - 1)
+    .attr('width', maxW)
+    .attr('height', totalH + 2);
+});
+
+// ============ PARTICLES ============
+const particleGroup = g.append('g').attr('class', 'particles');
+
+function initParticles() {
+  const dataflowEdges = displayEdges.filter(e => e.type === 'dataflow' && !e.suggested);
+  const particleData = dataflowEdges.map((e, i) => ({
+    edgeIdx: displayEdges.indexOf(e),
+    offset: Math.random() * 80,
+    speed: 0.5 + Math.random() * 0.7
+  }));
+
+  particleGroup.selectAll('.particle')
+    .data(particleData)
+    .join('circle')
+    .attr('class', 'particle')
+    .attr('r', 2.2)
+    .attr('fill', '#4a80a8')
+    .attr('opacity', 0.85);
+}
+
+function animateParticles() {
+  particleGroup.selectAll('.particle')
+    .each(function(d) {
+      const pathNode = link.nodes()[d.edgeIdx];
+      if (!pathNode) return;
+      const len = pathNode.getTotalLength();
+      if (!len) return;
+      d.offset += d.speed;
+      if (d.offset > len) d.offset = 0;
+      const pt = pathNode.getPointAtLength(d.offset);
+      d3.select(this).attr('cx', pt.x).attr('cy', pt.y);
+    });
+  requestAnimationFrame(animateParticles);
+}
+
+// ============ ENTRY ANIMATION ============
+function runEntryAnimation() {
+  // Start all nodes at center, opacity 0
+  nodeG.attr('transform', d => `translate(${cx},${cy})`).style('opacity', 0);
+
+  // Animate nodes outward with stagger + opacity fade in
+  nodeG.transition()
+    .duration(800)
+    .delay((d, i) => i * 25)
+    .ease(d3.easeBackOut.overshoot(1.2))
+    .attr('transform', d => `translate(${d.x},${d.y})`)
+    .style('opacity', 1)
+    .on('end', function(d, i) {
+      if (i === nodes.length - 1) {
+        document.getElementById('loading-screen').classList.add('hidden');
+        restoreFromHash();
+      }
+    });
+
+  // Fade in links after nodes start moving
+  link.attr('stroke-opacity', 0)
+    .transition()
+    .duration(500)
+    .delay(400)
+    .attr('stroke-opacity', d => {
+      if (d.type === 'valueRing') return 0.12;
+      return d.suggested ? 0.65 : 0.85;
+    });
+
+  // Fade in link labels
+  linkLabelGroup.selectAll('.link-label, .link-label-bg')
+    .classed('visible', false)
+    .transition()
+    .duration(400)
+    .delay(900)
+    .on('start', function() { d3.select(this).classed('visible', true); });
+}
+
+// Run animation on load
+setTimeout(runEntryAnimation, 200);
+setTimeout(() => { initParticles(); animateParticles(); }, 1300);
+
+// ============ MINIMAP ============
+const minimapW = 130, minimapH = 90;
+const minimapSvg = d3.select('#minimap')
+  .append('svg')
+  .attr('width', minimapW)
+  .attr('height', minimapH);
+
+const minimapG = minimapSvg.append('g');
+
+// Compute bounds for minimap normalization
+let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+nodes.forEach(n => {
+  if (n.x < minX) minX = n.x;
+  if (n.x > maxX) maxX = n.x;
+  if (n.y < minY) minY = n.y;
+  if (n.y > maxY) maxY = n.y;
+});
+const boundsPad = 60;
+minX -= boundsPad; maxX += boundsPad;
+minY -= boundsPad; maxY += boundsPad;
+const boundsW = maxX - minX;
+const boundsH = maxY - minY;
+const scale = Math.min(minimapW / boundsW, minimapH / boundsH);
+const offsetX = (minimapW - boundsW * scale) / 2;
+const offsetY = (minimapH - boundsH * scale) / 2;
+
+function worldToMinimap(x, y) {
+  return [(x - minX) * scale + offsetX, (y - minY) * scale + offsetY];
+}
+
+// Draw minimap nodes
+minimapG.selectAll('.mm-node')
+  .data(nodes)
+  .join('circle')
+  .attr('class', 'mm-node')
+  .attr('cx', d => worldToMinimap(d.x, d.y)[0])
+  .attr('cy', d => worldToMinimap(d.x, d.y)[1])
+  .attr('r', d => d.isCenter ? 3 : (d.isAnchor ? 2 : 1.5))
+  .attr('fill', d => d.isCenter ? '#4a9a6d' : d.ringColor)
+  .attr('opacity', 0.7);
+
+// Draw minimap value ring
+const mmAnchors = ringOrder.map(ring => nodeIdMap[ringConfig[ring].nodes[0]]).filter(n => n);
+if (mmAnchors.length >= 2) {
+  let mmD = `M${worldToMinimap(mmAnchors[0].x, mmAnchors[0].y).join(',')}`;
+  for (let i = 0; i < mmAnchors.length; i++) {
+    const curr = mmAnchors[i];
+    const next = mmAnchors[(i + 1) % mmAnchors.length];
+    const [mx, my] = worldToMinimap((curr.x + next.x) / 2, (curr.y + next.y) / 2);
+    const [nx, ny] = worldToMinimap(next.x, next.y);
+    mmD += ` Q${worldToMinimap(curr.x, curr.y).join(',')} ${mx},${my} T${nx},${ny}`;
+  }
+  minimapG.append('path')
+    .attr('d', mmD)
+    .attr('fill', 'none')
+    .attr('stroke', '#2a3e50')
+    .attr('stroke-width', 0.8)
+    .attr('stroke-opacity', 0.2)
+    .attr('stroke-dasharray', '2,2');
+}
+
+// Viewport rectangle
+const viewportRect = minimapG.append('rect')
+  .attr('fill', 'rgba(74,136,176,0.15)')
+  .attr('stroke', '#4a80a8')
+  .attr('stroke-width', 0.8)
+  .attr('rx', 2);
+
+function updateMinimapViewport(transform) {
+  if (!transform) transform = d3.zoomIdentity;
+  const invK = 1 / transform.k;
+  const vx = (-transform.x) * invK;
+  const vy = (-transform.y) * invK;
+  const vw = width * invK;
+  const vh = height * invK;
+
+  const [x1, y1] = worldToMinimap(vx, vy);
+  const [x2, y2] = worldToMinimap(vx + vw, vy + vh);
+
+  viewportRect
+    .attr('x', x1)
+    .attr('y', y1)
+    .attr('width', x2 - x1)
+    .attr('height', y2 - y1);
+}
+
+updateMinimapViewport(d3.zoomIdentity);
+
+// Minimap click to pan
+d3.select('#minimap').on('click', function(event) {
+  const rect = this.getBoundingClientRect();
+  const mx = event.clientX - rect.left;
+  const my = event.clientY - rect.top;
+  const wx = minX + (mx - offsetX) / scale;
+  const wy = minY + (my - offsetY) / scale;
+
+  svg.transition().duration(500).call(
+    zoom.transform,
+    d3.zoomIdentity.translate(width / 2 - wx, height / 2 - wy)
+  );
+});
+
+// ============ INTERACTIONS ============
+let showLabels = true;
+let selectedNodeId = null;
+let hoveredNodeId = null;
+let hoveredEdge = null;
+let focusedRing = null;
+let searchMatches = new Set();
+let toolCollapsed = false;
+let collapsedRings = new Set();
+
+// Initial sector draw (after focusedRing is defined)
+drawSectors();
+
+nodeG.on('mouseover', function(event, d) {
+  if (d.id !== hoveredNodeId) {
+    hoveredNodeId = d.id;
+    const tt = document.getElementById('tooltip');
+    tt.textContent = `${d.name} (${d.shortName}) v${d.version}`;
+    tt.classList.add('visible');
+    tt.style.left = (event.clientX + 12) + 'px';
+    tt.style.top = (event.clientY - 8) + 'px';
+    updateHighlight();
+  }
+})
+.on('mousemove', function(event) {
+  const tt = document.getElementById('tooltip');
+  tt.style.left = (event.clientX + 12) + 'px';
+  tt.style.top = (event.clientY - 8) + 'px';
+})
+.on('mouseout', function() {
+  hoveredNodeId = null;
+  document.getElementById('tooltip').classList.remove('visible');
+  updateHighlight();
+})
+.on('click', function(event, d) {
+  event.stopPropagation();
+  selectedNodeId = d.id;
+  showPanel(d);
+  // Click anchor to toggle collapse of its ring's other nodes
+  if (d.isAnchor) {
+    toggleRingCollapse(d.ring);
+  }
+  updateHighlight();
+});
+
+svg.on('click', function() {
+  selectedNodeId = null;
+  closePanel();
+  updateHighlight();
+});
+
+// ============ DRAG ============
+function dragStarted(event, d) {
+  d.dragging = true;
+}
+
+function dragged(event, d) {
+  d.x = event.x;
+  d.y = event.y;
+  d3.select(this).attr('transform', `translate(${d.x},${d.y})`);
+  updateLinks();
+  updateLinkLabels();
+  if (d.isAnchor) drawValueRing();
+}
+
+function dragEnded(event, d) {
+  d.dragging = false;
+  if (d.isCenter) return;
+  // Snap back to original ring position
+  const r = d.isAnchor ? INNER_RADIUS : OUTER_RADIUS;
+  const targetX = cx + r * Math.cos(d.angleRad);
+  const targetY = cy + r * Math.sin(d.angleRad);
+  d3.select(this).transition().duration(400).ease(d3.easeElasticOut.amplitude(1).period(0.5))
+    .attr('transform', `translate(${targetX},${targetY})`)
+    .on('end', function() {
+      d.x = targetX;
+      d.y = targetY;
+      updateLinks();
+      updateLinkLabels();
+      if (d.isAnchor) drawValueRing();
+    });
+}
+
+function getLinkControlPoint(sx, sy, tx, ty, type) {
+  const mx = (sx + tx) / 2, my = (sy + ty) / 2;
+  const dx = tx - sx, dy = ty - sy;
+  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+  // Perpendicular unit vector
+  const nx = -dy / dist, ny = dx / dist;
+  // Offset magnitude: larger for center-to-ring, smaller for intra-ring
+  let offset = dist * 0.12;
+  if (type === 'knowledgehub') offset = dist * 0.18;
+  // For edges near top (r&d), curve outward; for others, mixed
+  const midY = (sy + ty) / 2;
+  const side = (midY < cy) ? -1 : 1;
+  return [mx + nx * offset * side, my + ny * offset * side];
+}
+
+function getLinkPath(d) {
+  const [cx1, cy1] = getLinkControlPoint(d.source.x, d.source.y, d.target.x, d.target.y, d.type);
+  return `M${d.source.x},${d.source.y} Q${cx1},${cy1} ${d.target.x},${d.target.y}`;
+}
+
+function getLinkMidpoint(d) {
+  const [cx1, cy1] = getLinkControlPoint(d.source.x, d.source.y, d.target.x, d.target.y, d.type);
+  // Quadratic Bezier at t=0.5: B = 0.25*P0 + 0.5*P1 + 0.25*P2
+  return [
+    0.25 * d.source.x + 0.5 * cx1 + 0.25 * d.target.x,
+    0.25 * d.source.y + 0.5 * cy1 + 0.25 * d.target.y
+  ];
+}
+
+function updateLinks() {
+  link.attr('d', d => getLinkPath(d));
+}
+
+function updateLinkLabels() {
+  linkLabelGroup.selectAll('.link-label-g').each(function(e, i) {
+    const sel = d3.select(this);
+    const [mx, my] = getLinkMidpoint(e);
+    sel.select('.link-label').attr('x', mx).attr('y', my + 2);
+    const bbox = sel.select('.link-label').node().getBBox();
+    sel.select('.link-label-bg')
+      .attr('x', bbox.x - 3)
+      .attr('y', bbox.y - 1)
+      .attr('width', bbox.width + 6)
+      .attr('height', bbox.height + 2);
+  });
+}
+
+// ============ HIGHLIGHT ============
+function getRelatedNodes(nodeId, hops) {
+  const related = new Set([nodeId]);
+  let frontier = new Set([nodeId]);
+  for (let h = 0; h < hops; h++) {
+    const next = new Set();
+    frontier.forEach(id => {
+      displayEdges.forEach(e => {
+        if (e.type === 'valueRing') return;
+        if (e.source.id === id) next.add(e.target.id);
+        if (e.target.id === id) next.add(e.source.id);
+      });
+    });
+    next.forEach(id => related.add(id));
+    frontier = next;
+  }
+  return related;
+}
+
+function updateHighlight() {
+  const edgeHoverNodes = hoveredEdge ? new Set([hoveredEdge.source.id, hoveredEdge.target.id]) : null;
+  const rel = !hoveredEdge && (hoveredNodeId || selectedNodeId);
+  const isKhHovered = rel === 'Sloth-KnowledgeHub-Eido';
+  const relatedSet = rel ? getRelatedNodes(rel, 2) : new Set();
+
+  nodeG.selectAll('.node-circle')
+    .attr('stroke', d => {
+      if (d.id === selectedNodeId) return '#f0c040';
+      if (edgeHoverNodes && edgeHoverNodes.has(d.id)) return '#f0c040';
+      if (!rel && searchMatches.size === 0 && !focusedRing) return '#fff';
+      if (rel && relatedSet.has(d.id)) return d.ringColor;
+      return '#ddd';
+    })
+    .attr('stroke-width', d => {
+      if (d.id === selectedNodeId) return 4;
+      if (edgeHoverNodes && edgeHoverNodes.has(d.id)) return 4;
+      if (!rel) return d.isCenter ? 3.5 : 2.5;
+      if (relatedSet.has(d.id)) return d.id === rel ? 4 : 3;
+      return 1;
+    });
+
+  nodeG.attr('opacity', d => {
+    if (!d.isAnchor && !d.isCenter && collapsedRings.has(d.ring)) return 0;
+    if (toolCollapsed && (d.category === 'productivity' || d.category === 'den')) return 0.08;
+    if (edgeHoverNodes) return edgeHoverNodes.has(d.id) ? 1 : 0.25;
+    if (searchMatches.size > 0) {
+      return searchMatches.has(d.id) ? 1 : 0.1;
+    }
+    if (focusedRing) {
+      if (d.isCenter) return 0.2;
+      return d.ring === focusedRing ? 1 : 0.12;
+    }
+    if (!rel) return 1;
+    if (d.id === rel) return 1;
+    return relatedSet.has(d.id) ? 1 : 0.15;
+  });
+
+  nodeG.selectAll('.label-group').style('display', d => {
+    if (!d.isAnchor && !d.isCenter && collapsedRings.has(d.ring)) return 'none';
+    if (toolCollapsed && (d.category === 'productivity' || d.category === 'den')) return 'none';
+    return null;
+  });
+
+  function isNodeCollapsed(n) {
+    return !n.isAnchor && !n.isCenter && collapsedRings.has(n.ring);
+  }
+
+  link.attr('stroke-opacity', d => {
+    if (isNodeCollapsed(d.source) || isNodeCollapsed(d.target)) return 0;
+    if (d.type === 'valueRing') return focusedRing ? 0.04 : 0.12;
+    if (hoveredEdge) {
+      return (d.source.id === hoveredEdge.source.id && d.target.id === hoveredEdge.target.id) ? 1 : 0.1;
+    }
+    if (d.type === 'knowledgehub' && isKhHovered) return 0.85;
+    if (searchMatches.size > 0) {
+      const srcMatch = searchMatches.has(d.source.id);
+      const tgtMatch = searchMatches.has(d.target.id);
+      return (srcMatch && tgtMatch) ? 1 : 0.04;
+    }
+    if (focusedRing) {
+      const inFocus = (d.source.ring === focusedRing && d.target.ring === focusedRing) ||
+                      (d.source.isCenter && d.target.ring === focusedRing) ||
+                      (d.target.isCenter && d.source.ring === focusedRing);
+      return inFocus ? (d.suggested ? 0.65 : 0.85) : 0.04;
+    }
+    if (!rel) {
+      if (d.type === 'knowledgehub') return 0.15;
+      return d.suggested ? 0.65 : 0.85;
+    }
+    const srcRel = relatedSet.has(d.source.id);
+    const tgtRel = relatedSet.has(d.target.id);
+    return (srcRel && tgtRel) ? 1 : 0.04;
+  });
+
+  // Link labels visibility
+  linkLabelGroup.selectAll('.link-label-g').attr('opacity', function() {
+    const idx = +this.getAttribute('data-edge-idx');
+    const edgeData = displayEdges[idx];
+    if (!edgeData) return 1;
+    if (isNodeCollapsed(edgeData.source) || isNodeCollapsed(edgeData.target)) return 0;
+    if (hoveredEdge) {
+      return (edgeData.source.id === hoveredEdge.source.id && edgeData.target.id === hoveredEdge.target.id) ? 1 : 0.1;
+    }
+    if (edgeData.type === 'knowledgehub' && isKhHovered) return 1;
+    if (focusedRing) {
+      const inFocus = (edgeData.source.ring === focusedRing && edgeData.target.ring === focusedRing) ||
+                      (edgeData.source.isCenter && edgeData.target.ring === focusedRing) ||
+                      (edgeData.target.isCenter && edgeData.source.ring === focusedRing);
+      return inFocus ? 1 : 0.04;
+    }
+    if (searchMatches.size > 0) {
+      const srcMatch = searchMatches.has(edgeData.source.id);
+      const tgtMatch = searchMatches.has(edgeData.target.id);
+      return (srcMatch && tgtMatch) ? 1 : 0.04;
+    }
+    if (!rel) return edgeData.type === 'knowledgehub' ? 0 : 1;
+    const srcRel = relatedSet.has(edgeData.source.id);
+    const tgtRel = relatedSet.has(edgeData.target.id);
+    return (srcRel && tgtRel) ? 1 : 0.04;
+  });
+}
+
+// ============ SEARCH ============
+function handleSearch(query) {
+  query = query.trim().toLowerCase();
+  searchMatches.clear();
+
+  if (query.length > 0) {
+    nodes.forEach(n => {
+      if (n.name.toLowerCase().includes(query) ||
+          n.shortName.toLowerCase().includes(query) ||
+          n.id.toLowerCase().includes(query)) {
+        searchMatches.add(n.id);
+      }
+    });
+  }
+
+  document.getElementById('search-count').textContent = searchMatches.size > 0 ? `${searchMatches.size} 个匹配` : '';
+  updateHighlight();
+
+  // If single match, center on it
+  if (searchMatches.size === 1) {
+    const matchId = Array.from(searchMatches)[0];
+    const matchNode = nodeIdMap[matchId];
+    if (matchNode) {
+      svg.transition().duration(600).call(
+        zoom.transform,
+        d3.zoomIdentity.translate(width / 2 - matchNode.x, height / 2 - matchNode.y).scale(1.2)
+      );
+    }
+  }
+}
+
+// ============ RING FOCUS ============
+function toggleRingFocus(ring) {
+  if (focusedRing === ring) {
+    focusedRing = null;
+  } else {
+    focusedRing = ring;
+  }
+
+  document.querySelectorAll('.legend-row[data-ring]').forEach(el => {
+    el.classList.toggle('active-ring', el.dataset.ring === focusedRing);
+  });
+
+  // Fade sectors
+  sectorGroup.selectAll('path')
+    .attr('fill-opacity', d => {
+      if (!focusedRing) return 0.035;
+      return d.ring === focusedRing ? 0.08 : 0.01;
+    });
+
+  updateHighlight();
+}
+
+function toggleRingCollapse(ring) {
+  if (collapsedRings.has(ring)) {
+    collapsedRings.delete(ring);
+  } else {
+    collapsedRings.add(ring);
+  }
+  updateHighlight();
+}
+
+// ============ CONTROLS ============
+function resetView() {
+  focusedRing = null;
+  collapsedRings.clear();
+  searchMatches.clear();
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-count').textContent = '';
+  document.querySelectorAll('.legend-row[data-ring]').forEach(el => el.classList.remove('active-ring'));
+  sectorGroup.selectAll('path').attr('fill-opacity', 0.035);
+  svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
+  selectedNodeId = null;
+  closePanel();
+  updateHighlight();
+}
+
+function toggleLabels() {
+  showLabels = !showLabels;
+  document.getElementById('btn-labels').classList.toggle('active', showLabels);
+  nodeG.selectAll('.label-group').transition().duration(300).attr('opacity', showLabels ? 1 : 0);
+}
+
+function toggleTools() {
+  toolCollapsed = !toolCollapsed;
+  document.getElementById('btn-tools').classList.toggle('active', !toolCollapsed);
+  updateHighlight();
+}
+
+function toggleDark() {
+  document.body.classList.toggle('dark');
+  document.getElementById('btn-dark').classList.toggle('active', document.body.classList.contains('dark'));
+}
+
+let analysisMode = false;
+function toggleAnalysis() {
+  analysisMode = !analysisMode;
+  document.getElementById('btn-analyze').classList.toggle('active', analysisMode);
+  if (analysisMode) {
+    runTopologyAnalysis();
+  } else {
+    nodeG.selectAll('.node-circle').attr('stroke-dasharray', null);
+    link.classed('link-hover', false);
+    updateHighlight();
+  }
+}
+
+function runTopologyAnalysis() {
+  // Find longest path from StratAlign to SkyHub via BFS
+  const start = 'Sloth-StratAlign-Eido';
+  const end = 'Sloth-SkyHub-Eido';
+  const queue = [[start]];
+  const visited = new Set();
+  let longest = [];
+
+  while (queue.length) {
+    const path = queue.shift();
+    const last = path[path.length - 1];
+    if (last === end && path.length > longest.length) longest = path;
+    if (visited.has(last)) continue;
+    visited.add(last);
+
+    displayEdges.forEach(e => {
+      if (e.type === 'valueRing') return;
+      if (e.source.id === last && !path.includes(e.target.id)) {
+        queue.push([...path, e.target.id]);
+      }
+    });
+  }
+
+  // Find orphan nodes (no non-valueRing edges)
+  const hasIn = new Set(), hasOut = new Set();
+  displayEdges.forEach(e => {
+    if (e.type === 'valueRing') return;
+    hasOut.add(e.source.id);
+    hasIn.add(e.target.id);
+  });
+  const orphans = nodes.filter(n => !hasIn.has(n.id) && !hasOut.has(n.id)).map(n => n.id);
+
+  // Highlight longest path with dashed stroke
+  nodeG.selectAll('.node-circle')
+    .attr('stroke-dasharray', d => longest.includes(d.id) ? '4,2' : null)
+    .attr('stroke', d => {
+      if (orphans.includes(d.id)) return '#e85d5d';
+      if (longest.includes(d.id)) return '#f0c040';
+      return '#fff';
+    });
+
+  // Highlight path edges
+  link.classed('link-hover', d => {
+    if (d.type === 'valueRing') return false;
+    const srcIdx = longest.indexOf(d.source.id);
+    return srcIdx !== -1 && longest[srcIdx + 1] === d.target.id;
+  });
+}
+
+// ============ SEARCH AUTOCOMPLETE ============
+function handleSearchKey(e) {
+  const ac = document.getElementById('search-autocomplete');
+  if (e.key === 'Escape') {
+    ac.classList.remove('visible');
+    return;
+  }
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    const items = ac.querySelectorAll('.ac-item');
+    if (!items.length) return;
+    let idx = Array.from(items).findIndex(el => el.classList.contains('active'));
+    items.forEach(el => el.classList.remove('active'));
+    if (e.key === 'ArrowDown') idx = Math.min(idx + 1, items.length - 1);
+    else idx = Math.max(idx - 1, 0);
+    if (items[idx]) {
+      items[idx].classList.add('active');
+      items[idx].scrollIntoView({ block: 'nearest' });
+    }
+    return;
+  }
+  if (e.key === 'Enter') {
+    const active = ac.querySelector('.ac-item.active');
+    if (active) {
+      const nodeId = active.dataset.nodeId;
+      if (nodeId) selectNodeById(nodeId);
+    }
+    ac.classList.remove('visible');
+  }
+}
+
+function selectNodeById(nodeId) {
+  const n = nodeIdMap[nodeId];
+  if (!n) return;
+  selectedNodeId = nodeId;
+  showPanel(n);
+  svg.transition().duration(600).call(
+    zoom.transform,
+    d3.zoomIdentity.translate(width / 2 - n.x, height / 2 - n.y).scale(1.3)
+  );
+  updateHighlight();
+}
+
+function updateAutocomplete(query) {
+  const ac = document.getElementById('search-autocomplete');
+  query = query.trim().toLowerCase();
+  if (query.length === 0) {
+    ac.classList.remove('visible');
+    return;
+  }
+  const matches = nodes.filter(n =>
+    n.name.toLowerCase().includes(query) ||
+    n.shortName.toLowerCase().includes(query) ||
+    n.id.toLowerCase().includes(query)
+  ).slice(0, 8);
+
+  if (matches.length === 0) {
+    ac.innerHTML = '<div class="ac-empty">无匹配结果</div>';
+  } else {
+    ac.innerHTML = matches.map(n =>
+      '<div class="ac-item" data-node-id="' + n.id + '" onclick="selectNodeById(\'' + n.id + '\')">' +
+      '<span class="ac-dot" style="background:' + n.ringColor + '"></span>' +
+      '<span>' + n.name + ' <span style="color:#9aabbb;font-size:10px">(' + n.shortName + ')</span></span>' +
+      '</div>'
+    ).join('');
+  }
+  ac.classList.add('visible');
+}
+
+// Override handleSearch to also update autocomplete
+const _origHandleSearch = handleSearch;
+handleSearch = function(query) {
+  _origHandleSearch(query);
+  updateAutocomplete(query);
+};
+
+// Close autocomplete on outside click
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#search-box')) {
+    document.getElementById('search-autocomplete').classList.remove('visible');
+  }
+});
+
+// ============ URL HASH DEEP LINKING ============
+function updateHash() {
+  const params = new URLSearchParams();
+  if (selectedNodeId) params.set('node', selectedNodeId);
+  if (document.body.classList.contains('dark')) params.set('dark', '1');
+  const transform = d3.zoomTransform(svg.node());
+  if (transform.k !== 1 || transform.x !== 0 || transform.y !== 0) {
+    params.set('zoom', transform.k.toFixed(2));
+    params.set('tx', transform.x.toFixed(0));
+    params.set('ty', transform.y.toFixed(0));
+  }
+  const hash = params.toString();
+  if (hash) {
+    history.replaceState(null, '', '#' + hash);
+  } else {
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+}
+
+function restoreFromHash() {
+  const hash = location.hash.slice(1);
+  if (!hash) {
+    // Mobile: auto collapse brand ring on small screens
+    if (window.innerWidth < 768) {
+      collapsedRings.add('brand');
+      updateHighlight();
+    }
+    return;
+  }
+  const params = new URLSearchParams(hash);
+
+  if (params.get('dark') === '1') {
+    document.body.classList.add('dark');
+    document.getElementById('btn-dark').classList.add('active');
+  }
+
+  const nodeId = params.get('node');
+  if (nodeId && nodeIdMap[nodeId]) {
+    setTimeout(() => selectNodeById(nodeId), 300);
+  }
+
+  const zoomK = parseFloat(params.get('zoom'));
+  const zoomX = parseFloat(params.get('tx'));
+  const zoomY = parseFloat(params.get('ty'));
+  if (!isNaN(zoomK) && !isNaN(zoomX) && !isNaN(zoomY)) {
+    svg.transition().duration(800).call(
+      zoom.transform,
+      d3.zoomIdentity.translate(zoomX, zoomY).scale(zoomK)
+    );
+  }
+}
+
+// Update hash on state changes
+function hookStateChanges() {
+  const origShowPanel = showPanel;
+  showPanel = function(d) {
+    origShowPanel(d);
+    updateHash();
+  };
+  const origClosePanel = closePanel;
+  closePanel = function() {
+    origClosePanel();
+    updateHash();
+  };
+  const origToggleDark = toggleDark;
+  toggleDark = function() {
+    origToggleDark();
+    updateHash();
+  };
+  const origResetView = resetView;
+  resetView = function() {
+    origResetView();
+    updateHash();
+  };
+}
+
+// ============ PERFORMANCE DEGRADATION ============
+let fpsLowCount = 0;
+let animationsEnabled = true;
+
+function checkPerformance() {
+  let lastTime = performance.now();
+  let frames = 0;
+  function measure() {
+    const now = performance.now();
+    frames++;
+    if (now - lastTime >= 1000) {
+      const fps = frames;
+      frames = 0;
+      lastTime = now;
+      if (fps < 25) {
+        fpsLowCount++;
+        if (fpsLowCount >= 2 && animationsEnabled) {
+          animationsEnabled = false;
+          // Stop particle animation by using a no-op
+          window._particleAnimating = false;
+          // Stop value ring flow
+          d3.selectAll('.value-ring-path').style('animation', 'none');
+          console.log('Performance: animations disabled (fps=' + fps + ')');
+        }
+      } else {
+        fpsLowCount = 0;
+      }
+    }
+    if (animationsEnabled) requestAnimationFrame(measure);
+  }
+  requestAnimationFrame(measure);
+}
+
+// Override animateParticles to respect performance flag
+const _origAnimateParticles = animateParticles;
+animateParticles = function() {
+  if (!animationsEnabled) return;
+  _origAnimateParticles();
+};
+
+// ============ MOBILE ADAPTATIONS ============
+function applyMobileAdaptations() {
+  if (window.innerWidth < 768) {
+    // Auto collapse brand ring (too many nodes)
+    if (!collapsedRings.has('brand')) {
+      collapsedRings.add('brand');
+      updateHighlight();
+    }
+  }
+}
+
+// ============ INITIALIZATION ============
+hookStateChanges();
+checkPerformance();
+window.addEventListener('resize', () => {
+  applyMobileAdaptations();
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closePanel();
+    selectedNodeId = null;
+    updateHighlight();
+    document.getElementById('search-autocomplete').classList.remove('visible');
+  }
+  if (e.key === '/' || e.key === 's') {
+    if (document.activeElement !== document.getElementById('search-input')) {
+      e.preventDefault();
+      document.getElementById('search-input').focus();
+    }
+  }
+  if (e.key === 'r' || e.key === 'R') {
+    resetView();
+  }
+});
+
+// ============ EXPORT PNG ============
+function exportPNG() {
+  const svgNode = svg.node();
+  const serializer = new XMLSerializer();
+  let svgStr = serializer.serializeToString(svgNode);
+
+  // Add namespaces
+  if (!svgStr.includes('xmlns=')) {
+    svgStr = svgStr.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+  }
+
+  const blob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+
+  const img = new Image();
+  img.onload = function() {
+    const canvas = document.createElement('canvas');
+    canvas.width = width * 2;
+    canvas.height = height * 2;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#e8eef5';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    const pngUrl = canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = pngUrl;
+    a.download = `sloth-eido-skill-graph-${new Date().toISOString().slice(0,10)}.png`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+  img.src = url;
+}
+
+// ============ PANEL ============
+function showPanel(d) {
+  const cc = d.ringColor, url = 'https://github.com/wangguobao0215/' + d.id;
+  const ringLabel = d.isCenter ? '知识中枢' : ringConfig[d.ring].label;
+  const tierLabel = getNodeTierLabel(d);
+  const tierNames = {center:'知识中枢',core:'核心技能',normal:'业务技能',tool:'辅助工具'};
+
+  const inE = displayEdges.filter(e => {
+    if (e.type === 'valueRing') return false;
+    if (e.type === 'knowledgehub' && d.id === 'Sloth-KnowledgeHub-Eido') return true; // bidirectional
+    return e.target.id === d.id;
+  });
+  const outE = displayEdges.filter(e => {
+    if (e.type === 'valueRing') return false;
+    if (e.type === 'knowledgehub' && d.id === 'Sloth-KnowledgeHub-Eido') return true; // bidirectional
+    return e.source.id === d.id;
+  });
+
+  const inL = inE.length ? inE.map(e => {
+    const s = e.source;
+    const edgeColor = e.suggested ? '#e8a838' : (e.type === 'knowledgehub' ? '#4a9a6d' : cc);
+    return '<li><span class="edge-dot" style="background:' + edgeColor + '"></span>' + s.name + ' <span class="edge-label">' + e.label + '</span></li>';
+  }).join('') : '<div class="empty-state">无入向连接</div>';
+
+  const outL = outE.length ? outE.map(e => {
+    const t = e.target;
+    const edgeColor = e.suggested ? '#e8a838' : (e.type === 'knowledgehub' ? '#4a9a6d' : cc);
+    return '<li><span class="edge-dot" style="background:' + edgeColor + '"></span>' + t.name + ' <span class="edge-label">' + e.label + '</span></li>';
+  }).join('') : '<div class="empty-state">无出向连接</div>';
+
+  const targetCustomers = d.targetCustomers || 'B端企业';
+  const painPoints = (d.painPoints || []).map(p => '<li style="padding:3px 0"><span style="color:#e85d5d;font-weight:700;margin-right:4px">-</span>' + p + '</li>').join('');
+  const highlights = (d.highlights || []).map(h => '<li style="padding:3px 0"><span style="color:#4a9a6d;font-weight:700;margin-right:4px">+</span>' + h + '</li>').join('');
+
+  document.getElementById('panel-content').innerHTML =
+    '<div class="panel-header"><div class="panel-dot" style="background:' + cc + '"></div><div><div class="panel-title">' + d.name + '</div><div class="panel-id">' + d.id + '</div></div></div>' +
+    '<div class="panel-version">v' + d.version + '</div>' +
+    '<span class="panel-badge" style="background:' + cc + '">' + ringLabel + '</span>' +
+    '<span class="panel-badge" style="background:#7a92a8;margin-left:4px">' + tierNames[tierLabel] + '</span>' +
+    '<div class="panel-desc">' + d.description + '</div>' +
+    '<a href="' + url + '" target="_blank" class="panel-link"><svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub 仓库</a>' +
+    '<div class="panel-section"><div class="panel-section-title">适用客户</div><div style="font-size:11px;color:#4a5a6a;background:rgba(74,136,176,0.06);padding:8px 10px;border-radius:6px;margin-top:4px">' + targetCustomers + '</div></div>' +
+    '<div class="panel-section"><div class="panel-section-title">解决痛点</div><ul class="edge-list" style="margin-top:4px">' + (painPoints || '<div class="empty-state">暂无数据</div>') + '</ul></div>' +
+    '<div class="panel-section"><div class="panel-section-title">亮点功能</div><ul class="edge-list" style="margin-top:4px">' + (highlights || '<div class="empty-state">暂无数据</div>') + '</ul></div>' +
+    '<div class="panel-section"><div class="panel-section-title">输入来源 (' + inE.length + ')</div><ul class="edge-list">' + inL + '</ul></div>' +
+    '<div class="panel-section"><div class="panel-section-title">输出指向 (' + outE.length + ')</div><ul class="edge-list">' + outL + '</ul></div>';
+
+  document.getElementById('panel').classList.add('open');
+}
+
+function closePanel() {
+  document.getElementById('panel').classList.remove('open');
+  selectedNodeId = null;
+  updateHighlight();
+}
+
+// ============ RESIZE ============
+window.addEventListener('resize', () => {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  svg.attr('width', width).attr('height', height).attr('viewBox', [0, 0, width, height]);
+  calculatePositions();
+  nodeG.transition().duration(300).attr('transform', d => `translate(${d.x},${d.y})`);
+  updateLinks();
+  updateLinkLabels();
+  drawValueRing();
+
+  drawSectors();
+});
+</script>
+</body>
+</html>
