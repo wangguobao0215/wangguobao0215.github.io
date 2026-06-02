@@ -1027,11 +1027,13 @@ function getLinkControlPoint(sx, sy, tx, ty, type) {
 }
 
 function getLinkPath(d) {
+  if (!d || !d.source || !d.target) return '';
   const [cx1, cy1] = getLinkControlPoint(d.source.x, d.source.y, d.target.x, d.target.y, d.type);
   return `M${d.source.x},${d.source.y} Q${cx1},${cy1} ${d.target.x},${d.target.y}`;
 }
 
 function getLinkMidpoint(d) {
+  if (!d || !d.source || !d.target) return [0, 0];
   const [cx1, cy1] = getLinkControlPoint(d.source.x, d.source.y, d.target.x, d.target.y, d.type);
   // Quadratic Bezier at t=0.5: B = 0.25*P0 + 0.5*P1 + 0.25*P2
   return [
