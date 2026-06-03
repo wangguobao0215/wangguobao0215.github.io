@@ -26,6 +26,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans G
 
 #legend{position:fixed;bottom:16px;left:16px;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-radius:12px;padding:14px 18px;box-shadow:0 4px 20px rgba(70,120,160,0.1);border:1px solid rgba(74,136,176,0.08);z-index:100;max-height:calc(100vh - 140px);overflow-y:auto}
 #legend .legend-title{font-size:11px;font-weight:700;color:#2a3e50;margin-bottom:8px;letter-spacing:0.5px}
+#legend .article-link{display:block;font-size:11px;color:#4a80a8;text-decoration:none;margin-bottom:10px;padding:6px 8px;background:rgba(74,136,176,0.06);border-radius:6px;border:1px solid rgba(74,136,176,0.1);transition:all 0.15s}
+#legend .article-link:hover{background:rgba(74,136,176,0.12)}
 #legend .legend-row{display:flex;align-items:center;gap:7px;margin:4px 0;font-size:11px;color:#4a5a6a;cursor:pointer;padding:2px 4px;border-radius:6px;transition:all 0.15s;user-select:none}
 #legend .legend-row:hover{background:rgba(74,136,176,0.06)}
 #legend .legend-row.active-ring{background:rgba(74,136,176,0.1);font-weight:700}
@@ -163,6 +165,7 @@ body.dark #panel .panel-section-title{color:#7a92a8}
 <div id="graph-container"></div>
 
 <div id="legend">
+  <a href="article-sloth-eido-b2b.html" target="_blank" class="article-link">从战略到客户成功 →</a>
   <div class="legend-title">价值环环节</div>
   <div class="legend-row" data-ring="r&d" onclick="toggleRingFocus('r&d')"><span class="legend-dot" style="background:#6b5b95"></span>研发管理<span class="ring-count">1</span></div>
   <div class="legend-row" data-ring="manufacturing" onclick="toggleRingFocus('manufacturing')"><span class="legend-dot" style="background:#8b6914"></span>生产制造<span class="ring-count">2</span></div>
@@ -655,7 +658,8 @@ const nodeG = nodeGroup.selectAll('.node-g')
   .data(nodes)
   .join('g')
   .attr('class', 'node-g')
-  .attr('transform', d => `translate(${d.x},${d.y})`)
+  .attr('transform', d => `translate(${cx},${cy})`)
+  .style('opacity', 0)
   .call(d3.drag()
     .on('start', dragStarted)
     .on('drag', dragged)
@@ -773,52 +777,86 @@ function animateParticles() {
 // ============ ENTRY ANIMATION ============
 function runEntryAnimation() {
   try {
-    // Start all nodes at center, opacity 0
-    nodeG.attr('transform', d => `translate(${cx},${cy})`).style('opacity', 0);
+    document.getElementById('loading-screen').classList.add('hidden');
 
-    let completedCount = 0;
-    const totalNodes = nodes.length;
+    const startTime = performance.now();
+    const duration = 800;
+    const stagger = 25;
+    let animId = null;
+    let finished = false;
 
-    // Animate nodes outward with stagger + opacity fade in
-    nodeG.transition()
-      .duration(800)
-      .delay((d, i) => i * 25)
-      .ease(d3.easeCubicOut)
-      .attr('transform', d => `translate(${d.x},${d.y})`)
-      .style('opacity', 1)
-      .on('end', function() {
-        completedCount++;
-        if (completedCount >= totalNodes) {
-          document.getElementById('loading-screen').classList.add('hidden');
-          restoreFromHash();
+    function easeCubicOut(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    function tick() {
+      if (finished) return;
+      const elapsed = performance.now() - startTime;
+      let allDone = true;
+
+      nodeG.each(function(d, i) {
+        const delay = i * stagger;
+        let t = (elapsed - delay) / duration;
+        if (t < 0) {
+          allDone = false;
+          return;
         }
+        if (t < 1) allDone = false;
+        t = Math.max(0, Math.min(1, t));
+        const p = easeCubicOut(t);
+
+        const x = cx + (d.x - cx) * p;
+        const y = cy + (d.y - cy) * p;
+        d3.select(this)
+          .attr('transform', `translate(${x},${y})`)
+          .style('opacity', p);
       });
 
-    // Fade in links after nodes start moving
-    link.attr('stroke-opacity', 0)
-      .transition()
-      .duration(500)
-      .delay(400)
-      .attr('stroke-opacity', d => {
-        if (d.type === 'valueRing') return 0.12;
-        return d.suggested ? 0.65 : 0.85;
-      });
+      // Links fade in after 400ms
+      const linkT = Math.min(1, Math.max(0, (elapsed - 400) / 500));
+      if (linkT > 0) {
+        const lp = easeCubicOut(linkT);
+        link.attr('stroke-opacity', d => {
+          if (d.type === 'valueRing') return 0.12 * lp;
+          return (d.suggested ? 0.65 : 0.85) * lp;
+        });
+      }
 
-    // Fade in link labels
-    linkLabelGroup.selectAll('.link-label, .link-label-bg')
-      .classed('visible', false)
-      .transition()
-      .duration(400)
-      .delay(900)
-      .on('start', function() { d3.select(this).classed('visible', true); });
+      // Link labels after 900ms
+      if (elapsed > 900) {
+        linkLabelGroup.selectAll('.link-label, .link-label-bg').classed('visible', true);
+      }
 
-    // Fallback: force hide loading screen after 3s no matter what
-    setTimeout(function() {
-      document.getElementById('loading-screen').classList.add('hidden');
+      if (!allDone) {
+        animId = requestAnimationFrame(tick);
+      } else {
+        finished = true;
+        restoreFromHash();
+      }
+    }
+
+    animId = requestAnimationFrame(tick);
+
+    // Fallback: force finish after 3s
+    setTimeout(() => {
+      if (!finished) {
+        finished = true;
+        if (animId) cancelAnimationFrame(animId);
+        nodeG.attr('transform', d => `translate(${d.x},${d.y})`).style('opacity', 1);
+        link.attr('stroke-opacity', d => {
+          if (d.type === 'valueRing') return 0.12;
+          return d.suggested ? 0.65 : 0.85;
+        });
+        restoreFromHash();
+      }
     }, 3000);
+
   } catch (e) {
     console.error('Entry animation error:', e);
     document.getElementById('loading-screen').classList.add('hidden');
+    nodeG.attr('transform', d => `translate(${d.x},${d.y})`).style('opacity', 1);
+    link.attr('stroke-opacity', d => d.type === 'valueRing' ? 0.12 : (d.suggested ? 0.65 : 0.85));
+    restoreFromHash();
   }
 }
 
@@ -1000,7 +1038,7 @@ function dragEnded(event, d) {
   const r = d.isAnchor ? INNER_RADIUS : OUTER_RADIUS;
   const targetX = cx + r * Math.cos(d.angleRad);
   const targetY = cy + r * Math.sin(d.angleRad);
-  d3.select(this).transition().duration(400).ease(d3.easeElasticOut.amplitude(1).period(0.5))
+  d3.select(this).transition().duration(400).ease(d3.easeBackOut)
     .attr('transform', `translate(${targetX},${targetY})`)
     .on('end', function() {
       d.x = targetX;
