@@ -1724,6 +1724,40 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .books-showcase { grid-template-columns: repeat(2, 1fr); gap: 14px; }
 }
 
+
+/* ===== Reports Showcase ===== */
+.reports-section { background: var(--bg-warm); }
+.report-mini { text-align: center; }
+.report-mini img {
+  width: 100%; aspect-ratio: 4/3; object-fit: cover;
+  border-radius: 8px; box-shadow: 0 4px 20px rgba(15,37,64,0.10);
+  margin-bottom: 8px; background: linear-gradient(135deg, #1A2D3D, #3A4E66);
+}
+.report-mini h4 { font-size: 12px; font-weight: 600; color: var(--blue-700); line-height: 1.4; }
+.report-mini p { font-size: 11px; color: var(--text-muted); line-height: 1.4; margin-top: 2px; }
+
+
+/* ===== Reports Page ===== */
+.report-card {
+  background: var(--white); border: 1px solid var(--border-light);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow-sm); transition: box-shadow 0.2s, transform 0.2s;
+}
+.report-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.report-card img {
+  width: 100%; aspect-ratio: 16/10; object-fit: cover;
+  background: linear-gradient(135deg, #1A2D3D, #3A4E66);
+}
+.report-card-body { padding: 14px 16px 16px; }
+.report-card h3 { font-size: 14px; font-weight: 700; color: var(--blue-700); line-height: 1.4; margin-bottom: 4px; }
+.report-card .r-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+.report-card .r-desc { font-size: 12px; color: var(--text-body); line-height: 1.5; margin-bottom: 10px; }
+.report-card .r-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.report-card .r-actions a { font-size: 11px; padding: 4px 10px; border-radius: 20px; text-decoration: none; font-weight: 500; }
+.r-btn-pdf { background: var(--blue-500); color: #fff; }
+.r-btn-cn { background: var(--gold); color: #fff; }
+.r-btn-insight { background: var(--blue-50); color: var(--blue-500); border: 1px solid var(--border); }
+
 </style>
 </head>
 <body>
@@ -1742,6 +1776,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <li><a data-page="skills" onclick="switchPage('skills')">智能体Skill</a></li>
     <li><a href="graph.html" target="_blank">技能图谱</a></li>
     <li><a data-page="books" onclick="switchPage('books')">老K作品</a></li>
+    <li><a data-page="reports" onclick="switchPage('reports')">AI研报</a></li>
     <li><a data-page="training" onclick="switchPage('training')">培训课程</a></li>
     <li><a data-page="about" onclick="switchPage('about')">关于</a></li>
   </ul>
@@ -1910,6 +1945,39 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       </div>
       <div style="margin-top:32px;text-align:center;" class="reveal">
         <a href="article-sloth-eido-b2b.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:rgba(255,255,255,0.1);border:1px solid rgba(163,200,224,0.25);border-radius:100px;color:var(--blue-100);font-size:14px;font-weight:600;transition:all 0.25s var(--ease);text-decoration:none;">📖 阅读《30个AI智能体B2B应用场景全景解读》</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Books & Reports Showcase -->
+  <section class="section books-section">
+    <div class="section-inner section-center">
+      <div class="section-label reveal">老K作品 & AI研报</div>
+      <h2 class="section-title reveal">9本原创书籍 + 12篇全球AI研报深度解读</h2>
+      <p class="section-desc reveal">一边写书沉淀方法论，一边跟踪全球前沿研究——免费下载。</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:720px;margin:0 auto;" class="reveal">
+        <div class="book-mini">
+          <a onclick="switchPage('books')"><img src="assets/books/ai-leader-path.png" alt="AI领导者之路"></a>
+          <h4>AI领导者之路</h4>
+        </div>
+        <div class="book-mini">
+          <a onclick="switchPage('books')"><img src="assets/books/executive-agent.png" alt="AI智能体"></a>
+          <h4>AI智能体</h4>
+        </div>
+        <div class="report-mini">
+          <a onclick="switchPage('reports')"><img src="reports/covers/2026-05-29-BCG-AI-Radar-2026-cover.png" alt="BCG AI Radar"></a>
+          <h4>BCG AI Radar 2026</h4>
+          <p>深度解读</p>
+        </div>
+        <div class="report-mini">
+          <a onclick="switchPage('reports')"><img src="reports/covers/2026-05-28-StanfordHAI-cover-v2.png" alt="Stanford AI Index"></a>
+          <h4>Stanford AI Index 2026</h4>
+          <p>深度解读</p>
+        </div>
+      </div>
+      <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;" class="reveal">
+        <button class="btn btn-outline" onclick="switchPage('books')" style="border-color:var(--blue-300);color:var(--blue-500);padding:10px 24px;font-size:13px;">查看全部书籍 →</button>
+        <button class="btn btn-outline" onclick="switchPage('reports')" style="border-color:var(--blue-300);color:var(--blue-500);padding:10px 24px;font-size:13px;">查看全部研报 →</button>
       </div>
     </div>
   </section>
@@ -2155,6 +2223,185 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div style="margin-top:8px;display:flex;gap:8px;justify-content:center;">
           <a href="books/token-ledger/Token%E8%B4%A6%E6%9C%AC.pdf" target="_blank" style="font-size:11px;padding:4px 12px;background:var(--blue-500);color:#fff;border-radius:20px;">PDF</a>
           <a href="books/token-ledger/" target="_blank" style="font-size:11px;padding:4px 12px;background:var(--blue-50);color:var(--blue-500);border-radius:20px;">在线阅读</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== REPORTS PAGE ===== -->
+<div class="page" id="page-reports">
+  <section class="m-hero">
+    <h1>AI研报解读</h1>
+    <p>全球顶级AI研究报告 · 原文下载 · 中文翻译 · 深度解读</p>
+  </section>
+  <div class="m-detail">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px;max-width:960px;margin:0 auto;">
+
+      <div class="report-card">
+        <img src="reports/covers/2026-06-07_Accenture_AI-value-infrastructure.png" alt="Accenture: Impact to Advantage">
+        <div class="report-card-body">
+          <h3>Accenture: Impact to Advantage</h3>
+          <p class="r-meta">Accenture · 2026-04</p>
+          <p class="r-desc">从AI影响力到竞争优势的转化路径</p>
+          <div class="r-actions">
+            <a class="r-btn-pdf" href="reports/originals/2026-04_Accenture_Impact-to-Advantage.pdf" target="_blank">原文PDF</a>
+            <a class="r-btn-cn" href="reports/translated/2026-04_Accenture_Impact-to-Advantage_CN.md" target="_blank">中文翻译</a>
+            <a class="r-btn-insight" href="reports/insights/2026-04_Accenture/master.md" target="_blank">深度解读</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-card">
+        <img src="reports/covers/International-AI-Safety-Report-2026-cover.png" alt="International AI Safety Report 2026">
+        <div class="report-card-body">
+          <h3>International AI Safety Report 2026</h3>
+          <p class="r-meta">多国联合 · 2026-05</p>
+          <p class="r-desc">全球AI安全现状与治理框架</p>
+          <div class="r-actions">
+            <a class="r-btn-pdf" href="reports/originals/International-AI-Safety-Report-2026.pdf" target="_blank">原文PDF</a>
+            <a class="r-btn-cn" href="reports/translated/International-AI-Safety-Report-2026_CN.pdf" target="_blank">中文翻译PDF</a>
+            <a class="r-btn-insight" href="reports/insights/2026-05-28-international-ai-safety/master.md" target="_blank">深度解读</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-card">
+        <img src="reports/covers/2026-05-28-StanfordHAI-cover-v2.png" alt="Stanford HAI: AI Index 2026">
+        <div class="report-card-body">
+          <h3>Stanford HAI: AI Index 2026</h3>
+          <p class="r-meta">Stanford HAI · 2026-05</p>
+          <p class="r-desc">全球AI发展年度指数报告</p>
+          <div class="r-actions">
+            <a class="r-btn-pdf" href="reports/originals/2026-05-28-StanfordHAI-AI-Index-2026.pdf" target="_blank">原文PDF</a>
+            <a class="r-btn-cn" href="reports/translated/2026-05-28-StanfordHAI-AI-Index-2026_CN.pdf" target="_blank">中文翻译PDF</a>
+            <a class="r-btn-insight" href="reports/insights/2026-05-28-stanford-hai-ai-index-2026/master.md" target="_blank">深度解读</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-card">
+        <img src="reports/covers/2026-05-29_Anthropic_Agent-cover.png" alt="Anthropic: State of AI Agents 2026">
+        <div class="report-card-body">
+          <h3>Anthropic: State of AI Agents 2026</h3>
+          <p class="r-meta">Anthropic · 2026-05</p>
+          <p class="r-desc">AI智能体现状与发展趋势</p>
+          <div class="r-actions">
+            <a class="r-btn-pdf" href="reports/originals/2026-05-29_Anthropic_State-of-AI-Agents-2026.pdf" target="_blank">原文PDF</a>
+            <a class="r-btn-cn" href="reports/translated/2026-05-29_Anthropic_State-of-AI-Agents-2026_CN.md" target="_blank">中文翻译</a>
+            <a class="r-btn-insight" href="reports/insights/2026-05-29_Anthropic/master.md" target="_blank">深度解读</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-card">
+        <img src="reports/covers/2026-05-29-BCG-AI-Radar-2026-cover.png" alt="BCG AI Radar 2026">
+        <div class="report-card-body">
+          <h3>BCG AI Radar 2026</h3>
+          <p class="r-meta">BCG · 2026-05</p>
+          <p class="r-desc">全球AI技术雷达与投资趋势</p>
+          <div class="r-actions">
+            <a class="r-btn-pdf" href="reports/originals/BCG-AI-Radar-2026.pdf" target="_blank">原文PDF</a>
+            <a class="r-btn-cn" href="reports/translated/2026-05-29-BCG-AI-Radar-2026_CN.pdf" target="_blank">中文翻译PDF</a>
+            <a class="r-btn-insight" href="reports/insights/2026-05-29-BCG/master.md" target="_blank">深度解读</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-card">
+        <img src="reports/covers/2026-05-31-WEF-Organizational-Transformation-cover.png" alt="WEF: AI组织变革 2026">
+        <div class="report-card-body">
+          <h3>WEF: AI组织变革 2026</h3>
+          <p class="r-meta">World Economic Forum · 2026-05</p>
+          <p class="r-desc">AI驱动的组织转型路径</p>
+          <div class="r-actions">
+            <a class="r-btn-pdf" href="reports/originals/2026-05-31-WEF-Organizational-Transformation-AI-2026.pdf" target="_blank">原文PDF</a>
+            <a class="r-btn-cn" href="reports/translated/2026-05-31-WEF-Organizational-Transformation-AI-2026_CN.md" target="_blank">中文翻译</a>
+            <a class="r-btn-insight" href="reports/insights/2026-05-31-WEF-Organizational-Transformation/master.md" target="_blank">深度解读</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-card">
+        
+        <div class="report-card-body">
+          <h3>Deloitte: Tech Trends 2026</h3>
+          <p class="r-meta">Deloitte · 2026-05</p>
+          <p class="r-desc">2026年十大技术趋势深度解读</p>
+          <div class="r-actions">
+            <a class="r-btn-pdf" href="reports/originals/2026-05-31-Deloitte-Tech-Trends-2026.pdf" target="_blank">原文PDF</a>
+            <a class="r-btn-insight" href="reports/insights/2026-05-31-Deloitte-Tech-Trends-2026/master.md" target="_blank">深度解读</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-card">
+        
+        <div class="report-card-body">
+          <h3>BCG: AI劳动力转型</h3>
+          <p class="r-meta">BCG · 2026-06</p>
+          <p class="r-desc">AI时代的企业 workforce 转型策略</p>
+          <div class="r-actions">
+            <a class="r-btn-pdf" href="reports/originals/2026-06-03_BCG_AI-Workforce-Transformation.pdf" target="_blank">原文PDF</a>
+            <a class="r-btn-cn" href="reports/translated/2026-06-03_BCG_AI-Workforce-Transformation_CN.md" target="_blank">中文翻译</a>
+            <a class="r-btn-insight" href="reports/insights/2026-06_BCG/master.md" target="_blank">深度解读</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-card">
+        
+        <div class="report-card-body">
+          <h3>Deloitte: State of AI 2026</h3>
+          <p class="r-meta">Deloitte · 2026-06</p>
+          <p class="r-desc">全球AI应用现状与企业采纳趋势</p>
+          <div class="r-actions">
+            <a class="r-btn-pdf" href="reports/originals/2026-06_Deloitte_State-of-AI-2026.pdf" target="_blank">原文PDF</a>
+            <a class="r-btn-cn" href="reports/translated/2026-06_Deloitte_State-of-AI-2026_CN.md" target="_blank">中文翻译</a>
+            <a class="r-btn-insight" href="reports/insights/2026-06_Deloitte/master.md" target="_blank">深度解读</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-card">
+        
+        <div class="report-card-body">
+          <h3>Salesforce: State of Sales</h3>
+          <p class="r-meta">Salesforce · 2026-06</p>
+          <p class="r-desc">AI驱动的销售变革趋势</p>
+          <div class="r-actions">
+            <a class="r-btn-pdf" href="reports/originals/2026-06_Salesforce_State-of-Sales.pdf" target="_blank">原文PDF</a>
+            <a class="r-btn-cn" href="reports/translated/2026-06_Salesforce_State-of-Sales_CN.md" target="_blank">中文翻译</a>
+            <a class="r-btn-insight" href="reports/insights/2026-06_Salesforce/master.md" target="_blank">深度解读</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-card">
+        
+        <div class="report-card-body">
+          <h3>KPMG: 工业制造技术报告</h3>
+          <p class="r-meta">KPMG · 2026-04</p>
+          <p class="r-desc">工业制造行业AI与数字化技术趋势</p>
+          <div class="r-actions">
+            <a class="r-btn-pdf" href="reports/originals/2026-04_KPMG_Global-Tech-Report_Industrial-Manufacturing.pdf" target="_blank">原文PDF</a>
+            <a class="r-btn-cn" href="reports/translated/2026-04_KPMG_Global-Tech-Report_Industrial-Manufacturing_CN.md" target="_blank">中文翻译</a>
+            <a class="r-btn-insight" href="reports/insights/2026-04_KPMG_Global-Tech-Report/master.md" target="_blank">深度解读</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-card">
+        
+        <div class="report-card-body">
+          <h3>PwC: AI原生企业</h3>
+          <p class="r-meta">PwC · 2026-05</p>
+          <p class="r-desc">AI原生企业的构建路径与实践</p>
+          <div class="r-actions">
+            <a class="r-btn-insight" href="reports/insights/2026-05-30_PwC-AI-native-enterprise/master.md" target="_blank">深度解读</a>
+          </div>
         </div>
       </div>
 
@@ -2586,6 +2833,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <h3 style="font-size:19px;font-weight:700;color:var(--blue-700);margin-bottom:6px;">老K作品</h3>
       <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">已出版 9 本 AI 实战书籍，免费下载</p>
       <button class="btn btn-outline" onclick="switchPage('books')" style="border-color:var(--blue-300);color:var(--blue-500);padding:10px 24px;font-size:13px;">查看全部作品 →</button>
+    </div>
+
+    <!-- Reports -->
+    <div style="margin-bottom:48px;text-align:center;">
+      <h3 style="font-size:19px;font-weight:700;color:var(--blue-700);margin-bottom:6px;">AI研报解读</h3>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">12篇全球顶级AI研究报告 · 原文下载 · 中文翻译 · 深度解读</p>
+      <button class="btn btn-outline" onclick="switchPage('reports')" style="border-color:var(--blue-300);color:var(--blue-500);padding:10px 24px;font-size:13px;">查看全部研报 →</button>
     </div>
 
     <!-- Contact -->
