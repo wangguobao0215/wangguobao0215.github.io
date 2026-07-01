@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深谋 · 售前咨询 — 产品介绍</title>
+<style>
+  :root {
+    --bg: #160626;
+    --bg-light: #201030;
+    --primary: #2a1a3a;
+    --accent: #5a3a7a;
+    --highlight: #c084fc;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --card-bg: rgba(255,255,255,0.06);
+    --card-border: rgba(255,255,255,0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .deck { width: 100%; height: 100%; position: relative; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 100px 80px 80px;
+    opacity: 0; pointer-events: none; transform: translateX(60px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+  }
+  .slide.active { opacity: 1; pointer-events: auto; transform: translateX(0); }
+  .slide.prev { transform: translateX(-60px); }
+  .slide::before {
+    content: ""; position: fixed; top: -50%; right: -30%;
+    width: 80vw; height: 80vw;
+    background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  .slide-content { max-width: 1100px; width: 100%; position: relative; z-index: 1; }
+  h1 {
+    font-size: 52px; font-weight: 800; line-height: 1.2; margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 30%, var(--highlight) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  h2 {
+    font-size: 38px; font-weight: 700; margin-bottom: 32px; color: #fff;
+    display: flex; align-items: center; gap: 14px;
+  }
+  h2 .num {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 800; color: var(--highlight); flex-shrink: 0;
+  }
+  h3 { font-size: 22px; font-weight: 600; margin-bottom: 12px; color: var(--highlight); }
+  p, li { font-size: 18px; line-height: 1.7; color: var(--text-dim); }
+  .subtitle { font-size: 22px; color: var(--text-dim); margin-bottom: 40px; max-width: 700px; }
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--highlight);
+    padding: 6px 16px; border-radius: 20px;
+    font-size: 13px; font-weight: 600; letter-spacing: 1px;
+    margin-bottom: 20px; text-transform: uppercase;
+  }
+  .flex-row { display: flex; gap: 28px; flex-wrap: wrap; }
+  .flex-col { display: flex; flex-direction: column; gap: 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 24px;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .card:hover { transform: translateY(-3px); border-color: var(--highlight); }
+  .card-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 14px;
+  }
+  .card h4 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .card p { font-size: 14px; line-height: 1.6; color: var(--text-dim); }
+  .timeline { display: flex; gap: 16px; margin-top: 10px; }
+  .timeline-step {
+    flex: 1; background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 12px; padding: 18px 14px; text-align: center; position: relative;
+  }
+  .timeline-step::after {
+    content: "\2192"; position: absolute; right: -18px; top: 50%;
+    transform: translateY(-50%); color: var(--accent); font-size: 18px; font-weight: 700;
+  }
+  .timeline-step:last-child::after { display: none; }
+  .timeline-step .t-num {
+    width: 32px; height: 32px; background: var(--accent); color: #fff;
+    border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; margin-bottom: 10px;
+  }
+  .timeline-step .t-title { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.4; }
+  ul.feature-list { list-style: none; padding: 0; }
+  ul.feature-list li {
+    padding: 10px 0 10px 32px; position: relative; font-size: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  ul.feature-list li::before {
+    content: "\2713"; position: absolute; left: 0; color: var(--highlight); font-weight: 700;
+  }
+  .cta-box {
+    background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border: 1px dashed rgba(255,255,255,0.15);
+    border-radius: 14px; padding: 28px 32px; margin-top: 24px;
+  }
+  .cta-box h4 { font-size: 18px; font-weight: 700; color: var(--highlight); margin-bottom: 12px; }
+  .code-block {
+    background: rgba(0,0,0,0.25); border-radius: 8px; padding: 14px 18px;
+    font-family: "SF Mono", Monaco, monospace; font-size: 14px; color: var(--highlight);
+    margin: 10px 0; overflow-x: auto;
+  }
+  .nav-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 50px;
+    background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between; padding: 0 24px; z-index: 100;
+  }
+  .nav-btn {
+    background: none; border: 1px solid rgba(255,255,255,0.15); color: var(--text-dim);
+    padding: 6px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.2s;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .nav-progress {
+    flex: 1; max-width: 300px; height: 4px; background: rgba(255,255,255,0.08);
+    border-radius: 2px; margin: 0 20px; overflow: hidden;
+  }
+  .nav-progress-inner {
+    height: 100%; background: linear-gradient(90deg, var(--accent), var(--highlight));
+    border-radius: 2px; transition: width 0.4s ease;
+  }
+  .nav-page { font-size: 13px; color: var(--text-dim); min-width: 60px; text-align: center; }
+  .nav-hint { font-size: 12px; color: rgba(255,255,255,0.25); margin-left: 12px; }
+  .cover-slide { text-align: center; }
+  .cover-slide .cover-logo {
+    font-size: 14px; letter-spacing: 3px; color: var(--text-dim);
+    text-transform: uppercase; margin-bottom: 24px;
+  }
+  .cover-slide h1 { font-size: 64px; margin-bottom: 20px; }
+  .cover-slide h1 span { color: var(--highlight); -webkit-text-fill-color: var(--highlight); }
+  .cover-slide .cover-sub {
+    font-size: 22px; color: var(--text-dim); max-width: 640px;
+    margin: 0 auto 48px; line-height: 1.6;
+  }
+  .cover-meta { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; }
+  .cover-meta-item { text-align: center; }
+  .cover-meta-item .big {
+    font-size: 40px; font-weight: 800; color: var(--highlight); line-height: 1;
+  }
+  .cover-meta-item .small { font-size: 13px; color: var(--text-dim); margin-top: 6px; }
+  .last-slide { text-align: center; }
+  .last-slide h1 { font-size: 48px; margin-bottom: 24px; }
+  .link-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+  .link-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none;
+    font-size: 14px; font-weight: 600; transition: opacity 0.2s;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .link-btn:hover { opacity: 0.85; }
+  .link-btn.secondary { background: transparent; }
+  .industry-card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 14px; padding: 24px; text-align: center;
+  }
+  .industry-card .ind-icon { font-size: 36px; margin-bottom: 12px; }
+  .industry-card h4 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .industry-card p { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+  @media (max-width: 900px) {
+    .slide { padding: 80px 24px 70px; }
+    h1 { font-size: 36px; }
+    h2 { font-size: 26px; }
+    .cover-slide h1 { font-size: 42px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .timeline { flex-wrap: wrap; }
+    .timeline-step::after { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+<div class="slide cover-slide">
+    <div class="slide-content">
+      <div class="cover-logo">Sloth-Eido Skill Family</div>
+      <h1>深谋 · <span>售前咨询</span></h1>
+      <p class="cover-sub">B2B 售前顾问 AI 助手 —— 十二大核心能力 + 六大辅助路由，覆盖售前全生命周期</p>
+      <div class="cover-meta">
+        <div class="cover-meta-item"><div class="big">12</div><div class="small">核心模块</div></div><div class="cover-meta-item"><div class="big">6</div><div class="small">辅助路由</div></div><div class="cover-meta-item"><div class="big">3</div><div class="small">层响应架构</div></div>
+      </div>
+    </div>
+  </div>
+<div class="slide">
+    <div class="slide-content">
+      <div class="badge">Why 深谋</div>
+      <h2>为什么需要深谋？</h2>
+      <div class="grid-2">
+        <div class="card"><div class="card-icon">&#128100;</div><h4>痛点 1</h4><p>项目交付/运营中信息分散，决策缺乏数据支撑</p></div><div class="card"><div class="card-icon">&#128197;</div><h4>痛点 2</h4><p>重复性工作多，团队精力被低价值事务消耗</p></div><div class="card"><div class="card-icon">&#128202;</div><h4>痛点 3</h4><p>风险识别滞后，往往等到问题暴露才发现</p></div><div class="card"><div class="card-icon">&#127942;</div><h4>痛点 4</h4><p>经验难沉淀，团队无法从历史中持续学习</p></div>
+      </div>
+    </div>
+  </div>
+<div class="slide">
+    <div class="slide-content">
+      <div class="badge">Solution</div>
+      <h2>深谋核心能力全景</h2>
+      <p style="margin-bottom:28px; max-width:720px;">B2B 售前顾问 AI 助手 —— 十二大核心能力 + 六大辅助路由，覆盖售前全生命周期</p>
+      <div class="timeline">
+        <div class="timeline-step"><div class="t-num">1</div><div class="t-title">会议纪要重构</div></div><div class="timeline-step"><div class="t-num">2</div><div class="t-title">分层研究大纲</div></div><div class="timeline-step"><div class="t-num">3</div><div class="t-title">SCQA 方案框架</div></div><div class="timeline-step"><div class="t-num">4</div><div class="t-title">竞争攻防卡片</div></div><div class="timeline-step"><div class="t-num">5</div><div class="t-title">苏格拉底认知挑战</div></div><div class="timeline-step"><div class="t-num">6</div><div class="t-title">异议处理三层响应</div></div>
+      </div>
+    </div>
+  </div>
+<div class="slide">
+    <div class="slide-content">
+      <h2><span class="num">1</span>会议纪要重构 & 分层研究大纲</h2>
+      <div class="grid-2">
+        <div class="card">
+              <div class="card-icon">&#128221;</div>
+              <h4>会议纪要重构</h4>
+              <p>原始笔记 → 结构化纪要 + 情绪分析 + 行动项提取，10 分钟出专业纪要</p>
+            </div><div class="card">
+              <div class="card-icon">&#128270;</div>
+              <h4>分层研究大纲</h4>
+              <p>行业 → 竞品 → 客户三层研究，Hook 问题设计，为每次客户接触做足准备</p>
+            </div>
+      </div>
+    </div>
+  </div><div class="slide">
+    <div class="slide-content">
+      <h2><span class="num">2</span>SCQA 方案框架 & 竞争攻防卡片</h2>
+      <div class="grid-2">
+        <div class="card">
+              <div class="card-icon">&#128161;</div>
+              <h4>SCQA 方案框架</h4>
+              <p>情境-冲突-问题-答案结构化输出，修辞审计确保提案说服力</p>
+            </div><div class="card">
+              <div class="card-icon">&#128737;</div>
+              <h4>竞争攻防卡片</h4>
+              <p>竞争对手优劣势分析 + 攻击/防御话术 + 差异化定位，打赢每一场 Battle</p>
+            </div>
+      </div>
+    </div>
+  </div><div class="slide">
+    <div class="slide-content">
+      <h2><span class="num">3</span>苏格拉底认知挑战 & 异议处理三层响应</h2>
+      <div class="grid-2">
+        <div class="card">
+              <div class="card-icon">&#127919;</div>
+              <h4>苏格拉底认知挑战</h4>
+              <p>盲点雷达 + 压力测试 + 战棋沙盘，帮客户看见没看见的问题</p>
+            </div><div class="card">
+              <div class="card-icon">&#128172;</div>
+              <h4>异议处理三层响应</h4>
+              <p>Acknowledge-Clarify-Redirect 架构，化解价格、功能、交付等常见 objections</p>
+            </div>
+      </div>
+    </div>
+  </div>
+<div class="slide">
+    <div class="slide-content">
+      <div class="badge">For You</div>
+      <h2>适合谁用</h2>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <span style="background:var(--card-bg);border:1px solid var(--card-border);color:var(--highlight);padding:10px 20px;border-radius:20px;font-size:15px;font-weight:600;">售前顾问</span><span style="background:var(--card-bg);border:1px solid var(--card-border);color:var(--highlight);padding:10px 20px;border-radius:20px;font-size:15px;font-weight:600;">解决方案经理</span><span style="background:var(--card-bg);border:1px solid var(--card-border);color:var(--highlight);padding:10px 20px;border-radius:20px;font-size:15px;font-weight:600;">销售工程师</span><span style="background:var(--card-bg);border:1px solid var(--card-border);color:var(--highlight);padding:10px 20px;border-radius:20px;font-size:15px;font-weight:600;">B2B 销售</span><span style="background:var(--card-bg);border:1px solid var(--card-border);color:var(--highlight);padding:10px 20px;border-radius:20px;font-size:15px;font-weight:600;">招投标</span><span style="background:var(--card-bg);border:1px solid var(--card-border);color:var(--highlight);padding:10px 20px;border-radius:20px;font-size:15px;font-weight:600;">客户提案</span>
+      </div>
+    </div>
+  </div>
+<div class="slide">
+    <div class="slide-content">
+      <div class="badge">Quick Start</div>
+      <h2>快速开始</h2>
+      <div class="grid-2" style="gap:32px;">
+        <div>
+          <h3>安装技能</h3>
+          <div class="code-block">
+cp -r sloth-psc-eido/ ~/.qoderwork/skills/sloth-psc-eido/
+          </div>
+          <p style="margin-top:12px; font-size:14px;">一键安装到 QoderWork，重启即生效。</p>
+        </div>
+        <div>
+          <h3>三步启动</h3>
+          <ul class="feature-list">
+            <li>安装技能到 QoderWork</li><li>上传会议纪要或说「帮我写个研究大纲」</li><li>按场景选择模块或让系统自动路由</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="slide last-slide">
+    <div class="slide-content">
+      <div class="cover-logo">Sloth-Eido Skill Family</div>
+      <h1>深谋 · <span>售前咨询</span></h1>
+      <p style="font-size:20px; color:var(--text-dim); margin-bottom:8px;">慢一点，深一度</p>
+      <p style="font-size:16px; color:var(--text-dim);">B2B 售前顾问 AI 助手 —— 十二大核心能力 + 六大辅助路由，覆盖售前全生命周期</p>
+      <div class="link-group">
+        <a class="link-btn" href="https://github.com/wangguobao0215/sloth-psc-eido" target="_blank">&#127760; GitHub 仓库</a>
+        <a class="link-btn secondary" href="https://github.com/wangguobao0215/sloth-psc-eido/blob/main/references/user-guide.md" target="_blank">&#128214; 用户手册</a>
+        <a class="link-btn secondary" href="https://wangguobao0215.github.io/sloth-skills-poster/psc-eido.html" target="_blank">&#128444; 宣传海报</a>
+      </div>
+      <p style="margin-top:40px; font-size:13px; color:rgba(255,255,255,0.25);">扫码关注公众号「树懒老K」获取更多 AI 技能与实战案例</p>
+    </div>
+  </div>
+</div>
+<div class="nav-bar">
+  <div style="display:flex; align-items:center;">
+    <button class="nav-btn" onclick="prevSlide()">&#9664; 上一页</button>
+    <span class="nav-hint">← → 键盘翻页</span>
+  </div>
+  <div class="nav-progress"><div class="nav-progress-inner" id="progress"></div></div>
+  <div style="display:flex; align-items:center; gap:12px;">
+    <span class="nav-page" id="pageNum">1 / 10</span>
+    <button class="nav-btn" onclick="nextSlide()">下一页 &#9654;</button>
+    <button class="nav-btn" onclick="toggleFullScreen()">&#9974;</button>
+  </div>
+</div>
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let current = 0;
+  const total = slides.length;
+  function updateSlide() {
+    slides.forEach((s, i) => {
+      s.classList.remove('active', 'prev');
+      if (i === current) s.classList.add('active');
+      else if (i < current) s.classList.add('prev');
+    });
+    document.getElementById('pageNum').textContent = (current + 1) + ' / ' + total;
+    document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+  }
+  function nextSlide() { if (current < total - 1) { current++; updateSlide(); } }
+  function prevSlide() { if (current > 0) { current--; updateSlide(); } }
+  function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault(); nextSlide();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault(); prevSlide();
+    } else if (e.key === 'f' || e.key === 'F') {
+      toggleFullScreen();
+    }
+  });
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+  });
+  document.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    if (e.deltaY > 20) nextSlide();
+    else if (e.deltaY < -20) prevSlide();
+  }, { passive: false });
+  updateSlide();
+</script>
+</body>
+</html>

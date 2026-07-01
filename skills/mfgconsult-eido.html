@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深策 · 制造咨询 — 宣传海报</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(160deg, #e8eef5 0%, #dce5f0 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  .container { max-width: 860px; width: 100%; }
+  .page-header { text-align: center; margin-bottom: 30px; }
+  .page-header h1 { font-size: 26px; font-weight: 700; color: #1a3a2a; margin-bottom: 8px; }
+  .page-header p { font-size: 14px; color: #55667a; }
+  .poster-display { display: flex; justify-content: center; margin-bottom: 24px; }
+  .download-wrap { text-align: center; margin-bottom: 20px; }
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #2d6a4a, #1a3a2a);
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+  .download-btn:hover { opacity: 0.9; }
+  .page-footer {
+    text-align: center;
+    color: #7a92a8;
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  .page-footer a { color: #2d6a4a; text-decoration: none; }
+
+  /* Poster embedded */
+  .poster {
+    width: 210mm;
+    margin: 0 auto;
+    min-height: 297mm;
+    background: #fff;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+  }
+  .header {
+    background: linear-gradient(135deg, #1a3a2a 0%, #2d6a4a 60%, #1a3a2a 100%);
+    color: #fff;
+    padding: 44px 40px 28px;
+    position: relative;
+  }
+  .header::after {
+    content: "";
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: #fff;
+    clip-path: ellipse(70% 100% at 50% 0%);
+  }
+  .brand-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 18px; position: relative; z-index: 1;
+  }
+  .brand { font-size: 13px; letter-spacing: 2px; opacity: 0.85; text-transform: uppercase; }
+  .version-badge {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 4px 14px; border-radius: 20px;
+    font-size: 12px; letter-spacing: 1px;
+  }
+  .title {
+    font-size: 42px; font-weight: 800; line-height: 1.15;
+    margin-bottom: 10px; position: relative; z-index: 1;
+  }
+  .title span { color: #4ade80; }
+  .subtitle { font-size: 18px; opacity: 0.9; font-weight: 400; position: relative; z-index: 1; }
+  .tagline { margin-top: 16px; display: flex; gap: 12px; position: relative; z-index: 1; }
+  .tag {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #4ade80;
+    padding: 5px 14px; border-radius: 6px;
+    font-size: 13px; font-weight: 600;
+  }
+  .body { padding: 30px 40px 20px; }
+  .section-title {
+    font-size: 20px; font-weight: 700; color: #1a3a2a;
+    margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::before {
+    content: ""; width: 5px; height: 22px; background: #2d6a4a; border-radius: 3px;
+  }
+  .highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+  .card {
+    background: #f8fafc; border: 1px solid #e8ecf1; border-radius: 10px;
+    padding: 16px 18px; transition: transform 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); border-color: #4ade80; }
+  .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .card-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: linear-gradient(135deg, #2d6a4a, #1a3a2a);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .card-title { font-size: 15px; font-weight: 700; color: #1a3a2a; }
+  .card-desc { font-size: 13px; color: #55667a; line-height: 1.6; }
+  .scenarios { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
+  .scenario {
+    background: #eef2f7; color: #2d6a4a;
+    padding: 7px 14px; border-radius: 20px; font-size: 13px; font-weight: 500;
+  }
+  .stats-bar {
+    display: flex; justify-content: space-around;
+    background: linear-gradient(135deg, #1a3a2a, #2d6a4a);
+    color: #fff; padding: 22px 20px; border-radius: 12px;
+    margin-bottom: 22px; text-align: center;
+  }
+  .stat-number { font-size: 32px; font-weight: 800; color: #4ade80; }
+  .stat-label { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+  .cta-section {
+    background: #f0f5fa; border: 2px dashed #2d6a4a; border-radius: 12px;
+    padding: 22px 24px; text-align: center; margin-bottom: 18px;
+  }
+  .cta-title { font-size: 18px; font-weight: 700; color: #1a3a2a; margin-bottom: 10px; }
+  .cta-steps { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
+  .cta-step { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #2d6a4a; font-weight: 600; }
+  .cta-step-num {
+    width: 26px; height: 26px; background: #2d6a4a; color: #fff;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+  }
+  .cta-links {
+    margin-top: 14px; padding-top: 12px; border-top: 1px dashed #c5d5e8;
+    display: flex; flex-direction: column; gap: 6px; align-items: center;
+  }
+  .cta-link-row { font-size: 11px; color: #4a6588; line-height: 1.5; }
+  .cta-link-row strong { color: #2d6a4a; font-weight: 600; }
+  .footer {
+    background: #1a3a2a; color: #fff; padding: 18px 40px;
+    display: flex; align-items: center; justify-content: space-between; position: relative;
+  }
+  .footer-brand { font-size: 14px; font-weight: 600; letter-spacing: 1px; }
+  .footer-slogan { font-size: 12px; opacity: 0.7; font-style: italic; }
+  .footer-right { display: flex; align-items: center; gap: 12px; }
+  .footer-qr {
+    width: 64px; height: 64px; border-radius: 6px; background: #fff;
+    padding: 3px; flex-shrink: 0;
+  }
+  .footer-qr img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
+  .footer-contact { font-size: 12px; opacity: 0.8; text-align: right; line-height: 1.6; }
+
+  @media (max-width: 900px) {
+    .poster { width: 100%; min-height: auto; }
+  }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .poster { box-shadow: none; width: 100%; }
+    .page-header, .download-wrap, .page-footer { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="page-header">
+    <h1>深策 · 制造咨询</h1>
+    <p>三模块流水线 · 七步诊断 · 九步设计</p>
+  </div>
+  <div class="poster-display">
+    <div class="poster">
+      <div class="header">
+    <div class="brand-row">
+      <div class="brand">Sloth-Eido Skill Family</div>
+      <div class="version-badge">v1.0.0 正式版</div>
+    </div>
+    <div class="title">深策 · <span>制造咨询</span></div>
+    <div class="subtitle">多品种小批量（HMLV）制造企业的 AI 咨询套件 —— 诊断 + 设计 + 落地一条龙</div>
+    <div class="tagline">
+      <span class="tag">三模块流水线</span><span class="tag">七步诊断</span><span class="tag">九步设计</span>
+    </div>
+  </div>
+  <div class="body">
+    <div class="stats-bar">
+      <div><div class="stat-number">3</div><div class="stat-label">大核心模块</div></div><div><div class="stat-number">21</div><div class="stat-label">步标准流程</div></div><div><div class="stat-number">1</div><div class="stat-label">个安装包</div></div>
+    </div>
+    <div class="section-title">核心能力</div>
+    <div class="highlights">
+      <div class="card"><div class="card-header"><div class="card-icon">&#128300;</div><div class="card-title">Advisor 诊断顾问</div></div><div class="card-desc">七步运营诊断：快速画像 → 三层冲突 → 有效产出会计 → 换型评估 → S&OP诊断 → 订单评分 → 综合报告</div></div><div class="card"><div class="card-header"><div class="card-icon">&#127912;</div><div class="card-title">SynCore 架构设计师</div></div><div class="card-desc">九步架构设计：需求对齐 → 五层十五技能包定制蓝图 → 集成架构 → 实施路线图 + 预算</div></div><div class="card"><div class="card-header"><div class="card-icon">&#9881;</div><div class="card-title">Ops 运营助手</div></div><div class="card-desc">五大模式：接单决策（交通灯+报价）、日排程、交期速算、插单影响、利润真相，30秒出结果</div></div><div class="card"><div class="card-header"><div class="card-icon">&#128202;</div><div class="card-title">五层十五技能包</div></div><div class="card-desc">物理层(采集/翻译/预言) → 执行层(质检/OEE/预警) → 调度层(博弈/缓冲/节拍) → 协同层 → 战略层</div></div><div class="card"><div class="card-header"><div class="card-icon">&#128663;</div><div class="card-title">智能路由</div></div><div class="card-desc">说“排产”自动调 Ops，说“架构设计”自动调 SynCore，说“完整咨询”走全流程</div></div><div class="card"><div class="card-header"><div class="card-icon">&#128176;</div><div class="card-title">有效产出会计</div></div><div class="card-desc">识别隐形亏损产品、量化瓶颈资源价值、双口径利润对比（财务视角 vs 运营视角）</div></div>
+    </div>
+    <div class="section-title">适合谁用</div>
+    <div class="scenarios">
+      <span class="scenario">制造企业管理咨询</span><span class="scenario">智能制造规划</span><span class="scenario">产线优化</span><span class="scenario">排程改善</span><span class="scenario">HMLV 企业</span><span class="scenario">数字化转型</span>
+    </div>
+    <div class="cta-section">
+      <div class="cta-title">三步开始试用</div>
+      <div class="cta-steps">
+        <div class="cta-step"><span class="cta-step-num">1</span>安装技能到 QoderWork</div><div class="cta-step"><span class="cta-step-num">2</span>描述问题（如“帮我做个运营诊断”）</div><div class="cta-step"><span class="cta-step-num">3</span>系统自动路由到对应模块</div>
+      </div>
+      <div class="cta-links">
+        <div class="cta-link-row"><strong>GitHub 仓库：</strong>github.com/wangguobao0215/Sloth-MfgConsult-Eido</div>
+        <div class="cta-link-row"><strong>用户手册：</strong>github.com/wangguobao0215/Sloth-MfgConsult-Eido/blob/main/references/user-guide.md</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div>
+      <div class="footer-brand">树懒老K · Sloth-Eido 技能家族</div>
+      <div class="footer-slogan">慢一点，深一度</div>
+    </div>
+    <div class="footer-right">
+      <div class="footer-qr">
+        <img src="../assets/qrcode.jpg" alt="公众号二维码">
+      </div>
+      <div class="footer-contact">
+        扫码关注公众号「树懒老K」<br>
+        获取更多 AI 技能与实战案例
+      </div>
+    </div>
+  </div>
+    </div>
+  </div>
+  <div class="download-wrap">
+    <a class="download-btn" href="assets/poster-mfgconsult-preview.png" download="深策-海报.png">
+      &#128229; 下载海报图片（PNG）
+    </a>
+  </div>
+  <div class="page-footer">
+    <p>树懒老K · Sloth-Eido 技能家族 · <a href="https://github.com/wangguobao0215/sloth-skills-poster" target="_blank">sloth-skills-poster</a></p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>树懒老K · 孟菲斯撞色风</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: #f0e6d3;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .poster {
+    width: 440px;
+    background: #fff;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: 8px 8px 0 #000;
+    position: relative;
+  }
+
+  /* Geometric shapes */
+  .shape {
+    position: absolute;
+    pointer-events: none;
+  }
+  .shape-1 {
+    top: 20px; right: 20px;
+    width: 60px; height: 60px;
+    background: #FF6B6B;
+    border-radius: 50%;
+  }
+  .shape-2 {
+    top: 80px; left: -20px;
+    width: 80px; height: 80px;
+    background: #4ECDC4;
+    transform: rotate(45deg);
+  }
+  .shape-3 {
+    bottom: 200px; right: -15px;
+    width: 50px; height: 50px;
+    border: 4px solid #FFE66D;
+    border-radius: 50%;
+  }
+  .shape-4 {
+    bottom: 100px; left: 10px;
+    width: 30px; height: 30px;
+    background: #FF6B6B;
+    transform: rotate(15deg);
+  }
+
+  /* Header */
+  .header {
+    padding: 40px 32px 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .avatar-wrap {
+    display: inline-block;
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    padding: 4px;
+    background: #FFE66D;
+    border: 3px solid #000;
+    margin-bottom: 16px;
+  }
+  .avatar {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+  }
+  .brand {
+    font-size: 11px;
+    font-weight: 900;
+    color: #4ECDC4;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+  }
+  .main-title {
+    font-size: 36px;
+    font-weight: 900;
+    color: #000;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .main-title .accent {
+    color: #FF6B6B;
+  }
+  .sub-title {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+  }
+
+  /* Banner */
+  .banner {
+    margin: 0 24px 24px;
+    padding: 16px 20px;
+    background: #4ECDC4;
+    transform: rotate(-1deg);
+    position: relative;
+  }
+  .banner::after {
+    content: '';
+    position: absolute;
+    bottom: -8px; left: 0; right: 0;
+    height: 8px;
+    background: #3DB8B0;
+    transform: rotate(0.5deg);
+  }
+  .banner-text {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+
+  /* Stats */
+  .stats {
+    display: flex;
+    margin: 0 24px 24px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    flex: 1;
+    min-width: 80px;
+    padding: 16px 12px;
+    text-align: center;
+    border: 3px solid #000;
+    position: relative;
+  }
+  .stat:nth-child(1) { background: #FFE66D; }
+  .stat:nth-child(2) { background: #FF6B6B; color: #fff; }
+  .stat:nth-child(3) { background: #4ECDC4; }
+  .stat:nth-child(4) { background: #A8E6CF; }
+  .stat-num {
+    font-size: 28px;
+    font-weight: 900;
+    color: #000;
+  }
+  .stat-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #000;
+    margin-top: 4px;
+  }
+
+  /* Journey */
+  .journey {
+    margin: 0 24px 24px;
+    padding: 20px;
+    background: #fff;
+    border: 3px solid #000;
+    position: relative;
+  }
+  .j-label {
+    font-size: 11px;
+    font-weight: 900;
+    color: #FF6B6B;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+  }
+  .j-dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .j-dot {
+    font-size: 13px;
+    font-weight: 700;
+    color: #000;
+    padding: 4px 10px;
+    background: #FFE66D;
+    border: 2px solid #000;
+  }
+  .j-arrow {
+    color: #FF6B6B;
+    font-weight: 900;
+  }
+
+  /* Quote */
+  .quote {
+    margin: 0 24px 24px;
+    padding: 20px;
+    background: #FFE66D;
+    border: 3px solid #000;
+    transform: rotate(0.5deg);
+  }
+  .quote p {
+    font-size: 14px;
+    color: #000;
+    line-height: 1.8;
+    font-weight: 500;
+  }
+  .quote strong {
+    background: #000;
+    color: #FFE66D;
+    padding: 2px 6px;
+  }
+
+  /* Solutions */
+  .solutions {
+    margin: 0 24px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .sol-tag {
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 2px solid #000;
+    transform: rotate(var(--r));
+  }
+  .sol-tag:nth-child(1) { background: #FF6B6B; color: #fff; --r: -2deg; }
+  .sol-tag:nth-child(2) { background: #4ECDC4; --r: 1deg; }
+  .sol-tag:nth-child(3) { background: #FFE66D; --r: -1deg; }
+  .sol-tag:nth-child(4) { background: #A8E6CF; --r: 2deg; }
+  .sol-tag:nth-child(5) { background: #FF9F43; color: #fff; --r: -1.5deg; }
+
+  /* Footer */
+  .footer {
+    padding: 0 32px 36px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .qr-wrap {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 12px;
+    padding: 6px;
+    background: #fff;
+    border: 3px solid #000;
+  }
+  .qr-wrap img {
+    width: 108px;
+    height: 108px;
+    display: block;
+  }
+  .qr-text {
+    font-size: 14px;
+    color: #000;
+    font-weight: 900;
+    margin-bottom: 4px;
+  }
+  .qr-sub {
+    font-size: 11px;
+    color: #666;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+  <div class="shape shape-3"></div>
+  <div class="shape shape-4"></div>
+
+  <div class="header">
+    <div class="avatar-wrap">
+      <img src="../assets/logo-new.png" alt="树懒老K" class="avatar" onerror="this.style.display='none'" style="width: 200px; height: auto; border-radius: 0; object-fit: contain; display: block;" >
+    </div>
+    <div class="brand">S L O T H  M A S T E R</div>
+    <div class="main-title"></div>
+    <div class="sub-title">企业AI转型方法论架构师<br>慢一点，深一度</div>
+  </div>
+
+  <div class="banner">
+    <div class="banner-text">28年 × 6种方法论 × 24个智能体</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">28</div>
+      <div class="stat-label">年</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">6</div>
+      <div class="stat-label">方法论</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">24</div>
+      <div class="stat-label">智能体</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">400+</div>
+      <div class="stat-label">原创</div>
+    </div>
+  </div>
+
+  <div class="journey">
+    <div class="j-label">五 段 旅 程</div>
+    <div class="j-dots">
+      <span class="j-dot">中石化</span>
+      <span class="j-arrow">→</span>
+      <span class="j-dot">霍尼韦尔</span>
+      <span class="j-arrow">→</span>
+      <span class="j-dot">毕博</span>
+      <span class="j-arrow">→</span>
+      <span class="j-dot">德勤</span>
+      <span class="j-arrow">→</span>
+      <span class="j-dot"></span>
+    </div>
+  </div>
+
+  <div class="quote">
+    <p>技术从来不缺，缺的是让组织接住技术的方法。<strong>慢一点，深一度。</strong></p>
+  </div>
+
+  <div class="solutions">
+    <span class="sol-tag">知识管理平台</span>
+    <span class="sol-tag">智能报价CPQ</span>
+    <span class="sol-tag">产销平衡</span>
+    <span class="sol-tag">制造运营</span>
+    <span class="sol-tag">成长适配诊断</span>
+  </div>
+
+  <div class="footer">
+    <div class="qr-wrap">
+      <img src="../assets/qrcode-poster.png" alt="OPC网站二维码">
+    </div>
+    <div class="qr-text">树懒老K · 个人网站</div>
+    <div class="qr-sub">扫码访问，获取更多AI转型方法论</div>
+  </div>
+</div>
+</body>
+</html>

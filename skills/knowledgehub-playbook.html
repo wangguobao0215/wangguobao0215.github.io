@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KnowledgeHub · 全链路体验手册 | 树懒老K技能家族</title>
+<style>
+:root {
+  --primary: #4a80a8;
+  --primary-dark: #3a6a8a;
+  --secondary: #5A9E8F;
+  --accent: #C57B3A;
+  --navy: #2a3e50;
+  --text: #3a5a70;
+  --text-light: #6a8298;
+  --bg: #e8eef5;
+  --card: rgba(255,255,255,0.92);
+  --border: rgba(74,136,176,0.12);
+  --code-bg: #1e2e3f;
+  --shadow: 0 4px 24px rgba(70,120,160,0.1);
+  --shadow-hover: 0 12px 40px rgba(70,120,160,0.16);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+/* ========== NAVIGATION ========== */
+.sticky-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+.nav-brand {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: 1px;
+}
+.nav-brand span {
+  color: var(--primary);
+  font-weight: 400;
+  font-size: 12px;
+  margin-left: 8px;
+}
+.nav-links {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.nav-links a {
+  font-size: 12px;
+  color: var(--text-light);
+  text-decoration: none;
+  padding: 5px 12px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-links a:hover, .nav-links a.active {
+  background: rgba(74,136,176,0.1);
+  color: var(--primary-dark);
+}
+
+/* ========== HERO ========== */
+.hero {
+  background: linear-gradient(160deg, #192536 0%, #1e2e3f 35%, #1a2839 70%, #161f2d 100%);
+  color: #fff;
+  padding: 120px 24px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -40%; right: -25%;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(74,136,176,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-block;
+  font-size: 11px;
+  color: var(--primary);
+  letter-spacing: 4px;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  border: 1px solid rgba(74,136,176,0.3);
+  padding: 4px 16px;
+  border-radius: 20px;
+}
+.hero-title {
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.hero-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 40px;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-stats {
+  display: inline-flex;
+  gap: 48px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 24px 48px;
+}
+.hero-stat-num { font-size: 32px; font-weight: 700; color: var(--primary); line-height: 1; }
+.hero-stat-label { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 8px; letter-spacing: 1px; }
+
+/* ========== SECTIONS ========== */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 64px 24px 48px;
+}
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.section-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary);
+  background: rgba(74,136,176,0.08);
+  padding: 4px 14px;
+  border-radius: 20px;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+.section-desc {
+  font-size: 15px;
+  color: var(--text-light);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ========== CARDS ========== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px;
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+.card-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card-title::before {
+  content: '';
+  width: 4px; height: 20px;
+  background: linear-gradient(to bottom, var(--primary), var(--secondary));
+  border-radius: 2px;
+}
+
+/* ========== FLOW DIAGRAMS ========== */
+.flow-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8fafc, #f0f5fa);
+  border-radius: 14px;
+  margin: 16px 0;
+}
+.flow-node {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  text-align: center;
+  min-width: 110px;
+  box-shadow: 0 2px 8px rgba(70,120,160,0.06);
+}
+.flow-node .flow-skill {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+.flow-node .flow-action {
+  font-size: 11px;
+  color: var(--text-light);
+}
+.flow-arrow {
+  color: var(--primary);
+  font-size: 18px;
+  font-weight: 700;
+}
+.flow-row {
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-light);
+  margin: 8px 0;
+  font-style: italic;
+}
+
+/* ========== CODE BLOCKS ========== */
+.code-block {
+  background: var(--code-bg);
+  border-radius: 12px;
+  padding: 20px;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+.code-block pre {
+  color: #d4e4f0;
+  font-family: "SF Mono", Monaco, "Cascadia Code", monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.code-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--primary);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+/* ========== TABLES ========== */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 14px 0;
+}
+.data-table th {
+  background: linear-gradient(135deg, rgba(74,136,176,0.08), rgba(90,158,143,0.06));
+  color: var(--primary-dark);
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 2px solid rgba(74,136,176,0.15);
+}
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(74,136,176,0.08);
+  color: var(--text);
+}
+.data-table tr:hover td {
+  background: rgba(74,136,176,0.03);
+}
+
+/* ========== HIGHLIGHT BOXES ========== */
+.highlight-box {
+  background: linear-gradient(135deg, rgba(74,128,168,0.08), rgba(90,158,143,0.06));
+  border-left: 3px solid var(--primary);
+  padding: 16px 20px;
+  border-radius: 0 12px 12px 0;
+  margin: 16px 0;
+}
+.highlight-box strong {
+  color: var(--primary-dark);
+  font-size: 13px;
+}
+
+/* ========== TAGS ========== */
+.tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-right: 6px;
+  letter-spacing: 0.5px;
+}
+.tag-blue { color: #fff; background: linear-gradient(135deg, var(--primary), #5b9ab8); }
+.tag-green { color: #fff; background: linear-gradient(135deg, var(--secondary), #4a8a7e); }
+.tag-orange { color: #fff; background: linear-gradient(135deg, var(--accent), #A8652E); }
+.tag-gray { color: var(--text-light); background: rgba(74,136,176,0.1); }
+
+/* ========== GRID LAYOUTS ========== */
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+
+/* ========== DETAILS / ACCORDION ========== */
+details {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+details > summary {
+  padding: 16px 20px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--navy);
+  font-size: 14px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before {
+  content: '▸';
+  color: var(--primary);
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+details[open] > summary::before { content: '▾'; }
+details > .detail-body {
+  padding: 0 20px 20px;
+}
+
+/* ========== STEP CARDS ========== */
+.step-card {
+  display: flex;
+  gap: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 14px;
+}
+.step-num {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.step-content { flex: 1; }
+.step-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.step-desc {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 10px;
+}
+
+/* ========== ARCHITECTURE DIAGRAM ========== */
+.arch-diagram {
+  background: var(--code-bg);
+  border-radius: 14px;
+  padding: 24px;
+  color: #d4e4f0;
+  font-family: "SF Mono", Monaco, monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+/* ========== FLYWHEEL ========== */
+.flywheel {
+  background: linear-gradient(135deg, #f8fafc, #f0f5fa);
+  border-radius: 14px;
+  padding: 28px;
+  text-align: center;
+  margin: 20px 0;
+}
+.flywheel-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+.flywheel-cycle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.flywheel-item {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  min-width: 140px;
+  text-align: center;
+}
+.flywheel-item .fw-icon { font-size: 24px; margin-bottom: 6px; }
+.flywheel-item .fw-label { font-size: 13px; font-weight: 600; color: var(--navy); }
+.flywheel-item .fw-desc { font-size: 11px; color: var(--text-light); margin-top: 4px; }
+.flywheel-arrow { color: var(--primary); font-size: 20px; }
+
+/* ========== CUSTOMER PROFILE ========== */
+.profile-card {
+  background: linear-gradient(135deg, rgba(74,128,168,0.06), rgba(90,158,143,0.04));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+}
+.profile-card h4 {
+  font-size: 14px;
+  color: var(--primary-dark);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ========== FOOTER ========== */
+.footer {
+  background: var(--navy);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 40px 24px;
+  font-size: 13px;
+}
+.footer a { color: var(--primary); text-decoration: none; }
+
+/* ========== SCROLL TOP ========== */
+.scroll-top {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(74,136,176,0.3);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 999;
+}
+.scroll-top.visible { opacity: 1; }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .hero-title { font-size: 26px; }
+  .hero-stats { flex-direction: column; gap: 20px; padding: 20px 32px; }
+  .nav-links { display: none; }
+  .flow-diagram { flex-direction: column; }
+  .flow-arrow { transform: rotate(90deg); }
+  .step-card { flex-direction: column; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <div class="nav-brand">KnowledgeHub <span>全链路体验手册</span></div>
+    <div class="nav-links">
+      <a href="#knowledgehub">架构设计</a>
+      <a href="#integration">集成配置</a>
+      <a href="#manufacturing">制造业咨询</a>
+      <a href="#b2b-sales">B2B销售</a>
+      <a href="#social-media">社媒获客</a>
+      <a href="#reference">速查表</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="hero-badge">Sloth-Eido Skill Family</div>
+  <h1 class="hero-title">KnowledgeHub · 全链路体验手册</h1>
+  <p class="hero-sub">从知识架构到三条业务链路的完整实践指南<br>覆盖制造业数字化咨询、B2B SaaS销售全周期、社媒获客到方案交付</p>
+  <div class="hero-stats">
+    <div><div class="hero-stat-num">9+</div><div class="hero-stat-label">技能覆盖</div></div>
+    <div><div class="hero-stat-num">3</div><div class="hero-stat-label">业务链路</div></div>
+    <div><div class="hero-stat-num">23</div><div class="hero-stat-label">操作步骤</div></div>
+    <div><div class="hero-stat-num">35</div><div class="hero-stat-label">知识结晶点</div></div>
+  </div>
+</section>
+
+<!-- Part 1: KnowledgeHub Architecture -->
+<section class="section" id="knowledgehub">
+  <div class="section-header">
+    <div class="section-tag">PART 01</div>
+    <h2 class="section-title">KnowledgeHub 架构设计</h2>
+    <p class="section-desc">跨Skill中央知识广场的技术架构、数据模型与双向软协议</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">设计目标</div>
+    <p style="margin-bottom:14px">KnowledgeHub（深知 · 知识中枢）构建一个<strong>跨Skill的中央知识广场</strong>，实现萃取、注册、检索、进化的完整闭环。</p>
+    <div class="grid-3">
+      <div class="highlight-box"><strong>萃取</strong><br><span style="font-size:13px;color:var(--text-light)">在九大Skill关键产出节点自动识别知识精华</span></div>
+      <div class="highlight-box"><strong>注册</strong><br><span style="font-size:13px;color:var(--text-light)">Markdown+Frontmatter为SSOT，SQLite为派生索引</span></div>
+      <div class="highlight-box"><strong>检索</strong><br><span style="font-size:13px;color:var(--text-light)">Skill工作时按需查询推送相关知识</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">双存储层 + 双向协议桥</div>
+    <div class="arch-diagram>
+┌─────────────────────────────────────────────────────────────┐
+│                     Obsidian Vault                           │
+│  ┌──────────┐  ┌──────────┐  ┌──────────────────────────┐  │
+│  │01-研发    │  │02-市场   │  │03-销售管理 ...            │  │
+│  │(Markdown)│  │(Markdown)│  │(Markdown)                 │  │
+│  └──────────┘  └──────────┘  └──────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │ _hub/                                                 │  │
+│  │   ├── registry.db  ← SQLite索引（WAL模式）             │  │
+│  │   ├── config.yaml                                     │  │
+│  │   └── schema/  ← Frontmatter Schema定义               │  │
+│  └──────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+                              ↑↓
+┌─────────────────────────────────────────────────────────────┐
+│              Python脚本层 (scripts/)                         │
+│  init_vault ── init_registry ── register ── query ── rebuild │
+│  audit ── retire ── update_reuse ── record_feedback          │
+└─────────────────────────────────────────────────────────────┘
+                              ↑↓
+┌─────────────────────────────────────────────────────────────┐
+│           九大Skill Bridge (knowledge-hub-bridge)            │
+│     知识结晶点 (Skill→Hub)          知识需求点 (Hub→Skill)    │
+│     [high/medium/low]               [auto-query+recommend]   │
+└─────────────────────────────────────────────────────────────┘
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Frontmatter 规范（SSOT）</div>
+      <div class="code-block">
+        <div class="code-label">YAML Frontmatter Template</div>
+        <pre>---
+id: KC-{STAGE_CODE}-{YYYYMMDD}-{SEQ}
+asset_type: best_practice
+title: 资产标题
+summary: "100字以内摘要"
+source_skill: Sloth-Sales-Eido
+source_version: 5.0.0
+value_chain_stage: sales
+industry: [automotive]
+confidence: B
+status: published
+created: 2026-04-28
+last_validated: 2026-04-28
+reuse_count: 0
+contributors: []
+tags: []
+applicable_skills: []
+---</pre>
+      </div>
+      <table class="data-table">
+        <tr><th>字段</th><th>约束</th></tr>
+        <tr><td><code>id</code></td><td>KC-{CODE}-{YYYYMMDD}-{3位序列}，全局唯一</td></tr>
+        <tr><td><code>asset_type</code></td><td>best_practice / case_study / competitive_intel / playbook 等8种</td></tr>
+        <tr><td><code>confidence</code></td><td>A（高，案例+复用≥2）/ B（中，有案例）/ C（低，理论）</td></tr>
+        <tr><td><code>status</code></td><td>draft / review / published / deprecated</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">SQLite Registry Schema</div>
+      <div class="code-block">
+        <div class="code-label">核心表结构</div>
+        <pre>CREATE TABLE assets (
+    id TEXT PRIMARY KEY,
+    asset_type TEXT NOT NULL,
+    title TEXT NOT NULL,
+    summary TEXT DEFAULT '',
+    source_skill TEXT NOT NULL,
+    value_chain_stage TEXT NOT NULL,
+    confidence TEXT CHECK(confidence IN ('A','B','C')),
+    status TEXT DEFAULT 'published',
+    reuse_count INTEGER DEFAULT 0,
+    content_hash TEXT,
+    file_path TEXT NOT NULL
+);
+
+CREATE TABLE feedback (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    asset_id TEXT NOT NULL,
+    rating TEXT CHECK(rating IN ('useful','outdated','inaccurate')),
+    comment TEXT DEFAULT ''
+);</pre>
+      </div>
+      <p style="font-size:12px;color:var(--text-light);margin-top:8px">* reuse_log、audit_log、feedback 为历史表，rebuild时不被触碰</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">核心机制一览</div>
+    <div class="grid-2">
+      <div>
+        <h4 style="font-size:14px;color:var(--primary-dark);margin-bottom:8px">ID生成策略</h4>
+        <p style="font-size:13px;color:var(--text-light);margin-bottom:12px">MAX-based序列 + INSERT OR FAIL重试，解决序列复用和并发碰撞问题。</p>
+        <div class="code-block" style="padding:12px 16px"><pre style="font-size:12px">KC-{STAGE_CODE}-{YYYYMMDD}-{3位序列}
+示例：KC-SAL-20260428-001
+
+Stage Code: RND/MKT/SAL/PSC/DEL/CSM/CRS</pre></div>
+      </div>
+      <div>
+        <h4 style="font-size:14px;color:var(--primary-dark);margin-bottom:8px">Confidence自动演化</h4>
+        <p style="font-size:13px;color:var(--text-light);margin-bottom:12px">基于复用次数和反馈比率动态调整资产质量等级。</p>
+        <table class="data-table" style="font-size:12px">
+          <tr><th>规则</th><th>条件</th><th>效果</th></tr>
+          <tr><td>升级</td><td>reuse≥3 且 useful≥75%</td><td>C→B 或 B→A</td></tr>
+          <tr><td>降级</td><td>outdated+inaccurate≥3</td><td>A→B 或 B→C</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4 style="font-size:14px;color:var(--primary-dark);margin-bottom:8px">Body-only Hash</h4>
+        <p style="font-size:13px;color:var(--text-light);margin-bottom:12px">仅对Frontmatter闭合线之后的正文计算MD5，确保reuse_count等字段更新时哈希不变。</p>
+      </div>
+      <div>
+        <h4 style="font-size:14px;color:var(--primary-dark);margin-bottom:8px">安全重建模式</h4>
+        <p style="font-size:13px;color:var(--text-light);margin-bottom:12px">备份 → 填充临时表 → 完整性检查 → 原子切换，四段式安全重建。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">双向软协议设计</div>
+    <div class="grid-2">
+      <div class="highlight-box">
+        <strong>方向A：Skill → Hub（知识结晶）</strong><br>
+        <span style="font-size:13px">Skill完成结晶点后，AI提取关键信息组装成预填萃取卡片。用户确认后才写入Vault。</span>
+        <div class="code-block" style="margin-top:10px;padding:12px 16px"><pre style="font-size:11px">📝 知识萃取完成
+━━━━━━━━━━━━━━━━━━━━━━
+标题：{title}
+类型：{asset_type_zh}
+置信度：{confidence}
+━━━━━━━━━━━━━━━━━━━━━━
+✅ 已写入：{path}
+   库内共 {total_count} 条资产</pre></div>
+      </div>
+      <div class="highlight-box">
+        <strong>方向B：Hub → Skill（知识推送）</strong><br>
+        <span style="font-size:13px">Skill启动知识需求点时，自动检索匹配资产（最多3条），无匹配则静默跳过。</span>
+        <div class="code-block" style="margin-top:10px;padding:12px 16px"><pre style="font-size:11px">📚 发现 {n} 条相关知识：
+┌──────────────────────────┐
+│ ❶ {title}               │
+│ 来源:{skill} │复用{n}│{conf}│
+│ 摘要: {summary}          │
+└──────────────────────────┘</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">九大Skill集成矩阵</div>
+    <p style="font-size:13px;color:var(--text-light);margin-bottom:14px">共定义35个知识结晶点，v1.0默认激活17个high-priority节点。</p>
+    <table class="data-table">
+      <tr><th>Skill</th><th>high</th><th>medium</th><th>low</th><th>合计</th></tr>
+      <tr><td>HybridDev</td><td>2</td><td>1</td><td>0</td><td>3</td></tr>
+      <tr><td>MGO</td><td>1</td><td>2</td><td>1</td><td>4</td></tr>
+      <tr><td>SMM</td><td>1</td><td>1</td><td>1</td><td>3</td></tr>
+      <tr><td>Sales</td><td>2</td><td>2</td><td>0</td><td>4</td></tr>
+      <tr><td>StratAlign</td><td>2</td><td>2</td><td>0</td><td>4</td></tr>
+      <tr><td>MfgConsult</td><td>2</td><td>2</td><td>0</td><td>4</td></tr>
+      <tr><td>PSC</td><td>2</td><td>2</td><td>0</td><td>4</td></tr>
+      <tr><td>DeliveryMatrix</td><td>2</td><td>2</td><td>0</td><td>4</td></tr>
+      <tr><td>SkyHub</td><td>3</td><td>1</td><td>1</td><td>5</td></tr>
+      <tr style="font-weight:700"><td>合计</td><td>17</td><td>15</td><td>3</td><td>35</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- Part 2: Integration Configuration -->
+<section class="section" id="integration" style="background:linear-gradient(180deg, transparent, rgba(74,136,176,0.03) 50%, transparent);">
+  <div class="section-header">
+    <div class="section-tag">PART 02</div>
+    <h2 class="section-title">9+1 Skill 集成配置指南</h2>
+    <p class="section-desc">一键启用全部 Skill 与 KnowledgeHub 的双向软协议，打通知识结晶与知识推送全链路</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">配置前须知</div>
+    <p style="margin-bottom:14px">默认状态下，<strong>9 个业务 Skill 与 KnowledgeHub 并不连通</strong>。每个 Skill 的 Bridge 模块采用<strong>零依赖隔离设计</strong>——仅在 EXTEND.md 中 <code>knowledge_hub.enabled = true</code> 时激活。</p>
+    <div class="grid-3">
+      <div class="highlight-box"><strong>Bridge 文件已就绪</strong><br><span style="font-size:13px;color:var(--text-light)">9 个 Skill 的 modules/knowledge-hub-bridge.md 均已预先定义</span></div>
+      <div class="highlight-box"><strong>Vault 路径已对齐</strong><br><span style="font-size:13px;color:var(--text-light)">所有 EXTEND.md 默认指向 ~/Obsidian/Sloth-Central-Vault</span></div>
+      <div class="highlight-box"><strong>仅需改一个开关</strong><br><span style="font-size:13px;color:var(--text-light)">将 enabled: false 改为 true，即刻激活双向协议</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">三步完成配置</div>
+
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">确认 KnowledgeHub Vault 路径</div>
+        <div class="step-desc">打开 Sloth-KnowledgeHub-Eido/EXTEND.md，确认 vault_path 指向你的 Obsidian Vault</div>
+        <div class="code-block" style="padding:12px 16px"><pre style="font-size:12px"># Sloth-KnowledgeHub-Eido/EXTEND.md
+vault_path: "/Users/wangguobao/Obsidian/Sloth-Central-Vault"</pre></div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">启用 9 个业务 Skill 的 Hub 集成开关</div>
+        <div class="step-desc">依次打开以下 9 个 Skill 的 EXTEND.md，将 knowledge_hub.enabled 改为 true</div>
+        <div class="code-block" style="padding:12px 16px"><pre style="font-size:12px"># 以下 9 个文件修改相同位置
+Sloth-Sales-Eido/EXTEND.md
+Sloth-PSC-Eido/EXTEND.md
+Sloth-SMM-Eido/EXTEND.md
+Sloth-HybridDev-Eido/EXTEND.md
+Sloth-MGO-Eido/EXTEND.md
+Sloth-StratAlign-Eido/EXTEND.md
+Sloth-MfgConsult-Eido/EXTEND.md
+Sloth-DeliveryMatrix-Eido/EXTEND.md
+Sloth-SkyHub-Eido/EXTEND.md
+
+# 修改内容
+knowledge_hub:
+  enabled: true                           # &lt;- 改为 true
+  vault_path: "/Users/wangguobao/Obsidian/Sloth-Central-Vault"
+  auto_publish_confidence: B
+  query_result_limit: 3</pre></div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">初始化 KnowledgeHub 并验证</div>
+        <div class="step-desc">在对话中调用 KnowledgeHub，执行初始化与状态检查</div>
+        <div class="code-block" style="padding:12px 16px"><pre style="font-size:12px">@sloth-knowledgehub-eido
+init
+
+# 期望输出：
+# ✅ Vault 已就绪
+# ✅ registry.db 已创建（WAL模式）
+# ✅ schema/ 已部署
+# ✅ 当前资产数：0</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">9 Skill 知识结晶点一览</div>
+    <p style="font-size:13px;color:var(--text-light);margin-bottom:14px">共 35 个结晶点，v1.0 默认激活 17 个 high-priority 节点。medium/low 为 opt-in。</p>
+    <table class="data-table">
+      <tr><th>Skill</th><th>high（默认激活）</th><th>medium</th><th>low</th><th>合计</th></tr>
+      <tr><td><strong>Sales</strong></td><td>赢单复盘、丢单复盘</td><td>新战术、异议处理</td><td>—</td><td>4</td></tr>
+      <tr><td><strong>PSC</strong></td><td>SCQA框架、竞对战卡</td><td>丢单复盘、Demo手册</td><td>—</td><td>4</td></tr>
+      <tr><td><strong>SMM</strong></td><td>爆款内容复盘</td><td>平台算法策略</td><td>内容系列复盘</td><td>3</td></tr>
+      <tr><td><strong>HybridDev</strong></td><td>Feature Brief、竞对战卡</td><td>架构决策记录</td><td>—</td><td>3</td></tr>
+      <tr><td><strong>MGO</strong></td><td>竞品分析报告</td><td>行业趋势、线索转化复盘</td><td>活动ROI复盘</td><td>4</td></tr>
+      <tr><td><strong>StratAlign</strong></td><td>战略诊断、行业Playbook</td><td>AI-Native评分、投资组合</td><td>—</td><td>4</td></tr>
+      <tr><td><strong>MfgConsult</strong></td><td>企业诊断、蓝图设计</td><td>工厂评估、行业共性问题</td><td>—</td><td>4</td></tr>
+      <tr><td><strong>DeliveryMatrix</strong></td><td>项目复盘、风险处理</td><td>最佳实践、交付方法论</td><td>—</td><td>4</td></tr>
+      <tr><td><strong>SkyHub</strong></td><td>Playbook执行、成功故事、健康度救援</td><td>续约策略、流失分析</td><td>—</td><td>5</td></tr>
+      <tr style="font-weight:700"><td>合计</td><td>17</td><td>15</td><td>3</td><td>35</td></tr>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">方向 A：Skill → Hub（知识结晶）</div>
+      <p style="font-size:13px;color:var(--text-light);margin-bottom:12px">当 Skill 完成高优先级操作后，AI 展示预填萃取卡片，经用户确认后写入 Vault。</p>
+      <div class="code-block" style="padding:12px 16px"><pre style="font-size:11px">📝 知识萃取建议
+━━━━━━━━━━━━━━━━━━━━━━
+来源：Sloth-PSC-Eido / 会议整理
+类型：best_practice
+标题：博创精密售前调研提纲模板
+置信度：B
+━━━━━━━━━━━━━━━━━━━━━━
+[预览内容...]
+
+✅ 确认写入  /  ✏️ 编辑  /  ⏭️ 跳过</pre></div>
+      <p style="font-size:12px;color:var(--text-light);margin-top:10px">* 用户选择「跳过」后，系统会在下次相同场景再次提示。</p>
+    </div>
+    <div class="card">
+      <div class="card-title">方向 B：Hub → Skill（知识推送）</div>
+      <p style="font-size:13px;color:var(--text-light);margin-bottom:12px">当 Skill 启动知识需求点操作时，自动检索匹配资产（最多 3 条），无匹配则静默跳过。</p>
+      <div class="code-block" style="padding:12px 16px"><pre style="font-size:11px">📚 发现 2 条相关知识：
+
+┌──────────────────────────┐
+│ ❶ HMLV工厂诊断方法论      │
+│ 来源:MfgConsult │复用3│ B │
+│ 摘要: 三层冲突诊断框架...  │
+└──────────────────────────┘
+
+┌──────────────────────────┐
+│ ❷ 汽车零部件MES选型方案   │
+│ 来源:PSC        │复用5│ A │
+│ 摘要: SCQA结构+ROI估算... │
+└──────────────────────────┘</pre></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">配置验证清单</div>
+    <div class="grid-2">
+      <div>
+        <h4 style="font-size:14px;color:var(--primary-dark);margin-bottom:10px">文件级检查</h4>
+        <p style="font-size:13px;color:var(--text-light);margin-bottom:8px">确认以下文件存在且内容完整：</p>
+        <div class="code-block" style="padding:12px 16px"><pre style="font-size:12px">☑ Sloth-KnowledgeHub-Eido/modules/
+    └── knowledge-hub-bridge-template.md
+☑ Sloth-{Skill}-Eido/modules/
+    └── knowledge-hub-bridge.md  (x9)
+☑ Sloth-{Skill}-Eido/EXTEND.md
+    └── knowledge_hub.enabled = true  (x9)</pre></div>
+      </div>
+      <div>
+        <h4 style="font-size:14px;color:var(--primary-dark);margin-bottom:10px">运行级检查</h4>
+        <p style="font-size:13px;color:var(--text-light);margin-bottom:8px">在对话中执行以下命令验证：</p>
+        <div class="code-block" style="padding:12px 16px"><pre style="font-size:12px">@sloth-knowledgehub-eido
+status
+# ✅ Vault路径有效
+# ✅ registry.db可读写
+# ✅ 索引正常
+
+@sloth-sales-eido
+# 执行任意操作，观察是否
+# 出现知识推送/萃取提示</pre></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Part 3: Manufacturing Consulting -->
+<section class="section" id="manufacturing" style="background:linear-gradient(180deg, transparent, rgba(74,136,176,0.03) 50%, transparent);">
+  <div class="section-header">
+    <div class="section-tag">PART 03</div>
+    <h2 class="section-title">制造业数字化咨询全链路</h2>
+    <p class="section-desc">Sales → PSC → StratAlign → MfgConsult → DeliveryMatrix → KnowledgeHub<br>6个Skill · 9步操作 · 知识的沉淀→复用→反哺闭环</p>
+  </div>
+
+  <div class="card profile-card">
+    <h4>🎯 测试客户档案：博创精密汽车零部件有限公司</h4>
+    <div class="grid-3">
+      <div><strong>行业</strong><br><span style="font-size:13px;color:var(--text-light)">汽车零部件（Tier-2）</span></div>
+      <div><strong>年产值</strong><br><span style="font-size:13px;color:var(--text-light)">8亿元 / 1200人 / 3工厂</span></div>
+      <div><strong>核心痛点</strong><br><span style="font-size:13px;color:var(--text-light)">交期失控 · 换型耗时 · 数据孤岛</span></div>
+      <div><strong>OEE</strong><br><span style="font-size:13px;color:var(--text-light)">58%（行业标杆75%）</span></div>
+      <div><strong>准交率</strong><br><span style="font-size:13px;color:var(--text-light)">72%（合同要求≥90%）</span></div>
+      <div><strong>数字化预算</strong><br><span style="font-size:13px;color:var(--text-light)">2000万（分两期）</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">全链路路线图</div>
+    <div class="flow-diagram">
+      <div class="flow-node"><div class="flow-skill">Sales</div><div class="flow-action">客户建档</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node"><div class="flow-skill">PSC</div><div class="flow-action">调研+方案</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node"><div class="flow-skill">StratAlign</div><div class="flow-action">战略诊断</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node"><div class="flow-skill">MfgConsult</div><div class="flow-action">运营诊断</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node"><div class="flow-skill">Delivery</div><div class="flow-action">交付规划</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node"><div class="flow-skill">KnowledgeHub</div><div class="flow-action">知识沉淀</div></div>
+    </div>
+    <div class="flow-diagram" style="background:transparent;border:1px dashed var(--border);">
+      <div class="flow-row">第二轮：知识复用（Step 7-8）</div>
+      <div class="flow-node" style="background:linear-gradient(135deg,rgba(74,136,176,0.08),rgba(90,158,143,0.06))"><div class="flow-skill">KnowledgeHub</div><div class="flow-action">知识检索</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="background:linear-gradient(135deg,rgba(74,136,176,0.08),rgba(90,158,143,0.06))"><div class="flow-skill">Sales/PSC</div><div class="flow-action">加速二客</div></div>
+    </div>
+  </div>
+
+  <details>
+    <summary>Step 1：Sales — 客户建档与首次跟进</summary>
+    <div class="detail-body">
+      <div class="code-block">
+        <div class="code-label">打开方式</div>
+        <pre>@sloth-sales-eido</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>录入客户：</strong></p>
+      <div class="code-block">
+        <pre>帮我录入一个新客户
+
+客户名：博创精密汽车零部件有限公司
+行业：汽车零部件制造
+年产值：8亿
+员工数：1200人
+联系人：张伟，运营副总裁
+当前方案：用友U8 ERP（2018年上线），无MES，Excel排产
+核心痛点：交期失控（准交率72%，要求90%），换型耗时（45min/次），三厂数据孤岛
+数字化预算：2000万（分两期）
+竞对情况：用友已接触过，鼎捷正在做POC</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>记录首次活动（自然语言）：</strong></p>
+      <div class="code-block">
+        <pre>今天给张伟打了个电话，他说交期问题让他很头疼，客户（某日系主机厂）已经发了两次黄牌警告。他对数字化改造有意愿但担心实施风险，因为之前ERP上线就拖了8个月。约了下周三去苏州工厂实地拜访，他会叫上刘芳（IT总监）和陈明（生产经理）一起。</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>准备拜访：</strong></p>
+      <div class="code-block"><pre>准备拜访博创精密</pre></div>
+      <p style="font-size:13px;color:var(--text-light)">期望产出：一页纸拜访简报，含公司概览、痛点回顾、决策链分析、MEDDIC问题清单。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Step 2：PSC — 售前调研 + 会议纪要 + 方案骨架</summary>
+    <div class="detail-body">
+      <div class="code-block">
+        <div class="code-label">打开方式</div>
+        <pre>@sloth-psc-eido</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>生成调研提纲：</strong></p>
+      <div class="code-block">
+        <pre>帮我准备调研提纲
+
+客户：博创精密汽车零部件有限公司
+行业：汽车零部件制造（Tier-2）
+初步需求：解决交期失控问题（准交率72%→90%），消除三厂数据孤岛，智能排产替代Excel手工排产
+交流对象：张伟（运营副总裁）、刘芳（IT总监）、陈明（苏州工厂生产经理）
+项目阶段：初访</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>整理会议纪要：</strong></p>
+      <div class="code-block">
+        <pre>帮我整理会议纪要
+
+客户：博创精密汽车零部件有限公司
+项目背景：制造业数字化转型咨询
+参会人：张伟-运营VP, 刘芳-IT总监, 陈明-生产经理, 我方王顾问, 李售前
+
+今天去了苏州工厂实地看了产线。张伟开场说日系客户已经发了两次黄牌...
+（详见完整手册）</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>搭建方案骨架（SCQA）：</strong></p>
+      <div class="code-block">
+        <pre>帮我搭方案骨架
+
+客户：博创精密汽车零部件有限公司
+行业：汽车零部件制造（Tier-2，HMLV高混合低批量）
+采购阶段：需求确认
+痛点：
+1. 准交率72%，日系客户已发黄牌
+2. 380+SKU频繁换型（日均6-8次 x 45min）
+3. 三厂数据孤岛，Excel排产无法跨厂协同
+4. OEE仅58%但数据不准
+我方核心优势：制造业数字化咨询经验+TOC瓶颈理论+分阶段快速见效方法论</pre>
+      </div>
+      <p style="font-size:13px;color:var(--text-light)">期望产出：SCQA结构完整输出、经济影响估算（ROI框架）、修辞审计、证据缺口清单。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Step 3：StratAlign — 数字化转型战略诊断</summary>
+    <div class="detail-body">
+      <div class="code-block">
+        <div class="code-label">打开方式</div>
+        <pre>@sloth-stratalign-eido</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>启动诊断：</strong></p>
+      <div class="code-block"><pre>启动 StratAlign，帮我做一个客户的数字化转型诊断。</pre></div>
+      <p style="margin-bottom:10px">引导回答：中文 → 中文 → 博创精密汽车零部件有限公司 → 汽车零部件制造 → 1200人/8亿产值 → <strong>B. 加速模式</strong></p>
+      <p style="margin-bottom:10px"><strong>战略解码（Module 1）要点：</strong></p>
+      <div class="code-block">
+        <pre>博创的战略愿景是成为日系主机厂的核心Tier-2供应商，三年内产值翻倍到16亿。
+核心战略主题：交付可靠性提升（72%→95%）、运营效率提升（OEE 58%→75%）、数字化运营
+BSC视角：财务降本增效，客户保住日系订单，内部标准化排产和换型，学习成长建立数字化团队</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>瓶颈扫描（Module 2）要点：</strong></p>
+      <div class="code-block">
+        <pre>业务瓶颈：排产靠经验、插单无标准、换型时间差异大
+技术债务：U8只用了财务和采购、无MES、Excel排产
+组织问题：IT团队只有3人、车间班组长抵触变化</pre>
+      </div>
+      <p style="font-size:13px;color:var(--text-light)">期望产出：执行摘要、AI场景排序（智能排产优先）、投资组合（Quick-Win→战略项→基础项）、分阶段路线图。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Step 4：MfgConsult — 制造运营深度诊断</summary>
+    <div class="detail-body">
+      <div class="code-block">
+        <div class="code-label">打开方式</div>
+        <pre>@sloth-mfgconsult-eido
+用诊断模块</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>企业快速画像：</strong></p>
+      <div class="code-block">
+        <pre>行业：汽车零部件（HMLV高混合低批量）
+年产值：8亿元
+员工数：1200人
+SKU数量：380+
+平均订单批量：50-200件
+平均交付周期：14天（客户要求压缩到10天）
+现有系统：用友U8（财务+采购），无MES
+瓶颈工序：CNC加工中心（5轴加工区）
+平均换型时间：45分钟/次
+OEE：58%（数据不完整）
+准交率：72%
+最大痛点：交期失控</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>有效产出会计（Step 3）：</strong></p>
+      <div class="code-block">
+        <pre>帮我做有效产出分析，这是几个代表性产品：
+
+产品A（发动机支架-A型）：售价850元，材料成本320元，外协成本50元，瓶颈工时18分钟，换型15分钟，典型批量150件
+产品B（变速箱壳体-B型）：售价1200元，材料成本480元，外协成本80元，瓶颈工时25分钟，换型45分钟，典型批量80件
+产品C（底盘结构件-C型）：售价380元，材料成本150元，外协成本20元，瓶颈工时8分钟，换型40分钟，典型批量200件
+产品D（特殊件-定制）：售价2500元，材料成本900元，外协成本200元，瓶颈工时35分钟，换型60分钟，典型批量20件</pre>
+      </div>
+      <p style="font-size:13px;color:var(--text-light)">期望产出：T/瓶颈分钟排名（A>C>B>D），D为隐藏亏损者。标准成本vs有效产出对比表。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Step 5：DeliveryMatrix — 交付项目规划</summary>
+    <div class="detail-body">
+      <div class="code-block">
+        <div class="code-label">打开方式</div>
+        <pre>@sloth-deliverymatrix-eido</pre>
+      </div>
+      <p style="margin-bottom:10px">引导回答：博创精密数字化转型一期 → A. 需求分析 → B. 产品实施 → C. 制造业</p>
+      <p style="margin-bottom:10px"><strong>风险评估：</strong></p>
+      <div class="code-block">
+        <pre>风险评估
+
+主要风险因素：
+1. 客户IT团队只有3人，技术承接能力弱
+2. 车间班组长可能抵触新系统
+3. 用友U8和新MES的数据对接，接口文档不全
+4. 日系客户的黄牌压力
+5. 预算分两期，一期上限1000万</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>里程碑设定：</strong></p>
+      <div class="code-block">
+        <pre>更新进度：
+
+M1 - 需求确认与签约（5月底）：完成率 60%
+M2 - 设备联网与数据采集（7月底）：完成率 0%
+M3 - MES基础模块上线（9月底）：完成率 0%
+M4 - 智能排产模块上线（11月底）：完成率 0%
+M5 - OEE看板+交期引擎上线（12月底）：完成率 0%
+M6 - 一期验收（次年1月）：完成率 0%</pre>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Step 6：KnowledgeHub — 知识沉淀（3条资产）</summary>
+    <div class="detail-body">
+      <div class="code-block">
+        <div class="code-label">打开方式</div>
+        <pre>@sloth-knowledgehub-eido
+init</pre>
+      </div>
+      <p style="margin-bottom:10px"><span class="tag tag-blue">asset 1</span> <strong>best_practice</strong> — PSC方案骨架</p>
+      <div class="code-block">
+        <pre>register
+
+asset_type: best_practice
+title: HMLV汽车零部件工厂数字化转型方案框架（SCQA结构）
+source_skill: Sloth-PSC-Eido
+value_chain_stage: presales
+industry: [automotive]
+confidence: B</pre>
+      </div>
+      <p style="margin-bottom:10px"><span class="tag tag-green">asset 2</span> <strong>methodology</strong> — 有效产出分析</p>
+      <div class="code-block">
+        <pre>register
+
+asset_type: methodology
+title: HMLV工厂有效产出核算方法与产品利润真相分析
+source_skill: Sloth-MfgConsult-Eido
+value_chain_stage: delivery
+industry: [automotive, manufacturing]
+confidence: B</pre>
+      </div>
+      <p style="margin-bottom:10px"><span class="tag tag-orange">asset 3</span> <strong>competitive_intel</strong> — 竞对情报</p>
+      <div class="code-block">
+        <pre>register
+
+asset_type: competitive_intel
+title: 鼎捷在汽车零部件行业的MES竞争情报
+source_skill: Sloth-Sales-Eido
+value_chain_stage: sales
+industry: [automotive]
+confidence: C</pre>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Step 7-9：知识复用、反馈进化与审计</summary>
+    <div class="detail-body">
+      <p style="margin-bottom:10px"><strong>新客户场景：</strong>两周后来了新线索「华通汽车配件有限公司」，同样是Tier-2汽车零部件，HMLV模式。</p>
+      <div class="code-block">
+        <div class="code-label">KnowledgeHub 检索复用</div>
+        <pre>query
+
+scenario_node: S4
+industry: automotive
+asset_type: best_practice
+
+---
+
+retrieve KC-S42-20260428-001
+# 自动触发复用计数 +1</pre>
+      </div>
+      <div class="flywheel">
+        <div class="flywheel-title">知识反哺闭环</div>
+        <div class="flywheel-cycle">
+          <div class="flywheel-item"><div class="fw-icon">📝</div><div class="fw-label">沉淀</div><div class="fw-desc">Sales/PSC/MfgConsult</div></div>
+          <div class="flywheel-arrow">→</div>
+          <div class="flywheel-item"><div class="fw-icon">🧠</div><div class="fw-label">KnowledgeHub</div><div class="fw-desc">中央知识广场</div></div>
+          <div class="flywheel-arrow">→</div>
+          <div class="flywheel-item"><div class="fw-icon">🔄</div><div class="fw-label">复用</div><div class="fw-desc">新项目的Sales/PSC</div></div>
+          <div class="flywheel-arrow">→</div>
+          <div class="flywheel-item"><div class="fw-icon">💬</div><div class="fw-label">反馈</div><div class="fw-desc">有用/无用/改进建议</div></div>
+          <div class="flywheel-arrow">→</div>
+          <div class="flywheel-item"><div class="fw-icon">📈</div><div class="fw-label">进化</div><div class="fw-desc">C→B→A 置信度提升</div></div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-label">审计验证</div>
+        <pre>audit
+
+# 期望产出：
+# - 审计通过，0条问题
+# - 所有资产Frontmatter完整
+# - 文件与注册表一致，内容哈希正确</pre>
+      </div>
+    </div>
+  </details>
+
+  <div class="card">
+    <div class="card-title">制造业咨询链路 · 操作速查表</div>
+    <table class="data-table">
+      <tr><th>步骤</th><th>Skill</th><th>核心输入</th><th>核心输出</th><th>沉淀物</th></tr>
+      <tr><td>1</td><td>Sales</td><td>客户信息+活动记录</td><td>客户档案+拜访简报</td><td>—</td></tr>
+      <tr><td>2</td><td>PSC</td><td>客户痛点+会议记录</td><td>调研提纲+纪要+SCQA方案</td><td>best_practice</td></tr>
+      <tr><td>3</td><td>StratAlign</td><td>战略+瓶颈+AI场景</td><td>诊断报告+投资组合</td><td>—</td></tr>
+      <tr><td>4</td><td>MfgConsult</td><td>运营数据+产品参数</td><td>三层冲突+有效产出+诊断报告</td><td>methodology</td></tr>
+      <tr><td>5</td><td>DeliveryMatrix</td><td>项目范围+风险+里程碑</td><td>风险表+进度表+客户邮件</td><td>—</td></tr>
+      <tr><td>6</td><td>KnowledgeHub</td><td>上述产出精华</td><td>知识资产ID</td><td>3条资产</td></tr>
+      <tr><td>7-8</td><td>KnowledgeHub→PSC</td><td>查询+检索</td><td>已有知识推荐</td><td>复用+1</td></tr>
+      <tr><td>9</td><td>KnowledgeHub</td><td>audit命令</td><td>健康报告</td><td>质量保障</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- Part 4: B2B Sales Full Cycle -->
+<section class="section" id="b2b-sales">
+  <div class="section-header">
+    <div class="section-tag">PART 04</div>
+    <h2 class="section-title">B2B SaaS 销售全周期</h2>
+    <p class="section-desc">Sales → PSC → MGO → KnowledgeHub<br>4个Skill · 7步操作 · SaaS模式下的销售-市场-知识闭环</p>
+  </div>
+
+  <div class="card profile-card">
+    <h4>🎯 测试客户档案：智造云科技（Zhizao Cloud Tech）</h4>
+    <div class="grid-3">
+      <div><strong>行业</strong><br><span style="font-size:13px;color:var(--text-light)">B2B SaaS（工业软件）</span></div>
+      <div><strong>产品</strong><br><span style="font-size:13px;color:var(--text-light)">MES + OEE监控云平台</span></div>
+      <div><strong>核心卖点</strong><br><span style="font-size:13px;color:var(--text-light)">3天部署 · SaaS订阅 · 开箱即用</span></div>
+      <div><strong>年收入</strong><br><span style="font-size:13px;color:var(--text-light)">5000万 / 200人</span></div>
+      <div><strong>客单价</strong><br><span style="font-size:13px;color:var(--text-light)">80-300万/年（订阅制）</span></div>
+      <div><strong>核心痛点</strong><br><span style="font-size:13px;color:var(--text-light)">销售周期长 · 决策链复杂 · 竞对价格战</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">全链路路线图</div>
+    <div class="flow-diagram">
+      <div class="flow-node"><div class="flow-skill">Sales</div><div class="flow-action">客户建档+触达</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node"><div class="flow-skill">PSC</div><div class="flow-action">调研+纪要+SCQA</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node"><div class="flow-skill">MGO</div><div class="flow-action">市场+内容+培育</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node"><div class="flow-skill">KnowledgeHub</div><div class="flow-action">知识沉淀</div></div>
+    </div>
+    <div class="flow-diagram" style="background:transparent;border:1px dashed var(--border);">
+      <div class="flow-row">第二轮：知识复用（Step 5-6）</div>
+      <div class="flow-node" style="background:linear-gradient(135deg,rgba(74,136,176,0.08),rgba(90,158,143,0.06))"><div class="flow-skill">KnowledgeHub</div><div class="flow-action">检索复用</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="background:linear-gradient(135deg,rgba(74,136,176,0.08),rgba(90,158,143,0.06))"><div class="flow-skill">Sales/PSC</div><div class="flow-action">加速新客</div></div>
+    </div>
+  </div>
+
+  <details>
+    <summary>Step 1：Sales — 客户建档、线索挖掘与首次接触</summary>
+    <div class="detail-body">
+      <div class="code-block">
+        <div class="code-label">打开方式</div>
+        <pre>@sloth-sales-eido</pre>
+      </div>
+      <p style="margin-bottom:10px">引导回答：中文 → 一线销售 → 中国 → <strong>C. SaaS/软件服务</strong> → B. SPIN → 从零开始</p>
+      <p style="margin-bottom:10px"><strong>录入目标客户（博创精密）：</strong></p>
+      <div class="code-block">
+        <pre>帮我录入一个新客户
+
+客户名：博创精密汽车零部件有限公司
+行业：汽车零部件制造（Tier-2供应商）
+年产值：8亿元
+员工数：1200人
+联系人：张伟，运营副总裁（最终决策者）
+当前系统：用友U8 ERP（2018年上线），无MES，Excel排产
+核心痛点：交期失控（准交率72%，客户要求90%），换型耗时（45min/次），三厂数据孤岛，OEE仅58%
+数字化预算：2000万（分两期，一期不超过1000万）
+竞对情况：鼎捷正在做POC，黑湖智造也接触过
+决策链：张伟（运营VP，拍板人）→ 刘芳（IT总监，技术评估）→ 陈明（生产经理，终端用户）</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>记录首次触达：</strong></p>
+      <div class="code-block">
+        <pre>今天SDR小李通过电话联系到博创精密的刘芳（IT总监），她透露公司正在评估MES系统，因为日系主机厂发了两次黄牌警告。刘芳说目前鼎捷在做POC，但生产经理陈明反馈鼎捷的系统太复杂，换型模块缺失。张伟要求5月底前立项。约了下周三去苏州工厂实地拜访。</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>信息补全与拜访准备：</strong></p>
+      <div class="code-block">
+        <pre>帮我对博创精密做信息补全
+
+准备拜访博创精密</pre>
+      </div>
+      <p style="font-size:13px;color:var(--text-light)">期望产出：Agent-Reach自动补全工商/招投标/新闻信息 → enriched客户卡片 → 一页纸Pre-call Brief（含SPIN问题清单、竞对情报）。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Step 2：PSC — 售前调研 + 会议纪要 + SCQA + 竞争战卡</summary>
+    <div class="detail-body">
+      <div class="code-block">
+        <div class="code-label">打开方式</div>
+        <pre>@sloth-psc-eido</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>生成调研提纲（含SaaS产品信息）：</strong></p>
+      <div class="code-block">
+        <pre>帮我准备调研提纲
+
+客户：博创精密汽车零部件有限公司
+行业：汽车零部件制造（Tier-2）
+初步需求：解决交期失控（准交率72%→90%），消除三厂数据孤岛，用MES替代Excel手工排产
+交流对象：张伟（运营副总裁）、刘芳（IT总监）、陈明（生产经理）
+项目阶段：初访
+我方产品：智造云MES + OEE监控云平台（SaaS订阅，3天快速部署）</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>整理会议纪要（SaaS模式关键转折）：</strong></p>
+      <div class="code-block">
+        <pre>帮我整理会议纪要
+
+客户：博创精密汽车零部件有限公司
+项目背景：MES + OEE云平台选型
+参会人：张伟-运营VP, 刘芳-IT总监, 陈明-生产经理, 赵敏-销售VP, 王磊-售前总监
+
+...当王磊介绍我们是SaaS订阅模式（首年80万，含实施）时，刘芳眼睛亮了，说"这个试错成本我可以接受"...
+张伟最后说："你们和鼎捷、黑湖有什么区别？"
+会上承诺下周提供：初步方案框架 + 类似行业案例 + 3天快速部署试点计划</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>SCQA方案骨架（突出SaaS差异化）：</strong></p>
+      <div class="code-block">
+        <pre>帮我搭方案骨架
+
+客户：博创精密汽车零部件有限公司
+行业：汽车零部件制造（Tier-2，HMLV）
+采购阶段：需求确认
+痛点：
+1. 准交率72%，日系客户已发黄牌
+2. 380+SKU频繁换型（日均6-8次 x 45min）
+3. 三厂数据孤岛，Excel排产无法跨厂协同
+4. OEE仅58%但数据不准
+5. 担心传统MES实施周期长、风险高、与U8对接复杂
+我方核心优势：
+- SaaS模式（订阅制，首年80万，试错成本低）
+- 3天快速部署（标准连接器对接U8，无需改造ERP）
+- 开箱即用OEE看板 + 智能排产模块
+- 汽车零部件行业案例
+竞对态势：鼎捷POC中（600万/8个月）、黑湖智造已接触</pre>
+      </div>
+      <p style="font-size:13px;color:var(--text-light)">期望产出：完整SCQA结构、经济影响估算（SaaS首年80万 vs 传统MES 600万，试错成本降低87%）、修辞审计。</p>
+      <p style="margin-bottom:10px"><strong>竞争战卡：</strong></p>
+      <div class="code-block">
+        <pre>帮我生成竞争战卡
+
+客户：博创精密汽车零部件有限公司
+我方产品：智造云MES + OEE云平台（SaaS）
+主要竞对：
+1. 鼎捷T100 MES（正在POC，报价600万，实施8个月）
+2. 黑湖智造（品牌知名度高，标准化SaaS，但行业深度弱）
+客户关注点：三个月见效、不改造ERP、试错成本低、汽车零部件案例</pre>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Step 3：MGO — 市场情报 + 内容生产 + 线索培育 + 增长度量</summary>
+    <div class="detail-body">
+      <div class="code-block">
+        <div class="code-label">打开方式</div>
+        <pre>@sloth-mgo-eido</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>启动竞品监控（Module C）：</strong></p>
+      <div class="code-block">
+        <pre>启动竞品监控
+
+监控对象：
+1. 黑湖智造 — 关键词：黑湖MES、黑湖智造汽车、黑湖融资
+2. 鼎捷软件 — 关键词：鼎捷T100、鼎捷MES、鼎捷汽车
+3. 摩尔元数 — 关键词：摩尔MES、摩尔元数汽车
+
+监控维度：产品发布、价格策略、客户签约新闻、融资动态
+输出频率：每周简报</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>生成内容资产 — 行业白皮书（Module A）：</strong></p>
+      <div class="code-block">
+        <pre>帮我写一篇行业白皮书
+
+主题：HMLV汽车零部件工厂如何用SaaS MES实现三个月见效
+目标受众：汽车零部件Tier-2制造商的运营VP和生产经理
+核心论点：
+1. 传统MES实施周期长（6-12个月），HMLV工厂等不起
+2. SaaS MES的3天部署+订阅模式，把试错成本从百万降到十万级
+3. 三阶段见效路径：透明化→优化→协同
+4. 案例数据：某Tier-2供应商3个月OEE 55%→68%</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>竞对对比PPT脚本：</strong></p>
+      <div class="code-block">
+        <pre>帮我做一份竞对对比PPT脚本
+
+场景：博创精密方案评审会，3页以内
+对比维度：
+1. 部署速度：我方3天 vs 鼎捷8个月 vs 黑湖2-4周
+2. 试错成本：我方首年80万（订阅）vs 鼎捷600万（一次性）vs 黑湖100万（订阅）
+3. 智能排产：我方有（AI算法）vs 鼎捷无 vs 黑湖基础版
+4. 行业深度：我方专注汽车零部件 vs 鼎捷通用型 vs 黑湖跨行业
+5. ERP对接：我方标准U8连接器（不改造ERP）vs 鼎捷需改造 vs 黑湖API对接</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>配置线索培育流程（Module D）：</strong></p>
+      <div class="code-block">
+        <pre>配置线索培育流程
+
+目标ICP：汽车零部件Tier-2制造商，年产值1-10亿，无MES或用友/鼎捷ERP
+线索来源：官网注册、行业展会、内容下载、SDR外呼
+
+培育阶段：
+1. 冷线索（Cold）：下载白皮书 → 自动邮件：行业痛点诊断问卷
+2. 温线索（Warm）：填写问卷 → SDR电话确认 → 发送案例集
+3. 热线索（Hot）：参加线上demo → 销售接入 → 安排工厂拜访
+4. SQL：确认预算、决策链、时间线 → 创建商机</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>设定增长指标（Module G）：</strong></p>
+      <div class="code-block">
+        <pre>设定增长指标
+
+当前基线（月度）：
+- MQL：50个 / SQL：15个 / 赢单率：20% / 客单价：150万 / 销售周期：6个月 / CAC：8万
+
+目标（6个月后）：
+- MQL→80个（+60%）/ SQL→30个（+100%）/ 赢单率→25% / 客单价→180万 / 销售周期→4.5个月 / CAC→6万
+
+实验计划：
+1. A/B测试：白皮书标题（"三个月见效" vs "零风险试用"）
+2. 渠道实验：V2EX和知乎投放 vs 线下展会
+3. 定价实验：年付 vs 季付转化率差异</pre>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Step 4：KnowledgeHub — 知识资产注册（3条资产）</summary>
+    <div class="detail-body">
+      <div class="code-block">
+        <div class="code-label">打开方式</div>
+        <pre>@sloth-knowledgehub-eido
+init</pre>
+      </div>
+      <p style="margin-bottom:10px"><span class="tag tag-blue">asset 1</span> <strong>best_practice</strong> — SaaS MES选型方案框架</p>
+      <div class="code-block">
+        <pre>register
+
+asset_type: best_practice
+title: HMLV汽车零部件工厂SaaS MES选型方案框架（SCQA结构）
+source_skill: Sloth-PSC-Eido
+value_chain_stage: presales
+industry: [automotive, saas]
+confidence: B</pre>
+      </div>
+      <p style="margin-bottom:10px"><span class="tag tag-orange">asset 2</span> <strong>competitive_intel</strong> — MES市场竞对情报</p>
+      <div class="code-block">
+        <pre>register
+
+asset_type: competitive_intel
+title: 汽车零部件MES市场竞对情报（鼎捷/黑湖/摩尔）
+source_skill: Sloth-PSC-Eido
+value_chain_stage: presales
+industry: [automotive, saas]
+confidence: C</pre>
+      </div>
+      <p style="margin-bottom:10px"><span class="tag tag-green">asset 3</span> <strong>playbook</strong> — MES销售作战手册</p>
+      <div class="code-block">
+        <pre>register
+
+asset_type: playbook
+title: 汽车零部件Tier-2制造商MES销售作战手册（SaaS模式）
+source_skill: Sloth-Sales-Eido
+value_chain_stage: sales
+industry: [automotive, saas]
+confidence: B</pre>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Step 5-7：知识复用、反馈进化与审计</summary>
+    <div class="detail-body">
+      <p style="margin-bottom:10px"><strong>新客户场景：</strong>华通汽车配件有限公司，Tier-2，HMLV，300+SKU，年产值5亿。</p>
+      <div class="code-block">
+        <div class="code-label">KnowledgeHub 检索复用</div>
+        <pre>query
+
+scenario_node: S4
+industry: automotive
+asset_type: best_practice
+
+---
+
+retrieve KC-S42-20260428-001
+# 复用计数 +1
+
+---
+
+query
+
+scenario_node: S3
+asset_type: playbook
+industry: automotive
+
+---
+
+retrieve KC-S32-20260428-003
+# 复用计数 +1</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>回到PSC快速搭方案（复用效果）：</strong></p>
+      <div class="code-block">
+        <pre>帮我搭方案骨架
+
+客户：华通汽车配件有限公司
+...
+参考：我们之前在博创精密做过类似项目（HMLV汽车零部件，380+SKU），核心方法论是SaaS快速部署+三阶段见效...</pre>
+      </div>
+      <p style="font-size:13px;color:var(--text-light)">期望效果：SCQA结构直接复用，仅需调整数据参数。方案搭建时间从4小时缩短到1小时内。</p>
+      <div class="flywheel">
+        <div class="flywheel-title">知识流转示意</div>
+        <div class="flywheel-cycle">
+          <div class="flywheel-item"><div class="fw-icon">①</div><div class="fw-label">第一轮</div><div class="fw-desc">Sales→PSC→MGO→KHub<br>博创项目沉淀3条资产</div></div>
+          <div class="flywheel-arrow">⇓</div>
+          <div class="flywheel-item"><div class="fw-icon">②</div><div class="fw-label">沉淀</div><div class="fw-desc">best_practice + intel<br>+ playbook 入库</div></div>
+          <div class="flywheel-arrow">⇓</div>
+          <div class="flywheel-item"><div class="fw-icon">③</div><div class="fw-label">第二轮</div><div class="fw-desc">Sales→KHub→PSC<br>华通项目快速复用</div></div>
+          <div class="flywheel-arrow">⇓</div>
+          <div class="flywheel-item"><div class="fw-icon">④</div><div class="fw-label">反馈</div><div class="fw-desc">正向反馈+改进建议<br>驱动置信度进化</div></div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <div class="card">
+    <div class="card-title">B2B销售链路 · 操作速查表</div>
+    <table class="data-table">
+      <tr><th>步骤</th><th>Skill</th><th>核心输入</th><th>核心输出</th><th>沉淀物</th></tr>
+      <tr><td>1</td><td>Sales</td><td>客户信息+活动记录</td><td>客户档案+拜访简报+SPIN清单</td><td>—</td></tr>
+      <tr><td>2</td><td>PSC</td><td>客户痛点+会议记录+竞对情报</td><td>调研提纲+纪要+SCQA方案+竞对战卡+行动包</td><td>best_practice</td></tr>
+      <tr><td>3</td><td>MGO</td><td>竞对关键词+内容主题+线索规则</td><td>竞品周报+白皮书+PPT脚本+培育流程+增长仪表盘</td><td>content_assets</td></tr>
+      <tr><td>4</td><td>KnowledgeHub</td><td>上述产出精华</td><td>知识资产ID x 3</td><td>3条资产</td></tr>
+      <tr><td>5-6</td><td>KnowledgeHub→PSC</td><td>query+retrieve</td><td>已有知识推荐</td><td>复用+1</td></tr>
+      <tr><td>7</td><td>KnowledgeHub</td><td>audit命令</td><td>健康报告</td><td>质量保障</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- Part 5: Social Media Lead Gen -->
+<section class="section" id="social-media" style="background:linear-gradient(180deg, transparent, rgba(74,136,176,0.03) 50%, transparent);">
+  <div class="section-header">
+    <div class="section-tag">PART 05</div>
+    <h2 class="section-title">社媒获客到方案交付</h2>
+    <p class="section-desc">SMM → Sales → PSC → KnowledgeHub<br>4个Skill · 7步操作 · 内容营销驱动的获客闭环</p>
+  </div>
+
+  <div class="card profile-card">
+    <h4>🎯 测试场景：树懒智造咨询（Sloth Smart Manufacturing Consulting）</h4>
+    <div class="grid-3">
+      <div><strong>主营业务</strong><br><span style="font-size:13px;color:var(--text-light)">制造业数字化转型咨询</span></div>
+      <div><strong>内容领域</strong><br><span style="font-size:13px;color:var(--text-light)">制造业数字化 / 工业4.0 / OEE优化</span></div>
+      <div><strong>目标受众</strong><br><span style="font-size:13px;color:var(--text-light)">工厂老板、运营VP、IT总监、生产经理</span></div>
+      <div><strong>主力平台</strong><br><span style="font-size:13px;color:var(--text-light)">微信公众号（主）+ 知乎/头条（辅）</span></div>
+      <div><strong>测试文章</strong><br><span style="font-size:13px;color:var(--text-light)">《为什么你的工厂OEE只有60%？三个被忽视的隐藏杀手》</span></div>
+      <div><strong>预期线索</strong><br><span style="font-size:13px;color:var(--text-light)">留言咨询、后台私信、知乎私信</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">全链路路线图</div>
+    <div style="background:linear-gradient(135deg, #f8fafc, #f0f5fa);border-radius:14px;padding:24px;margin:16px 0;">
+      <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
+        <div class="flow-node"><div class="flow-skill">SMM</div><div class="flow-action">热点追踪</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node"><div class="flow-skill">SMM</div><div class="flow-action">内容写作</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node"><div class="flow-skill">SMM</div><div class="flow-action">平台适配</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node"><div class="flow-skill">SMM</div><div class="flow-action">发布</div></div>
+      </div>
+      <div style="text-align:center;font-size:20px;color:var(--primary);margin-bottom:16px;">↓ 线索产生</div>
+      <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
+        <div class="flow-node"><div class="flow-skill">Sales</div><div class="flow-action">线索交接</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node"><div class="flow-skill">Sales</div><div class="flow-action">CRM建档</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node"><div class="flow-skill">Sales</div><div class="flow-action">访前准备</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node"><div class="flow-skill">PSC</div><div class="flow-action">调研+SCQA</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node"><div class="flow-skill">KnowledgeHub</div><div class="flow-action">知识沉淀</div></div>
+      </div>
+      <div style="text-align:center;font-size:20px;color:var(--primary);margin-bottom:16px;">↓ 飞轮效应</div>
+      <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;">
+        <div class="flow-node" style="background:linear-gradient(135deg,rgba(74,136,176,0.08),rgba(90,158,143,0.06))"><div class="flow-skill">KnowledgeHub</div><div class="flow-action">知识复用</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node" style="background:linear-gradient(135deg,rgba(74,136,176,0.08),rgba(90,158,143,0.06))"><div class="flow-skill">SMM</div><div class="flow-action">新文章创作</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node" style="background:linear-gradient(135deg,rgba(74,136,176,0.08),rgba(90,158,143,0.06))"><div class="flow-skill">KnowledgeHub</div><div class="flow-action">反馈闭环</div></div>
+      </div>
+    </div>
+  </div>
+
+  <details>
+    <summary>Step 1：SMM 热点追踪 → 内容创作 → 多平台适配 → 发布</summary>
+    <div class="detail-body">
+      <div class="code-block">
+        <div class="code-label">打开方式</div>
+        <pre>@Sloth-SMM-Eido</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>热点追踪（选题引擎）：</strong></p>
+      <div class="code-block">
+        <pre>我需要为树懒智造咨询追踪制造业数字化领域的热点话题，准备写一篇关于OEE的干货文章。
+
+请帮我：
+1. 追踪最近7天制造业数字化、智能工厂、OEE优化相关的热点话题
+2. 分析目标受众（工厂老板、运营VP、IT总监）的痛点分布
+3. 推荐3-5个高潜力的文章选题角度
+
+背景：
+- 公司：树懒智造咨询
+- 受众：年营收1-50亿的制造企业决策者
+- 平台：微信公众号为主，知乎/头条为辅
+- 目标：获取销售线索（咨询预约）</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>深度写作（写作引擎）：</strong></p>
+      <div class="code-block">
+        <pre>请基于选题《为什么你的工厂OEE只有60%？三个被忽视的隐藏杀手》，为我撰写一篇微信公众号长文。
+
+写作要求：
+1. 字数：2500-3000字
+2. 风格：专业但易懂，有数据支撑，有案例，有实操建议
+3. 结构：痛点引入 → 数据分析 → 三个隐藏杀手逐一拆解 → 自检清单 → 行动号召
+4. 钩子设计：文末设置免费咨询预约钩子
+5. SEO关键词：OEE、设备综合效率、智能工厂、制造业数字化、TPM、MES
+
+三个隐藏杀手：
+- 杀手1：微观停机的累积效应（Micro-stoppages）
+- 杀手2：换型时间的隐性浪费（Changeover waste）
+- 杀手3：速度损失的心理盲区（Speed loss psychology）</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>多平台适配：</strong></p>
+      <div class="code-block">
+        <pre>请将上述文章适配为知乎回答和头条号文章两个版本。
+
+【知乎版本】
+- 格式：知乎回答体（第一人称/经验分享口吻）
+- 特点：引用数据标注来源、增加互动提问
+- 字数：2000-2500字
+
+【头条号版本】
+- 格式：头条资讯体（新闻式导语+干货）
+- 特点：段落更短、多用小标题、增加"划重点"框
+- 字数：1500-2000字</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>发布执行：</strong></p>
+      <div class="code-block">
+        <pre>请帮我生成发布执行清单：
+1. 发布前检查清单（13项检查点）
+2. 三平台发布时间建议（基于受众活跃时段）
+3. 发布后的监控指标清单
+4. 调用baoyu-post-to-wechat将文章发布到公众号草稿箱</pre>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Step 2-3：Sales 线索交接 + 客户补全 + CRM建档 + 访前准备</summary>
+    <div class="detail-body">
+      <div class="code-block">
+        <div class="code-label">打开方式</div>
+        <pre>@Sloth-Sales-Eido</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>录入销售线索：</strong></p>
+      <div class="code-block">
+        <pre>我从SMM文章《为什么你的工厂OEE只有60%？》获取了以下销售线索，请帮我录入系统并分类。
+
+【线索A】
+- 来源：公众号文章底部留言
+- 姓名：张总
+- 公司：隐约提到"东莞某注塑厂"
+- 信号：留言"我们厂OEE确实只有55%左右，文章说的问题我们都有，怎么联系你们？"
+- 意向度：高
+
+【线索B】
+- 来源：知乎私信
+- 姓名：李经理
+- 信号：私信"请问你们做汽车零部件行业的OEE提升吗？"
+- 意向度：高
+
+【线索C】
+- 来源：头条评论
+- 姓名：王工
+- 信号：评论"写得不错，收藏了"
+- 意向度：低（需培育）</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>客户信息挖掘与补全（Agent-Reach）：</strong></p>
+      <div class="code-block">
+        <pre>请帮我深度挖掘线索A（张总）和线索B（李经理）的背景信息。
+
+【张总】
+已知：东莞、注塑厂、OEE约55%、三个隐藏杀手问题
+请补全：东莞地区可能的匹配企业、规模、主营产品、公开新闻
+
+【李经理】
+已知：知乎私信、汽车零部件、产线OEE提升改造
+请补全：知乎用户公开信息、行业OEE现状、典型改造案例</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>访前简报（Pre-call Brief）：</strong></p>
+      <div class="code-block">
+        <pre>请为明天拜访张总生成一份访前简报。
+
+拜访信息：
+- 拜访对象：张总，东莞XX注塑厂
+- 时间：明天下午2:30
+- 形式：初次面谈（工厂现场）
+- 目标：建立信任、了解现状、识别痛点、确认需求范围
+
+请生成：
+1. 客户概况一页纸
+2. 拜访议程建议（45-60分钟）
+3. SPIN提问清单
+4. 案例准备建议
+5. 风险预案</pre>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Step 4：PSC 调研提纲 + 会议纪要 + SCQA框架 + 行动包</summary>
+    <div class="detail-body">
+      <div class="code-block">
+        <div class="code-label">打开方式</div>
+        <pre>@Sloth-PSC-Eido</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>会议纪要处理（Module A）：</strong></p>
+      <div class="code-block">
+        <pre>请帮我处理今天拜访张总的会议纪要。
+
+【原始会议记录】
+张总带我们参观了车间，目前有三条注塑生产线，主要做家电外壳。张总说OEE他们算过，大概52%-58%之间。最头疼的是换模具时间太长，换一次要两个小时，一天换三四次。工人经常报设备小故障，修好了又坏，找不到根本原因。张总问我们做没做过类似案例，我们说做过一个佛山注塑厂的，OEE从55%提升到78%，他挺感兴趣。张总提到预算方面，今年有数字化改造预算，大概80-120万。他希望我们先出一个初步的诊断报告。最后约了下周二再见面。</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>调研提纲生成（Module B）：</strong></p>
+      <div class="code-block">
+        <pre>基于会议纪要，请为下周二的二次拜访生成一份深度调研提纲。
+
+背景：
+- 客户：东莞XX注塑厂，张总
+- 已知痛点：OEE 52-58%、换模时间2小时/次、设备小故障频发
+- 预算：80-120万
+- 目标：出具初步诊断报告框架，推动进入方案阶段
+
+请生成：
+1. 分层调研提纲（战略层→运营层→执行层→技术层）
+2. 每层5-8个核心问题，含追问设计
+3. 3个Hook Questions（钩子问题）
+4. 现场观察清单
+5. 数据收集清单</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>SCQA方案框架（Module C）：</strong></p>
+      <div class="code-block">
+        <pre>请为张总的注塑厂项目构建SCQA方案逻辑框架。
+
+已知：
+- 现状：OEE 52-58%，三条注塑线，家电外壳产品
+- 核心痛点：换模时间长（2h/次）、微观停机频发、设备小故障多
+- 预算：80-120万
+- 目标：OEE提升到75%以上
+
+请构建：
+1. Situation（情境）
+2. Complication（冲突）
+3. Question（问题）
+4. Answer（答案）——分三层：诊断与速赢 / 系统性OEE提升 / 数字化持续改进</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>会后行动包（Module F）：</strong></p>
+      <div class="code-block">
+        <pre>请为张总项目生成完整的会后行动包。
+
+请生成：
+1. 跟进邮件（Follow-up Email）：致张总，专业真诚不急迫
+2. 存在感材料（Presence Material）：佛山注塑厂OEE提升案例速览单页
+3. 记忆恢复卡（Memory Recovery Card）：A4一页纸会议要点</pre>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Step 5：KnowledgeHub — 注册3条知识资产</summary>
+    <div class="detail-body">
+      <div class="code-block">
+        <div class="code-label">打开方式</div>
+        <pre>@Sloth-KnowledgeHub-Eido</pre>
+      </div>
+      <p style="margin-bottom:10px"><span class="tag tag-blue">asset 1</span> <strong>best_practice</strong> — OEE诊断最佳实践</p>
+      <div class="code-block">
+        <pre>register
+
+asset_type: best_practice
+title: OEE诊断最佳实践：隐藏杀手排查清单
+summary: 制造业OEE低下的三大隐藏杀手排查方法：微观停机、换型时间、速度损失
+source_skill: Sloth-PSC-Eido
+value_chain_stage: presales
+scenario_node: S3
+capability_node: C2
+industry: [manufacturing]
+confidence: B</pre>
+      </div>
+      <p style="margin-bottom:10px"><span class="tag tag-green">asset 2</span> <strong>case_study</strong> — OEE提升实战案例</p>
+      <div class="code-block">
+        <pre>register
+
+asset_type: case_study
+title: 某汽车零部件厂OEE从60%→85%实战案例
+summary: 分三阶段实施SMED快速换模、TPM自主维护、MES数字看板，OEE提升25个百分点
+source_skill: Sloth-MfgConsult-Eido
+value_chain_stage: delivery
+scenario_node: S3
+capability_node: C4
+industry: [automotive]
+confidence: A</pre>
+      </div>
+      <p style="margin-bottom:10px"><span class="tag tag-orange">asset 3</span> <strong>playbook</strong> — 社媒获客SOP</p>
+      <div class="code-block">
+        <pre>register
+
+asset_type: playbook
+title: 制造业社媒获客→方案交付SOP playbook
+summary: 7步标准流程：SMM内容引擎→线索交接→销售跟进→售前支持→知识沉淀→知识复用→反馈闭环
+source_skill: Sloth-SMM-Eido
+value_chain_stage: marketing
+scenario_node: S1
+scenario_end: S7
+capability_node: C1
+industry: [manufacturing]
+confidence: B</pre>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Step 6-7：知识复用与反馈闭环</summary>
+    <div class="detail-body">
+      <p style="margin-bottom:10px"><strong>新文章创作调用已有知识：</strong></p>
+      <div class="code-block">
+        <pre>@Sloth-KnowledgeHub-Eido
+
+我要写一篇新文章《OEE提升实战案例拆解：从60%到85%的真实路径》，请帮我查询相关知识资产。
+
+执行：
+1. query - 查询与"OEE提升"、"案例"、"注塑"相关的知识资产
+2. retrieve - 检索具体的case_study和best_practice内容</pre>
+      </div>
+      <div class="code-block">
+        <pre>@Sloth-SMM-Eido
+
+请基于KnowledgeHub检索到的知识资产，撰写新文章《OEE提升实战案例拆解》。
+
+可用知识资产：
+- case_study: 《某汽车零部件厂OEE从60%→85%实战案例》
+- best_practice: 《OEE诊断最佳实践：隐藏杀手排查清单》
+
+写作要求：
+1. 以案例为主线，穿插方法论和实操清单
+2. 引用案例中的真实数据（已脱敏）
+3. 文末CTA：提供OEE诊断工具包免费下载</pre>
+      </div>
+      <p style="margin-bottom:10px"><strong>文章表现反馈 → 置信度进化：</strong></p>
+      <div class="code-block">
+        <pre>请帮我更新知识资产的置信度，基于最新文章表现数据。
+
+【文章A表现数据】
+- 标题：《为什么你的工厂OEE只有60%？三个被忽视的隐藏杀手》
+- 公众号：阅读量8,500，分享1,200，新增关注85，后台咨询12条
+- 知乎：阅读15,000，赞同890，收藏2,100，私信咨询8条
+- 头条：阅读32,000，评论156，私信5条
+- 线索转化：25条线索 → 8个高意向 → 3个进入销售跟进 → 1个预约拜访
+
+请执行：
+1. 更新关联知识资产的置信度
+2. 生成内容策略优化建议
+3. 输出知识资产进化报告</pre>
+      </div>
+      <div class="flywheel">
+        <div class="flywheel-title">知识复用飞轮</div>
+        <div class="flywheel-cycle">
+          <div class="flywheel-item"><div class="fw-icon">📢</div><div class="fw-label">SMM内容生产</div><div class="fw-desc">调用知识提升质量</div></div>
+          <div class="flywheel-arrow">→</div>
+          <div class="flywheel-item"><div class="fw-icon">📊</div><div class="fw-label">文章表现数据</div><div class="fw-desc">阅读量/分享/线索</div></div>
+          <div class="flywheel-arrow">→</div>
+          <div class="flywheel-item"><div class="fw-icon">🔄</div><div class="fw-label">反馈闭环</div><div class="fw-desc">置信度进化</div></div>
+          <div class="flywheel-arrow">→</div>
+          <div class="flywheel-item"><div class="fw-icon">📈</div><div class="fw-label">更高质量内容</div><div class="fw-desc">飞轮加速迭代</div></div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <div class="card">
+    <div class="card-title">社媒获客链路 · 操作速查表</div>
+    <table class="data-table">
+      <tr><th>步骤</th><th>Skill</th><th>核心输入</th><th>核心输出</th></tr>
+      <tr><td>1</td><td>SMM</td><td>热点追踪+选题</td><td>公众号/知乎/头条文章</td></tr>
+      <tr><td>2</td><td>Sales</td><td>线索列表</td><td>客户档案+分类+触达话术</td></tr>
+      <tr><td>3</td><td>Sales</td><td>客户信息+拜访计划</td><td>CRM档案+Pre-call Brief</td></tr>
+      <tr><td>4</td><td>PSC</td><td>会议记录+痛点</td><td>纪要+调研提纲+SCQA+行动包</td></tr>
+      <tr><td>5</td><td>KnowledgeHub</td><td>产出精华</td><td>3条知识资产（best_practice+case_study+playbook）</td></tr>
+      <tr><td>6</td><td>SMM+KnowledgeHub</td><td>query/retrieve已有知识</td><td>新文章（基于知识资产）</td></tr>
+      <tr><td>7</td><td>KnowledgeHub</td><td>文章数据反馈</td><td>置信度更新+策略优化</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- Part 6: Quick Reference -->
+<section class="section" id="reference">
+  <div class="section-header">
+    <div class="section-tag">PART 06</div>
+    <h2 class="section-title">快速参考大全</h2>
+    <p class="section-desc">技能调用速查、命令速查、双树架构映射、时间节点参考</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Skill 调用速查</div>
+      <table class="data-table">
+        <tr><th>Skill</th><th>调用方式</th><th>核心功能</th></tr>
+        <tr><td>Sales</td><td><code>@sloth-sales-eido</code></td><td>客户建档、活动记录、信息补全、拜访简报</td></tr>
+        <tr><td>PSC</td><td><code>@sloth-psc-eido</code></td><td>调研提纲、会议纪要、SCQA框架、竞对战卡、行动包</td></tr>
+        <tr><td>StratAlign</td><td><code>@sloth-stratalign-eido</code></td><td>战略解码、瓶颈扫描、AI场景评估、投资组合</td></tr>
+        <tr><td>MfgConsult</td><td><code>@sloth-mfgconsult-eido</code></td><td>企业画像、三层冲突诊断、有效产出会计</td></tr>
+        <tr><td>DeliveryMatrix</td><td><code>@sloth-deliverymatrix-eido</code></td><td>风险评估、里程碑追踪、客户沟通材料</td></tr>
+        <tr><td>MGO</td><td><code>@sloth-mgo-eido</code></td><td>竞品监控、内容生产、线索培育、增长度量</td></tr>
+        <tr><td>SMM</td><td><code>@Sloth-SMM-Eido</code></td><td>热点追踪、内容写作、多平台适配、发布</td></tr>
+        <tr><td>KnowledgeHub</td><td><code>@sloth-knowledgehub-eido</code></td><td>知识注册、查询、检索、审计、置信度更新</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">KnowledgeHub 命令速查</div>
+      <table class="data-table">
+        <tr><th>命令</th><th>功能</th></tr>
+        <tr><td><code>init</code></td><td>初始化知识库（幂等执行）</td></tr>
+        <tr><td><code>register</code></td><td>注册知识资产（需完整Frontmatter）</td></tr>
+        <tr><td><code>query</code></td><td>多维度组合查询</td></tr>
+        <tr><td><code>retrieve [ID]</code></td><td>查看资产详情（自动+1复用计数）</td></tr>
+        <tr><td><code>status</code></td><td>查看知识库健康状态</td></tr>
+        <tr><td><code>audit</code></td><td>六维度完整性审计</td></tr>
+        <tr><td><code>rebuild</code></td><td>安全重建索引（临时表+原子切换）</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">知识资产类型速查</div>
+    <table class="data-table">
+      <tr><th>类型</th><th>用途</th><th>示例</th></tr>
+      <tr><td>best_practice</td><td>方法论/最佳实践</td><td>OEE诊断清单、SMED实施步骤</td></tr>
+      <tr><td>case_study</td><td>项目案例</td><td>某工厂OEE提升60%→85%</td></tr>
+      <tr><td>competitive_intel</td><td>竞争情报</td><td>竞争对手方案优劣势分析</td></tr>
+      <tr><td>lesson_learned</td><td>经验教训</td><td>项目踩坑记录和反思</td></tr>
+      <tr><td>methodology</td><td>方法论</td><td>SCQA方案构建法、SPIN销售法</td></tr>
+      <tr><td>playbook</td><td>流程手册</td><td>社媒获客→方案交付SOP</td></tr>
+      <tr><td>product_brief</td><td>产品简报</td><td>功能介绍、版本说明</td></tr>
+      <tr><td>risk_pattern</td><td>风险模式</td><td>常见交付风险及应对</td></tr>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">场景树（Scenario Tree）</div>
+      <table class="data-table">
+        <tr><th>节点</th><th>场景描述</th></tr>
+        <tr><td>S1</td><td>社媒获客与内容营销</td></tr>
+        <tr><td>S2</td><td>销售线索跟进与转化</td></tr>
+        <tr><td>S3</td><td>制造业OEE提升咨询</td></tr>
+        <tr><td>S4</td><td>智能工厂规划</td></tr>
+        <tr><td>S5</td><td>MES/APS系统实施</td></tr>
+        <tr><td>S6</td><td>数据治理与分析</td></tr>
+        <tr><td>S7</td><td>方案交付与项目管理</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">能力树（Capability Tree）</div>
+      <table class="data-table">
+        <tr><th>节点</th><th>能力描述</th></tr>
+        <tr><td>C1</td><td>内容营销与社媒运营</td></tr>
+        <tr><td>C2</td><td>诊断分析与问题识别</td></tr>
+        <tr><td>C3</td><td>方案设计与架构规划</td></tr>
+        <tr><td>C4</td><td>项目实施与交付管理</td></tr>
+        <tr><td>C5</td><td>客户关系与销售管理</td></tr>
+        <tr><td>C6</td><td>知识管理与组织学习</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">三条链路对比总览</div>
+    <table class="data-table">
+      <tr><th>维度</th><th>制造业数字化咨询</th><th>B2B SaaS销售全周期</th><th>社媒获客到方案</th></tr>
+      <tr><td>链路</td><td>Sales→PSC→StratAlign→MfgConsult→Delivery→KHub</td><td>Sales→PSC→MGO→KHub</td><td>SMM→Sales→PSC→KHub</td></tr>
+      <tr><td>Skill数</td><td>6</td><td>4</td><td>4</td></tr>
+      <tr><td>步骤数</td><td>9</td><td>7</td><td>7</td></tr>
+      <tr><td>测试客户</td><td>博创精密（汽车零部件Tier-2）</td><td>智造云科技（MES SaaS厂商）</td><td>树懒智造咨询（咨询公司）</td></tr>
+      <tr><td>核心差异</td><td>最重链路，含战略诊断+运营诊断</td><td>突出SaaS模式差异化和市场增长</td><td>内容营销驱动，SMM为起点</td></tr>
+      <tr><td>知识沉淀</td><td>best_practice + methodology + intel</td><td>best_practice + intel + playbook</td><td>best_practice + case_study + playbook</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>Sloth-Eido Skill Family · KnowledgeHub v1.1.0</p>
+  <p style="margin-top:8px;font-size:12px;">树懒老K AI技能家族 · 跨Skill中央知识广场</p>
+  <p style="margin-top:12px;"><a href="https://github.com/wangguobao/Sloth-Skills-Poster">GitHub Repository</a></p>
+</footer>
+
+<!-- Scroll to top -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// Scroll top button visibility
+const scrollBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  scrollBtn.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Active nav link highlighting
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    if (scrollY >= sectionTop - 80) current = section.getAttribute('id');
+  });
+  navLinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+  });
+});
+
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+
+</body>
+</html>

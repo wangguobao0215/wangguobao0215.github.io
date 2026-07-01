@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深耕 · 销售管理 v5.0 — 产品介绍</title>
+<style>
+  :root {
+    --bg: #0f1a2e;
+    --bg-light: #162238;
+    --primary: #1a2a4a;
+    --accent: #2d4a7c;
+    --highlight: #7ec8e3;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --card-bg: rgba(255,255,255,0.06);
+    --card-border: rgba(126,200,227,0.15);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .deck {
+    width: 100%; height: 100%;
+    position: relative;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 80px 80px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(60px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+  }
+  .slide.prev { transform: translateX(-60px); }
+  .slide::before {
+    content: "";
+    position: fixed;
+    top: -50%; right: -30%;
+    width: 80vw; height: 80vw;
+    background: radial-gradient(circle, rgba(45,74,124,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .slide-content {
+    max-width: 1100px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+  h1 {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 30%, var(--highlight) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  h2 {
+    font-size: 38px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  h2 .num {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--highlight);
+    flex-shrink: 0;
+  }
+  h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--highlight);
+  }
+  p, li {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+  .subtitle {
+    font-size: 22px;
+    color: var(--text-dim);
+    margin-bottom: 40px;
+    max-width: 700px;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(126,200,227,0.12);
+    border: 1px solid rgba(126,200,227,0.3);
+    color: var(--highlight);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .flex-row { display: flex; gap: 28px; flex-wrap: wrap; }
+  .flex-col { display: flex; flex-direction: column; gap: 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 24px;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(126,200,227,0.4);
+  }
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 14px;
+  }
+  .card h4 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+  .timeline {
+    display: flex;
+    gap: 16px;
+    margin-top: 10px;
+  }
+  .timeline-step {
+    flex: 1;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 18px 14px;
+    text-align: center;
+    position: relative;
+  }
+  .timeline-step::after {
+    content: "→";
+    position: absolute;
+    right: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .timeline-step:last-child::after { display: none; }
+  .timeline-step .t-num {
+    width: 32px; height: 32px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .timeline-step .t-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.4;
+  }
+  ul.feature-list {
+    list-style: none;
+    padding: 0;
+  }
+  ul.feature-list li {
+    padding: 10px 0 10px 32px;
+    position: relative;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  ul.feature-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--highlight);
+    font-weight: 700;
+  }
+  .cta-box {
+    background: linear-gradient(135deg, rgba(45,74,124,0.25), rgba(26,42,74,0.15));
+    border: 1px dashed rgba(126,200,227,0.3);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-top: 24px;
+  }
+  .cta-box h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--highlight);
+    margin-bottom: 12px;
+  }
+  .code-block {
+    background: rgba(0,0,0,0.25);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: "SF Mono", Monaco, monospace;
+    font-size: 14px;
+    color: var(--highlight);
+    margin: 10px 0;
+    overflow-x: auto;
+  }
+  .nav-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 50px;
+    background: rgba(15,26,46,0.9);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 100;
+  }
+  .nav-btn {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--text-dim);
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+  }
+  .nav-progress {
+    flex: 1;
+    max-width: 300px;
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    margin: 0 20px;
+    overflow: hidden;
+  }
+  .nav-progress-inner {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--highlight));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+  .nav-page {
+    font-size: 13px;
+    color: var(--text-dim);
+    min-width: 60px;
+    text-align: center;
+  }
+  .nav-hint {
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+    margin-left: 12px;
+  }
+  .traffic-light {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .tl-item {
+    flex: 1;
+    text-align: center;
+    padding: 18px;
+    border-radius: 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+  }
+  .tl-dot {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    box-shadow: 0 0 12px currentColor;
+  }
+  .tl-green { color: #4ade80; background: #4ade80; }
+  .tl-yellow { color: #facc15; background: #facc15; }
+  .tl-red { color: #f87171; background: #f87171; }
+  .tl-label { font-size: 14px; font-weight: 600; color: #fff; }
+  .tl-desc { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+  .industry-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+  }
+  .industry-card .ind-icon { font-size: 36px; margin-bottom: 12px; }
+  .industry-card h4 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .industry-card p { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+  .cover-slide { text-align: center; }
+  .cover-slide .cover-logo {
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .cover-slide h1 { font-size: 64px; margin-bottom: 20px; }
+  .cover-slide h1 span {
+    color: var(--highlight);
+    -webkit-text-fill-color: var(--highlight);
+  }
+  .cover-slide .cover-sub {
+    font-size: 22px;
+    color: var(--text-dim);
+    max-width: 640px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .cover-meta-item { text-align: center; }
+  .cover-meta-item .big {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--highlight);
+    line-height: 1;
+  }
+  .cover-meta-item .small {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+  .last-slide { text-align: center; }
+  .last-slide h1 { font-size: 48px; margin-bottom: 24px; }
+  .link-group {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: opacity 0.2s;
+    border: 1px solid rgba(126,200,227,0.2);
+  }
+  .link-btn:hover { opacity: 0.85; }
+  .link-btn.secondary {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  @media (max-width: 900px) {
+    .slide { padding: 80px 24px 70px; }
+    h1 { font-size: 36px; }
+    h2 { font-size: 26px; }
+    .cover-slide h1 { font-size: 42px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .timeline { flex-wrap: wrap; }
+    .timeline-step::after { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+  <div class="slide cover-slide">
+    <div class="slide-content">
+
+      <div class="cover-logo">Sloth-Eido Skill Family</div>
+      <h1>深耕 · <span>销售管理</span></h1>
+      <p class="cover-sub">B2B 销售智能助理<br>关系驱动 · 每日聚焦 · 主动教练 —— 覆盖完整销售周期</p>
+      <div class="cover-meta">
+        <div class="cover-meta-item"><div class="big">25+</div><div class="small">核心销售能力</div></div>
+        <div class="cover-meta-item"><div class="big">3</div><div class="small">销售方法论</div></div>
+        <div class="cover-meta-item"><div class="big">0</div><div class="small">额外学习成本</div></div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <div class="badge">Why 深耕</div>
+      <h2>B2B 销售，每天都在面对什么？</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-icon">&#128100;</div>
+          <h4>客户关系难维系</h4>
+          <p>中国和东南亚市场，信任先于交易。销售不知道何时该做一次"非业务触达"，关系慢慢降温。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128197;</div>
+          <h4>每天不知道做什么</h4>
+          <p>商机太多、信息太杂，销售缺乏优先级判断，把时间浪费在低价值线索上。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128202;</div>
+          <h4>商机健康度看不清</h4>
+          <p>卡在哪个环节、阻力点是什么、该找谁突破，全靠经验和直觉，没有数据支撑。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#127942;</div>
+          <h4>赢单经验难沉淀</h4>
+          <p>赢单了不知道为什么赢，输单了不知道为什么输，团队无法从历史中持续学习。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <div class="badge">Solution</div>
+      <h2>25+ 项能力，覆盖完整 B2B 销售周期</h2>
+      <p style="margin-bottom:28px; max-width:720px;">深耕 · 销售管理不仅是一个 CRM 工具，更是你的 AI 销售教练。从线索挖掘到赢单复盘，从每日聚焦到主动教练，帮你做减法比做加法更有价值。</p>
+      <div class="timeline">
+        <div class="timeline-step"><div class="t-num">1</div><div class="t-title">线索挖掘<br>与信息补全</div></div>
+        <div class="timeline-step"><div class="t-num">2</div><div class="t-title">客户关系<br>深度管理</div></div>
+        <div class="timeline-step"><div class="t-num">3</div><div class="t-title">商机推进<br>与诊断</div></div>
+        <div class="timeline-step"><div class="t-num">4</div><div class="t-title">拜访准备<br>与价值主张</div></div>
+        <div class="timeline-step"><div class="t-num">5</div><div class="t-title">竞品应对<br>与话术</div></div>
+        <div class="timeline-step"><div class="t-num">6</div><div class="t-title">赢单/输单<br>复盘沉淀</div></div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <h2><span class="num">1</span>每日聚焦引擎</h2>
+      <p class="subtitle" style="margin-bottom:28px;">每天早上自动算出 Top 3 最该跟进的商机，并提醒你该做什么</p>
+      <div class="grid-2">
+        <div>
+          <h3>紧迫度算法</h3>
+          <ul class="feature-list">
+            <li><strong>预估金额 × 赢单概率</strong> × 时间衰减系数 × 窗口系数</li>
+            <li>超过 7 天未跟进 → 紧迫度 ×1.5</li>
+            <li>超过 14 天未跟进 → 紧迫度 ×2.0</li>
+            <li>合同到期 &lt; 3个月 → 窗口系数 ×2.0</li>
+            <li>关键日期 &lt; 7天 → 窗口系数 ×1.8</li>
+          </ul>
+        </div>
+        <div>
+          <h3>关系投资提醒</h3>
+          <ul class="feature-list">
+            <li>从决策链中找出 <strong>relationship_score 最低但 influence ≥ 4</strong> 的人</li>
+            <li>建议做一次"非业务触达"：分享行业报告、节日问候、线下小聚</li>
+            <li>在中国和东南亚市场，信任先于交易，关系是第一生产力</li>
+          </ul>
+        </div>
+      </div>
+      <div class="cta-box" style="margin-top:24px;">
+        <h4>核心原则</h4>
+        <p style="font-size:15px; margin-top:8px;">帮销售做减法比做加法更有价值。每天早上只需关注 Top 3，而不是被 30 个商机淹没。</p>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <h2><span class="num">2</span>关系驱动管理</h2>
+      <p class="subtitle" style="margin-bottom:28px;">系统追踪决策链中每个人的关系温度，提醒你何时该维护</p>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-icon">&#128101;</div>
+          <h4>决策链全景图</h4>
+          <p>记录客户内部每个关键人的角色、影响力、关系温度、上次接触时间、个人偏好</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128241;</div>
+          <h4>关系温度追踪</h4>
+          <p>量化关系评分（0-100），自动识别"降温"风险，推送维护建议</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#127758;</div>
+          <h4>东南亚市场适配</h4>
+          <p>文化日历嵌入、家族企业决策链模型、多币种与付款条款支持</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128226;</div>
+          <h4>客户动态监控</h4>
+          <p>对重点关注客户进行新闻/舆情扫描，LinkedIn/微信公众号/微博等全渠道</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <h2><span class="num">3</span>商机健康度评分</h2>
+      <p class="subtitle" style="margin-bottom:28px;">多维度计算每个商机的健康分（0-100），卡住的项目一键诊断</p>
+      <div class="grid-3" style="margin-bottom:24px;">
+        <div class="card">
+          <div class="card-icon">&#128200;</div>
+          <h4>健康度评分</h4>
+          <p>综合阶段推进速度、客户互动频率、决策链完整度、竞品 presence 等维度</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128260;</div>
+          <h4>待复活客户</h4>
+          <p>自动标注超过 30 天无进展的商机，分析历史记录给出"复活"策略建议</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128295;</div>
+          <h4>阻力点诊断</h4>
+          <p>综合分析卡点原因：价格异议 / 功能缺口 / 关系薄弱 / 内部政治，给出突破建议</p>
+        </div>
+      </div>
+      <div class="cta-box">
+        <h4>8 种主动教练触发信号</h4>
+        <p style="font-size:15px; margin-top:8px;">关系降温 · 窗口关闭 · 该见面了 · 行业集中输单 · 频繁回退 · 沉默商机 · 关键人盲区 · 活动失衡 —— 系统自动识别并主动推送建议</p>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <h2><span class="num">4</span>智能拜访准备 & 竞品应对</h2>
+      <p class="subtitle" style="margin-bottom:28px;">输入客户名，AI 自动生成一页纸简报；基于客户情况生成结构化竞品话术</p>
+      <div class="grid-2">
+        <div>
+          <h3>拜访准备（Pre-Call Brief）</h3>
+          <ul class="feature-list">
+            <li>公司动态与近期新闻</li>
+            <li>决策链背景与个人偏好</li>
+            <li>当前方案痛点分析</li>
+            <li>定制化提问清单</li>
+            <li>最佳案例匹配推荐</li>
+          </ul>
+        </div>
+        <div>
+          <h3>竞品应对话术</h3>
+          <ul class="feature-list">
+            <li>基于客户情况和全网社交媒体舆情分析</li>
+            <li>结构化话术：认同 + 差异化 + 风险 + 案例 + 邀约</li>
+            <li>支持用友 /  / SAP 等常见竞品</li>
+            <li>按决策人角色生成定制化版本（CEO/CFO/技术负责人）</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <h2><span class="num">5</span>赢单 / 输单复盘</h2>
+      <p class="subtitle" style="margin-bottom:28px;">赢单时生成交接清单，输单时沉淀加权归因，自动提醒相似客户避坑</p>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-icon">&#127942;</div>
+          <h4>赢单复盘</h4>
+          <p>自动生成客户交接清单，包含关键决策人、已承诺事项、待办动作、风险提醒，确保交付团队顺利接手</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128203;</div>
+          <h4>输单归因</h4>
+          <p>加权归因分析：价格因素 / 功能缺口 / 关系薄弱 / 内部政治 / 竞品优势，量化各因素影响权重</p>
+        </div>
+      </div>
+      <div class="cta-box" style="margin-top:24px;">
+        <h4>失败案例沉淀</h4>
+        <p style="font-size:15px; margin-top:8px;">输单复盘自动存入失败案例库。后续拜访准备时，若检测到相似客户特征，主动提醒："上次 XX 客户因价格因素输单，建议在报价前确认预算范围。"</p>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <div class="badge">For Managers</div>
+      <h2>销售团队负责人专属功能</h2>
+      <p class="subtitle" style="margin-bottom:28px;">18 项团队管理能力，从撞单检测到预测分级</p>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-icon">&#128200;</div>
+          <h4>团队看板</h4>
+          <p>团队整体漏斗分布、人均商机数、阶段转化率、本周/本月预测</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#9888;</div>
+          <h4>撞单检测</h4>
+          <p>自动识别团队内多个销售跟进同一客户，提醒协调资源避免内部竞争</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128161;</div>
+          <h4>预测分级</h4>
+          <p>Commit / Best Case / Pipeline 三级预测，基于历史赢单概率加权计算</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128202;</div>
+          <h4>行为诊断</h4>
+          <p>识别团队共性瓶颈："全团队 Q3 在报价阶段转化率下降 15%，建议组织竞品话术培训"</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <div class="badge">Methodology</div>
+      <h2>三大销售方法论内置</h2>
+      <p class="subtitle" style="margin-bottom:28px;">SPIN / BANT / MEDDIC，根据场景自动推荐最合适的方法论</p>
+      <div class="grid-3">
+        <div class="industry-card">
+          <div class="ind-icon">&#128161;</div>
+          <h4>SPIN 销售法</h4>
+          <p>情境问题 → 难点问题 → 暗示问题 → 需求-效益问题<br>适合复杂解决方案销售</p>
+        </div>
+        <div class="industry-card">
+          <div class="ind-icon">&#9989;</div>
+          <h4>BANT 资格认证</h4>
+          <p>Budget 预算 / Authority 决策权 / Need 需求 / Timeline 时间线<br>快速判断线索质量</p>
+        </div>
+        <div class="industry-card">
+          <div class="ind-icon">&#127919;</div>
+          <h4>MEDDIC 流程</h4>
+          <p>Metrics / Economic Buyer / Decision Criteria / Decision Process / Identify Pain / Champion<br>适合大订单企业销售</p>
+        </div>
+      </div>
+      <div class="cta-box" style="margin-top:24px;">
+        <h4>初始化配置</h4>
+        <p style="font-size:15px; margin-top:8px;">首次使用时，系统会引导选择：语言（中/英）、角色（一线销售/团队负责人）、目标市场（中国大陆/东南亚）、产品类型（软件/SaaS/工业设备/专业服务）、方法论偏好（SPIN/BANT/MEDDIC）。</p>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <div class="badge">Quick Start</div>
+      <h2>快速开始</h2>
+      <div class="grid-2" style="gap:32px;">
+        <div>
+          <h3>安装技能</h3>
+          <div class="code-block">
+cp -r Sloth-Sales-Eido/ ~/.qoderwork/skills/Sloth-Sales-Eido/
+python ~/.qoderwork/skills/Sloth-Sales-Eido/scripts/init_db.py
+          </div>
+          <p style="margin-top:12px; font-size:14px;">一键初始化 SQLite 数据库（customers、sales_funnel、activity_log、case_library、user_preferences 五张表）。</p>
+        </div>
+        <div>
+          <h3>三种启动方式</h3>
+          <ul class="feature-list">
+            <li><strong>"今天该做什么"</strong> — 体验每日聚焦引擎</li>
+            <li><strong>"帮我准备明天拜访 XX 客户"</strong> — 体验智能拜访准备</li>
+            <li><strong>"分析一下我的漏斗"</strong> — 体验商机健康度评分</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide last-slide">
+    <div class="slide-content">
+
+      <div class="cover-logo">Sloth-Eido Skill Family</div>
+      <h1>深耕 · <span>销售管理</span></h1>
+      <p style="font-size:20px; color:var(--text-dim); margin-bottom:8px;">慢一点，深一度</p>
+      <p style="font-size:16px; color:var(--text-dim);">关系驱动 · 每日聚焦 · 主动教练 —— 你的 AI 销售教练</p>
+      <div class="link-group">
+        <a class="link-btn" href="https://github.com/wangguobao0215/Sloth-Sales-Eido" target="_blank">&#127760; GitHub 仓库</a>
+        <a class="link-btn secondary" href="https://github.com/wangguobao0215/Sloth-Sales-Eido/blob/main/references/user-guide.md" target="_blank">&#128214; 用户手册</a>
+        <a class="link-btn secondary" href="https://wangguobao0215.github.io/sloth-skills-poster/sales-eido.html" target="_blank">&#128444; 宣传海报</a>
+      </div>
+      <p style="margin-top:40px; font-size:13px; color:rgba(255,255,255,0.25);">扫码关注公众号「树懒老K」获取更多 AI 销售技能与实战案例</p>
+
+    </div>
+  </div>
+</div>
+<div class="nav-bar">
+  <div style="display:flex; align-items:center;">
+    <button class="nav-btn" onclick="prevSlide()">&#9664; 上一页</button>
+    <span class="nav-hint">← → 键盘翻页</span>
+  </div>
+  <div class="nav-progress"><div class="nav-progress-inner" id="progress"></div></div>
+  <div style="display:flex; align-items:center; gap:12px;">
+    <span class="nav-page" id="pageNum">1 / 12</span>
+    <button class="nav-btn" onclick="nextSlide()">下一页 &#9654;</button>
+    <button class="nav-btn" onclick="toggleFullScreen()">&#9974;</button>
+  </div>
+</div>
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let current = 0;
+  const total = slides.length;
+  function updateSlide() {
+    slides.forEach((s, i) => {
+      s.classList.remove('active', 'prev');
+      if (i === current) s.classList.add('active');
+      else if (i < current) s.classList.add('prev');
+    });
+    document.getElementById('pageNum').textContent = (current + 1) + ' / ' + total;
+    document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+  }
+  function nextSlide() { if (current < total - 1) { current++; updateSlide(); } }
+  function prevSlide() { if (current > 0) { current--; updateSlide(); } }
+  function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault(); nextSlide();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault(); prevSlide();
+    } else if (e.key === 'f' || e.key === 'F') {
+      toggleFullScreen();
+    }
+  });
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+  });
+  document.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    if (e.deltaY > 20) nextSlide();
+    else if (e.deltaY < -20) prevSlide();
+  }, { passive: false });
+  updateSlide();
+</script>
+</body>
+</html>

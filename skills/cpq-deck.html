@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深算 · 报价管理 v2.0.0 — 产品介绍</title>
+<style>
+  :root {
+    --bg: #0f1a2e;
+    --bg-light: #162238;
+    --primary: #1a2a4a;
+    --accent: #2d4a7c;
+    --highlight: #7ec8e3;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --card-bg: rgba(255,255,255,0.06);
+    --card-border: rgba(126,200,227,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  /* Slide container */
+  .deck {
+    width: 100%; height: 100%;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 80px 80px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(60px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+  }
+
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+  }
+
+  .slide.prev {
+    transform: translateX(-60px);
+  }
+
+  /* Background decoration */
+  .slide::before {
+    content: "";
+    position: fixed;
+    top: -50%; right: -30%;
+    width: 80vw; height: 80vw;
+    background: radial-gradient(circle, rgba(45,74,124,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .slide-content {
+    max-width: 1100px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 30%, var(--highlight) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  h2 {
+    font-size: 38px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  h2 .num {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--highlight);
+    flex-shrink: 0;
+  }
+
+  h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--highlight);
+  }
+
+  p, li {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+
+  .subtitle {
+    font-size: 22px;
+    color: var(--text-dim);
+    margin-bottom: 40px;
+    max-width: 700px;
+  }
+
+  .badge {
+    display: inline-block;
+    background: rgba(126,200,227,0.12);
+    border: 1px solid rgba(126,200,227,0.3);
+    color: var(--highlight);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  /* Layout helpers */
+  .flex-row {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .flex-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 24px;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(126,200,227,0.4);
+  }
+
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 14px;
+  }
+
+  .card h4 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  /* Timeline / steps */
+  .timeline {
+    display: flex;
+    gap: 16px;
+    margin-top: 10px;
+  }
+
+  .timeline-step {
+    flex: 1;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 18px 14px;
+    text-align: center;
+    position: relative;
+  }
+
+  .timeline-step::after {
+    content: "→";
+    position: absolute;
+    right: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .timeline-step:last-child::after { display: none; }
+
+  .timeline-step .t-num {
+    width: 32px; height: 32px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .timeline-step .t-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.4;
+  }
+
+  /* Lists */
+  ul.feature-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  ul.feature-list li {
+    padding: 10px 0 10px 32px;
+    position: relative;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  ul.feature-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--highlight);
+    font-weight: 700;
+  }
+
+  /* Quote / CTA box */
+  .cta-box {
+    background: linear-gradient(135deg, rgba(45,74,124,0.25), rgba(26,42,74,0.15));
+    border: 1px dashed rgba(126,200,227,0.3);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-top: 24px;
+  }
+
+  .cta-box h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--highlight);
+    margin-bottom: 12px;
+  }
+
+  .code-block {
+    background: rgba(0,0,0,0.25);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: "SF Mono", Monaco, monospace;
+    font-size: 14px;
+    color: var(--highlight);
+    margin: 10px 0;
+    overflow-x: auto;
+  }
+
+  /* Navigation */
+  .nav-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 50px;
+    background: rgba(15,26,46,0.9);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 100;
+  }
+
+  .nav-btn {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--text-dim);
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+  }
+
+  .nav-progress {
+    flex: 1;
+    max-width: 300px;
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    margin: 0 20px;
+    overflow: hidden;
+  }
+
+  .nav-progress-inner {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--highlight));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .nav-page {
+    font-size: 13px;
+    color: var(--text-dim);
+    min-width: 60px;
+    text-align: center;
+  }
+
+  .nav-hint {
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+    margin-left: 12px;
+  }
+
+  /* Traffic light */
+  .traffic-light {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .tl-item {
+    flex: 1;
+    text-align: center;
+    padding: 18px;
+    border-radius: 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+  }
+
+  .tl-dot {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    box-shadow: 0 0 12px currentColor;
+  }
+
+  .tl-green { color: #4ade80; background: #4ade80; }
+  .tl-yellow { color: #facc15; background: #facc15; }
+  .tl-red { color: #f87171; background: #f87171; }
+
+  .tl-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .tl-desc {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  /* Industry cards */
+  .industry-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .industry-card .ind-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+
+  .industry-card h4 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .industry-card p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* Cover slide special */
+  .cover-slide {
+    text-align: center;
+  }
+
+  .cover-slide .cover-logo {
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .cover-slide h1 {
+    font-size: 64px;
+    margin-bottom: 20px;
+  }
+
+  .cover-slide h1 span {
+    color: var(--highlight);
+    -webkit-text-fill-color: var(--highlight);
+  }
+
+  .cover-slide .cover-sub {
+    font-size: 22px;
+    color: var(--text-dim);
+    max-width: 640px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+  }
+
+  .cover-meta {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .cover-meta-item {
+    text-align: center;
+  }
+
+  .cover-meta-item .big {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--highlight);
+    line-height: 1;
+  }
+
+  .cover-meta-item .small {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+
+  /* Last slide */
+  .last-slide {
+    text-align: center;
+  }
+
+  .last-slide h1 {
+    font-size: 48px;
+    margin-bottom: 24px;
+  }
+
+  .link-group {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+
+  .link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: opacity 0.2s;
+    border: 1px solid rgba(126,200,227,0.2);
+  }
+
+  .link-btn:hover { opacity: 0.85; }
+
+  .link-btn.secondary {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .slide { padding: 80px 24px 70px; }
+    h1 { font-size: 36px; }
+    h2 { font-size: 26px; }
+    .cover-slide h1 { font-size: 42px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .timeline { flex-wrap: wrap; }
+    .timeline-step::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- Slide 1: Cover -->
+  <div class="slide active cover-slide">
+    <div class="slide-content">
+      <div class="cover-logo">Sloth-Eido Skill Family</div>
+      <h1>深算 · <span>报价管理</span></h1>
+      <p class="cover-sub">制造业销售工程师的 AI 报价搭档<br>成本穿透、交期验证、多场景比选与利润预测</p>
+      <div class="cover-meta">
+        <div class="cover-meta-item"><div class="big">10</div><div class="small">步报价工作流</div></div>
+        <div class="cover-meta-item"><div class="big">4</div><div class="small">大覆盖行业</div></div>
+        <div class="cover-meta-item"><div class="big">24</div><div class="small">项回归测试</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 2: Pain Points -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="badge">Why CPQ</div>
+      <h2>制造业报价，为什么这么难？</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-icon">&#9201;</div>
+          <h4>耗时久</h4>
+          <p>一份非标设备报价往往需要销售工程师耗费数小时甚至数天，反复核对 BOM、工艺、外协、税率，效率低下。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#10067;</div>
+          <h4>缺数据</h4>
+          <p>材料价格波动、设备产能占用、设计工时估算，关键数据分散在不同系统中，销售手里常常只有一张Excel。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#9888;</div>
+          <h4>风险高</h4>
+          <p>合同里的延期罚金、质保期陷阱、出口认证要求，签完才发现踩坑，利润被风险条款吃掉。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128260;</div>
+          <h4>难沉淀</h4>
+          <p>每次报价都是"从零开始"，历史项目的成本偏差没有人系统复盘，同样的错误反复犯。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 3: Solution Overview -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="badge">Solution</div>
+      <h2>一个技能，覆盖报价全流程</h2>
+      <p style="margin-bottom:28px; max-width:720px;">Sloth-CPQ-Eido 运行在 QoderWork 平台上，通过自然语言理解客户需求，自动提取关键参数，基于行业知识库和成本模型，在几分钟内生成多方案报价对比。</p>
+      <div class="timeline">
+        <div class="timeline-step"><div class="t-num">1</div><div class="t-title">需求解析<br>与追问</div></div>
+        <div class="timeline-step"><div class="t-num">2</div><div class="t-title">产品配置<br>与选型</div></div>
+        <div class="timeline-step"><div class="t-num">3</div><div class="t-title">成本穿透<br>估算</div></div>
+        <div class="timeline-step"><div class="t-num">4</div><div class="t-title">交期可行<br>性验证</div></div>
+        <div class="timeline-step"><div class="t-num">5</div><div class="t-title">合同条款<br>风险扫描</div></div>
+        <div class="timeline-step"><div class="t-num">6</div><div class="t-title">正向/反向<br>报价计算</div></div>
+        <div class="timeline-step"><div class="t-num">7</div><div class="t-title">多行项<br>聚合</div></div>
+        <div class="timeline-step"><div class="t-num">8</div><div class="t-title">多层折扣<br>与审批</div></div>
+        <div class="timeline-step"><div class="t-num">9</div><div class="t-title">报价单<br>生成</div></div>
+        <div class="timeline-step"><div class="t-num">10</div><div class="t-title">版本管理<br>与偏差学习</div></div>
+      </div>
+      <div class="cta-box" style="margin-top:32px;">
+        <h4>核心价值</h4>
+        <div class="flex-row" style="gap:32px; flex-wrap:wrap;">
+          <span style="font-size:15px; color:var(--text-dim);">&#127942; 自然语言输入，自动识别四行业</span>
+          <span style="font-size:15px; color:var(--text-dim);">&#128200; 正向/反向/多行项，覆盖全场景</span>
+          <span style="font-size:15px; color:var(--text-dim);">&#128161; 不可变快照 + 24项回归测试保障</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 4: Step 1 -->
+  <div class="slide">
+    <div class="slide-content">
+      <h2><span class="num">1</span>需求解析与追问</h2>
+      <p class="subtitle" style="margin-bottom:28px;">从自然语言提取关键参数，自动识别行业，智能追问缺失项</p>
+      <div class="grid-2">
+        <div>
+          <h3>行业自动识别</h3>
+          <ul class="feature-list">
+            <li>提到"液压机/压力机/冶金设备" → 自动加载<strong>装备制造</strong>知识库</li>
+            <li>提到"传动轴/箱体/钣金/CNC" → 自动加载<strong>通用机械加工</strong>知识库</li>
+            <li>提到"PCB/SMT/贴装/元器件" → 自动加载<strong>电子制造</strong>知识库</li>
+            <li>关键词模糊时主动询问确认，跨行业产品支持子系统分别处理</li>
+          </ul>
+        </div>
+        <div>
+          <h3>智能追问策略</h3>
+          <ul class="feature-list">
+            <li>每次追问不超过 5 个问题，聚焦对成本和交期影响最大的参数</li>
+            <li>优先追问：数量、交期、付款条件、特殊要求（防爆/出口/军工）</li>
+            <li>检测到特殊风险项时立即发出预警（红色高亮）</li>
+            <li>支持中英文混合输入，口语化描述也能准确解析</li>
+          </ul>
+        </div>
+      </div>
+      <div class="code-block" style="margin-top:24px;">
+        示例："客户需要一台 630 吨四柱液压机，工作台 1200x1200mm，西门子控制系统，力士乐液压，交期 90 天，帮我估个价。"
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 5: Step 2 -->
+  <div class="slide">
+    <div class="slide-content">
+      <h2><span class="num">2</span>成本穿透估算</h2>
+      <p class="subtitle" style="margin-bottom:28px;">按成本计算指南执行多维度拆解，每项关键数据标注来源</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon">&#128202;</div>
+          <h4>材料成本</h4>
+          <p>钢材/铜材/铝材/电子元器件，实时价格或缓存参考价，标注数据来源</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128100;</div>
+          <h4>人工成本</h4>
+          <p>基于历史项目工时数据库，按工序拆解加工、装配、调试工时</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#127970;</div>
+          <h4>外协成本</h4>
+          <p>热处理、表面处理、精密加工等外协工序，按供应商基准价估算</p>
+        </div>
+      </div>
+      <div class="cta-box" style="margin-top:24px;">
+        <h4>数据获取优先级（渐进式降级）</h4>
+        <div class="flex-row" style="gap:20px; flex-wrap:wrap; margin-top:12px;">
+          <div style="flex:1; min-width:180px; text-align:center; padding:14px; background:rgba(0,0,0,0.15); border-radius:10px;">
+            <div style="font-size:24px; font-weight:800; color:var(--highlight);">A</div>
+            <div style="font-size:13px; color:var(--text-dim); margin-top:4px;">MCP 实时数据</div>
+          </div>
+          <div style="flex:1; min-width:180px; text-align:center; padding:14px; background:rgba(0,0,0,0.15); border-radius:10px;">
+            <div style="font-size:24px; font-weight:800; color:#facc15;">B</div>
+            <div style="font-size:13px; color:var(--text-dim); margin-top:4px;">CSV 模板数据</div>
+          </div>
+          <div style="flex:1; min-width:180px; text-align:center; padding:14px; background:rgba(0,0,0,0.15); border-radius:10px;">
+            <div style="font-size:24px; font-weight:800; color:#f87171;">C</div>
+            <div style="font-size:13px; color:var(--text-dim); margin-top:4px;">行业默认值</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 6: Step 3 -->
+  <div class="slide">
+    <div class="slide-content">
+      <h2><span class="num">3</span>交期可行性验证</h2>
+      <p class="subtitle" style="margin-bottom:28px;">从物料、产能、设计三个维度交叉验证，物理不可行时明确预警</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon">&#128230;</div>
+          <h4>物料约束</h4>
+          <p>长周期物料（进口液压元件、特种钢材）的采购货期是否超过客户要求的交付日期</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#9881;</div>
+          <h4>产能约束</h4>
+          <p>瓶颈设备（大型龙门铣、热处理炉）在目标周期内是否还有剩余产能</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128208;</div>
+          <h4>设计约束</h4>
+          <p>非标设计的工程周期是否挤压了制造时间，是否需要并行工程</p>
+        </div>
+      </div>
+      <div class="cta-box" style="margin-top:24px;">
+        <h4>验证结果输出</h4>
+        <p style="font-size:15px; margin-top:8px;">如果交期物理不可行，系统会明确警告并给出替代方案：延长交期 / 并行设计 / 外协关键工序 / 分批发货。每个方案都附带风险等级（High / Medium / Low）。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 7: Step 4 -->
+  <div class="slide">
+    <div class="slide-content">
+      <h2><span class="num">4</span>合同条款风险扫描</h2>
+      <p class="subtitle" style="margin-bottom:28px;">在生成报价前扫描合同风险，量化财务影响并纳入报价</p>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-icon">&#128220;</div>
+          <h4>延期罚金条款</h4>
+          <p>按日/按周/按合同金额的百分比计算潜在罚金总额，建议预留风险准备金</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128736;</div>
+          <h4>质保期偏差</h4>
+          <p>客户要求的质保期是否超出行业标准，超长质保的维护成本估算</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128176;</div>
+          <h4>付款条件风险</h4>
+          <p>预付款比例、尾款节点、信用证要求对现金流的影响分析</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#127760;</div>
+          <h4>出口认证要求</h4>
+          <p>CE / UL / ASME 等认证的时间成本和费用是否已计入报价</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 8: Step 5 -->
+  <div class="slide">
+    <div class="slide-content">
+      <h2><span class="num">5</span>多场景报价比选</h2>
+      <p class="subtitle" style="margin-bottom:28px;">输出至少 2 个方案，每个标注净利润交通灯和最大风险项</p>
+      <div class="grid-3" style="margin-bottom:24px;">
+        <div class="card">
+          <div class="card-icon">&#128640;</div>
+          <h4>优先交期方案</h4>
+          <p>外协关键工序 + 并行设计 + 加班赶工，利润让步换取交付速度</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128176;</div>
+          <h4>优先利润方案</h4>
+          <p>内部全自制 + 标准设计 + 常规交期，最大化净利润率</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#9878;</div>
+          <h4>均衡方案</h4>
+          <p>交期与利润的平衡点，推荐作为首选对外报价</p>
+        </div>
+      </div>
+      <h3 style="margin-bottom:12px;">盈亏交通灯</h3>
+      <div class="traffic-light">
+        <div class="tl-item">
+          <div class="tl-dot tl-green"></div>
+          <div class="tl-label">绿灯</div>
+          <div class="tl-desc">净利润率 &gt; 15%</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot tl-yellow"></div>
+          <div class="tl-label">黄灯</div>
+          <div class="tl-desc">净利润率 8% ~ 15%</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot tl-red"></div>
+          <div class="tl-label">红灯</div>
+          <div class="tl-desc">净利润率 &lt; 8%</div>
+        </div>
+      </div>
+      <p style="margin-top:16px; font-size:14px;">每个方案还包含：因子明细表（材料/复杂度/精度/批量因子）、假设与排除项、数据信心评级（A/B/C）。</p>
+    </div>
+  </div>
+
+  <!-- Slide 9: Step 6 -->
+  <div class="slide">
+    <div class="slide-content">
+      <h2><span class="num">6</span>版本管理与偏差学习</h2>
+      <p class="subtitle" style="margin-bottom:28px;">保存报价快照，回写实际成本，持续优化报价准确性</p>
+      <div class="grid-2">
+        <div>
+          <h3>报价版本管理</h3>
+          <ul class="feature-list">
+            <li>同一客户/产品的多次报价自动保存为 V1、V2、V3...</li>
+            <li>版本对比视图：参数差异、价格演变、客户反馈记录</li>
+            <li>支持导出 Markdown 表格，直接粘贴到正式报价单</li>
+          </ul>
+        </div>
+        <div>
+          <h3>偏差学习闭环</h3>
+          <ul class="feature-list">
+            <li>项目交付后输入实际成本，系统自动计算偏差率</li>
+            <li>分析偏差根因：材料涨价 / 工时超支 / 返工报废</li>
+            <li>自动更新对应产品类型的风险系数</li>
+            <li>后续类似询价主动提示："上次液压机材料偏差 +12%，建议预留缓冲"</li>
+          </ul>
+        </div>
+      </div>
+      <div class="cta-box" style="margin-top:24px;">
+        <h4>偏差学习数据存储</h4>
+        <p style="font-size:15px; margin-top:8px;">优先级：① MCP 后端数据库（推荐团队使用） → ② 本地 CSV 文件（`templates/project_history.csv`）→ ③ 会话内记忆。建议 3 人以上团队优先配置 MCP，避免本地数据冲突。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 10: Industries -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="badge">Industry Coverage</div>
+      <h2>四大行业，一套技能全覆盖</h2>
+      <div class="grid-2" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="industry-card">
+          <div class="ind-icon">&#127981;</div>
+          <h4>装备制造</h4>
+          <p>液压机、压力机、冶金设备、非标产线、重型机械</p>
+          <div class="code-block" style="margin-top:12px; font-size:12px;">equipment-knowledge.md</div>
+        </div>
+        <div class="industry-card">
+          <div class="ind-icon">&#9881;</div>
+          <h4>通用机械加工</h4>
+          <p>轴类、盘类、箱体、钣金、框架结构件、CNC 零件</p>
+          <div class="code-block" style="margin-top:12px; font-size:12px;">machinery-knowledge.md</div>
+        </div>
+        <div class="industry-card">
+          <div class="ind-icon">&#128187;</div>
+          <h4>电子制造</h4>
+          <p>PCB、PCBA、SMT 贴装、线缆组件、整机组装</p>
+          <div class="code-block" style="margin-top:12px; font-size:12px;">electronics-knowledge.md</div>
+        </div>
+        <div class="industry-card">
+          <div class="ind-icon">&#128663;</div>
+          <h4>汽车零部件</h4>
+          <p>发动机零件、底盘零件、车身冲压件、注塑件、新能源部件</p>
+          <div class="code-block" style="margin-top:12px; font-size:12px;">automotive-parts-knowledge.md</div>
+        </div>
+      </div>
+      <p style="margin-top:24px; text-align:center; font-size:15px;">跨行业产品（如"带电控系统的液压机"）支持按子系统分别调用知识库，结果自动汇总。</p>
+    </div>
+  </div>
+
+  <!-- Slide 11: Scripts -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="badge">Automation</div>
+      <h2>Python 自动化脚本</h2>
+      <p class="subtitle" style="margin-bottom:28px;">10个脚本覆盖报价全流程，让报价从" artisan "变成" engineer "</p>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-icon">&#128425;</div>
+          <h4>calculate_cost.py</h4>
+          <p>成本穿透计算（正向/反向双模式），含学习曲线、质保准备金、外汇风险、材料锁价溢价</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128202;</div>
+          <h4>generate_multi_item_quote.py</h4>
+          <p>多行项报价引擎，JSON 输入多产品组合，聚合整体报价与统一折扣</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128451;</div>
+          <h4>parse_bom_csv.py</h4>
+          <p>解析 BOM CSV（扁平/树形双模式），交叉匹配行业物料数据，自动识别缺失物料</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128240;</div>
+          <h4>generate_quote_doc.py</h4>
+          <p>生成专业 HTML 报价单文档，支持公司品牌、场景对比、审批状态、风险警告</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128200;</div>
+          <h4>quote_analytics.py</h4>
+          <p>历史报价分析仪表盘，5个子命令（summary/accuracy/pricing/risk/report），纯标准库</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128274;</div>
+          <h4>quote_snapshot.py</h4>
+          <p>不可变报价快照，SHA-256 校验 + 差异对比 + 篡改检测，JSONL 存储格式</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#9989;</div>
+          <h4>validate_template.py</h4>
+          <p>校验 CSV 文件格式合规性，提前发现数据问题</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128269;</div>
+          <h4>search_similar.py</h4>
+          <p>搜索相似历史项目，引用历史报价参数和实际成本作为参考</p>
+        </div>
+      </div>
+      <div class="cta-box" style="margin-top:24px;">
+        <h4>质量保障</h4>
+        <p style="font-size:15px; margin-top:8px;">test_scripts.py 包含 24 项回归测试，覆盖正向 CLI（5）、反向 CLI（3）、工具函数（7）、多行项（3）、BOM（2）、模板校验（2）、相似搜索（2）。pytest 100% 通过。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 12: Use Cases -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="badge">Use Cases</div>
+      <h2>典型使用场景</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-icon">&#127981;</div>
+          <h4>装备制造询价</h4>
+          <p>"客户需要一台 630 吨四柱液压机，工作台 1200x1200mm，西门子控制系统，力士乐液压，交期 90 天，帮我估个价。"</p>
+          <p style="margin-top:8px; font-size:13px; color:var(--highlight);">→ 自动识别装备行业，追问付款/运输/安装要求，输出 3 个方案</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#9881;</div>
+          <h4>机械加工询价</h4>
+          <p>"有一批 40Cr 传动轴，直径 80mm 长 500mm，调质处理，公差 IT7，Ra0.8，数量 200 件，15 天交货，报个价。"</p>
+          <p style="margin-top:8px; font-size:13px; color:var(--highlight);">→ 自动识别机加行业，匹配加工工艺，验证 15 天可行性</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128187;</div>
+          <h4>电子制造询价</h4>
+          <p>"4 层 FR-4 板子，100x80mm，280 个贴片点，20 个插件，AOI+FCT 测试，首批 500 块，代采元器件，报价。"</p>
+          <p style="margin-top:8px; font-size:13px; color:var(--highlight);">→ 自动识别电子行业，核算 SMT + 测试 + 代采成本</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128260;</div>
+          <h4>偏差学习回写</h4>
+          <p>"上次 630 吨液压机交付完了，实际材料成本 85 万，人工 32 万，外协 12 万，帮我做偏差分析。"</p>
+          <p style="margin-top:8px; font-size:13px; color:var(--highlight);">→ 对比报价估算 vs 实际成本，更新风险系数</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 13: Quick Start -->
+  <div class="slide">
+    <div class="slide-content">
+      <div class="badge">Quick Start</div>
+      <h2>快速开始</h2>
+      <div class="grid-2" style="gap:32px;">
+        <div>
+          <h3>安装技能</h3>
+          <div class="code-block">
+cp -r Sloth-CPQ-Eido/ ~/.qoderwork/skills/sloth-cpq-eido/
+          </div>
+          <p style="margin-top:12px; font-size:14px;">将仓库根目录复制到 QoderWork 技能目录即可。如需 MCP 集成，参考 references/kingdee-mcp-integration.md。</p>
+        </div>
+        <div>
+          <h3>准备数据（可选）</h3>
+          <ul class="feature-list">
+            <li><strong>material_data.csv</strong> — 物料成本与货期</li>
+            <li><strong>project_history.csv</strong> — 历史项目工时</li>
+            <li><strong>workcenter_calendar.csv</strong> — 瓶颈设备产能</li>
+            <li><strong>quote_version_log.csv</strong> — 报价版本记录</li>
+          </ul>
+          <p style="margin-top:10px; font-size:14px;">填入实际数据可将信心等级从 C 提升到 B，显著提高精度。</p>
+        </div>
+      </div>
+      <div class="cta-box" style="margin-top:28px;">
+        <h4>三步开始试用</h4>
+        <div class="timeline" style="margin-top:16px;">
+          <div class="timeline-step"><div class="t-num">1</div><div class="t-title">在各种虾🦐<br>安装技能</div></div>
+          <div class="timeline-step"><div class="t-num">2</div><div class="t-title">描述客户<br>需求</div></div>
+          <div class="timeline-step"><div class="t-num">3</div><div class="t-title">查看多方案<br>比选结果</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 14: Last -->
+  <div class="slide last-slide">
+    <div class="slide-content">
+      <div class="cover-logo">Sloth-Eido Skill Family</div>
+      <h1>深算 · <span>报价管理</span></h1>
+      <p style="font-size:20px; color:var(--text-dim); margin-bottom:8px;">慢一点，深一度</p>
+      <p style="font-size:16px; color:var(--text-dim);">为制造业销售工程师提供成本穿透估算、交期验证、多场景报价比选与利润预测</p>
+      <div class="link-group">
+        <a class="link-btn" href="https://github.com/wangguobao0215/Sloth-CPQ-Eido" target="_blank">&#127760; GitHub 仓库</a>
+        <a class="link-btn secondary" href="https://github.com/wangguobao0215/Sloth-CPQ-Eido/blob/main/references/user-guide.md" target="_blank">&#128214; 用户手册</a>
+        <a class="link-btn secondary" href="https://wangguobao0215.github.io/sloth-skills-poster/cpq-eido.html" target="_blank">&#128444; 宣传海报</a>
+      </div>
+      <p style="margin-top:40px; font-size:13px; color:rgba(255,255,255,0.25);">扫码关注公众号「树懒老K」获取更多 AI 技能与实战案例</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav-bar">
+  <div style="display:flex; align-items:center;">
+    <button class="nav-btn" onclick="prevSlide()">&#9664; 上一页</button>
+    <span class="nav-hint">← → 键盘翻页</span>
+  </div>
+  <div class="nav-progress">
+    <div class="nav-progress-inner" id="progress"></div>
+  </div>
+  <div style="display:flex; align-items:center; gap:12px;">
+    <span class="nav-page" id="pageNum">1 / 14</span>
+    <button class="nav-btn" onclick="nextSlide()">下一页 &#9654;</button>
+    <button class="nav-btn" onclick="toggleFullScreen()">&#9974;</button>
+  </div>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let current = 0;
+  const total = slides.length;
+
+  function updateSlide() {
+    slides.forEach((s, i) => {
+      s.classList.remove('active', 'prev');
+      if (i === current) s.classList.add('active');
+      else if (i < current) s.classList.add('prev');
+    });
+    document.getElementById('pageNum').textContent = (current + 1) + ' / ' + total;
+    document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+  }
+
+  function nextSlide() {
+    if (current < total - 1) { current++; updateSlide(); }
+  }
+
+  function prevSlide() {
+    if (current > 0) { current--; updateSlide(); }
+  }
+
+  function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault(); nextSlide();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault(); prevSlide();
+    } else if (e.key === 'f' || e.key === 'F') {
+      toggleFullScreen();
+    }
+  });
+
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+  });
+
+  document.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    if (e.deltaY > 20) nextSlide();
+    else if (e.deltaY < -20) prevSlide();
+  }, { passive: false });
+
+  updateSlide();
+</script>
+
+</body>
+</html>

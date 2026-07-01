@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深声 · 内容运营 v1.0.0 — 产品介绍</title>
+<style>
+  :root {
+    --bg: #0f1a2e;
+    --bg-light: #162238;
+    --primary: #1a2a4a;
+    --accent: #2d4a7c;
+    --highlight: #7ec8e3;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --card-bg: rgba(255,255,255,0.06);
+    --card-border: rgba(126,200,227,0.15);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .deck {
+    width: 100%; height: 100%;
+    position: relative;
+  }
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 80px 80px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(60px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+  }
+  .slide.prev { transform: translateX(-60px); }
+  .slide::before {
+    content: "";
+    position: fixed;
+    top: -50%; right: -30%;
+    width: 80vw; height: 80vw;
+    background: radial-gradient(circle, rgba(45,74,124,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .slide-content {
+    max-width: 1100px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+  h1 {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 30%, var(--highlight) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  h2 {
+    font-size: 38px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  h2 .num {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--highlight);
+    flex-shrink: 0;
+  }
+  h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--highlight);
+  }
+  p, li {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+  .subtitle {
+    font-size: 22px;
+    color: var(--text-dim);
+    margin-bottom: 40px;
+    max-width: 700px;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(126,200,227,0.12);
+    border: 1px solid rgba(126,200,227,0.3);
+    color: var(--highlight);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .flex-row { display: flex; gap: 28px; flex-wrap: wrap; }
+  .flex-col { display: flex; flex-direction: column; gap: 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 24px;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(126,200,227,0.4);
+  }
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 14px;
+  }
+  .card h4 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+  .timeline {
+    display: flex;
+    gap: 16px;
+    margin-top: 10px;
+  }
+  .timeline-step {
+    flex: 1;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 18px 14px;
+    text-align: center;
+    position: relative;
+  }
+  .timeline-step::after {
+    content: "→";
+    position: absolute;
+    right: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .timeline-step:last-child::after { display: none; }
+  .timeline-step .t-num {
+    width: 32px; height: 32px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .timeline-step .t-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.4;
+  }
+  ul.feature-list {
+    list-style: none;
+    padding: 0;
+  }
+  ul.feature-list li {
+    padding: 10px 0 10px 32px;
+    position: relative;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  ul.feature-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--highlight);
+    font-weight: 700;
+  }
+  .cta-box {
+    background: linear-gradient(135deg, rgba(45,74,124,0.25), rgba(26,42,74,0.15));
+    border: 1px dashed rgba(126,200,227,0.3);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-top: 24px;
+  }
+  .cta-box h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--highlight);
+    margin-bottom: 12px;
+  }
+  .code-block {
+    background: rgba(0,0,0,0.25);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: "SF Mono", Monaco, monospace;
+    font-size: 14px;
+    color: var(--highlight);
+    margin: 10px 0;
+    overflow-x: auto;
+  }
+  .nav-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 50px;
+    background: rgba(15,26,46,0.9);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 100;
+  }
+  .nav-btn {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--text-dim);
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+  }
+  .nav-progress {
+    flex: 1;
+    max-width: 300px;
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    margin: 0 20px;
+    overflow: hidden;
+  }
+  .nav-progress-inner {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--highlight));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+  .nav-page {
+    font-size: 13px;
+    color: var(--text-dim);
+    min-width: 60px;
+    text-align: center;
+  }
+  .nav-hint {
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+    margin-left: 12px;
+  }
+  .traffic-light {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .tl-item {
+    flex: 1;
+    text-align: center;
+    padding: 18px;
+    border-radius: 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+  }
+  .tl-dot {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    box-shadow: 0 0 12px currentColor;
+  }
+  .tl-green { color: #4ade80; background: #4ade80; }
+  .tl-yellow { color: #facc15; background: #facc15; }
+  .tl-red { color: #f87171; background: #f87171; }
+  .tl-label { font-size: 14px; font-weight: 600; color: #fff; }
+  .tl-desc { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+  .industry-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+  }
+  .industry-card .ind-icon { font-size: 36px; margin-bottom: 12px; }
+  .industry-card h4 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .industry-card p { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+  .cover-slide { text-align: center; }
+  .cover-slide .cover-logo {
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .cover-slide h1 { font-size: 64px; margin-bottom: 20px; }
+  .cover-slide h1 span {
+    color: var(--highlight);
+    -webkit-text-fill-color: var(--highlight);
+  }
+  .cover-slide .cover-sub {
+    font-size: 22px;
+    color: var(--text-dim);
+    max-width: 640px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .cover-meta-item { text-align: center; }
+  .cover-meta-item .big {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--highlight);
+    line-height: 1;
+  }
+  .cover-meta-item .small {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+  .last-slide { text-align: center; }
+  .last-slide h1 { font-size: 48px; margin-bottom: 24px; }
+  .link-group {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: opacity 0.2s;
+    border: 1px solid rgba(126,200,227,0.2);
+  }
+  .link-btn:hover { opacity: 0.85; }
+  .link-btn.secondary {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  @media (max-width: 900px) {
+    .slide { padding: 80px 24px 70px; }
+    h1 { font-size: 36px; }
+    h2 { font-size: 26px; }
+    .cover-slide h1 { font-size: 42px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .timeline { flex-wrap: wrap; }
+    .timeline-step::after { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+  <div class="slide cover-slide">
+    <div class="slide-content">
+
+      <div class="cover-logo">Sloth-Eido Skill Family</div>
+      <h1>深声 · <span>内容运营</span></h1>
+      <p class="cover-sub">自媒体全流程运营工具<br>从选题策划到多平台发布的一站式内容创作流水线</p>
+      <div class="cover-meta">
+        <div class="cover-meta-item"><div class="big">3</div><div class="small">种创作模式</div></div>
+        <div class="cover-meta-item"><div class="big">5</div><div class="small">大平台适配</div></div>
+        <div class="cover-meta-item"><div class="big">1</div><div class="small">条发布流水线</div></div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <div class="badge">Why 深声</div>
+      <h2>自媒体运营，每天都在面对什么？</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-icon">&#128161;</div>
+          <h4>选题枯竭</h4>
+          <p>每天为"今天写什么"发愁，灵感时有时无，热点来了又抓不住。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#9201;</div>
+          <h4>平台适配繁琐</h4>
+          <p>同一篇文章要改 5 个版本（公众号/知乎/头条/小红书/朋友圈），排版调格式占一半时间。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128248;</div>
+          <h4>配图难找</h4>
+          <p>找不到合适的封面图和正文配图，版权风险高，AI 配图质量参差不齐。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128452;</div>
+          <h4>内容资产难沉淀</h4>
+          <p>写完即走，文章散落在各个平台后台，没有统一的知识库归档和复用机制。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <div class="badge">Solution</div>
+      <h2>三大创作场景，一站式搞定</h2>
+      <p style="margin-bottom:28px; max-width:720px;">深声覆盖从选题策划、内容创作到多平台分发的完整工作流。三种创作模式适配不同需求，五大模块流水线作业。</p>
+      <div class="grid-3">
+        <div class="industry-card">
+          <div class="ind-icon">&#128293;</div>
+          <h4>热点追踪 → 爆文</h4>
+          <p>自动抓取热点新闻，智能选题评分，一键生成多平台文章</p>
+        </div>
+        <div class="industry-card">
+          <div class="ind-icon">&#128161;</div>
+          <h4>专题策划 → 系列</h4>
+          <p>深度调研方向，规划系列选题，批量循环生产</p>
+        </div>
+        <div class="industry-card">
+          <div class="ind-icon">&#9997;</div>
+          <h4>主题写作 → 快速分发</h4>
+          <p>给定主题直接写作，自动适配全平台格式</p>
+        </div>
+      </div>
+      <div class="cta-box" style="margin-top:28px;">
+        <h4>五大模块流水线</h4>
+        <div class="timeline" style="margin-top:16px;">
+          <div class="timeline-step"><div class="t-num">1</div><div class="t-title">选题引擎</div></div>
+          <div class="timeline-step"><div class="t-num">2</div><div class="t-title">写作引擎</div></div>
+          <div class="timeline-step"><div class="t-num">3</div><div class="t-title">平台适配器</div></div>
+          <div class="timeline-step"><div class="t-num">4</div><div class="t-title">排版引擎</div></div>
+          <div class="timeline-step"><div class="t-num">5</div><div class="t-title">发布管线</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <h2><span class="num">1</span>选题引擎</h2>
+      <p class="subtitle" style="margin-bottom:28px;">热点抓取、内容拆解、多维评分、智能推荐</p>
+      <div class="grid-2">
+        <div>
+          <h3>热点模式</h3>
+          <ul class="feature-list">
+            <li>调用 news-aggregator-skill 抓取全网热点</li>
+            <li>内容拆解：分析爆款文章的结构和情绪点</li>
+            <li>生成选题卡片，多维度评分（时效性/受众匹配/竞争度/创作成本）</li>
+            <li>用户选择后直接进入写作流程</li>
+            <li>热点抓取失败时自动降级：备用源 → 本地缓存 → 人工输入</li>
+          </ul>
+        </div>
+        <div>
+          <h3>策划模式</h3>
+          <ul class="feature-list">
+            <li>用 deep-research 调研方向</li>
+            <li>生成 3-5 个专题方案供用户选择</li>
+            <li>拆分为系列选题（每专题 3-8 篇）</li>
+            <li>排定写作顺序和内容日历</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <h2><span class="num">2</span>写作引擎</h2>
+      <p class="subtitle" style="margin-bottom:28px;">四种风格可选，素材收集、大纲生成、全文写作、润色自检</p>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-icon">&#128218;</div>
+          <h4>深度风格</h4>
+          <p>逻辑严密、数据支撑、引用规范，适合知乎长文和公众号干货</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128150;</div>
+          <h4>故事风格</h4>
+          <p>场景化叙事、情感共鸣、人物弧光，适合品牌故事和用户案例</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#9889;</div>
+          <h4>犀利风格</h4>
+          <p>观点鲜明、金句密集、节奏快，适合热点评论和行业洞察</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#127880;</div>
+          <h4>轻松风格</h4>
+          <p>口语化表达、emoji 点缀、互动感强，适合小红书和朋友圈</p>
+        </div>
+      </div>
+      <div class="cta-box" style="margin-top:24px;">
+        <h4>写作流程</h4>
+        <p style="font-size:15px; margin-top:8px;">分析选题 → 自动推荐风格（用户可改）→ 生成大纲（用户可调）→ 全文写作 → 润色自检 → 输出母版文章（Markdown）</p>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <h2><span class="num">3</span>平台适配器</h2>
+      <p class="subtitle" style="margin-bottom:28px;">逐平台改写标题和内容，输出各平台专属版本</p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon">&#128172;</div>
+          <h4>微信公众号</h4>
+          <p>主题排版、品牌题图底图、封面图适配</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128240;</div>
+          <h4>今日头条</h4>
+          <p>SEO 关键词优化、算法友好结构</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128218;</div>
+          <h4>知乎</h4>
+          <p>学术化风格、引用规范、长文分段</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128150;</div>
+          <h4>小红书</h4>
+          <p>Emoji 风格、短段落、图卡适配</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128247;</div>
+          <h4>朋友圈</h4>
+          <p>80 字精炼文案、配图建议</p>
+        </div>
+      </div>
+      <p style="margin-top:16px; font-size:14px;">每个平台输出 3 个标题候选，用户可挑选或修改。内容改写保留核心观点，调整语气和结构以匹配平台调性。</p>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <h2><span class="num">4</span>排版引擎 & 发布管线</h2>
+      <p class="subtitle" style="margin-bottom:28px;">自动排版配图、多平台发布草稿、知识库归档</p>
+      <div class="grid-2">
+        <div>
+          <h3>排版引擎</h3>
+          <ul class="feature-list">
+            <li>公众号：baoyu-post-to-wechat 主题排版，AI 生成封面与正文配图</li>
+            <li>长文平台：baoyu-article-illustrator 自动配图建议</li>
+            <li>小红书：baoyu-xhs-images 生成图卡系列</li>
+          </ul>
+        </div>
+        <div>
+          <h3>发布管线</h3>
+          <ul class="feature-list">
+            <li>公众号 → API/浏览器自动发草稿箱</li>
+            <li>头条 → Chrome CDP 自动化发草稿</li>
+            <li>知乎/小红书 → 保存到本地输出目录</li>
+            <li>朋友圈 → 生成 moments.md 手动复制</li>
+          </ul>
+        </div>
+      </div>
+      <div class="cta-box" style="margin-top:24px;">
+        <h4>知识库归档</h4>
+        <p style="font-size:15px; margin-top:8px;">飞书知识库（lark-doc + lark-wiki）+ Obsidian 本地 vault 双归档。文章资产永久沉淀，支持全文检索和复用。</p>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <div class="badge">Use Cases</div>
+      <h2>典型使用场景</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-icon">&#128293;</div>
+          <h4>热点追踪 → 爆文</h4>
+          <p>"帮我追踪今天的科技热点，选一个好选题写一篇爆文"</p>
+          <p style="margin-top:8px; font-size:13px; color:var(--highlight);">→ 抓取热点 → 评分排序 → 用户选择 → 写作 → 适配全平台 → 发草稿</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128161;</div>
+          <h4>专题策划 → 系列文章</h4>
+          <p>"我想做一个关于'AI时代个人成长'的系列专题"</p>
+          <p style="margin-top:8px; font-size:13px; color:var(--highlight);">→ 深度调研 → 生成方案 → 拆分选题 → 循环写作 → 批量发布</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#9997;</div>
+          <h4>主题写作 → 快速分发</h4>
+          <p>"帮我写一篇关于'向上管理'的文章，发布到所有平台"</p>
+          <p style="margin-top:8px; font-size:13px; color:var(--highlight);">→ 跳过选题 → 直接写作 → 五平台适配 → 排版 → 发草稿</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128260;</div>
+          <h4>知识库复用</h4>
+          <p>"我之前写的'时间管理'系列，帮我改编成小红书图卡"</p>
+          <p style="margin-top:8px; font-size:13px; color:var(--highlight);">→ 从 Obsidian/飞书读取原文 → 提取核心观点 → 生成图卡</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <div class="badge">Platform Support</div>
+      <h2>五大平台，一键适配</h2>
+      <div class="grid-3">
+        <div class="industry-card">
+          <div class="ind-icon">&#128172;</div>
+          <h4>微信公众号</h4>
+          <p>API / 浏览器自动发布到草稿箱<br>主题排版、品牌题图底图、封面图</p>
+        </div>
+        <div class="industry-card">
+          <div class="ind-icon">&#128240;</div>
+          <h4>今日头条</h4>
+          <p>Chrome CDP 自动发布到草稿箱<br>SEO 关键词优化、算法友好结构</p>
+        </div>
+        <div class="industry-card">
+          <div class="ind-icon">&#128218;</div>
+          <h4>知乎</h4>
+          <p>本地输出，手动发布<br>学术化风格、引用规范</p>
+        </div>
+        <div class="industry-card">
+          <div class="ind-icon">&#128150;</div>
+          <h4>小红书</h4>
+          <p>本地输出 + 图卡生成<br>Emoji 风格、图卡系列</p>
+        </div>
+        <div class="industry-card">
+          <div class="ind-icon">&#128247;</div>
+          <h4>朋友圈</h4>
+          <p>生成文案，手动发布<br>80 字精炼文案、配图建议</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-content">
+
+      <div class="badge">Quick Start</div>
+      <h2>快速开始</h2>
+      <div class="grid-2" style="gap:32px;">
+        <div>
+          <h3>安装与配置</h3>
+          <div class="code-block">
+cp -r Sloth-SMM-Eido/ ~/.qoderwork/skills/Sloth-SMM-Eido/
+          </div>
+          <p style="margin-top:12px; font-size:14px;">编辑 EXTEND.md 完成：内容领域、常用平台开关、飞书空间ID（可选）、Obsidian vault 路径（可选）、公众号发布方式（api/browser）。</p>
+        </div>
+        <div>
+          <h3>前置依赖</h3>
+          <ul class="feature-list">
+            <li><strong>核心</strong>：baoyu-post-to-wechat、news-aggregator-skill、deep-research、baoyu-article-illustrator、baoyu-xhs-images</li>
+            <li><strong>可选</strong>：lark-doc + lark-wiki（飞书归档）、Chrome 浏览器（头条发布）</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="slide last-slide">
+    <div class="slide-content">
+
+      <div class="cover-logo">Sloth-Eido Skill Family</div>
+      <h1>深声 · <span>内容运营</span></h1>
+      <p style="font-size:20px; color:var(--text-dim); margin-bottom:8px;">慢一点，深一度</p>
+      <p style="font-size:16px; color:var(--text-dim);">自媒体全流程运营工具 —— 从选题策划到多平台发布的一站式流水线</p>
+      <div class="link-group">
+        <a class="link-btn" href="https://github.com/wangguobao0215/Sloth-SMM-Eido" target="_blank">&#127760; GitHub 仓库</a>
+        <a class="link-btn secondary" href="https://github.com/wangguobao0215/Sloth-SMM-Eido/blob/main/references/user-guide.md" target="_blank">&#128214; 用户手册</a>
+        <a class="link-btn secondary" href="https://wangguobao0215.github.io/sloth-skills-poster/smm-eido.html" target="_blank">&#128444; 宣传海报</a>
+      </div>
+      <p style="margin-top:40px; font-size:13px; color:rgba(255,255,255,0.25);">扫码关注公众号「树懒老K」获取更多 AI 内容运营技能与实战案例</p>
+
+    </div>
+  </div>
+</div>
+<div class="nav-bar">
+  <div style="display:flex; align-items:center;">
+    <button class="nav-btn" onclick="prevSlide()">&#9664; 上一页</button>
+    <span class="nav-hint">← → 键盘翻页</span>
+  </div>
+  <div class="nav-progress"><div class="nav-progress-inner" id="progress"></div></div>
+  <div style="display:flex; align-items:center; gap:12px;">
+    <span class="nav-page" id="pageNum">1 / 11</span>
+    <button class="nav-btn" onclick="nextSlide()">下一页 &#9654;</button>
+    <button class="nav-btn" onclick="toggleFullScreen()">&#9974;</button>
+  </div>
+</div>
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let current = 0;
+  const total = slides.length;
+  function updateSlide() {
+    slides.forEach((s, i) => {
+      s.classList.remove('active', 'prev');
+      if (i === current) s.classList.add('active');
+      else if (i < current) s.classList.add('prev');
+    });
+    document.getElementById('pageNum').textContent = (current + 1) + ' / ' + total;
+    document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+  }
+  function nextSlide() { if (current < total - 1) { current++; updateSlide(); } }
+  function prevSlide() { if (current > 0) { current--; updateSlide(); } }
+  function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault(); nextSlide();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault(); prevSlide();
+    } else if (e.key === 'f' || e.key === 'F') {
+      toggleFullScreen();
+    }
+  });
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+  });
+  document.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    if (e.deltaY > 20) nextSlide();
+    else if (e.deltaY < -20) prevSlide();
+  }, { passive: false });
+  updateSlide();
+</script>
+</body>
+</html>

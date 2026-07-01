@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深策 · 制造咨询 — 产品介绍</title>
+<style>
+  :root {
+    --bg: #062616;
+    --bg-light: #103020;
+    --primary: #1a3a2a;
+    --accent: #2d6a4a;
+    --highlight: #4ade80;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --card-bg: rgba(255,255,255,0.06);
+    --card-border: rgba(255,255,255,0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .deck { width: 100%; height: 100%; position: relative; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 100px 80px 80px;
+    opacity: 0; pointer-events: none; transform: translateX(60px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+  }
+  .slide.active { opacity: 1; pointer-events: auto; transform: translateX(0); }
+  .slide.prev { transform: translateX(-60px); }
+  .slide::before {
+    content: ""; position: fixed; top: -50%; right: -30%;
+    width: 80vw; height: 80vw;
+    background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  .slide-content { max-width: 1100px; width: 100%; position: relative; z-index: 1; }
+  h1 {
+    font-size: 52px; font-weight: 800; line-height: 1.2; margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 30%, var(--highlight) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  h2 {
+    font-size: 38px; font-weight: 700; margin-bottom: 32px; color: #fff;
+    display: flex; align-items: center; gap: 14px;
+  }
+  h2 .num {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 800; color: var(--highlight); flex-shrink: 0;
+  }
+  h3 { font-size: 22px; font-weight: 600; margin-bottom: 12px; color: var(--highlight); }
+  p, li { font-size: 18px; line-height: 1.7; color: var(--text-dim); }
+  .subtitle { font-size: 22px; color: var(--text-dim); margin-bottom: 40px; max-width: 700px; }
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--highlight);
+    padding: 6px 16px; border-radius: 20px;
+    font-size: 13px; font-weight: 600; letter-spacing: 1px;
+    margin-bottom: 20px; text-transform: uppercase;
+  }
+  .flex-row { display: flex; gap: 28px; flex-wrap: wrap; }
+  .flex-col { display: flex; flex-direction: column; gap: 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 24px;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .card:hover { transform: translateY(-3px); border-color: var(--highlight); }
+  .card-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 14px;
+  }
+  .card h4 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .card p { font-size: 14px; line-height: 1.6; color: var(--text-dim); }
+  .timeline { display: flex; gap: 16px; margin-top: 10px; }
+  .timeline-step {
+    flex: 1; background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 12px; padding: 18px 14px; text-align: center; position: relative;
+  }
+  .timeline-step::after {
+    content: "\2192"; position: absolute; right: -18px; top: 50%;
+    transform: translateY(-50%); color: var(--accent); font-size: 18px; font-weight: 700;
+  }
+  .timeline-step:last-child::after { display: none; }
+  .timeline-step .t-num {
+    width: 32px; height: 32px; background: var(--accent); color: #fff;
+    border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; margin-bottom: 10px;
+  }
+  .timeline-step .t-title { font-size: 13px; font-weight: 600; color: #fff; line-height: 1.4; }
+  ul.feature-list { list-style: none; padding: 0; }
+  ul.feature-list li {
+    padding: 10px 0 10px 32px; position: relative; font-size: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  ul.feature-list li::before {
+    content: "\2713"; position: absolute; left: 0; color: var(--highlight); font-weight: 700;
+  }
+  .cta-box {
+    background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border: 1px dashed rgba(255,255,255,0.15);
+    border-radius: 14px; padding: 28px 32px; margin-top: 24px;
+  }
+  .cta-box h4 { font-size: 18px; font-weight: 700; color: var(--highlight); margin-bottom: 12px; }
+  .code-block {
+    background: rgba(0,0,0,0.25); border-radius: 8px; padding: 14px 18px;
+    font-family: "SF Mono", Monaco, monospace; font-size: 14px; color: var(--highlight);
+    margin: 10px 0; overflow-x: auto;
+  }
+  .nav-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 50px;
+    background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between; padding: 0 24px; z-index: 100;
+  }
+  .nav-btn {
+    background: none; border: 1px solid rgba(255,255,255,0.15); color: var(--text-dim);
+    padding: 6px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.2s;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .nav-progress {
+    flex: 1; max-width: 300px; height: 4px; background: rgba(255,255,255,0.08);
+    border-radius: 2px; margin: 0 20px; overflow: hidden;
+  }
+  .nav-progress-inner {
+    height: 100%; background: linear-gradient(90deg, var(--accent), var(--highlight));
+    border-radius: 2px; transition: width 0.4s ease;
+  }
+  .nav-page { font-size: 13px; color: var(--text-dim); min-width: 60px; text-align: center; }
+  .nav-hint { font-size: 12px; color: rgba(255,255,255,0.25); margin-left: 12px; }
+  .cover-slide { text-align: center; }
+  .cover-slide .cover-logo {
+    font-size: 14px; letter-spacing: 3px; color: var(--text-dim);
+    text-transform: uppercase; margin-bottom: 24px;
+  }
+  .cover-slide h1 { font-size: 64px; margin-bottom: 20px; }
+  .cover-slide h1 span { color: var(--highlight); -webkit-text-fill-color: var(--highlight); }
+  .cover-slide .cover-sub {
+    font-size: 22px; color: var(--text-dim); max-width: 640px;
+    margin: 0 auto 48px; line-height: 1.6;
+  }
+  .cover-meta { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; }
+  .cover-meta-item { text-align: center; }
+  .cover-meta-item .big {
+    font-size: 40px; font-weight: 800; color: var(--highlight); line-height: 1;
+  }
+  .cover-meta-item .small { font-size: 13px; color: var(--text-dim); margin-top: 6px; }
+  .last-slide { text-align: center; }
+  .last-slide h1 { font-size: 48px; margin-bottom: 24px; }
+  .link-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+  .link-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none;
+    font-size: 14px; font-weight: 600; transition: opacity 0.2s;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .link-btn:hover { opacity: 0.85; }
+  .link-btn.secondary { background: transparent; }
+  .industry-card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 14px; padding: 24px; text-align: center;
+  }
+  .industry-card .ind-icon { font-size: 36px; margin-bottom: 12px; }
+  .industry-card h4 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .industry-card p { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+  @media (max-width: 900px) {
+    .slide { padding: 80px 24px 70px; }
+    h1 { font-size: 36px; }
+    h2 { font-size: 26px; }
+    .cover-slide h1 { font-size: 42px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .timeline { flex-wrap: wrap; }
+    .timeline-step::after { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+<div class="slide cover-slide">
+    <div class="slide-content">
+      <div class="cover-logo">Sloth-Eido Skill Family</div>
+      <h1>深策 · <span>制造咨询</span></h1>
+      <p class="cover-sub">多品种小批量（HMLV）制造企业的 AI 咨询套件 —— 诊断 + 设计 + 落地一条龙</p>
+      <div class="cover-meta">
+        <div class="cover-meta-item"><div class="big">3</div><div class="small">大核心模块</div></div><div class="cover-meta-item"><div class="big">21</div><div class="small">步标准流程</div></div><div class="cover-meta-item"><div class="big">1</div><div class="small">个安装包</div></div>
+      </div>
+    </div>
+  </div>
+<div class="slide">
+    <div class="slide-content">
+      <div class="badge">Why 深策</div>
+      <h2>为什么需要深策？</h2>
+      <div class="grid-2">
+        <div class="card"><div class="card-icon">&#128100;</div><h4>痛点 1</h4><p>项目交付/运营中信息分散，决策缺乏数据支撑</p></div><div class="card"><div class="card-icon">&#128197;</div><h4>痛点 2</h4><p>重复性工作多，团队精力被低价值事务消耗</p></div><div class="card"><div class="card-icon">&#128202;</div><h4>痛点 3</h4><p>风险识别滞后，往往等到问题暴露才发现</p></div><div class="card"><div class="card-icon">&#127942;</div><h4>痛点 4</h4><p>经验难沉淀，团队无法从历史中持续学习</p></div>
+      </div>
+    </div>
+  </div>
+<div class="slide">
+    <div class="slide-content">
+      <div class="badge">Solution</div>
+      <h2>深策核心能力全景</h2>
+      <p style="margin-bottom:28px; max-width:720px;">多品种小批量（HMLV）制造企业的 AI 咨询套件 —— 诊断 + 设计 + 落地一条龙</p>
+      <div class="timeline">
+        <div class="timeline-step"><div class="t-num">1</div><div class="t-title">Advisor 诊断顾问</div></div><div class="timeline-step"><div class="t-num">2</div><div class="t-title">SynCore 架构设计师</div></div><div class="timeline-step"><div class="t-num">3</div><div class="t-title">Ops 运营助手</div></div><div class="timeline-step"><div class="t-num">4</div><div class="t-title">五层十五技能包</div></div><div class="timeline-step"><div class="t-num">5</div><div class="t-title">智能路由</div></div><div class="timeline-step"><div class="t-num">6</div><div class="t-title">有效产出会计</div></div>
+      </div>
+    </div>
+  </div>
+<div class="slide">
+    <div class="slide-content">
+      <h2><span class="num">1</span>Advisor 诊断顾问 & SynCore 架构设计师</h2>
+      <div class="grid-2">
+        <div class="card">
+              <div class="card-icon">&#128300;</div>
+              <h4>Advisor 诊断顾问</h4>
+              <p>七步运营诊断：快速画像 → 三层冲突 → 有效产出会计 → 换型评估 → S&OP诊断 → 订单评分 → 综合报告</p>
+            </div><div class="card">
+              <div class="card-icon">&#127912;</div>
+              <h4>SynCore 架构设计师</h4>
+              <p>九步架构设计：需求对齐 → 五层十五技能包定制蓝图 → 集成架构 → 实施路线图 + 预算</p>
+            </div>
+      </div>
+    </div>
+  </div><div class="slide">
+    <div class="slide-content">
+      <h2><span class="num">2</span>Ops 运营助手 & 五层十五技能包</h2>
+      <div class="grid-2">
+        <div class="card">
+              <div class="card-icon">&#9881;</div>
+              <h4>Ops 运营助手</h4>
+              <p>五大模式：接单决策（交通灯+报价）、日排程、交期速算、插单影响、利润真相，30秒出结果</p>
+            </div><div class="card">
+              <div class="card-icon">&#128202;</div>
+              <h4>五层十五技能包</h4>
+              <p>物理层(采集/翻译/预言) → 执行层(质检/OEE/预警) → 调度层(博弈/缓冲/节拍) → 协同层 → 战略层</p>
+            </div>
+      </div>
+    </div>
+  </div><div class="slide">
+    <div class="slide-content">
+      <h2><span class="num">3</span>智能路由 & 有效产出会计</h2>
+      <div class="grid-2">
+        <div class="card">
+              <div class="card-icon">&#128663;</div>
+              <h4>智能路由</h4>
+              <p>说“排产”自动调 Ops，说“架构设计”自动调 SynCore，说“完整咨询”走全流程</p>
+            </div><div class="card">
+              <div class="card-icon">&#128176;</div>
+              <h4>有效产出会计</h4>
+              <p>识别隐形亏损产品、量化瓶颈资源价值、双口径利润对比（财务视角 vs 运营视角）</p>
+            </div>
+      </div>
+    </div>
+  </div>
+<div class="slide">
+    <div class="slide-content">
+      <div class="badge">For You</div>
+      <h2>适合谁用</h2>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <span style="background:var(--card-bg);border:1px solid var(--card-border);color:var(--highlight);padding:10px 20px;border-radius:20px;font-size:15px;font-weight:600;">制造企业管理咨询</span><span style="background:var(--card-bg);border:1px solid var(--card-border);color:var(--highlight);padding:10px 20px;border-radius:20px;font-size:15px;font-weight:600;">智能制造规划</span><span style="background:var(--card-bg);border:1px solid var(--card-border);color:var(--highlight);padding:10px 20px;border-radius:20px;font-size:15px;font-weight:600;">产线优化</span><span style="background:var(--card-bg);border:1px solid var(--card-border);color:var(--highlight);padding:10px 20px;border-radius:20px;font-size:15px;font-weight:600;">排程改善</span><span style="background:var(--card-bg);border:1px solid var(--card-border);color:var(--highlight);padding:10px 20px;border-radius:20px;font-size:15px;font-weight:600;">HMLV 企业</span><span style="background:var(--card-bg);border:1px solid var(--card-border);color:var(--highlight);padding:10px 20px;border-radius:20px;font-size:15px;font-weight:600;">数字化转型</span>
+      </div>
+    </div>
+  </div>
+<div class="slide">
+    <div class="slide-content">
+      <div class="badge">Quick Start</div>
+      <h2>快速开始</h2>
+      <div class="grid-2" style="gap:32px;">
+        <div>
+          <h3>安装技能</h3>
+          <div class="code-block">
+cp -r Sloth-MfgConsult-Eido/ ~/.qoderwork/skills/Sloth-MfgConsult-Eido/
+          </div>
+          <p style="margin-top:12px; font-size:14px;">一键安装到 QoderWork，重启即生效。</p>
+        </div>
+        <div>
+          <h3>三步启动</h3>
+          <ul class="feature-list">
+            <li>安装技能到 QoderWork</li><li>描述问题（如“帮我做个运营诊断”）</li><li>系统自动路由到对应模块</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="slide last-slide">
+    <div class="slide-content">
+      <div class="cover-logo">Sloth-Eido Skill Family</div>
+      <h1>深策 · <span>制造咨询</span></h1>
+      <p style="font-size:20px; color:var(--text-dim); margin-bottom:8px;">慢一点，深一度</p>
+      <p style="font-size:16px; color:var(--text-dim);">多品种小批量（HMLV）制造企业的 AI 咨询套件 —— 诊断 + 设计 + 落地一条龙</p>
+      <div class="link-group">
+        <a class="link-btn" href="https://github.com/wangguobao0215/Sloth-MfgConsult-Eido" target="_blank">&#127760; GitHub 仓库</a>
+        <a class="link-btn secondary" href="https://github.com/wangguobao0215/Sloth-MfgConsult-Eido/blob/main/references/user-guide.md" target="_blank">&#128214; 用户手册</a>
+        <a class="link-btn secondary" href="https://wangguobao0215.github.io/sloth-skills-poster/mfgconsult-eido.html" target="_blank">&#128444; 宣传海报</a>
+      </div>
+      <p style="margin-top:40px; font-size:13px; color:rgba(255,255,255,0.25);">扫码关注公众号「树懒老K」获取更多 AI 技能与实战案例</p>
+    </div>
+  </div>
+</div>
+<div class="nav-bar">
+  <div style="display:flex; align-items:center;">
+    <button class="nav-btn" onclick="prevSlide()">&#9664; 上一页</button>
+    <span class="nav-hint">← → 键盘翻页</span>
+  </div>
+  <div class="nav-progress"><div class="nav-progress-inner" id="progress"></div></div>
+  <div style="display:flex; align-items:center; gap:12px;">
+    <span class="nav-page" id="pageNum">1 / 10</span>
+    <button class="nav-btn" onclick="nextSlide()">下一页 &#9654;</button>
+    <button class="nav-btn" onclick="toggleFullScreen()">&#9974;</button>
+  </div>
+</div>
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let current = 0;
+  const total = slides.length;
+  function updateSlide() {
+    slides.forEach((s, i) => {
+      s.classList.remove('active', 'prev');
+      if (i === current) s.classList.add('active');
+      else if (i < current) s.classList.add('prev');
+    });
+    document.getElementById('pageNum').textContent = (current + 1) + ' / ' + total;
+    document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+  }
+  function nextSlide() { if (current < total - 1) { current++; updateSlide(); } }
+  function prevSlide() { if (current > 0) { current--; updateSlide(); } }
+  function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault(); nextSlide();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault(); prevSlide();
+    } else if (e.key === 'f' || e.key === 'F') {
+      toggleFullScreen();
+    }
+  });
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+  });
+  document.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    if (e.deltaY > 20) nextSlide();
+    else if (e.deltaY < -20) prevSlide();
+  }, { passive: false });
+  updateSlide();
+</script>
+</body>
+</html>

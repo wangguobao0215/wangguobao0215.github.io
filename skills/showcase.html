@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>树懒老K · 深X技能全家桶 — AI应用案例展示</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: #e8eef5;
+  color: #2a3e50;
+  line-height: 1.7;
+}
+
+/* Hero */
+.hero {
+  background: linear-gradient(160deg, #192536 0%, #1e2e3f 35%, #1a2839 70%, #161f2d 100%);
+  color: #fff;
+  padding: 80px 24px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -40%; right: -25%;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(74,136,176,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-avatar {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  border: 2px solid rgba(74,136,176,0.35);
+  margin-bottom: 18px;
+  box-shadow: 0 6px 24px rgba(74,136,176,0.18);
+}
+.hero-brand {
+  font-size: 12px;
+  color: #4a80a8;
+  letter-spacing: 5px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.hero-title {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.hero-sub {
+  font-size: 15px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+.hero-stats {
+  display: inline-flex;
+  gap: 36px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 18px 40px;
+}
+.hero-stat-num { font-size: 28px; font-weight: 700; color: #4a80a8; line-height: 1; }
+.hero-stat-label { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 6px; letter-spacing: 1px; }
+
+/* Case Study */
+.case-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 24px 32px;
+}
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2a3e50;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title::before {
+  content: '';
+  width: 4px; height: 22px;
+  background: linear-gradient(to bottom, #4a80a8, #5A9E8F);
+  border-radius: 2px;
+}
+.case-card {
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(74,136,176,0.12);
+  border-radius: 18px;
+  padding: 28px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(70,120,160,0.08);
+}
+.case-card p {
+  font-size: 14.5px;
+  color: #3a5a70;
+  margin-bottom: 14px;
+  text-align: justify;
+}
+.case-card p:last-child { margin-bottom: 0; }
+.case-highlight {
+  background: linear-gradient(135deg, rgba(74,128,168,0.08), rgba(90,158,143,0.06));
+  border-left: 3px solid #4a80a8;
+  padding: 14px 18px;
+  border-radius: 0 10px 10px 0;
+  margin: 18px 0;
+}
+.case-highlight-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #4a80a8;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.case-highlight ul {
+  font-size: 13px;
+  color: #4a6a80;
+  padding-left: 16px;
+  line-height: 1.9;
+}
+.case-highlight li { margin-bottom: 4px; }
+
+/* Skills Grid */
+.skills-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 24px 48px;
+}
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+.skill-showcase {
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(74,136,176,0.12);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(70,120,160,0.08);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.skill-showcase:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(70,120,160,0.14);
+}
+.skill-header {
+  padding: 20px 22px 14px;
+  border-bottom: 1px solid rgba(74,136,176,0.08);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.skill-icon {
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4a80a8, #5A9E8F);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.skill-meta { flex: 1; min-width: 0; }
+.skill-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2a3e50;
+  line-height: 1.3;
+}
+.skill-code {
+  font-size: 11px;
+  color: #7a92a8;
+  font-family: "SF Mono", Monaco, monospace;
+  margin-top: 2px;
+}
+.skill-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.skill-badges img {
+  height: 20px;
+  border-radius: 4px;
+}
+
+.skill-body {
+  padding: 18px 22px;
+}
+.skill-scenario {
+  font-size: 13px;
+  color: #4a6a80;
+  margin-bottom: 14px;
+  line-height: 1.7;
+}
+
+/* Screenshot Area */
+.screenshot-area {
+  background: #f4f7fb;
+  border: 1.5px dashed rgba(74,136,176,0.2);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 14px;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.screenshot-area.has-image {
+  border-style: solid;
+  padding: 0;
+  overflow: hidden;
+}
+.screenshot-area.has-image img {
+  width: 100%;
+  display: block;
+}
+.screenshot-placeholder-icon {
+  font-size: 32px;
+  opacity: 0.35;
+}
+.screenshot-placeholder-text {
+  font-size: 12px;
+  color: #8a9eb2;
+  line-height: 1.6;
+}
+
+/* Clones Chart */
+.clones-area {
+  background: linear-gradient(135deg, #f8fafc, #f0f5fa);
+  border: 1px solid rgba(74,136,176,0.1);
+  border-radius: 12px;
+  padding: 16px;
+}
+.clones-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.clones-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #4a80a8;
+  letter-spacing: 1px;
+}
+.clones-sub {
+  font-size: 11px;
+  color: #8a9eb2;
+}
+.clones-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 80px;
+  padding-bottom: 4px;
+}
+.clones-bar {
+  flex: 1;
+  background: linear-gradient(to top, #4a80a8, rgba(74,128,168,0.35));
+  border-radius: 4px 4px 0 0;
+  min-width: 8px;
+  transition: opacity 0.2s;
+}
+.clones-bar:hover { opacity: 0.75; }
+.clones-xaxis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #9ab;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(74,136,176,0.1);
+}
+
+.skill-footer {
+  padding: 14px 22px;
+  border-top: 1px solid rgba(74,136,176,0.08);
+  display: flex;
+  gap: 10px;
+}
+.skill-footer a {
+  font-size: 12.5px;
+  color: #4a80a8;
+  text-decoration: none;
+  padding: 5px 14px;
+  border: 1px solid rgba(74,136,176,0.3);
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+.skill-footer a:hover {
+  background: rgba(74,136,176,0.12);
+  border-color: rgba(74,136,176,0.5);
+}
+
+/* Footer */
+.page-footer {
+  text-align: center;
+  padding: 36px 24px 48px;
+  background: linear-gradient(to bottom, transparent, rgba(74,136,176,0.04));
+}
+.page-footer .slogan {
+  font-size: 22px;
+  font-weight: 700;
+  color: #4a80a8;
+  letter-spacing: 6px;
+  margin-bottom: 8px;
+}
+.page-footer .brand {
+  font-size: 12px;
+  color: #7a92a8;
+  letter-spacing: 2px;
+}
+.page-footer .cta {
+  margin-top: 18px;
+  display: inline-flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.page-footer .cta a {
+  font-size: 13px;
+  color: #fff;
+  background: linear-gradient(135deg, #4a80a8, #5A9E8F);
+  text-decoration: none;
+  padding: 8px 22px;
+  border-radius: 24px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.page-footer .cta a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74,128,168,0.25);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .hero-title { font-size: 24px; }
+  .hero-stats { gap: 20px; padding: 14px 24px; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .case-card { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== Hero ==================== -->
+<section class="hero">
+  <img src="sloth-avatar.jpg" alt="树懒老K" class="hero-avatar" onerror="this.style.display='none'">
+  <div class="hero-brand">树 懒 老 K</div>
+  <h1 class="hero-title">深X技能全家桶</h1>
+  <div class="hero-sub">AI 应用案例展示 · B2B 企业全价值链智能体实践</div>
+  <div class="hero-stats">
+    <div><div class="hero-stat-num">12</div><div class="hero-stat-label">项技能</div></div>
+    <div><div class="hero-stat-num">6</div><div class="hero-stat-label">业务环节</div></div>
+    <div><div class="hero-stat-num">9+</div><div class="hero-stat-label">开源仓库</div></div>
+  </div>
+</section>
+
+<!-- ==================== Case Study ==================== -->
+<section class="case-section" id="case">
+  <div class="section-title">案例概述</div>
+  <div class="case-card">
+    <p>树懒老K · 深X技能全家桶是一套面向B2B企业全价值链的AI智能体解决方案，覆盖研发、市场、销售、售前、交付到客户成功六大核心业务环节。以"慢一点，深一度"为理念，每个技能都聚焦一个垂直业务场景，通过结构化知识工程将行业know-how沉淀为可复用的AI能力。</p>
+    <p>以快消品制造企业为例，计划经理使用「深筹·产销协同」处理插单影响评估：输入订单参数后，AI在30秒内完成DAG五层级联约束分析，输出物料、产能、冷链、物流四维影响评估及结构化行动清单，将原本需要2小时的Excel手工测算压缩至分钟级。销售团队通过「深耕·销售管理」的每日聚焦引擎，自动从25+项客户活动中排定当日优先级，配合关系冷却预警，使跟进响应速度提升3倍。售前顾问借助「深谋·售前咨询」的会议纪要战情重构，10分钟完成2小时会议的核心要素提取与待办生成。</p>
+    <p>12项技能以Markdown+SQLite本地优先架构部署，支持飞书/钉钉/企微集成，全部价值环技能开源至GitHub，形成"业务场景驱动 → 知识复用累积 → 全链路知识飞轮"的正向循环。</p>
+    <div class="case-highlight">
+      <div class="case-highlight-title">核心价值增量</div>
+      <ul>
+        <li>产销协同决策：插单评估从2小时缩短至30秒，多维约束一次性穿透</li>
+        <li>销售跟进效率：每日聚焦自动排优，跟进响应速度提升3倍</li>
+        <li>售前知识沉淀：会议纪要战情重构，10分钟完成2小时人工整理</li>
+        <li>研发文档治理：鲜度评分+自动检测，混合研发团队协作协议可视化</li>
+        <li>客户成功预警：7维健康评分模型，从"救火模式"转向主动干预</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Skills Showcase ==================== -->
+<section class="skills-section" id="showcase">
+  <div class="section-title">技能实践展示</div>
+  <div class="skills-grid">
+
+    <!-- Skill 1: HybridDev -->
+    <div class="skill-showcase">
+      <div class="skill-header">
+        <div class="skill-icon">🧠</div>
+        <div class="skill-meta">
+          <div class="skill-name">深构 · 研发协同</div>
+          <div class="skill-code">HybridDev · v1.1.1</div>
+          <div class="skill-badges">
+            <img src="https://img.shields.io/github/stars/wangguobao0215/Sloth-HybridDev-Eido?color=4a80a8&label=stars&style=flat-square" alt="stars" onerror="this.style.display='none'">
+            <img src="https://img.shields.io/github/forks/wangguobao0215/Sloth-HybridDev-Eido?color=5A9E8F&label=forks&style=flat-square" alt="forks" onerror="this.style.display='none'">
+            <img src="https://img.shields.io/github/license/wangguobao0215/Sloth-HybridDev-Eido?color=7a92a8&style=flat-square" alt="license" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+      <div class="skill-body">
+        <div class="skill-scenario">
+          <strong>应用场景：</strong>SaaS+AI混合研发团队日常协作。技术负责人通过「协议锻造所」定义7状态13迁移的协作协议状态机，AI实验全过程由「实验日志」自动记录与追溯，「混合看板」实时呈现项目健康度与文档鲜度评分。
+        </div>
+        <div class="screenshot-area">
+          <div class="screenshot-placeholder-icon">🖼️</div>
+          <div class="screenshot-placeholder-text">
+            【AI工具使用截图】<br>
+            建议替换为：混合看板界面 / 协议状态机可视化 / 文档鲜度评分截图<br>
+            尺寸建议：800×450，放置于 <code>assets/screenshots/hybriddev.png</code>
+          </div>
+        </div>
+        <div class="clones-area">
+          <div class="clones-header">
+            <span class="clones-title">📊 GitHub Clones 趋势</span>
+            <span class="clones-sub">最近14天 · 每日Unique Cloners</span>
+          </div>
+          <div class="clones-chart" id="chart-hybriddev">
+            <div class="clones-bar" style="height:35%"></div>
+            <div class="clones-bar" style="height:28%"></div>
+            <div class="clones-bar" style="height:42%"></div>
+            <div class="clones-bar" style="height:55%"></div>
+            <div class="clones-bar" style="height:48%"></div>
+            <div class="clones-bar" style="height:62%"></div>
+            <div class="clones-bar" style="height:70%"></div>
+            <div class="clones-bar" style="height:58%"></div>
+            <div class="clones-bar" style="height:65%"></div>
+            <div class="clones-bar" style="height:78%"></div>
+            <div class="clones-bar" style="height:85%"></div>
+            <div class="clones-bar" style="height:92%"></div>
+            <div class="clones-bar" style="height:88%"></div>
+            <div class="clones-bar" style="height:95%"></div>
+          </div>
+          <div class="clones-xaxis">
+            <span>-14d</span><span>-7d</span><span>Today</span>
+          </div>
+          <div class="screenshot-placeholder-text" style="margin-top:10px;text-align:center;">
+            💡 提示：登录 GitHub → Insights → Traffic → Clones 截图后替换此区域
+          </div>
+        </div>
+      </div>
+      <div class="skill-footer">
+        <a href="https://github.com/wangguobao0215/Sloth-HybridDev-Eido" target="_blank">GitHub 仓库</a>
+        <a href="https://github.com/wangguobao0215/Sloth-HybridDev-Eido/blob/main/references/user-guide.md" target="_blank">用户手册</a>
+      </div>
+    </div>
+
+    <!-- Skill 2: Sales -->
+    <div class="skill-showcase">
+      <div class="skill-header">
+        <div class="skill-icon">💼</div>
+        <div class="skill-meta">
+          <div class="skill-name">深耕 · 销售管理</div>
+          <div class="skill-code">Sales · v5.0</div>
+          <div class="skill-badges">
+            <img src="https://img.shields.io/github/stars/wangguobao0215/Sloth-Sales-Eido?color=4a80a8&label=stars&style=flat-square" alt="stars" onerror="this.style.display='none'">
+            <img src="https://img.shields.io/github/forks/wangguobao0215/Sloth-Sales-Eido?color=5A9E8F&label=forks&style=flat-square" alt="forks" onerror="this.style.display='none'">
+            <img src="https://img.shields.io/github/v/release/wangguobao0215/Sloth-Sales-Eido?color=C57B3A&style=flat-square" alt="release" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+      <div class="skill-body">
+        <div class="skill-scenario">
+          <strong>应用场景：</strong>B2B企业销售团队日常管理。销售经理每日打开「每日聚焦引擎」，AI自动从25+项客户活动、商机、待办中排定当日Top3优先级，并推送关系冷却预警和窗口关闭提醒，告别"不知道今天做什么"。
+        </div>
+        <div class="screenshot-area">
+          <div class="screenshot-placeholder-icon">🖼️</div>
+          <div class="screenshot-placeholder-text">
+            【AI工具使用截图】<br>
+            建议替换为：每日聚焦引擎界面 / 客户健康度评分 / 商机阶段看板<br>
+            尺寸建议：800×450，放置于 <code>assets/screenshots/sales.png</code>
+          </div>
+        </div>
+        <div class="clones-area">
+          <div class="clones-header">
+            <span class="clones-title">📊 GitHub Clones 趋势</span>
+            <span class="clones-sub">最近14天 · 每日Unique Cloners</span>
+          </div>
+          <div class="clones-chart" id="chart-sales">
+            <div class="clones-bar" style="height:45%"></div>
+            <div class="clones-bar" style="height:52%"></div>
+            <div class="clones-bar" style="height:48%"></div>
+            <div class="clones-bar" style="height:60%"></div>
+            <div class="clones-bar" style="height:55%"></div>
+            <div class="clones-bar" style="height:68%"></div>
+            <div class="clones-bar" style="height:72%"></div>
+            <div class="clones-bar" style="height:80%"></div>
+            <div class="clones-bar" style="height:75%"></div>
+            <div class="clones-bar" style="height:88%"></div>
+            <div class="clones-bar" style="height:82%"></div>
+            <div class="clones-bar" style="height:90%"></div>
+            <div class="clones-bar" style="height:95%"></div>
+            <div class="clones-bar" style="height:100%"></div>
+          </div>
+          <div class="clones-xaxis">
+            <span>-14d</span><span>-7d</span><span>Today</span>
+          </div>
+          <div class="screenshot-placeholder-text" style="margin-top:10px;text-align:center;">
+            💡 提示：登录 GitHub → Insights → Traffic → Clones 截图后替换此区域
+          </div>
+        </div>
+      </div>
+      <div class="skill-footer">
+        <a href="https://github.com/wangguobao0215/Sloth-Sales-Eido" target="_blank">GitHub 仓库</a>
+        <a href="https://weixin.qq.com/sph/A2kjExhTx" target="_blank">观看演示</a>
+      </div>
+    </div>
+
+    <!-- Skill 3: PSC -->
+    <div class="skill-showcase">
+      <div class="skill-header">
+        <div class="skill-icon">📋</div>
+        <div class="skill-meta">
+          <div class="skill-name">深谋 · 售前咨询</div>
+          <div class="skill-code">PSC · v2.0</div>
+          <div class="skill-badges">
+            <img src="https://img.shields.io/github/stars/wangguobao0215/Sloth-PSC-Eido?color=4a80a8&label=stars&style=flat-square" alt="stars" onerror="this.style.display='none'">
+            <img src="https://img.shields.io/github/forks/wangguobao0215/Sloth-PSC-Eido?color=5A9E8F&label=forks&style=flat-square" alt="forks" onerror="this.style.display='none'">
+            <img src="https://img.shields.io/github/license/wangguobao0215/Sloth-PSC-Eido?color=7a92a8&style=flat-square" alt="license" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+      <div class="skill-body">
+        <div class="skill-scenario">
+          <strong>应用场景：</strong>售前顾问客户会议后。将2小时会议录音/纪要输入AI，10分钟内获得战情重构报告：决策链分析、情绪热力图、待办事项、风险预警，并自动生成跟进邮件与存在感物料。
+        </div>
+        <div class="screenshot-area">
+          <div class="screenshot-placeholder-icon">🖼️</div>
+          <div class="screenshot-placeholder-text">
+            【AI工具使用截图】<br>
+            建议替换为：会议纪要战情重构界面 / SCQA方案骨架 / 竞对攻防简报<br>
+            尺寸建议：800×450，放置于 <code>assets/screenshots/psc.png</code>
+          </div>
+        </div>
+        <div class="clones-area">
+          <div class="clones-header">
+            <span class="clones-title">📊 GitHub Clones 趋势</span>
+            <span class="clones-sub">最近14天 · 每日Unique Cloners</span>
+          </div>
+          <div class="clones-chart" id="chart-psc">
+            <div class="clones-bar" style="height:30%"></div>
+            <div class="clones-bar" style="height:38%"></div>
+            <div class="clones-bar" style="height:45%"></div>
+            <div class="clones-bar" style="height:42%"></div>
+            <div class="clones-bar" style="height:50%"></div>
+            <div class="clones-bar" style="height:58%"></div>
+            <div class="clones-bar" style="height:55%"></div>
+            <div class="clones-bar" style="height:62%"></div>
+            <div class="clones-bar" style="height:68%"></div>
+            <div class="clones-bar" style="height:75%"></div>
+            <div class="clones-bar" style="height:70%"></div>
+            <div class="clones-bar" style="height:82%"></div>
+            <div class="clones-bar" style="height:78%"></div>
+            <div class="clones-bar" style="height:88%"></div>
+          </div>
+          <div class="clones-xaxis">
+            <span>-14d</span><span>-7d</span><span>Today</span>
+          </div>
+          <div class="screenshot-placeholder-text" style="margin-top:10px;text-align:center;">
+            💡 提示：登录 GitHub → Insights → Traffic → Clones 截图后替换此区域
+          </div>
+        </div>
+      </div>
+      <div class="skill-footer">
+        <a href="https://github.com/wangguobao0215/Sloth-PSC-Eido" target="_blank">GitHub 仓库</a>
+        <a href="https://weixin.qq.com/sph/AmJyA2p8y" target="_blank">观看演示</a>
+      </div>
+    </div>
+
+    <!-- Skill 4: StratAlign -->
+    <div class="skill-showcase">
+      <div class="skill-header">
+        <div class="skill-icon">🗺️</div>
+        <div class="skill-meta">
+          <div class="skill-name">深略 · 战略对齐</div>
+          <div class="skill-code">StratAlign · v1.4.0</div>
+          <div class="skill-badges">
+            <img src="https://img.shields.io/github/stars/wangguobao0215/Sloth-StratAlign-Eido?color=4a80a8&label=stars&style=flat-square" alt="stars" onerror="this.style.display='none'">
+            <img src="https://img.shields.io/github/forks/wangguobao0215/Sloth-StratAlign-Eido?color=5A9E8F&label=forks&style=flat-square" alt="forks" onerror="this.style.display='none'">
+            <img src="https://img.shields.io/github/v/release/wangguobao0215/Sloth-StratAlign-Eido?color=C57B3A&style=flat-square" alt="release" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+      <div class="skill-body">
+        <div class="skill-scenario">
+          <strong>应用场景：</strong>企业数字化转型战略规划。CIO输入企业愿景与现状，AI自动进行BSC四维分解并检测矛盾点，扫描业务瓶颈与能力差距，通过AI原生潜力三维评分筛选最高价值场景，输出含ROI量化的投资组合路线图。
+        </div>
+        <div class="screenshot-area">
+          <div class="screenshot-placeholder-icon">🖼️</div>
+          <div class="screenshot-placeholder-text">
+            【AI工具使用截图】<br>
+            建议替换为：战略对齐分析界面 / BSC四维分解图 / 行业Playbook截图<br>
+            尺寸建议：800×450，放置于 <code>assets/screenshots/stratalign.png</code>
+          </div>
+        </div>
+        <div class="clones-area">
+          <div class="clones-header">
+            <span class="clones-title">📊 GitHub Clones 趋势</span>
+            <span class="clones-sub">最近14天 · 每日Unique Cloners</span>
+          </div>
+          <div class="clones-chart" id="chart-stratalign">
+            <div class="clones-bar" style="height:25%"></div>
+            <div class="clones-bar" style="height:32%"></div>
+            <div class="clones-bar" style="height:28%"></div>
+            <div class="clones-bar" style="height:40%"></div>
+            <div class="clones-bar" style="height:35%"></div>
+            <div class="clones-bar" style="height:48%"></div>
+            <div class="clones-bar" style="height:52%"></div>
+            <div class="clones-bar" style="height:60%"></div>
+            <div class="clones-bar" style="height:55%"></div>
+            <div class="clones-bar" style="height:68%"></div>
+            <div class="clones-bar" style="height:72%"></div>
+            <div class="clones-bar" style="height:80%"></div>
+            <div class="clones-bar" style="height:85%"></div>
+            <div class="clones-bar" style="height:90%"></div>
+          </div>
+          <div class="clones-xaxis">
+            <span>-14d</span><span>-7d</span><span>Today</span>
+          </div>
+          <div class="screenshot-placeholder-text" style="margin-top:10px;text-align:center;">
+            💡 提示：登录 GitHub → Insights → Traffic → Clones 截图后替换此区域
+          </div>
+        </div>
+      </div>
+      <div class="skill-footer">
+        <a href="https://github.com/wangguobao0215/Sloth-StratAlign-Eido" target="_blank">GitHub 仓库</a>
+        <a href="https://weixin.qq.com/sph/ADQSKQANT" target="_blank">观看演示</a>
+      </div>
+    </div>
+
+    <!-- Skill 5: ProdSync -->
+    <div class="skill-showcase">
+      <div class="skill-header">
+        <div class="skill-icon">🏭</div>
+        <div class="skill-meta">
+          <div class="skill-name">深筹 · 产销协同</div>
+          <div class="skill-code">ProdSync · v2.3.0</div>
+          <div class="skill-badges">
+            <img src="https://img.shields.io/github/stars/wangguobao0215/Sloth-ProdSync-Eido?color=4a80a8&label=stars&style=flat-square" alt="stars" onerror="this.style.display='none'">
+            <img src="https://img.shields.io/github/forks/wangguobao0215/Sloth-ProdSync-Eido?color=5A9E8F&label=forks&style=flat-square" alt="forks" onerror="this.style.display='none'">
+            <img src="https://img.shields.io/github/v/release/wangguobao0215/Sloth-ProdSync-Eido?color=C57B3A&style=flat-square" alt="release" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+      <div class="skill-body">
+        <div class="skill-scenario">
+          <strong>应用场景：</strong>快消品肉制品企业计划经理收到紧急插单。输入订单参数后，AI在30秒内完成DAG五层级联约束分析，输出物料、产能、冷链、物流四维影响评估，并附带What-if情景推演（旺季保供/淡季利润/临期清库），自动生成结构化行动清单。
+        </div>
+        <div class="screenshot-area">
+          <div class="screenshot-placeholder-icon">🖼️</div>
+          <div class="screenshot-placeholder-text">
+            【AI工具使用截图】<br>
+            建议替换为：产销协同分析界面 / 四维可视化看板 / What-if情景对比图<br>
+            尺寸建议：800×450，放置于 <code>assets/screenshots/prodsync.png</code>
+          </div>
+        </div>
+        <div class="clones-area">
+          <div class="clones-header">
+            <span class="clones-title">📊 GitHub Clones 趋势</span>
+            <span class="clones-sub">最近14天 · 每日Unique Cloners</span>
+          </div>
+          <div class="clones-chart" id="chart-prodsync">
+            <div class="clones-bar" style="height:40%"></div>
+            <div class="clones-bar" style="height:35%"></div>
+            <div class="clones-bar" style="height:48%"></div>
+            <div class="clones-bar" style="height:52%"></div>
+            <div class="clones-bar" style="height:45%"></div>
+            <div class="clones-bar" style="height:58%"></div>
+            <div class="clones-bar" style="height:62%"></div>
+            <div class="clones-bar" style="height:55%"></div>
+            <div class="clones-bar" style="height:70%"></div>
+            <div class="clones-bar" style="height:75%"></div>
+            <div class="clones-bar" style="height:82%"></div>
+            <div class="clones-bar" style="height:88%"></div>
+            <div class="clones-bar" style="height:92%"></div>
+            <div class="clones-bar" style="height:98%"></div>
+          </div>
+          <div class="clones-xaxis">
+            <span>-14d</span><span>-7d</span><span>Today</span>
+          </div>
+          <div class="screenshot-placeholder-text" style="margin-top:10px;text-align:center;">
+            💡 提示：登录 GitHub → Insights → Traffic → Clones 截图后替换此区域
+          </div>
+        </div>
+      </div>
+      <div class="skill-footer">
+        <a href="https://github.com/wangguobao0215/Sloth-ProdSync-Eido" target="_blank">GitHub 仓库</a>
+        <a href="https://weixin.qq.com/sph/AYTPRpLLo" target="_blank">观看演示</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== Footer ==================== -->
+<footer class="page-footer">
+  <div class="slogan">慢一点，深一度</div>
+  <div class="brand">树懒老K · 深X技能全家桶 · Powered by QoderWork</div>
+  <div class="cta">
+    <a href="https://github.com/wangguobao0215/sloth-skills-poster" target="_blank">查看海报</a>
+    <a href="index.html" target="_blank">移动端海报</a>
+  </div>
+</footer>
+
+</body>
+</html>

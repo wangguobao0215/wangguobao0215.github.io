@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sloth-ProdSync-Eido · 肉制品产销协同智能副驾 v2.3.0</title>
+<style>
+:root {
+  --navy: #2C3E50;
+  --blue: #5B8CA8;
+  --blue-light: #7EA6C4;
+  --blue-pale: #9BBCD3;
+  --blue-bg: #D0DEE8;
+  --teal: #5A9E8F;
+  --warn: #8E8B6A;
+  --danger: #9E6B6B;
+  --card-bg: #F7F9FB;
+  --border: #D0DAE2;
+  --bg: #EDF2F7;
+  --white: #FFFFFF;
+  --text: #2C3E50;
+  --text2: #5A7080;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: #1a1a2e;
+  color: var(--text);
+}
+
+/* ========== SLIDE SYSTEM ========== */
+.slide-deck {
+  width: 100%; height: 100%;
+  position: relative;
+}
+.slide {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  background: var(--bg);
+}
+.slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.slide-inner {
+  width: 960px;
+  height: 540px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+}
+
+/* ========== NAVIGATION ========== */
+.nav-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  width: 48px; height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.7);
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  backdrop-filter: blur(4px);
+}
+.nav-arrow:hover { background: rgba(255,255,255,0.3); color: #fff; }
+.nav-arrow.prev { left: 20px; }
+.nav-arrow.next { right: 20px; }
+.nav-arrow:disabled { opacity: 0.2; cursor: default; }
+
+.nav-dots {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 0;
+}
+.nav-dot.active {
+  background: #fff;
+  width: 24px;
+  border-radius: 4px;
+}
+
+.slide-counter {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 100;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  font-family: monospace;
+}
+
+/* ========== SLIDE LAYOUTS ========== */
+
+/* --- Cover slide --- */
+.slide-cover .slide-inner {
+  background: linear-gradient(135deg, #2C3E50 0%, #3D5A73 50%, #5B8CA8 100%);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+}
+.slide-cover .version-badge {
+  display: inline-block;
+  background: var(--teal);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+.slide-cover h1 { font-size: 36px; font-weight: 700; letter-spacing: 2px; margin-bottom: 12px; }
+.slide-cover .subtitle { font-size: 18px; color: var(--blue-pale); margin-bottom: 24px; }
+.slide-cover .tagline {
+  display: inline-block;
+  font-size: 14px;
+  color: var(--white);
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 24px;
+  padding: 6px 20px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+.slide-cover .principles {
+  font-size: 13px;
+  color: var(--blue-pale);
+  letter-spacing: 1px;
+}
+
+/* --- Content slide --- */
+.slide-content .slide-inner {
+  background: var(--white);
+  padding: 40px 48px;
+  display: flex;
+  flex-direction: column;
+}
+.slide-header {
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+.slide-header .section-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--blue);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.slide-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.3;
+}
+.slide-header .lead {
+  font-size: 13px;
+  color: var(--text2);
+  margin-top: 6px;
+}
+.slide-body { flex: 1; overflow: hidden; }
+
+/* --- Section divider slide --- */
+.slide-divider .slide-inner {
+  background: linear-gradient(135deg, #2C3E50 0%, #3D5A73 100%);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+}
+.slide-divider .section-num {
+  font-size: 64px;
+  font-weight: 200;
+  color: rgba(255,255,255,0.2);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.slide-divider h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.slide-divider .desc {
+  font-size: 16px;
+  color: var(--blue-pale);
+}
+
+/* --- Footer slide --- */
+.slide-footer .slide-inner {
+  background: linear-gradient(135deg, #2C3E50 0%, #3D5A73 50%, #5B8CA8 100%);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+}
+.slide-footer h2 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+.slide-footer .tagline { font-size: 16px; color: var(--blue-pale); margin-bottom: 20px; letter-spacing: 2px; }
+.slide-footer .brand { font-size: 13px; color: rgba(255,255,255,0.5); letter-spacing: 1px; }
+
+/* ========== REUSABLE COMPONENTS ========== */
+
+/* Cards */
+.s-card-grid { display: grid; gap: 14px; height: 100%; }
+.s-card-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+.s-card-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.s-card-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.s-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+.s-card h3 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+.s-card p { font-size: 12px; color: var(--text2); line-height: 1.6; }
+.s-card .icon { font-size: 24px; margin-bottom: 8px; display: block; }
+
+/* Pain cards */
+.s-pain { border-left: 4px solid var(--danger); }
+.s-pain h3 { color: var(--danger); font-size: 13px; }
+
+/* Timeline */
+.s-timeline {
+  display: flex;
+  gap: 0;
+  position: relative;
+  padding: 0 8px;
+}
+.s-timeline::after {
+  content: '';
+  position: absolute;
+  top: 32px;
+  left: 36px; right: 36px;
+  height: 2px;
+  background: var(--blue-bg);
+  z-index: 0;
+}
+.s-tl-item {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.s-tl-item .time { font-size: 12px; font-weight: 600; color: var(--blue); margin-bottom: 6px; }
+.s-tl-item .dot {
+  width: 10px; height: 10px;
+  background: var(--blue);
+  border: 2px solid var(--white);
+  box-shadow: 0 0 0 2px var(--blue-pale);
+  border-radius: 50%;
+  margin: 0 auto 8px;
+}
+.s-tl-item .label { font-size: 12px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+.s-tl-item .desc { font-size: 11px; color: var(--text2); line-height: 1.4; }
+
+/* Big numbers */
+.s-big-num { text-align: center; padding: 12px; }
+.s-big-num .number { font-size: 36px; font-weight: 700; color: var(--blue); line-height: 1; margin-bottom: 4px; }
+.s-big-num .unit { font-size: 16px; color: var(--blue-light); }
+.s-big-num .label { font-size: 12px; color: var(--text2); margin-top: 6px; }
+.s-big-num .detail { font-size: 11px; color: var(--blue-pale); margin-top: 4px; line-height: 1.4; }
+
+/* Constraint list */
+.s-constraint-list { list-style: none; }
+.s-constraint-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--blue-bg);
+  font-size: 12px;
+  color: var(--text2);
+}
+.s-constraint-list li:last-child { border-bottom: none; }
+.s-cnum {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; height: 20px;
+  background: var(--blue);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* DAG flow */
+.s-dag-flow { display: flex; align-items: stretch; gap: 3px; }
+.s-dag-layer {
+  flex: 1;
+  text-align: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 8px;
+}
+.s-dag-layer .layer-tag {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--white);
+  background: var(--blue);
+  border-radius: 3px;
+  padding: 1px 6px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+.s-dag-layer h4 { font-size: 12px; color: var(--navy); margin-bottom: 4px; }
+.s-dag-layer p { font-size: 10px; color: var(--text2); line-height: 1.4; }
+.s-dag-arrow { display: flex; align-items: center; font-size: 16px; color: var(--blue-pale); flex-shrink: 0; }
+
+/* Cascade chain */
+.s-cascade { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; }
+.s-cascade-step { display: flex; align-items: baseline; gap: 8px; padding: 3px 0; }
+.s-cascade-step .tag {
+  font-size: 9px; font-weight: 600; color: var(--white); background: var(--blue);
+  border-radius: 3px; padding: 1px 5px; flex-shrink: 0;
+}
+.s-cascade-step .arrow { color: var(--blue-pale); font-size: 11px; padding: 1px 0; margin-left: 24px; }
+.s-cascade-step p { font-size: 11px; color: var(--text2); }
+
+/* Versus */
+.s-vs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; height: 100%; }
+.s-vs-card { border-radius: 10px; padding: 20px; }
+.s-vs-card.before { background: #FDF5F5; border: 1px solid rgba(158,107,107,0.2); }
+.s-vs-card.after { background: #F3FAF7; border: 1px solid rgba(90,158,143,0.2); }
+.s-vs-card h3 { font-size: 15px; margin-bottom: 12px; }
+.s-vs-card.before h3 { color: var(--danger); }
+.s-vs-card.after h3 { color: var(--teal); }
+.s-vs-item { font-size: 12px; color: var(--text2); line-height: 1.6; padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+.s-vs-item:last-child { border-bottom: none; }
+
+/* Check result */
+.s-check { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--blue-bg); font-size: 12px; }
+.s-check:last-child { border-bottom: none; }
+.s-check .name { font-weight: 600; color: var(--navy); min-width: 44px; }
+.s-check .detail { color: var(--text2); }
+.s-status { font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 3px; }
+.s-status.ok { background: rgba(90,158,143,0.12); color: var(--teal); }
+.s-status.warn { background: rgba(142,139,106,0.12); color: var(--warn); }
+.s-status.fail { background: rgba(158,107,107,0.12); color: var(--danger); }
+
+/* Scenario cards */
+.s-scenario {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--blue);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+.s-scenario h3 { font-size: 14px; color: var(--navy); margin-bottom: 6px; }
+.s-scenario .strategy { font-size: 12px; font-weight: 600; color: var(--blue); margin-bottom: 6px; }
+.s-scenario p { font-size: 11px; color: var(--text2); line-height: 1.5; }
+
+/* Steps */
+.s-steps-row { display: flex; gap: 0; }
+.s-step-item { flex: 1; text-align: center; }
+.s-step-num {
+  width: 32px; height: 32px;
+  background: var(--blue);
+  color: var(--white);
+  font-size: 14px; font-weight: 700;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 8px;
+}
+.s-step-item h4 { font-size: 13px; color: var(--navy); margin-bottom: 3px; }
+.s-step-item p { font-size: 11px; color: var(--text2); line-height: 1.4; }
+
+/* Calibration */
+.s-cal-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.s-cal-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+.s-cal-card .level {
+  display: inline-block;
+  font-size: 12px; font-weight: 700; color: var(--white);
+  background: var(--blue);
+  border-radius: 50%;
+  width: 28px; height: 28px; line-height: 28px;
+  margin-bottom: 8px;
+}
+.s-cal-card h4 { font-size: 14px; color: var(--navy); margin-bottom: 3px; }
+.s-cal-card .time { font-size: 12px; font-weight: 600; color: var(--blue); margin-bottom: 6px; }
+.s-cal-card p { font-size: 11px; color: var(--text2); line-height: 1.5; }
+
+/* Security */
+.s-security { text-align: center; }
+.s-security .icon { font-size: 28px; margin-bottom: 8px; }
+.s-security h3 { font-size: 13px; }
+.s-security p { font-size: 11px; }
+
+/* Two col */
+.s-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+
+/* Joint product check */
+.s-jp-result { margin-top: 6px; }
+
+/* ========== RESPONSIVE SCALING ========== */
+@media (max-width: 1024px) {
+  .slide-inner {
+    width: 90vw;
+    height: calc(90vw * 540 / 960);
+    max-height: 80vh;
+  }
+}
+@media (max-height: 600px) {
+  .slide-inner {
+    height: 85vh;
+    width: calc(85vh * 960 / 540);
+    max-width: 95vw;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="slide-deck" id="deck">
+
+<!-- ===== SLIDE 0: COVER ===== -->
+<div class="slide slide-cover active" data-idx="0">
+  <div class="slide-inner">
+    <div class="version-badge">v2.3.0</div>
+    <h1>Sloth-ProdSync-Eido</h1>
+    <div class="subtitle">肉制品产销协同智能副驾</div>
+    <div class="tagline">看得清影响 · 算得准约束 · 调得动方案</div>
+    <div class="principles">约束满足 &gt; 最优化 &nbsp;|&nbsp; 参谋 &gt; 夺权者 &nbsp;|&nbsp; 数字说话 &nbsp;|&nbsp; 班次级建议</div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 1: SCENARIO ===== -->
+<div class="slide slide-content" data-idx="1">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">SCENARIO</div>
+      <h2>排产计划员的"典型一天"</h2>
+      <p class="lead">从灭火开始，在混乱中结束——问题不在于人不够努力，而在于约束太多且互相关联</p>
+    </div>
+    <div class="slide-body">
+      <div class="s-timeline">
+        <div class="s-tl-item">
+          <div class="time">8:00</div><div class="dot"></div>
+          <div class="label">紧急插单</div>
+          <div class="desc">昨晚客户追加紧急订单</div>
+        </div>
+        <div class="s-tl-item">
+          <div class="time">9:00</div><div class="dot"></div>
+          <div class="label">四处确认</div>
+          <div class="desc">打5个电话确认<br>原料/产线/物流</div>
+        </div>
+        <div class="s-tl-item">
+          <div class="time">11:00</div><div class="dot"></div>
+          <div class="label">凭经验拍板</div>
+          <div class="desc">"应该没问题"<br>但心里没底</div>
+        </div>
+        <div class="s-tl-item">
+          <div class="time">14:00</div><div class="dot"></div>
+          <div class="label">又一个变更</div>
+          <div class="desc">原料延迟<br>手动追溯受影响订单</div>
+        </div>
+        <div class="s-tl-item">
+          <div class="time">17:00</div><div class="dot"></div>
+          <div class="label">勉强交差</div>
+          <div class="desc">方案终于定下来<br>但不确定是否最优</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 2: PAIN POINTS ===== -->
+<div class="slide slide-content" data-idx="2">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">PAIN POINTS</div>
+      <h2>四个深层痛点</h2>
+      <p class="lead">传统方案的困境：要么太重用不起，要么太轻解决不了</p>
+    </div>
+    <div class="slide-body">
+      <div class="s-card-grid cols-2">
+        <div class="s-card s-pain">
+          <h3>11项约束超出人脑极限</h3>
+          <p>物料/产能/CIP/冷链/物流/工艺锁/人员/合规……每个都要查，任何一个遗漏就是事故</p>
+        </div>
+        <div class="s-card s-pain">
+          <h3>约束间存在级联因果</h3>
+          <p>原料延迟2h → 开工推迟 → 产能折减 → 交期风险。人工追踪这条链至少30分钟</p>
+        </div>
+        <div class="s-card s-pain">
+          <h3>Excel记录，不会推演</h3>
+          <p>Excel只能做静态记录，不能回答"如果接了这单，对其他订单有什么影响"</p>
+        </div>
+        <div class="s-card s-pain">
+          <h3>策略切换缺量化工具</h3>
+          <p>旺季保供还是控成本？两种策略孰优孰劣，除了拍脑袋没有对比手段</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 3: DESIGN PHILOSOPHY ===== -->
+<div class="slide slide-content" data-idx="3">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">DESIGN PHILOSOPHY</div>
+      <h2>三大设计原则</h2>
+      <p class="lead">三个反直觉的设计选择，让ProdSync走了一条不同的路</p>
+    </div>
+    <div class="slide-body">
+      <div class="s-card-grid cols-3">
+        <div class="s-card">
+          <div class="icon">&#9878;&#65039;</div>
+          <h3>约束满足 &gt; 最优化</h3>
+          <p>传统APS追求数学最优排程，但现实中约束时刻在变。ProdSync先确保所有约束被检查，再给出可行方案——可行比最优更重要</p>
+        </div>
+        <div class="s-card">
+          <div class="icon">&#129309;</div>
+          <h3>参谋 &gt; 替代者</h3>
+          <p>ProdSync不做决策，人做决策。系统提供完整的约束检查报告和量化建议，但最终拍板权永远在你手上</p>
+        </div>
+        <div class="s-card">
+          <div class="icon">&#128202;</div>
+          <h3>数字说话 &gt; 凭感觉</h3>
+          <p>每一个结论都标注数据来源：库存余量、工时余量、冷链时间。跟老板汇报时，你拿的是数据不是感觉</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 4: POSITIONING ===== -->
+<div class="slide slide-content" data-idx="4">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">POSITIONING</div>
+      <h2>轻量 · 智能 · 本地</h2>
+      <p class="lead">不做"又一个需要学习的系统"，做"不改变习惯的参谋"</p>
+    </div>
+    <div class="slide-body">
+      <div class="s-card-grid cols-3" style="align-items:center;">
+        <div class="s-big-num">
+          <div class="number">177<span class="unit">KB</span></div>
+          <div class="label">技能包大小</div>
+          <div class="detail">全部脚本+知识库+模板<br>安装只需拖入一个文件</div>
+        </div>
+        <div class="s-big-num">
+          <div class="number">11<span class="unit">项</span></div>
+          <div class="label">约束自动检查</div>
+          <div class="detail">从原料到交付全链路覆盖<br>任何遗漏自动告警</div>
+        </div>
+        <div class="s-big-num">
+          <div class="number">0<span class="unit">元</span></div>
+          <div class="label">部署成本</div>
+          <div class="detail">无需服务器/数据库/云端<br>安装QoderWork桌面应用即可</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 5: ARCHITECTURE ===== -->
+<div class="slide slide-content" data-idx="5">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">ARCHITECTURE</div>
+      <h2>11项约束满足引擎</h2>
+      <p class="lead">覆盖从原料到交付的每一个环节，不是优化器而是检查器</p>
+    </div>
+    <div class="slide-body">
+      <div class="s-two-col">
+        <div>
+          <ul class="s-constraint-list">
+            <li><span class="s-cnum">1</span>物料约束 — 库存+在产 ≥ BOM所需？</li>
+            <li><span class="s-cnum">2</span>产能约束 — 剩余工时 ≥ 加工耗时？</li>
+            <li><span class="s-cnum">3</span>时间窗约束 — 工艺链条来得及？</li>
+            <li><span class="s-cnum">4</span>CIP清洗 — 换产/物种切换附加时间？</li>
+            <li><span class="s-cnum">5</span>冷链约束 — 保质期内全链路可达？</li>
+            <li><span class="s-cnum">6</span>深加工批次 — 经济批量/设备锁定？</li>
+          </ul>
+        </div>
+        <div>
+          <ul class="s-constraint-list">
+            <li><span class="s-cnum">7</span>工艺时间锁 — 不可中断工序有风险？</li>
+            <li><span class="s-cnum">8</span>物流排车 — 冷藏车/配送窗口/月台？</li>
+            <li><span class="s-cnum">9</span>人员约束 — 关键岗位出勤满足？</li>
+            <li><span class="s-cnum">10</span>合规检验 — 微生物48h等待纳入？</li>
+            <li><span class="s-cnum">11</span>原料到货 — 供应量/可靠性/延迟？</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 6: DAG CASCADE ===== -->
+<div class="slide slide-content" data-idx="6">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">CASCADE ENGINE</div>
+      <h2>DAG五层级联传导引擎</h2>
+      <p class="lead">一个变化，自动追踪全链条连锁影响</p>
+    </div>
+    <div class="slide-body">
+      <div class="s-dag-flow">
+        <div class="s-dag-layer">
+          <div class="layer-tag">L1</div>
+          <h4>外部输入</h4>
+          <p>原料到货<br>人员出勤</p>
+        </div>
+        <div class="s-dag-arrow">→</div>
+        <div class="s-dag-layer">
+          <div class="layer-tag">L2</div>
+          <h4>工艺约束</h4>
+          <p>物料/CIP<br>批次/工艺锁</p>
+        </div>
+        <div class="s-dag-arrow">→</div>
+        <div class="s-dag-layer">
+          <div class="layer-tag">L3</div>
+          <h4>资源叠加</h4>
+          <p>产能/合规<br>检验修正</p>
+        </div>
+        <div class="s-dag-arrow">→</div>
+        <div class="s-dag-layer">
+          <div class="layer-tag">L4</div>
+          <h4>交付传导</h4>
+          <p>冷链/物流<br>延迟传导</p>
+        </div>
+        <div class="s-dag-arrow">→</div>
+        <div class="s-dag-layer">
+          <div class="layer-tag">L5</div>
+          <h4>终端判定</h4>
+          <p>时间窗汇聚<br>最终结论</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 7: CASCADE EXAMPLE ===== -->
+<div class="slide slide-content" data-idx="7">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">CASCADE ENGINE</div>
+      <h2>级联实例：白条猪延迟2小时</h2>
+      <p class="lead">人工追踪同样的链路至少需要30分钟 → 系统秒级完成</p>
+    </div>
+    <div class="slide-body">
+      <div class="s-cascade">
+        <div class="s-cascade-step"><span class="tag">触发</span><p>白条猪到货延迟 2 小时</p></div>
+        <div class="s-cascade-step"><span class="arrow">↓</span></div>
+        <div class="s-cascade-step"><span class="tag">L1#11</span><p>原料到货 delay +2h</p></div>
+        <div class="s-cascade-step"><span class="arrow">↓</span></div>
+        <div class="s-cascade-step"><span class="tag">L2#1</span><p>物料可用时间修正</p></div>
+        <div class="s-cascade-step"><span class="arrow">↓</span></div>
+        <div class="s-cascade-step"><span class="tag">L3#2</span><p>A厂3号线工时 8h → 6h，产能折减 12%</p></div>
+        <div class="s-cascade-step"><span class="arrow">↓</span></div>
+        <div class="s-cascade-step"><span class="tag">L4#5</span><p>冷链余量 16h → 14h</p></div>
+        <div class="s-cascade-step"><span class="arrow">↓</span></div>
+        <div class="s-cascade-step"><span class="tag">L5#3</span><p>时间窗 "充裕" → "紧张"，3条产线受影响，交期风险从低升至中</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 8: JOINT PRODUCT ===== -->
+<div class="slide slide-content" data-idx="8">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">JOINT PRODUCT</div>
+      <h2>联产品约束建模</h2>
+      <p class="lead">屠宰一头猪得到所有部位——供需差自动计算、提前预警</p>
+    </div>
+    <div class="slide-body">
+      <div class="s-two-col">
+        <div class="s-card">
+          <h3>行业特有难题</h3>
+          <p>杀一头猪不能只要里脊不要后腿。按品种×出成率计算各部位日产出，按BOM配方计算各产线日需求，供需差分析识别瓶颈和溢出，输出平衡表+预警+处置建议。</p>
+          <p style="margin-top:8px; font-size:11px; color:var(--blue);">通用APS不具备联产品建模能力——这是ProdSync针对肉制品行业的专属设计</p>
+        </div>
+        <div class="s-card">
+          <h3>典型供需平衡结果</h3>
+          <div class="s-jp-result">
+            <div class="s-check"><span class="name">里脊肉</span><span class="s-status warn">缺口</span><span class="detail">缺0.3吨/日 → 建议调拨</span></div>
+            <div class="s-check"><span class="name">后腿肉</span><span class="s-status fail">溢出</span><span class="detail">溢1.2吨/日 → 转深加工</span></div>
+            <div class="s-check"><span class="name">五花肉</span><span class="s-status ok">平衡</span><span class="detail">余量0.1吨</span></div>
+            <div class="s-check"><span class="name">碎肉CL80</span><span class="s-status ok">充裕</span><span class="detail">余2.8吨</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 9: WHAT-IF ===== -->
+<div class="slide slide-content" data-idx="9">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">WHAT-IF</div>
+      <h2>What-if 情景推演</h2>
+      <p class="lead">三种经营策略 × 四维量化评分，让决策有据可依</p>
+    </div>
+    <div class="slide-body">
+      <div class="s-card-grid cols-3">
+        <div class="s-scenario">
+          <h3>旺季保供模式</h3>
+          <div class="strategy">交付率优先</div>
+          <p>允许适度加班和库存积压<br>适用：春节备货/中秋旺季</p>
+        </div>
+        <div class="s-scenario">
+          <h3>淡季利润模式</h3>
+          <div class="strategy">成本优先</div>
+          <p>减少浪费和过产<br>适用：夏季淡季</p>
+        </div>
+        <div class="s-scenario">
+          <h3>临期清库模式</h3>
+          <div class="strategy">库存周转优先</div>
+          <p>紧急消化临期物料<br>适用：季节末尾</p>
+        </div>
+      </div>
+      <p style="font-size:12px; color:var(--text2); margin-top:12px; text-align:center;">拿着四维量化对比表跟老板汇报——不再说"我觉得"</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 10: CAPABILITIES ===== -->
+<div class="slide slide-content" data-idx="10">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">CAPABILITIES</div>
+      <h2>六大核心能力</h2>
+      <p class="lead">从数据导入到可视化看板，串联完整决策闭环</p>
+    </div>
+    <div class="slide-body">
+      <div class="s-card-grid cols-2">
+        <div class="s-card">
+          <h3>C1 智能数据导入</h3>
+          <p>四张Excel模板（订单/产能/BOM/库存），上传即解析，自动校验数据完整性并反馈修复建议</p>
+        </div>
+        <div class="s-card">
+          <h3>C2 插单影响评估</h3>
+          <p>一句话提问，一分钟出结论。11项约束逐一检查 + DAG级联传导 + 综合紧急指数</p>
+        </div>
+        <div class="s-card">
+          <h3>C3 联产品约束建模</h3>
+          <p>屠宰出成率驱动，自动计算各部位供需差，识别瓶颈部位和溢出处置建议</p>
+        </div>
+        <div class="s-card">
+          <h3>C4 What-if情景推演</h3>
+          <p>三种战略模式切换（保供/利润/清库），四维评分量化对比，自动推荐最优方案</p>
+        </div>
+        <div class="s-card">
+          <h3>C5 可视化看板</h3>
+          <p>甘特图/桑基图/热力图/仪表盘，一键生成自包含HTML，P0-P4分级色标统一</p>
+        </div>
+        <div class="s-card">
+          <h3>C6 自然语言变更</h3>
+          <p>"B厂2号线故障停4小时"——用日常口语描述变化，系统自动更新数据并重新评估全部影响</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 11: DEMO ===== -->
+<div class="slide slide-content" data-idx="11">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">DEMO</div>
+      <h2>C2 插单影响评估</h2>
+      <p class="lead">"海底捞追加1.5吨火腿肠能不能接？"</p>
+    </div>
+    <div class="slide-body">
+      <div class="s-two-col">
+        <div class="s-card">
+          <h3>系统自动完成</h3>
+          <p>11项约束逐一检查 → DAG五层级联传导追踪 → 综合紧急指数计算 → 结论 + 可执行建议方案 → 每个数字标注数据来源</p>
+        </div>
+        <div class="s-card">
+          <h3>约束检查结果</h3>
+          <div class="s-check"><span class="name">物料</span><span class="s-status ok">OK</span><span class="detail">库存充足（余2.8吨）</span></div>
+          <div class="s-check"><span class="name">产能</span><span class="s-status ok">OK</span><span class="detail">A厂3号线余0.6吨工时</span></div>
+          <div class="s-check"><span class="name">CIP</span><span class="s-status fail">FAIL</span><span class="detail">需额外1.5h清洗（品类切换）</span></div>
+          <div class="s-check"><span class="name">冷链</span><span class="s-status ok">OK</span><span class="detail">保质期内可达</span></div>
+          <div class="s-check"><span class="name">物流</span><span class="s-status ok">OK</span><span class="detail">冷藏车可用</span></div>
+          <div class="s-check"><span class="name">时间窗</span><span class="s-status warn">WARN</span><span class="detail">紧张（余量仅4h）</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 12: BEFORE / AFTER ===== -->
+<div class="slide slide-content" data-idx="12">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">VALIDATION</div>
+      <h2>使用前 vs 使用后</h2>
+      <p class="lead">同样的排产决策场景，本质区别</p>
+    </div>
+    <div class="slide-body">
+      <div class="s-vs-grid">
+        <div class="s-vs-card before">
+          <h3>使用前</h3>
+          <div class="s-vs-item">插单来了打5个电话确认——30分钟起步</div>
+          <div class="s-vs-item">凭经验判断"应该没问题"——缺量化依据</div>
+          <div class="s-vs-item">设备故障手动追溯受影响订单——容易遗漏</div>
+          <div class="s-vs-item">旺季淡季排产策略全凭感觉——无法对比</div>
+          <div class="s-vs-item">跟老板汇报只能说"大概可以"——没有底气</div>
+        </div>
+        <div class="s-vs-card after">
+          <h3>使用后</h3>
+          <div class="s-vs-item">一句话提问，1分钟出结论——效率提升30倍</div>
+          <div class="s-vs-item">11项约束自动检查，零遗漏——每项有数据</div>
+          <div class="s-vs-item">级联传导自动追踪连锁影响——秒级完成</div>
+          <div class="s-vs-item">三种模式四维评分，量化对比——有理有据</div>
+          <div class="s-vs-item">每个数字都有来源，汇报有底气——数据说话</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 13: USERS ===== -->
+<div class="slide slide-content" data-idx="13">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">USERS</div>
+      <h2>目标用户画像</h2>
+      <p class="lead">两类核心用户 × 两种决策场景</p>
+    </div>
+    <div class="slide-body">
+      <div class="s-card-grid cols-2" style="align-items:start;">
+        <div class="s-card">
+          <h3>L2 计划经理</h3>
+          <p>关注产销平衡、跨厂调拨、情景分析。需要全局视角的量化决策依据，向管理层汇报时需要数据支撑。</p>
+          <p style="margin-top:8px; font-size:12px; font-weight:600; color:var(--blue);">核心诉求："给我一张表，让我跟老板说清楚"</p>
+        </div>
+        <div class="s-card">
+          <h3>L3 车间计划员</h3>
+          <p>关注日排程、插单评估、应急响应。每天面对2-3次紧急插单和变更，需要快速评估和调整方案。</p>
+          <p style="margin-top:8px; font-size:12px; font-weight:600; color:var(--blue);">核心诉求："告诉我这个插单能不能接"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 14: SECURITY ===== -->
+<div class="slide slide-content" data-idx="14">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">SECURITY</div>
+      <h2>数据安全与隐私</h2>
+      <p class="lead">企业最关心的问题：数据全程不离本机</p>
+    </div>
+    <div class="slide-body">
+      <div class="s-card-grid cols-4" style="align-items:start;">
+        <div class="s-card s-security">
+          <div class="icon">&#128274;</div>
+          <h3>本地处理</h3>
+          <p>数据全程在本地电脑<br>不上传云端·不发送第三方</p>
+        </div>
+        <div class="s-card s-security">
+          <div class="icon">&#129529;</div>
+          <h3>会话隔离</h3>
+          <p>会话结束自动清除<br>下次使用需重新上传</p>
+        </div>
+        <div class="s-card s-security">
+          <div class="icon">&#128176;</div>
+          <h3>零部署成本</h3>
+          <p>无需服务器/DBA<br>安装桌面应用即可</p>
+        </div>
+        <div class="s-card s-security">
+          <div class="icon">&#128214;</div>
+          <h3>开源透明</h3>
+          <p>MIT协议·代码可审计<br>参数配置完全可控</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 15: CALIBRATION ===== -->
+<div class="slide slide-content" data-idx="15">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">CALIBRATION</div>
+      <h2>企业参数校准</h2>
+      <p class="lead">三级引导式校准，5分钟快速上手到30分钟深度定制</p>
+    </div>
+    <div class="slide-body">
+      <div class="s-cal-grid">
+        <div class="s-cal-card">
+          <div class="level">L1</div>
+          <h4>快速上手</h4>
+          <div class="time">5 分钟</div>
+          <p>7个核心参数<br>日屠宰量/品种/产线数<br>适合快速试用</p>
+        </div>
+        <div class="s-cal-card">
+          <div class="level">L2</div>
+          <h4>标准配置</h4>
+          <div class="time">15 分钟</div>
+          <p>25个参数 + L1<br>出成率/CIP/物流<br>适合日常使用</p>
+        </div>
+        <div class="s-cal-card">
+          <div class="level">L3</div>
+          <h4>深度定制</h4>
+          <div class="time">30 分钟</div>
+          <p>全部370+参数<br>过敏原/合规/供应商<br>适合深度定制</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 16: GET STARTED ===== -->
+<div class="slide slide-content" data-idx="16">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div class="section-label">GET STARTED</div>
+      <h2>如何开始</h2>
+      <p class="lead">最快10分钟跑通完整流程，不满意随时卸载</p>
+    </div>
+    <div class="slide-body" style="display:flex; align-items:center;">
+      <div class="s-steps-row" style="width:100%;">
+        <div class="s-step-item">
+          <div class="s-step-num">1</div>
+          <h4>安装应用</h4>
+          <p>QoderWork桌面应用<br>macOS / Windows</p>
+        </div>
+        <div class="s-step-item">
+          <div class="s-step-num">2</div>
+          <h4>导入技能</h4>
+          <p>拖入.skill文件<br>秒级安装 · 177KB</p>
+        </div>
+        <div class="s-step-item">
+          <div class="s-step-num">3</div>
+          <h4>上传数据</h4>
+          <p>Excel模板格式<br>或用内置样例体验</p>
+        </div>
+        <div class="s-step-item">
+          <div class="s-step-num">4</div>
+          <h4>提问使用</h4>
+          <p>自然语言交互<br>评估/排产/看板</p>
+        </div>
+        <div class="s-step-item">
+          <div class="s-step-num">5</div>
+          <h4>校准参数</h4>
+          <p>可选·三级引导<br>5/15/30分钟</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 17: FOOTER ===== -->
+<div class="slide slide-footer" data-idx="17">
+  <div class="slide-inner">
+    <h2>Sloth-ProdSync-Eido</h2>
+    <div class="tagline">看得清影响 · 算得准约束 · 调得动方案</div>
+    <div class="brand">树懒老K · 慢一点，深一度</div>
+  </div>
+</div>
+
+</div><!-- end slide-deck -->
+
+<!-- Navigation -->
+<button class="nav-arrow prev" id="btnPrev" onclick="go(-1)">&#10094;</button>
+<button class="nav-arrow next" id="btnNext" onclick="go(1)">&#10095;</button>
+<div class="nav-dots" id="dots"></div>
+<div class="slide-counter" id="counter"></div>
+
+<script>
+(function(){
+  var slides = document.querySelectorAll('.slide');
+  var total = slides.length;
+  var current = 0;
+  var dotsEl = document.getElementById('dots');
+  var counterEl = document.getElementById('counter');
+  var btnPrev = document.getElementById('btnPrev');
+  var btnNext = document.getElementById('btnNext');
+
+  // build dots
+  for (var i = 0; i < total; i++) {
+    var d = document.createElement('button');
+    d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('data-i', i);
+    d.onclick = function(){ goTo(+this.getAttribute('data-i')); };
+    dotsEl.appendChild(d);
+  }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    slides[current].classList.remove('active');
+    dotsEl.children[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+    dotsEl.children[current].classList.add('active');
+    counterEl.textContent = (current + 1) + ' / ' + total;
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === total - 1;
+  }
+
+  function go(delta) { goTo(current + delta); }
+  window.go = go;
+
+  // keyboard
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); go(1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); go(-1); }
+    else if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    else if (e.key === 'End') { e.preventDefault(); goTo(total - 1); }
+  });
+
+  // touch swipe
+  var tx = 0, ty = 0;
+  document.addEventListener('touchstart', function(e) { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, {passive: true});
+  document.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - tx;
+    var dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+      dx < 0 ? go(1) : go(-1);
+    }
+  }, {passive: true});
+
+  // mouse wheel
+  var wheelTimeout;
+  document.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    if (wheelTimeout) return;
+    wheelTimeout = setTimeout(function(){ wheelTimeout = null; }, 400);
+    if (e.deltaY > 0 || e.deltaX > 0) go(1);
+    else if (e.deltaY < 0 || e.deltaX < 0) go(-1);
+  }, {passive: false});
+
+  // init
+  goTo(0);
+})();
+</script>
+
+</body>
+</html>
