@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI不会优化你的工厂：碎片化时代制造企业的权力重构</title>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   雾霁蓝极浅主题 v2 — 与站点 style.css 保持一致
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  --bg: #f4f7fc;
+  --bg-nav: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-alt: #f8faff;
+  --border: #e6ecf4;
+  --border-light: #eef2f8;
+  --shadow-sm: 0 1px 2px rgba(58,78,102,0.04);
+  --shadow-md: 0 2px 12px rgba(58,78,102,0.06);
+  --shadow-lg: 0 4px 24px rgba(58,78,102,0.08);
+  --text-primary: #1e293b;
+  --text-body: #3d4f63;
+  --text-dim: #6b7f95;
+  --text-dimmer: #94a7bd;
+  --deep: #3A4E66;
+  --mid: #48607C;
+  --accent: #5B9BC8;
+  --accent-light: #7ec8e3;
+  --gold: #C8B99B;
+  --light-blue: #B4CDE1;
+  --tag-bg: rgba(91,155,200,0.07);
+  --radius: 12px;
+  --max-width: 960px;
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text-body);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* 磨砂颗粒感 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--deep); }
+
+/* ─── Back Link ─── */
+.back-link {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 24px 24px 0;
+}
+.back-link a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.back-link a:hover { text-decoration: underline; }
+
+/* ─── Hero Section ─── */
+.book-hero {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 40px 24px 48px;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.book-cover-wrap {
+  flex-shrink: 0;
+  width: 240px;
+}
+
+.book-cover-wrap img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+}
+
+.book-hero-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.book-hero-info h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+  margin-bottom: 8px;
+  letter-spacing: 0.01em;
+}
+
+.book-hero-info .subtitle {
+  font-size: 1rem;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.book-hero-info .author {
+  font-size: 0.9rem;
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  margin-bottom: 24px;
+}
+
+.book-hero-info .tagline {
+  font-size: 0.95rem;
+  color: var(--text-body);
+  line-height: 1.8;
+  margin-bottom: 28px;
+  padding: 16px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ─── Description Section ─── */
+.book-desc-section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px 48px;
+}
+
+.desc-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+}
+
+.desc-card h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.desc-intro {
+  font-size: 0.95rem;
+  color: var(--text-body);
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+
+.toc-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.toc-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.toc-item:hover {
+  border-color: var(--light-blue);
+  box-shadow: var(--shadow-sm);
+}
+
+.toc-badge {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  padding: 3px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+
+.toc-badge.part-1 { background: var(--deep); }
+.toc-badge.part-2 { background: var(--accent); }
+.toc-badge.part-3 { background: var(--gold); color: var(--deep); }
+
+.toc-text {
+  font-size: 0.92rem;
+  color: var(--text-body);
+  line-height: 1.6;
+}
+
+.toc-text strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ─── Action Buttons ─── */
+.book-actions {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px 56px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  padding: 12px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary:hover {
+  background: var(--deep);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.btn-secondary:hover {
+  background: var(--tag-bg);
+  border-color: var(--accent);
+  color: var(--deep);
+  transform: translateY(-1px);
+}
+
+/* ─── Footer ─── */
+footer {
+  text-align: center;
+  padding: 32px 24px;
+  border-top: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text-dimmer);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 700px) {
+  .book-hero {
+    flex-direction: column;
+    text-align: center;
+    gap: 28px;
+    padding: 28px 20px 36px;
+  }
+  .book-cover-wrap {
+    width: 180px;
+  }
+  .book-hero-info h1 {
+    font-size: 1.4rem;
+  }
+  .book-hero-info .tagline {
+    text-align: left;
+  }
+  .desc-card {
+    padding: 24px 20px;
+  }
+  .toc-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .book-actions {
+    flex-direction: column;
+    padding: 0 20px 40px;
+  }
+  .btn {
+    justify-content: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="back-link"><a href="/">← 返回首页</a></div>
+
+<section class="book-hero">
+  <div class="book-cover-wrap">
+    <img src="cover.jpg" alt="AI不会优化你的工厂">
+  </div>
+  <div class="book-hero-info">
+    <h1>AI不会优化你的工厂：碎片化时代制造企业的权力重构</h1>
+    <p class="subtitle">碎片化时代制造企业的权力重构</p>
+    <p class="author">树懒老K 著</p>
+    <div class="tagline">28年企业服务经验的老兵，写给制造业老板和高管的一本实话实说之书</div>
+  </div>
+</section>
+
+<section class="book-desc-section">
+  <div class="desc-card">
+    <h2>三篇九章，从诊断到重构到落地</h2>
+    <p class="desc-intro">本书围绕制造业在碎片化订单时代面临的核心困境，系统性地提出了从认知升级、范式重构到落地执行的完整方法论。全书分为三篇九章：</p>
+    <ul class="toc-list">
+      <li class="toc-item">
+        <span class="toc-badge part-1">第一部</span>
+        <span class="toc-text"><strong>诊断：为什么"上系统"治不了"排产乱"？</strong><br>深入剖析制造业碎片化困局的根源，揭示传统信息化路径的局限性。</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-badge part-2">第二部</span>
+        <span class="toc-text"><strong>重构：新范式的三个根本性转移</strong><br>从底层逻辑出发，提出制造企业在AI时代需要完成的认知与范式转型。</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-badge part-3">第三部</span>
+        <span class="toc-text"><strong>落地：三场必须打赢的仗</strong><br>聚焦执行层面，给出可操作的路径与策略，帮助企业将变革真正落地。</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<div class="book-actions">
+  <a class="btn btn-primary" href="AI不会优化你的工厂.pdf" download>PDF下载</a>
+  <a class="btn btn-secondary" href="../books/">← 返回书籍列表</a>
+</div>
+
+<footer>
+  <p>树懒老K（拙一）· 慢一点，深一度</p>
+</footer>
+
+</body>
+</html>
