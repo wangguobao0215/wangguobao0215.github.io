@@ -1955,9 +1955,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   <section class="section books-section">
     <div class="section-inner section-center">
       <div class="section-label reveal">老K作品 & AI研报</div>
-      <h2 class="section-title reveal">13本原创书籍 + 12篇AI研报 + 播客</h2>
-      <p class="section-desc reveal">写书沉淀方法论，跟踪全球前沿研究，播客聊聊转型事——免费收听。</p>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:720px;margin:0 auto;" class="reveal">
+      <h2 class="section-title reveal">15本原创书籍 + 12篇AI研报 + 播客</h2>
+      <p class="section-desc reveal">从AI实战到哲学与神学，写书沉淀方法论，跟踪全球前沿研究，播客聊聊转型事——免费收听。</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:18px;max-width:900px;margin:0 auto;" class="reveal">
+        <div class="book-mini">
+          <a onclick="switchPage('books')"><img src="assets/books/ai-soul-book.png" alt="AI会不会有灵魂？"></a>
+          <h4>AI会不会有灵魂？</h4>
+        </div>
         <div class="book-mini">
           <a onclick="switchPage('books')"><img src="assets/books/fragmented-order-survival.jpg" alt="碎单时代的生存法则"></a>
           <h4>碎单时代的生存法则</h4>
@@ -2137,10 +2141,22 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <div class="page" id="page-books">
   <section class="m-hero">
     <h1>老K作品</h1>
-    <p>14本AI实战书籍 · 免费下载 · 持续更新</p>
+    <p>15本原创书籍 · AI实战、方法论与深层思考 · 免费下载 · 持续更新</p>
   </section>
   <div class="m-detail">
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:28px;max-width:900px;margin:0 auto;">
+
+      <div style="text-align:center;">
+        <a href="books/ai-soul-book/AI%E4%BC%9A%E4%B8%8D%E4%BC%9A%E6%9C%89%E7%81%B5%E9%AD%82.pdf" target="_blank">
+          <img src="assets/books/ai-soul-book.png" alt="AI会不会有灵魂？" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;box-shadow:0 4px 20px rgba(15,37,64,0.12);transition:transform 0.3s;">
+        </a>
+        <h3 style="font-size:14px;font-weight:700;color:var(--blue-700);margin-top:12px;">AI会不会有灵魂？</h3>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:4px;">重新理解人、信仰与意义</p>
+        <div style="margin-top:8px;display:flex;gap:8px;justify-content:center;">
+          <a href="books/ai-soul-book/AI%E4%BC%9A%E4%B8%8D%E4%BC%9A%E6%9C%89%E7%81%B5%E9%AD%82.pdf" target="_blank" style="font-size:11px;padding:4px 12px;background:var(--blue-500);color:#fff;border-radius:20px;">PDF</a>
+          <a href="books/ai-soul-book/" target="_blank" style="font-size:11px;padding:4px 12px;background:var(--blue-50);color:var(--blue-500);border-radius:20px;">在线阅读</a>
+        </div>
+      </div>
 
       <div style="text-align:center;">
         <a href="books/ai-wont-fix-your-factory/AI%E4%B8%8D%E4%BC%9A%E4%BC%98%E5%8C%96%E4%BD%A0%E7%9A%84%E5%B7%A5%E5%8E%82.pdf" target="_blank">
@@ -2490,7 +2506,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <div class="page" id="page-training">
   <section class="tr-hero">
     <h1>从认知到落地，端到端陪跑</h1>
-    <p>培训只是起点——13本书沉淀方法论，30个智能体作为交付工具，6个原创方法论驱动诊断</p>
+    <p>培训只是起点——15本书沉淀方法论，30个智能体作为交付工具，6个原创方法论驱动诊断</p>
   </section>
   <div class="tr-main">
 
@@ -2745,7 +2761,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:860px;margin:0 auto;">
         <div style="padding:20px 16px;background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius);text-align:center;">
           <div style="font-size:28px;margin-bottom:8px;">📚</div>
-          <h4 style="font-size:14px;font-weight:700;color:var(--blue-700);margin-bottom:4px;">13本原创书籍</h4>
+          <h4 style="font-size:14px;font-weight:700;color:var(--blue-700);margin-bottom:4px;">15本原创书籍</h4>
           <p style="font-size:11px;color:var(--text-muted);line-height:1.6;">从战略到执行的方法论沉淀，免费下载</p>
         </div>
         <div style="padding:20px 16px;background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius);text-align:center;">
@@ -2814,7 +2830,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="creds-card"><span class="ce">🔧</span><span class="cn">霍尼韦尔 · 项目总监</span><span class="cs">软件方 · APS/MES/供应链物流</span></div>
         <div class="creds-card"><span class="ce">📊</span><span class="cn">毕博 · 德勤 · 咨询总监</span><span class="cs">咨询方 · 数智化转型顶层设计/业务流程重构/数据治理</span></div>
         <div class="creds-card"><span class="ce">🎓</span><span class="cn">工信部产教融合产业实践教授</span><span class="cs">湖南大学硕士研究生行业产业导师</span></div>
-        <div class="creds-card"><span class="ce">✍️</span><span class="cn">公众号「树懒老K」</span><span class="cs">13本书 · 12篇研报 · 30个专题 · 播客</span></div>
+        <div class="creds-card"><span class="ce">✍️</span><span class="cn">公众号「树懒老K」</span><span class="cs">15本书 · 12篇研报 · 30个专题 · 播客</span></div>
       </div>
     </div>
 
@@ -2980,7 +2996,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <!-- Books (link to dedicated page) -->
     <div style="margin-bottom:48px;text-align:center;">
       <h3 style="font-size:19px;font-weight:700;color:var(--blue-700);margin-bottom:6px;">老K作品</h3>
-      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">已出版 12 本 AI 实战书籍，免费下载</p>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">已出版 15 本原创书籍，免费下载</p>
       <button class="btn btn-outline" onclick="switchPage('books')" style="border-color:var(--blue-300);color:var(--blue-500);padding:10px 24px;font-size:13px;">查看全部作品 →</button>
     </div>
 
