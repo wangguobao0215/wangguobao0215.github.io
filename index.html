@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="树懒老K——28年企业服务经验，6个原创方法论，帮企业在AI转型中少踩坑、少花钱、快见效。">
 <meta property="og:title" content="树懒老K —— 企业AI转型方法论">
-<meta property="og:description" content="技术不缺，缺的是让组织接住技术的方法。6个原创方法论，30个专题，30+Agent Skill，服务企业老板、CIO、高管。">
+<meta property="og:description" content="技术不缺，缺的是让组织接住技术的方法。6个原创方法论，32个专题，30+Agent Skill，服务企业老板、CIO、高管。">
 <meta property="og:image" content="https://wangguobao0215.github.io/assets/avatar.png">
 <meta property="og:type" content="website">
 <title>树懒老K —— 企业AI转型方法论</title>
@@ -647,6 +647,26 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .topic-card .t-meta {
   font-size: 11px;
   color: var(--text-faint);
+}
+.topic-card.topic-card-featured {
+  background: linear-gradient(135deg, var(--blue-50), var(--white));
+  border: 2px solid var(--accent);
+  position: relative;
+}
+.topic-card.topic-card-featured:hover {
+  border-color: var(--blue-500);
+}
+.topic-featured-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(135deg, var(--blue-500), var(--accent));
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 100px;
+  letter-spacing: 0.02em;
 }
 
 /* ===== CTA ===== */
@@ -1533,23 +1553,62 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-size: 10px;
   font-weight: 600;
 }
-.topic-summary {
-  margin-top: 48px;
-  padding: 24px;
-  background: var(--blue-50);
+.topics-featured-section {
+  margin-bottom: 40px;
+}
+.topics-featured-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+.topics-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+@media (max-width: 700px) {
+  .topics-featured-grid { grid-template-columns: 1fr; }
+}
+.topics-featured-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 24px;
+  background: linear-gradient(135deg, var(--blue-50), var(--white));
+  border: 2px solid var(--accent);
   border-radius: var(--radius);
-  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s var(--ease);
 }
-.topic-summary .total-num {
-  font-size: 36px;
-  font-weight: 800;
-  color: var(--blue-600);
-  line-height: 1;
+.topics-featured-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--blue-500);
 }
-.topic-summary .total-label {
-  font-size: 14px;
+.topics-featured-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+.topics-featured-body {
+  flex: 1;
+  min-width: 0;
+}
+.topics-featured-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--blue-700);
+  margin-bottom: 4px;
+}
+.topics-featured-meta {
+  font-size: 12px;
   color: var(--text-muted);
-  margin-top: 6px;
+}
+.topics-featured-arrow {
+  font-size: 20px;
+  color: var(--accent);
+  font-weight: 700;
 }
 /* ===== TRAINING PAGE ===== */
 .tr-hero{ padding: 100px 24px 48px; text-align: center; background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-800) 100%); position: relative; overflow: hidden; }
@@ -1792,7 +1851,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <div class="hero-inner">
       <div class="hero-badge">28年企业服务经验</div>
       <h1>帮企业在AI转型中<br><span class="hl">少踩坑、少花钱、快见效</span></h1>
-      <p class="lead">技术从来不缺，缺的是<em>让组织接住技术的方法</em>。6个原创方法论，30个专题系列，30个智能体Skill，服务企业老板、CIO、高管。</p>
+      <p class="lead">技术从来不缺，缺的是<em>让组织接住技术的方法</em>。6个原创方法论，32个专题系列，30个智能体Skill，服务企业老板、CIO、高管。</p>
       <div class="hero-cta-group">
         <button class="btn btn-primary" onclick="switchPage('methodology')">探索方法论</button>
         <a href="#pain" class="btn btn-secondary">看看你的痛点</a>
@@ -1936,7 +1995,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <div class="proof-grid reveal">
         <div class="proof-item"><div class="proof-num">28+</div><div class="proof-label">年企业服务</div></div>
         <div class="proof-item"><div class="proof-num">400+</div><div class="proof-label">篇公众号文章</div></div>
-        <div class="proof-item"><div class="proof-num">28</div><div class="proof-label">个专题系列</div></div>
+        <div class="proof-item"><div class="proof-num">32</div><div class="proof-label">个专题系列</div></div>
         <div class="proof-item"><div class="proof-num">30</div><div class="proof-label">个智能体Skill</div></div>
       </div>
       <div class="companies reveal">
@@ -2040,7 +2099,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <div class="section-inner">
       <div class="section-center">
         <div class="section-label reveal">精选专题</div>
-        <h2 class="section-title reveal">30个专题系列，400+篇深度原创</h2>
+        <h2 class="section-title reveal">32个专题系列，400+篇深度原创</h2>
         <p class="section-desc reveal">按方法论展开的内容矩阵，每篇都是实战经验的提炼。</p>
       </div>
       <div class="topics-grid">
@@ -2072,14 +2131,20 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           <span class="t-icon">🗺️</span>
           <div class="t-body"><div class="t-name">企业AI转型实战地图</div><div class="t-meta">10篇 · 从诊断到落地的全路径实战指南</div></div>
         </div>
-        <div class="topic-card reveal" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4548654354282692612#wechat_redirect','_blank')">
+        <div class="topic-card topic-card-featured reveal" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4548654354282692612#wechat_redirect','_blank')">
+          <span class="topic-featured-badge">重点</span>
           <span class="t-icon">💡</span>
           <div class="t-body"><div class="t-name">AI商业洞察</div><div class="t-meta">10篇 · AI商业趋势与深度洞察</div></div>
+        </div>
+        <div class="topic-card topic-card-featured reveal" onclick="window.open('https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4551978037474607117#wechat_redirect','_blank')">
+          <span class="topic-featured-badge">重点</span>
+          <span class="t-icon">🏭</span>
+          <div class="t-body"><div class="t-name">中小企业AI转型实战</div><div class="t-meta">10篇 · 聚焦中小企业AI落地路径与实战案例</div></div>
         </div>
       </div>
       <div style="text-align:center;margin-top:32px;" class="reveal">
         <button class="btn btn-outline" onclick="switchPage('topics')" style="border-color:var(--blue-300);color:var(--blue-500);padding:12px 28px;font-size:13px;">
-          查看全部30个专题 →
+          查看全部32个专题 →
         </button>
       </div>
     </div>
@@ -2850,7 +2915,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div style="padding:20px 16px;background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius);text-align:center;">
           <div style="font-size:28px;margin-bottom:8px;">✍️</div>
           <h4 style="font-size:14px;font-weight:700;color:var(--blue-700);margin-bottom:4px;">公众号</h4>
-          <p style="font-size:11px;color:var(--text-muted);line-height:1.6;">30个专题系列，400+篇深度原创</p>
+          <p style="font-size:11px;color:var(--text-muted);line-height:1.6;">32个专题系列，400+篇深度原创</p>
         </div>
       </div>
     </div>
@@ -2903,7 +2968,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="creds-card"><span class="ce">🔧</span><span class="cn">霍尼韦尔 · 项目总监</span><span class="cs">软件方 · APS/MES/供应链物流</span></div>
         <div class="creds-card"><span class="ce">📊</span><span class="cn">毕博 · 德勤 · 咨询总监</span><span class="cs">咨询方 · 数智化转型顶层设计/业务流程重构/数据治理</span></div>
         <div class="creds-card"><span class="ce">🎓</span><span class="cn">工信部产教融合产业实践教授</span><span class="cs">湖南大学硕士研究生行业产业导师</span></div>
-        <div class="creds-card"><span class="ce">✍️</span><span class="cn">公众号「树懒老K」</span><span class="cs">16本书 · 12篇研报 · 30个专题 · 播客</span></div>
+        <div class="creds-card"><span class="ce">✍️</span><span class="cn">公众号「树懒老K」</span><span class="cs">16本书 · 12篇研报 · 32个专题 · 播客</span></div>
       </div>
     </div>
 
@@ -3097,7 +3162,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <!-- ===== TOPICS PAGE ===== -->
 <div class="page" id="page-topics">
   <section class="m-hero">
-    <h1>30个专题系列</h1>
+    <h1>32个专题系列</h1>
     <p>400+篇深度原创，按方法论展开的内容矩阵</p>
   </section>
   <div class="m-detail" id="topicsContainer"></div>
@@ -3577,7 +3642,7 @@ const methodSkillMap = {
   'process-reconstructor': ['processreconstructor'],
 };
 
-// ===== TOPICS DATA (30个专题系列) =====
+// ===== TOPICS DATA (32个专题系列) =====
 const topics = [
   // 一、核心认知
   { id: 'agent-revolution', name: '智能体革命：重构企业流程的底层逻辑', category: '核心认知', count: 20, desc: 'Agent如何重塑BPM', method: 'AI-FACTORY', url: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4298296039049904137#wechat_redirect' },
@@ -3593,6 +3658,7 @@ const topics = [
   { id: 'saas-ai', name: 'SaaS转型AI原生', category: '产业变革', count: 14, desc: '软件企业AI转型实战', method: 'CORE引擎', url: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4499591036012445698#wechat_redirect' },
   { id: 'ai-digital-team', name: 'AI数字团队设计实战', category: '产业变革', count: 16, desc: '企业AI团队构建方法论', method: 'AI-FACTORY', url: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4499584696137400323#wechat_redirect' },
   { id: 'ai-practice-map', name: '企业AI转型实战地图', category: '产业变革', count: 10, desc: '从诊断到落地的全路径实战指南', method: 'AI-FACTORY', url: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4551978037474607117#wechat_redirect' },
+  { id: 'sme-ai-transformation', name: '中小企业AI转型实战', category: '产业变革', count: 10, desc: '聚焦中小企业AI落地路径与实战案例', method: 'AI-FACTORY', url: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4551978037474607117#wechat_redirect' },
 
   // 三、组织与战略
   { id: '3c4q', name: '三才四象', category: '组织与战略', count: 16, desc: 'AI时代组织认知升级之路', method: '三才四象', url: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkxNjMwODc3MA==&action=getalbum&album_id=4332739109564563483#wechat_redirect' },
@@ -3676,19 +3742,33 @@ function renderTopics() {
     'ai-era-thinking': '🧩', 'agent-skill': '🤖', 'workplace-evolution': '📈',
     'slow-classics': '📜', 'horse-diary': '🐴', 'workplace-cognition': '🎯',
     'saas-ai': '☁️', 'ai-digital-team': '👥',
-    'ai-practice-map': '🗺️', 'ai-insight': '💡'
+    'ai-practice-map': '🗺️', 'ai-insight': '💡', 'sme-ai-transformation': '🏭'
   };
 
   var html = '<p style="font-size:14px;color:var(--text-muted);line-height:1.8;margin-bottom:32px;">';
   html += '从实战中磨出来的内容矩阵。不是理论推演，是28年企业服务的经验蒸馏。';
   html += '</p>';
 
-  // Summary
-  var totalCount = topics.reduce(function(sum, t) { return sum + t.count; }, 0);
-  html += '<div class="topic-summary">';
-  html += '<div class="total-num">' + totalCount + '+</div>';
-  html += '<div class="total-label">篇深度原创内容，覆盖30个专题系列</div>';
-  html += '</div>';
+  // Featured topics
+  var featuredIds = ['sme-ai-transformation', 'ai-insight'];
+  var featuredTopics = topics.filter(function(t) { return featuredIds.indexOf(t.id) !== -1; });
+  if (featuredTopics.length > 0) {
+    html += '<div class="topics-featured-section">';
+    html += '<div class="topics-featured-label">🔥 重点推荐</div>';
+    html += '<div class="topics-featured-grid">';
+    featuredTopics.forEach(function(t) {
+      var icon = topicIcons[t.id] || '📄';
+      html += '<a class="topics-featured-card" href="' + t.url + '" target="_blank">';
+      html += '<span class="topics-featured-icon">' + icon + '</span>';
+      html += '<div class="topics-featured-body">';
+      html += '<div class="topics-featured-name">' + t.name + '</div>';
+      html += '<div class="topics-featured-meta">' + t.count + '篇 · ' + t.desc + '</div>';
+      html += '</div>';
+      html += '<span class="topics-featured-arrow">→</span>';
+      html += '</a>';
+    });
+    html += '</div></div>';
+  }
 
   categories.forEach(function(cat) {
     var catTopics = topics.filter(function(t) { return t.category === cat.id; });
