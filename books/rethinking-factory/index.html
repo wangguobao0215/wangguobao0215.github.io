@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>重新理解工厂：为什么同样的AI，在A厂失败，在B厂成功？</title>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   雾霁蓝极浅主题 v2 — 与站点 style.css 保持一致
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  --bg: #f4f7fc;
+  --bg-nav: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-alt: #f8faff;
+  --border: #e6ecf4;
+  --border-light: #eef2f8;
+  --shadow-sm: 0 1px 2px rgba(58,78,102,0.04);
+  --shadow-md: 0 2px 12px rgba(58,78,102,0.06);
+  --shadow-lg: 0 4px 24px rgba(58,78,102,0.08);
+  --text-primary: #1e293b;
+  --text-body: #3d4f63;
+  --text-dim: #6b7f95;
+  --text-dimmer: #94a7bd;
+  --deep: #3A4E66;
+  --mid: #48607C;
+  --accent: #5B9BC8;
+  --accent-light: #7ec8e3;
+  --gold: #C8B99B;
+  --light-blue: #B4CDE1;
+  --tag-bg: rgba(91,155,200,0.07);
+  --radius: 12px;
+  --max-width: 960px;
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text-body);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--deep); }
+
+.back-link {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 24px 24px 0;
+}
+.back-link a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.back-link a:hover { text-decoration: underline; }
+
+.book-hero {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 40px 24px 48px;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.book-cover-wrap {
+  flex-shrink: 0;
+  width: 240px;
+  position: relative;
+}
+
+.book-cover-wrap img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+}
+
+.trilogy-ribbon {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: var(--gold);
+  color: var(--deep);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 6px 12px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+}
+
+.book-hero-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.book-hero-info h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+  margin-bottom: 8px;
+  letter-spacing: 0.01em;
+}
+
+.book-hero-info .subtitle {
+  font-size: 1rem;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.book-hero-info .author {
+  font-size: 0.9rem;
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  margin-bottom: 24px;
+}
+
+.book-hero-info .tagline {
+  font-size: 0.95rem;
+  color: var(--text-body);
+  line-height: 1.8;
+  margin-bottom: 28px;
+  padding: 16px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.book-desc-section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px 48px;
+}
+
+.desc-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+}
+
+.desc-card h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.desc-intro {
+  font-size: 0.95rem;
+  color: var(--text-body);
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+
+.toc-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.toc-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.toc-item:hover {
+  border-color: var(--light-blue);
+  box-shadow: var(--shadow-sm);
+}
+
+.toc-badge {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  padding: 3px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+
+.toc-badge.part-1 { background: var(--deep); }
+.toc-badge.part-2 { background: var(--accent); }
+.toc-badge.part-3 { background: var(--gold); color: var(--deep); }
+.toc-badge.part-4 { background: #7B8794; }
+.toc-badge.part-5 { background: var(--mid); }
+
+.toc-text {
+  font-size: 0.92rem;
+  color: var(--text-body);
+  line-height: 1.6;
+}
+
+.toc-text strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.book-actions {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px 56px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  padding: 12px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary:hover {
+  background: var(--deep);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.btn-secondary:hover {
+  background: var(--tag-bg);
+  border-color: var(--accent);
+  color: var(--deep);
+  transform: translateY(-1px);
+}
+
+.trilogy-bar {
+  max-width: var(--max-width);
+  margin: 0 auto 40px;
+  padding: 0 24px;
+}
+
+.trilogy-card {
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-alt) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.trilogy-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.trilogy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.trilogy-item {
+  text-align: center;
+}
+
+.trilogy-item img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+
+.trilogy-item .tri-num {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--deep);
+  background: var(--gold);
+  padding: 3px 8px;
+  border-radius: 999px;
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+
+.trilogy-item h4 {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.trilogy-item p {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+footer {
+  text-align: center;
+  padding: 32px 24px;
+  border-top: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text-dimmer);
+}
+
+@media (max-width: 700px) {
+  .book-hero {
+    flex-direction: column;
+    text-align: center;
+    gap: 28px;
+    padding: 28px 20px 36px;
+  }
+  .book-cover-wrap {
+    width: 180px;
+  }
+  .book-hero-info h1 {
+    font-size: 1.4rem;
+  }
+  .book-hero-info .tagline {
+    text-align: left;
+  }
+  .desc-card {
+    padding: 24px 20px;
+  }
+  .toc-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .book-actions {
+    flex-direction: column;
+    padding: 0 20px 40px;
+  }
+  .btn {
+    justify-content: center;
+  }
+  .trilogy-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .trilogy-item h4 {
+    font-size: 0.75rem;
+  }
+  .trilogy-item p {
+    display: none;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="back-link"><a href="/">← 返回首页</a></div>
+
+<section class="book-hero">
+  <div class="book-cover-wrap">
+    <img src="cover.jpg" alt="重新理解工厂">
+    <span class="trilogy-ribbon">工厂三部曲 · 之三</span>
+  </div>
+  <div class="book-hero-info">
+    <h1>重新理解工厂：为什么同样的AI，在A厂失败，在B厂成功？</h1>
+    <p class="subtitle">企业AI转型的第一问</p>
+    <p class="author">树懒老K 著</p>
+    <div class="tagline">你在上AI之前，问过那个问题吗？——“企业是什么？”同一个AI排程系统，A厂半年后没人用，B厂三个月后采纳率超过85%。差的不在AI，在对“企业是什么”的回答。</div>
+  </div>
+</section>
+
+<section class="book-desc-section">
+  <div class="desc-card">
+    <h2>全书五部，从诊断到隐喻到架构到落地</h2>
+    <p class="desc-intro">本书不讲“AI能做什么”，只讲一个每天都在替你决定AI转型成败的问题：你如何理解“企业是什么”？从KPI、订单、价值、工作、组织五个维度，重构工厂的底层隐喻，并给出可执行的宪法层—计算层—裁决层架构与五阶段转换路线图。</p>
+    <ul class="toc-list">
+      <li class="toc-item">
+        <span class="toc-badge part-1">第一部</span>
+        <span class="toc-text"><strong>诊断：为什么同样的AI，两种结局？</strong><br>从三百万AI排程失败案例出发，追问“企业是____”这道填空题，揭开KPI如何悄悄杀死AI。</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-badge part-2">第二部</span>
+        <span class="toc-text"><strong>隐喻：企业是机器，还是生命体？</strong><br>从根隐喻切换开始，重新定义订单、价值、工作与组织，回答“权力重构”背后的认知根源。</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-badge part-3">第三部</span>
+        <span class="toc-text"><strong>架构：宪法层、计算层与裁决层</strong><br>把“企业是决策网络”落到制度设计：宪法层定规则，计算层跑智能体，裁决层处理例外。</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-badge part-4">第四部</span>
+        <span class="toc-text"><strong>转换：五阶段路线图与文化抗体</strong><br>从“旧隐喻失效”到“新隐喻理所当然”，识别三种文化抗体与四个必须避开的致命错误。</span>
+      </li>
+      <li class="toc-item">
+        <span class="toc-badge part-5">第五部</span>
+        <span class="toc-text"><strong>启动：一张检查清单与第一个月行动</strong><br>八个问题自测、第一个月行动清单，让AI转型从“道”落到“术”。</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<div class="trilogy-bar">
+  <div class="trilogy-card">
+    <h3>工厂三部曲</h3>
+    <div class="trilogy-grid">
+      <a class="trilogy-item" href="../ai-wont-fix-your-factory/">
+        <img src="../ai-wont-fix-your-factory/cover.jpg" alt="AI不会优化你的工厂">
+        <span class="tri-num">之一</span>
+        <h4>AI不会优化你的工厂</h4>
+        <p>碎片化时代制造企业的权力重构</p>
+      </a>
+      <a class="trilogy-item" href="../fragmented-order-survival/">
+        <img src="../fragmented-order-survival/cover.jpg" alt="碎单时代的生存法则">
+        <span class="tri-num">之二</span>
+        <h4>碎单时代的生存法则</h4>
+        <p>从“资源集合体”到“承诺响应系统”</p>
+      </a>
+      <a class="trilogy-item" href="./">
+        <img src="cover.jpg" alt="重新理解工厂">
+        <span class="tri-num">之三</span>
+        <h4>重新理解工厂</h4>
+        <p>为什么同样的AI，在A厂失败，在B厂成功？</p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="book-actions">
+  <a class="btn btn-primary" href="重新理解工厂.pdf" download>PDF下载</a>
+  <a class="btn btn-secondary" href="重新理解工厂.html">在线阅读</a>
+  <a class="btn btn-secondary" href="../books/">← 返回书籍列表</a>
+</div>
+
+<footer>
+  <p>树懒老K（拙一）· 慢一点，深一度</p>
+</footer>
+
+</body>
+</html>
