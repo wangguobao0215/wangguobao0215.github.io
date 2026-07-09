@@ -669,6 +669,65 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   letter-spacing: 0.02em;
 }
 
+/* ===== OPEN SOURCE SPOTLIGHT ===== */
+.opensource-banner {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 28px;
+  background: linear-gradient(135deg, #fff, var(--blue-50));
+  border: 2px solid var(--gold);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: all 0.3s var(--ease);
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+}
+.opensource-banner:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: #b8953e;
+}
+.opensource-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, var(--gold), #d4b36a);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 100px;
+  letter-spacing: 0.05em;
+}
+.opensource-body {
+  flex: 1;
+  min-width: 0;
+}
+.opensource-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--blue-700);
+  margin-bottom: 4px;
+}
+.opensource-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.opensource-arrow {
+  flex-shrink: 0;
+  font-size: 22px;
+  color: var(--gold);
+  font-weight: 700;
+}
+@media (max-width: 600px) {
+  .opensource-banner { flex-direction: column; align-items: flex-start; gap: 14px; padding: 20px; }
+  .opensource-arrow { align-self: flex-end; margin-top: -28px; }
+}
+
 /* ===== CTA ===== */
 .cta-section {
   background: var(--white);
@@ -2143,6 +2202,20 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           查看全部31个专题 →
         </button>
       </div>
+    </div>
+  </section>
+
+  <!-- OPEN SOURCE SPOTLIGHT -->
+  <section class="section" style="background: var(--bg-warm); padding: 56px 24px;">
+    <div class="section-inner">
+      <a href="https://github.com/wangguobao0215/Sloth-DeckStudio2-Den" target="_blank" class="opensource-banner reveal">
+        <span class="opensource-badge">今日开源</span>
+        <div class="opensource-body">
+          <div class="opensource-title">PPT SKILL</div>
+          <div class="opensource-desc">Sloth DeckStudio2 Den —— 面向制造业咨询场景的开源 PPT 生成与排版引擎</div>
+        </div>
+        <span class="opensource-arrow">→</span>
+      </a>
     </div>
   </section>
 
