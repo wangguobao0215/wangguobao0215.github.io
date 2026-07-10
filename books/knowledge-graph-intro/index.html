@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知识图谱入门：从零构建到AI时代的实战 · 树懒老K</title>
+<link rel="stylesheet" href="../../css/style.css">
+<style>
+  body { background: #F7F9FC; font-family: 'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif; color: #2C4A6E; }
+  .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+  .book-header { text-align: center; margin-bottom: 40px; }
+  .book-header .cover { width: 100%; max-width: 360px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); margin-bottom: 20px; }
+  .book-header h1 { font-size: 1.6rem; font-weight: 700; color: #1A2D3D; margin-bottom: 0.3em; }
+  .book-header .subtitle { font-size: 1rem; color: #5B9BC8; margin-bottom: 0.5em; }
+  .book-header .author { font-size: 0.9rem; color: #6B7D8F; }
+  .tag { display: inline-block; background: #EBF3FA; color: #5B9BC8; font-size: 0.78rem; padding: 3px 10px; border-radius: 4px; margin: 4px 2px; }
+  .btn-group { text-align: center; margin: 30px 0; }
+  .btn-pdf { display: inline-block; background: #5B9BC8; color: #fff; padding: 12px 32px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 1rem; }
+  .btn-pdf:hover { background: #3A4E66; }
+  .toc { background: #fff; border: 1px solid #E0E8F0; border-radius: 8px; padding: 24px; margin-top: 30px; }
+  .toc h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; color: #1A2D3D; }
+  .toc .part { font-size: 0.88rem; font-weight: 600; color: #C8B99B; margin-top: 16px; margin-bottom: 6px; }
+  .toc ul { list-style: none; padding: 0; margin: 0; }
+  .toc li { padding: 6px 0; border-bottom: 1px dashed #E0E8F0; font-size: 0.92rem; }
+  .toc li:last-child { border-bottom: none; }
+  .toc .ch { color: #5B9BC8; font-weight: 500; }
+  .back-link { text-align: center; margin-top: 30px; }
+  .back-link a { color: #5B9BC8; text-decoration: none; font-size: 0.9rem; }
+  .back-link a:hover { text-decoration: underline; }
+  .intro { font-size: 0.92rem; line-height: 1.8; color: #3A4E66; margin-top: 20px; padding: 16px; background: #fff; border-radius: 8px; border: 1px solid #E0E8F0; }
+  .stats { display: flex; justify-content: center; gap: 24px; margin: 20px 0; flex-wrap: wrap; }
+  .stat-item { text-align: center; }
+  .stat-num { font-size: 1.4rem; font-weight: 700; color: #5B9BC8; }
+  .stat-label { font-size: 0.78rem; color: #6B7D8F; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="book-header">
+    <img class="cover" src="cover.png" alt="知识图谱入门：从零构建到AI时代的实战">
+    <h1>知识图谱入门</h1>
+    <p class="subtitle">从零构建到AI时代的实战</p>
+    <p class="author">树懒老K（拙一）</p>
+    <div style="margin-top:12px;">
+      <span class="tag">知识图谱</span>
+      <span class="tag">Neo4j</span>
+      <span class="tag">GraphRAG</span>
+      <span class="tag">AI实战</span>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-item"><div class="stat-num">15</div><div class="stat-label">章</div></div>
+    <div class="stat-item"><div class="stat-num">40万+</div><div class="stat-label">字</div></div>
+    <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">篇</div></div>
+    <div class="stat-item"><div class="stat-num">3:7</div><div class="stat-label">理论:实操</div></div>
+  </div>
+
+  <div class="btn-group">
+    <a class="btn-pdf" href="%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E5%85%A5%E9%97%A8.pdf">PDF 下载</a>
+  </div>
+
+  <div class="intro">
+    <p>一本写给零基础读者的知识图谱实战手册。从"谷歌搜索为什么懂你"讲起，一路走到 GraphRAG 和多模态知识系统。全书以 Neo4j + Qdrant 为主线工具，在 Ubuntu 22.04 环境下手把手带你从认识图谱、建模语义、搭建环境、编写代码，直到构建一个完整的电影知识图谱项目。理论占三成，实操占七成——不是教你看，是教你做。</p>
+  </div>
+
+  <div class="toc">
+    <h2>目录</h2>
+
+    <div class="part">第一篇 认识图谱</div>
+    <ul>
+      <li><span class="ch">第1章</span> 什么是知识图谱</li>
+      <li><span class="ch">第2章</span> 图的故事：从欧拉到AlphaGo</li>
+      <li><span class="ch">第3章</span> 图谱全景：类型、应用与生态</li>
+    </ul>
+
+    <div class="part">第二篇 技术底座</div>
+    <ul>
+      <li><span class="ch">第4章</span> RDF、OWL与SPARQL：语义网三件套</li>
+      <li><span class="ch">第5章</span> 属性图模型与Cypher语言</li>
+      <li><span class="ch">第6章</span> 本体设计：给世界画一张地图</li>
+      <li><span class="ch">第7章</span> 知识图谱构建全流程</li>
+    </ul>
+
+    <div class="part">第三篇 动手实操</div>
+    <ul>
+      <li><span class="ch">第8章</span> Ubuntu 22.04开发环境搭建</li>
+      <li><span class="ch">第9章</span> Neo4j从安装到精通</li>
+      <li><span class="ch">第10章</span> Qdrant：向量数据库与图谱的交汇</li>
+      <li><span class="ch">第11章</span> 用Python操控图谱</li>
+      <li><span class="ch">第12章</span> 实战项目：从零构建一个电影知识图谱</li>
+    </ul>
+
+    <div class="part">第四篇 进阶与展望</div>
+    <ul>
+      <li><span class="ch">第13章</span> LLM+知识图谱：RAG与GraphRAG</li>
+      <li><span class="ch">第14章</span> 性能优化与生产部署</li>
+      <li><span class="ch">第15章</span> 图谱的未来：Agent、多模态与自主知识系统</li>
+    </ul>
+
+    <ul>
+      <li><span class="ch">尾声</span> 写给刚出发的你</li>
+      <li><span class="ch">附录</span> 工具速查与常见问题</li>
+    </ul>
+  </div>
+
+  <div class="back-link"><a href="../">← 返回书籍列表</a></div>
+</div>
+</body>
+</html>
