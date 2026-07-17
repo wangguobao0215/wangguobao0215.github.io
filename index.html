@@ -1670,49 +1670,67 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-weight: 700;
 }
 /* ===== TRAINING PAGE ===== */
-.tr-hero{ padding: 100px 24px 48px; text-align: center; background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-800) 100%); position: relative; overflow: hidden; }
+.tr-hero{ padding: 120px 24px 56px; text-align: center; background: linear-gradient(135deg, var(--blue-700) 0%, var(--blue-800) 100%); position: relative; overflow: hidden; }
 .tr-hero::before{ content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 40% at 50% 60%, rgba(91,146,184,.08), transparent); }
-.tr-hero h1{ font-size: 32px; font-weight: 800; color: #fff; margin-bottom: 8px; letter-spacing: 2px; }
-.tr-hero p{ font-size: 14px; color: rgba(255,255,255,.45); max-width: 500px; margin: 0 auto; line-height: 1.7; }
+.tr-hero h1{ font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 12px; letter-spacing: 1px; line-height: 1.5; max-width: 600px; margin-left: auto; margin-right: auto; }
+.tr-hero .hero-sub{ font-size: 14px; color: rgba(255,255,255,.55); max-width: 520px; margin: 0 auto; line-height: 1.8; }
+.tr-hero .hero-tags{ display: flex; gap: 8px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+.tr-hero .hero-tag{ font-size: 11px; padding: 5px 14px; border-radius: 20px; background: rgba(255,255,255,.08); color: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.1); }
 .tr-main{ max-width: 960px; margin: 0 auto; padding: 48px 24px 72px; }
 .tr-section{ margin-bottom: 52px; }
 .tr-section-header{ display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
 .tr-section-header h2{ font-size: 20px; font-weight: 700; color: var(--blue-700); }
 .tr-section-header .line{ flex: 1; height: 1px; background: linear-gradient(90deg, var(--blue-100), transparent); }
 .tr-section-header .sub{ font-size: 11px; color: var(--text-muted); font-weight: 400; }
-.tr-courses{ display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
-@media(max-width:860px){ .tr-courses{ grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; } }
-.tr-card{ padding: 32px 24px; background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.03); position: relative; overflow: hidden; transition: all .3s ease; }
-.tr-card:hover{ box-shadow: 0 8px 30px rgba(0,0,0,.06); transform: translateY(-3px); border-color: var(--blue-200); }
-.tr-card .tc-bar{ position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-.tr-card .tc-bar.b1{ background: linear-gradient(90deg, var(--blue-400), var(--blue-500)); }
-.tr-card .tc-bar.b2{ background: linear-gradient(90deg, #d4b88a, #b8986a); }
-.tr-card .tc-bar.b3{ background: linear-gradient(90deg, #7ab89a, #4a8a6a); }
-.tr-card .tc-icon{ font-size: 32px; display: block; margin-bottom: 12px; }
-.tr-card h3{ font-size: 17px; font-weight: 700; color: var(--blue-700); margin-bottom: 4px; }
-.tr-card .tc-meta{ font-size: 11px; color: var(--blue-400); font-weight: 600; margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
-.tr-card .tc-desc{ font-size: 13px; color: var(--text-muted); line-height: 1.75; margin-bottom: 10px; }
-.tr-card .tc-aud{ font-size: 11px; color: var(--text-faint); margin-bottom: 8px; }
-.tr-card .tc-feats{ list-style: none; padding: 0; margin: 0; }
-.tr-card .tc-feats li{ font-size: 12px; color: var(--text-muted); padding: 3px 0 3px 14px; position: relative; line-height: 1.6; }
-.tr-card .tc-feats li::before{ content: '→'; position: absolute; left: 0; color: var(--blue-400); }
-.tr-card .tc-more{ margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 10px; color: var(--text-faint); line-height: 1.6; }
-/* Step number badge */
-.tr-card .tc-step{ position: absolute; top: 12px; right: 12px; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; }
-.tr-card .tc-step.s1{ background: var(--blue-400); }
-.tr-card .tc-step.s2{ background: linear-gradient(135deg, #d4b88a, #b8986a); }
-.tr-card .tc-step.s3{ background: linear-gradient(135deg, #7ab89a, #4a8a6a); }
-/* Module tags inside cards */
-.tr-card .tc-modules{ display: flex; gap: 4px; flex-wrap: wrap; margin: 8px 0 10px; }
-.tr-card .tc-module{ font-size: 10px; padding: 3px 10px; border-radius: 20px; background: var(--blue-50); color: var(--blue-500); font-weight: 500; letter-spacing: .3px; }
-/* Schedule tabs */
+/* ── Scene Diagnosis Matrix ── */
+.tr-diag{ display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+@media(max-width:860px){ .tr-diag{ grid-template-columns: 1fr 1fr; } }
+@media(max-width:540px){ .tr-diag{ grid-template-columns: 1fr; } }
+.tr-diag-card{ padding: 22px 20px; background: #fff; border: 1px solid var(--border); border-radius: 10px; cursor: pointer; transition: all .3s ease; position: relative; overflow: hidden; }
+.tr-diag-card:hover{ border-color: var(--blue-400); box-shadow: 0 6px 24px rgba(61,109,144,.1); transform: translateY(-2px); }
+.tr-diag-card::after{ content: '→'; position: absolute; right: 14px; bottom: 14px; font-size: 16px; color: var(--blue-200); transition: all .3s ease; }
+.tr-diag-card:hover::after{ color: var(--blue-400); right: 10px; }
+.tr-diag-card .dg-scene{ font-size: 13px; font-weight: 700; color: var(--blue-700); margin-bottom: 6px; line-height: 1.5; }
+.tr-diag-card .dg-voice{ font-size: 12px; color: var(--text-muted); line-height: 1.7; margin-bottom: 8px; font-style: italic; }
+.tr-diag-card .dg-match{ font-size: 10px; padding: 3px 10px; border-radius: 12px; background: var(--blue-50); color: var(--blue-500); font-weight: 500; }
+/* ── Product / Solution Cards ── */
+.tr-products{ display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; }
+@media(max-width:760px){ .tr-products{ grid-template-columns: 1fr; } }
+.tr-prod{ padding: 32px 28px; background: #fff; border: 1px solid var(--border); border-radius: 12px; position: relative; overflow: hidden; transition: all .3s ease; box-shadow: 0 2px 12px rgba(0,0,0,.03); }
+.tr-prod:hover{ box-shadow: 0 8px 30px rgba(0,0,0,.06); transform: translateY(-3px); border-color: var(--blue-200); }
+.tr-prod .pp-bar{ position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.tr-prod .pp-badge{ position: absolute; top: 14px; right: 16px; font-size: 10px; padding: 3px 10px; border-radius: 12px; font-weight: 700; letter-spacing: .5px; }
+.tr-prod .pp-icon{ font-size: 32px; display: block; margin-bottom: 10px; }
+.tr-prod h3{ font-size: 18px; font-weight: 700; color: var(--blue-700); margin-bottom: 4px; }
+.tr-prod .pp-meta{ font-size: 11px; font-weight: 600; margin-bottom: 10px; display: flex; gap: 8px; align-items: center; }
+.tr-prod .pp-desc{ font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-bottom: 12px; }
+.tr-prod .pp-who{ font-size: 11px; color: var(--text-faint); margin-bottom: 10px; padding: 8px 12px; background: var(--bg); border-radius: 6px; line-height: 1.6; }
+.tr-prod .pp-feats{ list-style: none; padding: 0; margin: 0 0 12px; }
+.tr-prod .pp-feats li{ font-size: 12px; color: var(--text-muted); padding: 3px 0 3px 16px; position: relative; line-height: 1.7; }
+.tr-prod .pp-feats li::before{ content: '→'; position: absolute; left: 0; color: var(--blue-400); }
+.tr-prod .pp-modules{ display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 12px; }
+.tr-prod .pp-mod{ font-size: 10px; padding: 3px 10px; border-radius: 20px; background: var(--blue-50); color: var(--blue-500); font-weight: 500; }
+.tr-prod .pp-more{ margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 10px; color: var(--text-faint); line-height: 1.6; }
+/* Product color themes */
+.tr-prod.flagship .pp-bar{ background: linear-gradient(90deg, #c9a84c, #a8893a); }
+.tr-prod.flagship .pp-badge{ background: linear-gradient(135deg, #c9a84c, #a8893a); color: #fff; }
+.tr-prod.flagship .pp-meta{ color: #a8893a; }
+.tr-prod.newtech .pp-bar{ background: linear-gradient(90deg, #7ab89a, #4a8a6a); }
+.tr-prod.newtech .pp-badge{ background: linear-gradient(135deg, #7ab89a, #4a8a6a); color: #fff; }
+.tr-prod.newtech .pp-meta{ color: #4a8a6a; }
+.tr-prod.classic .pp-bar{ background: linear-gradient(90deg, #d4b88a, #b8986a); }
+.tr-prod.classic .pp-badge{ background: linear-gradient(135deg, #d4b88a, #b8986a); color: #fff; }
+.tr-prod.classic .pp-meta{ color: #b8986a; }
+.tr-prod.light .pp-bar{ background: linear-gradient(90deg, var(--blue-400), var(--blue-500)); }
+.tr-prod.light .pp-badge{ background: linear-gradient(135deg, var(--blue-400), var(--blue-500)); color: #fff; }
+.tr-prod.light .pp-meta{ color: var(--blue-400); }
+/* ── Schedule tabs (keep existing) ── */
 .tr-sched-tabs{ display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
 .tr-sched-tab{ padding: 9px 22px; border-radius: 40px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: var(--white); color: var(--text-muted); transition: all .3s ease; }
 .tr-sched-tab:hover{ border-color: var(--blue-200); color: var(--blue-600); }
 .tr-sched-tab.active{ background: linear-gradient(135deg, var(--blue-400), var(--blue-500)); border-color: transparent; color: #fff; font-weight: 600; box-shadow: 0 4px 16px rgba(61,109,144,.25); }
 .tr-sched-panel{ display: none; }
 .tr-sched-panel.show{ display: block; animation: fadeUp .45s var(--ease); }
-/* Schedule timeline */
 .tr-timeline{ position: relative; padding: 0; }
 .tr-timeline .tl-block{ margin-bottom: 14px; border-radius: 8px; background: #fff; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.02); }
 .tr-timeline .tl-block-header{ display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--blue-50); border-bottom: 1px solid var(--border); }
@@ -1728,15 +1746,41 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tr-timeline .tl-event strong{ color: var(--blue-600); font-weight: 600; }
 .tr-timeline .tl-row.tl-highlight{ background: rgba(212,184,138,.04); }
 .tr-timeline .tl-row.tl-highlight .tl-event{ font-weight: 600; color: var(--blue-700); }
-/* Schedule legend */
 .tr-sched-legend{ display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; font-size: 11px; color: var(--text-faint); }
 .tr-sched-legend span{ display: flex; align-items: center; gap: 4px; }
 .tr-sched-legend .leg-dot{ width: 6px; height: 6px; border-radius: 50%; }
-/* Selection guide */
-.tr-guide{ margin: 12px 0 24px; padding: 18px 22px; background: var(--blue-50); border-radius: 8px; border-left: 3px solid var(--blue-400); }
-.tr-guide p{ font-size: 12.5px; color: var(--text-muted); line-height: 1.8; }
-.tr-guide strong{ color: var(--blue-600); font-weight: 600; }
-/* Case studies */
+/* ── Conversion Paths (multi-tier) ── */
+.tr-conv{ display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 8px; }
+@media(max-width:760px){ .tr-conv{ grid-template-columns: 1fr; } }
+.tr-conv-card{ padding: 28px 24px; border-radius: 12px; text-align: center; transition: all .3s ease; position: relative; overflow: hidden; }
+.tr-conv-card:hover{ transform: translateY(-3px); }
+.tr-conv-card .cv-step{ font-size: 10px; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; }
+.tr-conv-card .cv-icon{ font-size: 36px; display: block; margin-bottom: 10px; }
+.tr-conv-card h4{ font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.tr-conv-card .cv-desc{ font-size: 12px; line-height: 1.7; margin-bottom: 14px; }
+.tr-conv-card .cv-btn{ display: inline-flex; align-items: center; gap: 6px; padding: 10px 24px; border-radius: 40px; font-size: 12px; font-weight: 600; text-decoration: none; transition: all .3s ease; cursor: pointer; border: none; }
+/* Low tier */
+.tr-conv.free{ background: var(--blue-50); border: 1px solid var(--blue-100); }
+.tr-conv.free .cv-step{ color: var(--blue-400); }
+.tr-conv.free h4{ color: var(--blue-700); }
+.tr-conv.free .cv-desc{ color: var(--text-muted); }
+.tr-conv.free .cv-btn{ background: var(--blue-500); color: #fff; box-shadow: 0 4px 16px rgba(61,109,144,.2); }
+.tr-conv.free .cv-btn:hover{ box-shadow: 0 6px 24px rgba(61,109,144,.3); }
+/* Mid tier */
+.tr-conv.diag{ background: linear-gradient(135deg, #fef9f0, #fff); border: 1px solid #e8dcc8; }
+.tr-conv.diag .cv-step{ color: #b8986a; }
+.tr-conv.diag h4{ color: #8a6d3b; }
+.tr-conv.diag .cv-desc{ color: var(--text-muted); }
+.tr-conv.diag .cv-btn{ background: linear-gradient(135deg, #d4b88a, #b8986a); color: #fff; box-shadow: 0 4px 16px rgba(184,152,106,.25); }
+.tr-conv.diag .cv-btn:hover{ box-shadow: 0 6px 24px rgba(184,152,106,.35); }
+/* High tier */
+.tr-conv.premium{ background: linear-gradient(135deg, var(--blue-700), var(--blue-800)); border: none; }
+.tr-conv.premium .cv-step{ color: rgba(255,255,255,.5); }
+.tr-conv.premium h4{ color: #fff; }
+.tr-conv.premium .cv-desc{ color: rgba(255,255,255,.6); }
+.tr-conv.premium .cv-btn{ background: #fff; color: var(--blue-700); box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+.tr-conv.premium .cv-btn:hover{ box-shadow: 0 6px 24px rgba(0,0,0,.15); }
+/* ── Case studies ── */
 .tr-cases{ display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
 @media(max-width:700px){ .tr-cases{ grid-template-columns: 1fr; } }
 .tr-case{ padding: 22px 24px; background: #fff; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,.02); transition: all .3s ease; }
@@ -1744,31 +1788,20 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tr-case .tcase-org{ font-size: 11px; font-weight: 700; color: var(--blue-400); letter-spacing: 1px; margin-bottom: 4px; }
 .tr-case .tcase-title{ font-size: 14px; font-weight: 700; color: var(--blue-700); margin-bottom: 6px; }
 .tr-case .tcase-desc{ font-size: 12px; color: var(--text-muted); line-height: 1.7; margin-bottom: 8px; }
+.tr-case .tcase-result{ font-size: 11px; color: var(--blue-500); font-weight: 600; margin-bottom: 8px; }
 .tr-case .tcase-tags{ display: flex; gap: 4px; flex-wrap: wrap; }
 .tr-case .tcase-tag{ font-size: 9px; padding: 2px 8px; border-radius: 20px; background: var(--blue-50); color: var(--blue-500); font-weight: 500; }
-/* Delivery info */
-.tr-delivery{ display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 8px; }
-@media(max-width:700px){ .tr-delivery{ grid-template-columns: 1fr; } }
-.tr-del-item{ padding: 14px 16px; background: #fff; border: 1px solid var(--border); border-radius: 6px; text-align: center; }
-.tr-del-item .de{ font-size: 20px; display: block; margin-bottom: 4px; }
-.tr-del-item .dn{ font-size: 12px; font-weight: 600; color: var(--blue-700); margin-bottom: 1px; }
-.tr-del-item .ds{ font-size: 10px; color: var(--text-faint); }
-/* Value row */
-@media(max-width:700px){ .tr-values{ grid-template-columns: 1fr; } }
-.tr-val{ padding: 18px 20px; background: var(--blue-50); border-radius: 8px; border-left: 3px solid var(--blue-400); }
-.tr-val h4{ font-size: 13px; font-weight: 700; color: var(--blue-700); margin-bottom: 2px; }
-.tr-val p{ font-size: 11px; color: var(--text-muted); line-height: 1.7; }
+/* ── Credentials ── */
 .tr-creds{ display: flex; gap: 12px; flex-wrap: wrap; }
 .tr-creds .creds-card{ flex: 1; min-width: 160px; padding: 18px 16px; background: #fff; border: 1px solid var(--border); border-radius: 8px; text-align: center; }
 .tr-creds .creds-card .ce{ font-size: 24px; display: block; margin-bottom: 4px; }
 .tr-creds .creds-card .cn{ font-size: 12px; font-weight: 600; color: var(--blue-700); display: block; margin-bottom: 2px; }
 .tr-creds .creds-card .cs{ font-size: 10px; color: var(--text-faint); }
-.tr-books{ display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-.tr-book{ width: 150px; padding: 16px; background: #fff; border: 1px solid var(--border); border-radius: 8px; text-align: center; transition: all .25s ease; }
-.tr-book:hover{ border-color: var(--blue-200); }
-.tr-book .be{ font-size: 22px; display: block; margin-bottom: 4px; }
-.tr-book .bn{ font-size: 12px; font-weight: 600; color: var(--blue-700); display: block; margin-bottom: 2px; }
-.tr-book .bs{ font-size: 10px; color: var(--text-faint); }
+/* ── Selection guide ── */
+.tr-guide{ margin: 12px 0 24px; padding: 18px 22px; background: var(--blue-50); border-radius: 8px; border-left: 3px solid var(--blue-400); }
+.tr-guide p{ font-size: 12.5px; color: var(--text-muted); line-height: 1.8; }
+.tr-guide strong{ color: var(--blue-600); font-weight: 600; }
+
 /* Method detail page */
 .md-stats{ display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
 .md-stat{ flex: 1; min-width: 80px; padding: 16px 14px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; text-align: center; }
@@ -2717,133 +2750,180 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 </div>
 
 <div class="page" id="page-training">
+
+  <!-- ═══ MODULE 1: Hero ═══ -->
   <section class="tr-hero">
-    <h1>从认知到落地，端到端陪跑</h1>
-    <p>培训只是起点——16本书沉淀方法论，30个智能体作为交付工具，6个原创方法论驱动诊断</p>
+    <h1>90%的企业AI转型<br>不是输在技术上，而是输在组织没准备好</h1>
+    <p class="hero-sub">先诊断，再开方。28年跨行业经验，帮你找到卡点——而非堆砌方案。</p>
+    <div class="hero-tags">
+      <span class="hero-tag">19本原创书籍</span>
+      <span class="hero-tag">30个智能体交付工具</span>
+      <span class="hero-tag">6个原创方法论</span>
+      <span class="hero-tag">128页制造业旗舰课</span>
+    </div>
   </section>
+
   <div class="tr-main">
 
-    <!-- SERVICE SYSTEM OVERVIEW -->
+    <!-- ═══ MODULE 2: Scene Diagnosis Matrix ═══ -->
     <div class="tr-section">
       <div class="tr-section-header">
-        <h2>服务体系全景</h2>
+        <h2>先找到你的卡点</h2>
         <span class="line"></span>
-        <span class="sub">培训是切入点，陪跑是过程，智能体是交付物</span>
+        <span class="sub">点击你最认同的场景 → 找到对应解法</span>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:860px;margin:0 auto;">
-        <div style="padding:28px 24px;background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius);text-align:center;position:relative;overflow:hidden;">
-          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue-400),var(--blue-500));"></div>
-          <div style="font-size:32px;margin-bottom:12px;">🎯</div>
-          <h3 style="font-size:16px;font-weight:700;color:var(--blue-700);margin-bottom:8px;">赋能培训</h3>
-          <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">教判断框架，不教工具操作。用你自己的数据，现场出诊断报告。</p>
-          <div style="font-size:11px;color:var(--blue-500);font-weight:600;">交付：诊断报告 + 变革路线图</div>
+      <div class="tr-diag">
+        <div class="tr-diag-card" onclick="scrollToProduct('prod-zzjx')">
+          <div class="dg-scene">CEO不确定AI能不能帮到自己</div>
+          <div class="dg-voice">"听了太多AI课，回来还是不知道从哪下手"</div>
+          <span class="dg-match">→ 智造觉醒</span>
         </div>
-        <div style="padding:28px 24px;background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius);text-align:center;position:relative;overflow:hidden;">
-          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue-500),var(--blue-600));"></div>
-          <div style="font-size:32px;margin-bottom:12px;">🧭</div>
-          <h3 style="font-size:16px;font-weight:700;color:var(--blue-700);margin-bottom:8px;">咨询陪跑</h3>
-          <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">从AI战略、组织运营到数智技术落地，端到端陪伴式交付。</p>
-          <div style="font-size:11px;color:var(--blue-500);font-weight:600;">交付：战略→组织→技术全链路落地</div>
+        <div class="tr-diag-card" onclick="scrollToProduct('prod-zzjx')">
+          <div class="dg-scene">高层团队认知不统一</div>
+          <div class="dg-voice">"VP觉得是IT的事，IT觉得是业务的事，谁也说服不了谁"</div>
+          <span class="dg-match">→ 智造觉醒 / 认知对齐</span>
         </div>
-        <div style="padding:28px 24px;background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius);text-align:center;position:relative;overflow:hidden;">
-          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue-600),var(--blue-700));"></div>
-          <div style="font-size:32px;margin-bottom:12px;">🤖</div>
-          <h3 style="font-size:16px;font-weight:700;color:var(--blue-700);margin-bottom:8px;">智能体定制开发</h3>
-          <p style="font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;">基于你的业务场景，做能直接跑的智能体Skill。不是Demo，是能用的工具。</p>
-          <div style="font-size:11px;color:var(--blue-500);font-weight:600;">交付：可独立运行的Skill工具</div>
+        <div class="tr-diag-card" onclick="scrollToProduct('prod-fde')">
+          <div class="dg-scene">买了系统但没人用</div>
+          <div class="dg-voice">"花了几百万上系统，用起来的不到30%，供应商说'你们流程不对'"</div>
+          <span class="dg-match">→ FDE前端交付工程</span>
         </div>
-      </div>
-      <div style="text-align:center;margin-top:20px;">
-        <p style="font-size:12px;color:var(--text-muted);line-height:1.8;">三层服务可以独立选择，也可以组合：<strong style="color:var(--blue-600);">培训建立认知 → 陪跑推动落地 → 智能体固化能力</strong></p>
+        <div class="tr-diag-card" onclick="scrollToProduct('prod-fde')">
+          <div class="dg-scene">做了试点但推不开</div>
+          <div class="dg-voice">"Demo效果挺好，一推到生产环境就垮，三个月了还没上线"</div>
+          <span class="dg-match">→ FDE + 实战营</span>
+        </div>
+        <div class="tr-diag-card" onclick="scrollToProduct('prod-workshop')">
+          <div class="dg-scene">想把AI团队从成本中心变成价值中心</div>
+          <div class="dg-voice">"AI团队只会做报表和聊天机器人，老板觉得不如外包"</div>
+          <span class="dg-match">→ 诊断工作坊 + 实战营</span>
+        </div>
+        <div class="tr-diag-card" onclick="scrollToProduct('prod-workshop')">
+          <div class="dg-scene">要一份可执行的全年转型路线图</div>
+          <div class="dg-voice">"不需要愿景PPT，需要下周一能启动的90天行动计划"</div>
+          <span class="dg-match">→ 诊断工作坊 / 咨询陪跑</span>
+        </div>
       </div>
     </div>
 
-    <!-- COURSE OVERVIEW -->
+    <!-- ═══ MODULE 3: Solution Matrix ═══ -->
     <div class="tr-section">
       <div class="tr-section-header">
-        <h2>三大课程 · 从认知到落地</h2>
+        <h2>四条产品线 · 对症下药</h2>
         <span class="line"></span>
-        <span class="sub">每层自成闭环，可独立选课</span>
+        <span class="sub">每条线自成闭环，可独立选择，也可组合</span>
       </div>
-      <div class="tr-courses">
-        <div class="tr-card">
-          <div class="tc-bar b1"></div>
-          <span class="tc-step s1">1</span>
-          <span class="tc-icon">🔭</span>
-          <h3>AI原生企业认知课</h3>
-          <div class="tc-meta">半天 · 决策层专场</div>
-          <p class="tc-desc">回答「AI转型到底是转什么？跟我有什么关系？」——用《碎单时代的生存法则》核心洞察+行业洞察三层法+变革罗盘诊断，帮决策层一次看清自己的位置。</p>
-          <p class="tc-aud">🎯 适合：老板、CEO、VP、业务线负责人</p>
-          <ul class="tc-feats">
+      <div class="tr-products">
+
+        <!-- 旗舰 · 智造觉醒 -->
+        <div class="tr-prod flagship" id="prod-zzjx">
+          <div class="pp-bar"></div>
+          <span class="pp-badge">旗舰</span>
+          <span class="pp-icon">🏭</span>
+          <h3>智造觉醒</h3>
+          <div class="pp-meta">全天深度工作坊 · 制造业CEO专场</div>
+          <p class="pp-desc">制造业AI原生转型的CEO行动手册。5大模块128页深度内容，以"华锐精密"（50亿营收精密零件制造商）为贯穿案例，从大变局到行动手册，一条线走通。</p>
+          <div class="pp-who">🎯 谁该看这个：制造业CEO/董事长/总裁 + 高管团队，需要一次完整、系统、有深度的AI转型认知升级</div>
+          <ul class="pp-feats">
+            <li>模块一：大变局全景（政策/技术/竞争三重冲击）</li>
+            <li>模块二：深水区诊断（6大真实痛点 + 现有方案为何治标不治本）</li>
+            <li>模块三：AI原生新范式（语义中枢 + 智能体集群 + 人真正在环外）</li>
+            <li>模块四：落地场景与实施路径</li>
+            <li>模块五：CEO行动手册（战略/组织/流程/KPI/技术/文化六维框架）</li>
+          </ul>
+          <div class="pp-modules">
+            <span class="pp-mod">大变局</span>
+            <span class="pp-mod">痛点诊断</span>
+            <span class="pp-mod">AI原生范式</span>
+            <span class="pp-mod">语义中枢</span>
+            <span class="pp-mod">智能体集群</span>
+            <span class="pp-mod">CEO行动手册</span>
+          </div>
+          <div class="pp-more">📕 贯穿案例：华锐精密（50亿营收 · 精密零件 · 从传统制造到AI原生）</div>
+        </div>
+
+        <!-- 新品 · FDE前端交付工程 -->
+        <div class="tr-prod newtech" id="prod-fde">
+          <div class="pp-bar"></div>
+          <span class="pp-badge">新品</span>
+          <span class="pp-icon">⚙️</span>
+          <h3>FDE前端交付工程</h3>
+          <div class="pp-meta">AI前端交付工程 · 技术+交付团队</div>
+          <p class="pp-desc">为什么90%的AI项目死在Demo到Production之间？FDE解决的就是这"最后一公里"——从需求定义、原型验证、前端交付到生产上线的全链路工程方法论。</p>
+          <div class="pp-who">🎯 谁该看这个：技术负责人、交付团队、产品经理——需要把AI从"能演示"变成"能上线"的人</div>
+          <ul class="pp-feats">
+            <li>AI前端交付的标准流程与质量门禁</li>
+            <li>从Prompt工程到生产级Skill工程的跃迁</li>
+            <li>Agent编排与前端交互的融合架构</li>
+            <li>交付质量度量与持续运营机制</li>
+          </ul>
+          <div class="pp-modules">
+            <span class="pp-mod">需求定义</span>
+            <span class="pp-mod">原型验证</span>
+            <span class="pp-mod">前端交付</span>
+            <span class="pp-mod">生产上线</span>
+            <span class="pp-mod">持续运营</span>
+          </div>
+          <div class="pp-more">📕 市场上几乎没人教这个——大家都在教AI概念，我们教怎么把AI交付出去</div>
+        </div>
+
+        <!-- 经典 · 企业AI转型诊断工作坊 -->
+        <div class="tr-prod classic" id="prod-workshop">
+          <div class="pp-bar"></div>
+          <span class="pp-badge">经典</span>
+          <span class="pp-icon">🗺️</span>
+          <h3>企业AI转型诊断工作坊</h3>
+          <div class="pp-meta">1天 · 管理层 · 实战诊断</div>
+          <p class="pp-desc">回答"我们的问题在哪？先做什么后做什么？"——用四层十二维框架+4A架构逐层诊断企业现状，一天时间输出一份可执行的变革路线图。</p>
+          <div class="pp-who">🎯 谁该看这个：CIO/CTO、转型负责人、部门总监、业务骨干——需要一份"体检报告"和"处方"</div>
+          <ul class="pp-feats">
+            <li>业务架构·组织·流程·绩效三位一体诊断</li>
+            <li>应用架构系统孤岛分析+选型原则</li>
+            <li>数据架构治理路径+知识飞轮</li>
+            <li>交付：企业AI转型诊断报告 + 变革路线图</li>
+          </ul>
+          <div class="pp-modules">
+            <span class="pp-mod">组织诊断</span>
+            <span class="pp-mod">流程审计</span>
+            <span class="pp-mod">绩效重塑</span>
+            <span class="pp-mod">应用选型</span>
+            <span class="pp-mod">数据治理</span>
+          </div>
+          <div class="pp-more">📕 方法论支撑：CLIMB模型 + 四层十二维 + 4A架构</div>
+        </div>
+
+        <!-- 轻量 · CEO认知对齐 -->
+        <div class="tr-prod light" id="prod-alignment">
+          <div class="pp-bar"></div>
+          <span class="pp-badge">轻量</span>
+          <span class="pp-icon">🔭</span>
+          <h3>CEO认知对齐</h3>
+          <div class="pp-meta">半天 · 决策层专场</div>
+          <p class="pp-desc">半天时间，帮高管团队拉齐AI认知基线。回答"AI转型到底是转什么？跟我有什么关系？"——用变革罗盘六维评估，让决策层一次看清自己的位置。</p>
+          <div class="pp-who">🎯 谁该看这个：老板、CEO、VP、业务线负责人——需要先"对齐认知"再"启动项目"的决策层</div>
+          <ul class="pp-feats">
             <li>行业全景→同行对标→拉回自身三层结构</li>
             <li>变革罗盘六维评估，一页看清冲击态势</li>
             <li>4A架构全景认知（业务→应用→数据→技术）</li>
             <li>交付：企业AI就绪度快速诊断报告</li>
           </ul>
-          <div class="tc-modules">
-            <span class="tc-module">认知开场</span>
-            <span class="tc-module">行业全景</span>
-            <span class="tc-module">同行对标</span>
-            <span class="tc-module">变革罗盘</span>
-            <span class="tc-module">4A架构</span>
+          <div class="pp-modules">
+            <span class="pp-mod">认知开场</span>
+            <span class="pp-mod">行业全景</span>
+            <span class="pp-mod">同行对标</span>
+            <span class="pp-mod">变革罗盘</span>
+            <span class="pp-mod">4A架构</span>
           </div>
-          <div class="tc-more">📕 方法论支撑：企业AI变革罗盘 + 行业洞察三层法</div>
+          <div class="pp-more">📕 方法论支撑：企业AI变革罗盘 + 行业洞察三层法</div>
         </div>
-        <div class="tr-card">
-          <div class="tc-bar b2"></div>
-          <span class="tc-step s2">2</span>
-          <span class="tc-icon">🗺️</span>
-          <h3>企业AI转型诊断工作坊</h3>
-          <div class="tc-meta">1天 · 管理层 · 实战诊断</div>
-          <p class="tc-desc">回答「我们的问题在哪？先做什么后做什么？」——用《AI原生制造》四层十二维框架+4A架构逐层诊断企业现状，输出可落地的变革路线图。</p>
-          <p class="tc-aud">🎯 适合：CIO、转型负责人、部门总监、业务骨干</p>
-          <ul class="tc-feats">
-            <li>业务架构·组织·流程·绩效三位一体诊断</li>
-            <li>应用架构系统孤岛分析+选型原则</li>
-            <li>数据架构治理路径+知识飞轮</li>
-            <li>交付：企业AI转型诊断报告+变革路线图</li>
-          </ul>
-          <div class="tc-modules">
-            <span class="tc-module">组织诊断</span>
-            <span class="tc-module">流程审计</span>
-            <span class="tc-module">绩效重塑</span>
-            <span class="tc-module">应用选型</span>
-            <span class="tc-module">数据治理</span>
-            <span class="tc-module">技术评估</span>
-          </div>
-          <div class="tc-more">📕 方法论支撑：CLIMB模型 + 四层十二维 + 4A架构</div>
-        </div>
-        <div class="tr-card">
-          <div class="tc-bar b3"></div>
-          <span class="tc-step s3">3</span>
-          <span class="tc-icon">🛠️</span>
-          <h3>AI落地实战营</h3>
-          <div class="tc-meta">2天 · 核心团队 · 现场出活</div>
-          <p class="tc-desc">回答「具体怎么做？工具怎么选？流程怎么改？」——用《价值重构》增长逻辑+Skill工程四步法，带着一条真实业务流来，带着改造后方案走。</p>
-          <p class="tc-aud">🎯 适合：执行团队（IT+业务骨干+变革推动者）</p>
-          <ul class="tc-feats">
-            <li>Skill工程四步法：需求→设计→构造→运营</li>
-            <li>Agent与4A融合：穿透每一层架构的执行能力</li>
-            <li>技术选型三原则+TCO/ROI测算</li>
-            <li>交付：一条AI化业务流程+选型建议+岗位转型地图</li>
-          </ul>
-          <div class="tc-modules">
-            <span class="tc-module">Skill工程</span>
-            <span class="tc-module">Agent×4A</span>
-            <span class="tc-module">流程重构</span>
-            <span class="tc-module">选型模型</span>
-            <span class="tc-module">TCO/ROI</span>
-            <span class="tc-module">成果路演</span>
-          </div>
-          <div class="tc-more">📕 方法论支撑：Skill工程四步法 + Agent×4A + CORE引擎</div>
-        </div>
+
       </div>
       <div class="tr-guide">
-        <p>💡 <strong>选课建议：</strong>老板+高管选<strong>认知课</strong>（半天看清方向）→ CIO+总监选<strong>诊断工作坊</strong>（1天找到差距）→ 执行团队选<strong>实战营</strong>（2天拿到方案）。也可组合：<strong>老板听半天+团队跟两天</strong>，上下对齐。</p>
+        <p>💡 <strong>选课建议：</strong>制造业CEO选<strong>智造觉醒</strong>（全天深度工作坊）→ 技术/交付团队选<strong>FDE</strong>（解决Demo到生产的鸿沟）→ CIO+总监选<strong>诊断工作坊</strong>（1天出体检报告）→ 高管团队快速对齐选<strong>CEO认知对齐</strong>（半天拉齐认知）。也可组合：<strong>CEO听半天智造觉醒 + 团队跟两天实战营</strong>，上下对齐。</p>
       </div>
     </div>
 
-    <!-- SCHEDULE -->
+    <!-- ═══ MODULE 4: Schedule Tabs ═══ -->
     <div class="tr-section">
       <div class="tr-section-header">
         <h2>参考课程表</h2>
@@ -2851,16 +2931,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <span class="sub">点击查看每门课的详细时间安排</span>
       </div>
       <div class="tr-sched-tabs">
-        <span class="tr-sched-tab active" onclick="switchSched('s1',this)">🔭 认知课 · 半天</span>
+        <span class="tr-sched-tab active" onclick="switchSched('s1',this)">🔭 CEO认知对齐 · 半天</span>
         <span class="tr-sched-tab" onclick="switchSched('s2',this)">🗺️ 诊断工作坊 · 1天</span>
         <span class="tr-sched-tab" onclick="switchSched('s3',this)">🛠️ 实战营 · 2天</span>
+        <span class="tr-sched-tab" onclick="switchSched('s4',this)">🏭 智造觉醒 · 全天</span>
       </div>
       <div class="tr-sched-legend">
         <span><span class="leg-dot" style="background:var(--blue-400)"></span> 主体内容</span>
         <span><span class="leg-dot" style="background:var(--gold)"></span> 互动/工作坊/交付</span>
       </div>
 
-      <!-- 认知课 · 半天 -->
+      <!-- CEO认知对齐 · 半天 -->
       <div class="tr-sched-panel show" id="s1">
         <div class="tr-timeline">
           <div class="tl-block">
@@ -2934,9 +3015,32 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           </div>
         </div>
       </div>
+
+      <!-- 智造觉醒 · 全天 -->
+      <div class="tr-sched-panel" id="s4">
+        <div class="tr-timeline">
+          <div class="tl-block">
+            <div class="tl-block-header"><span class="tl-icon">🌅</span><h4>上午 · 大变局 + 深水区诊断</h4><span class="tl-label">9:00 → 12:00</span></div>
+            <div class="tl-row"><span class="tl-time">9:00-9:30</span><span class="tl-dot"></span><span class="tl-event"><strong>开篇：</strong>华锐精密的困境——一家50亿营收的精密零件制造商的真实转型故事</span></div>
+            <div class="tl-row"><span class="tl-time">9:30-10:15</span><span class="tl-dot"></span><span class="tl-event"><strong>大变局全景：</strong>政策红利消退、技术奇点逼近、竞争格局重塑——三重冲击如何影响你的企业</span></div>
+            <div class="tl-row"><span class="tl-time">10:15-10:25</span><span class="tl-dot"></span><span class="tl-event">休息</span></div>
+            <div class="tl-row"><span class="tl-time">10:25-11:15</span><span class="tl-dot"></span><span class="tl-event"><strong>深水区诊断：</strong>6大真实痛点逐一拆解——为什么现有转型方案治标不治本</span></div>
+            <div class="tl-row tl-highlight"><span class="tl-time">11:15-12:00</span><span class="tl-dot"></span><span class="tl-event">🎯 <strong>现场诊断：</strong>用华锐精密的诊断框架，对照你自己的企业做六维评估</span></div>
+          </div>
+          <div class="tl-block">
+            <div class="tl-block-header"><span class="tl-icon">🌇</span><h4>下午 · AI原生新范式 + CEO行动手册</h4><span class="tl-label">13:30 → 17:30</span></div>
+            <div class="tl-row"><span class="tl-time">13:30-14:30</span><span class="tl-dot"></span><span class="tl-event"><strong>AI原生新范式：</strong>语义中枢+智能体集群——不是用AI改造旧系统，而是用AI原生思维重建</span></div>
+            <div class="tl-row"><span class="tl-time">14:30-15:15</span><span class="tl-dot"></span><span class="tl-event"><strong>落地场景：</strong>制造业5大典型场景深度拆解——华锐精密如何逐一落地</span></div>
+            <div class="tl-row"><span class="tl-time">15:15-15:25</span><span class="tl-dot"></span><span class="tl-event">休息</span></div>
+            <div class="tl-row tl-highlight"><span class="tl-time">15:25-16:30</span><span class="tl-dot"></span><span class="tl-event">🎯 <strong>CEO行动手册：</strong>战略/组织/流程/KPI/技术/文化六维框架——现场制定你的90天启动计划</span></div>
+            <div class="tl-row"><span class="tl-time">16:30-17:15</span><span class="tl-dot"></span><span class="tl-event">小组汇报 + 讲师点评：每组展示自己的90天计划</span></div>
+            <div class="tl-row tl-highlight"><span class="tl-time">17:15-17:30</span><span class="tl-dot"></span><span class="tl-event">🎉 <strong>收尾：</strong>128页完整教材带走 + 后续诊断工作坊/实战营衔接路径</span></div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- METHODOLOGY & AGENTS -->
+    <!-- ═══ MODULE 5: Methodology & Agents ═══ -->
     <div class="tr-section">
       <div class="tr-section-header">
         <h2>方法论驱动 · 智能体交付</h2>
@@ -2955,6 +3059,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
             <span style="font-size:11px;padding:4px 10px;background:var(--blue-50);color:var(--blue-600);border-radius:12px;font-weight:500;">三才四象</span>
             <span style="font-size:11px;padding:4px 10px;background:var(--blue-50);color:var(--blue-600);border-radius:12px;font-weight:500;">企业AI变革罗盘</span>
           </div>
+          <p style="font-size:11px;color:var(--text-faint);margin-top:12px;line-height:1.6;">这6个方法论不是PPT上的框架——它们驱动着30个可运行的AI智能体。培训结束后，智能体可以留在你的企业里持续运行。</p>
         </div>
         <div style="padding:24px;background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius);">
           <h4 style="font-size:15px;font-weight:700;color:var(--blue-700);margin-bottom:12px;">🤖 30个智能体Skill</h4>
@@ -2964,38 +3069,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       </div>
     </div>
 
-    <!-- CONTENT ECOSYSTEM -->
-    <div class="tr-section">
-      <div class="tr-section-header">
-        <h2>内容生态 · 培训的认知基础设施</h2>
-        <span class="line"></span>
-        <span class="sub">课前建立认知，课后持续更新——这些不是附加品，是培训的一部分</span>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:860px;margin:0 auto;">
-        <div style="padding:20px 16px;background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius);text-align:center;">
-          <div style="font-size:28px;margin-bottom:8px;">📚</div>
-          <h4 style="font-size:14px;font-weight:700;color:var(--blue-700);margin-bottom:4px;">19本原创书籍</h4>
-          <p style="font-size:11px;color:var(--text-muted);line-height:1.6;">从战略到执行的方法论沉淀，免费下载</p>
-        </div>
-        <div style="padding:20px 16px;background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius);text-align:center;">
-          <div style="font-size:28px;margin-bottom:8px;">📊</div>
-          <h4 style="font-size:14px;font-weight:700;color:var(--blue-700);margin-bottom:4px;">12篇AI研报</h4>
-          <p style="font-size:11px;color:var(--text-muted);line-height:1.6;">原文+翻译+深度解读，跟踪全球前沿</p>
-        </div>
-        <div style="padding:20px 16px;background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius);text-align:center;">
-          <div style="font-size:28px;margin-bottom:8px;">🎙️</div>
-          <h4 style="font-size:14px;font-weight:700;color:var(--blue-700);margin-bottom:4px;">播客频道</h4>
-          <p style="font-size:11px;color:var(--text-muted);line-height:1.6;">小宇宙「树懒老K王的个人播客」</p>
-        </div>
-        <div style="padding:20px 16px;background:var(--white);border:1px solid var(--border-light);border-radius:var(--radius);text-align:center;">
-          <div style="font-size:28px;margin-bottom:8px;">✍️</div>
-          <h4 style="font-size:14px;font-weight:700;color:var(--blue-700);margin-bottom:4px;">公众号</h4>
-          <p style="font-size:11px;color:var(--text-muted);line-height:1.6;">31个专题系列，400+篇深度原创</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- DIFFERENTIATION -->
+    <!-- ═══ MODULE 6: Differentiation ═══ -->
     <div class="tr-section">
       <div class="tr-section-header">
         <h2>与市面其他AI培训有什么不同</h2>
@@ -3031,7 +3105,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <p style="font-size:11px;color:var(--text-faint);text-align:center;margin-top:10px;line-height:1.6;">不是让你学会用AI工具——是帮你建立知道<strong style="color:var(--text-muted);">「该不该用、用在哪、怎么用」</strong>的判断力</p>
     </div>
 
-    <!-- CREDENTIALS -->
+    <!-- ═══ MODULE 7: Credentials ═══ -->
     <div class="tr-section">
       <div class="tr-section-header">
         <h2>讲师</h2>
@@ -3043,11 +3117,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="creds-card"><span class="ce">🔧</span><span class="cn">霍尼韦尔 · 项目总监</span><span class="cs">软件方 · APS/MES/供应链物流</span></div>
         <div class="creds-card"><span class="ce">📊</span><span class="cn">毕博 · 德勤 · 咨询总监</span><span class="cs">咨询方 · 数智化转型顶层设计/业务流程重构/数据治理</span></div>
         <div class="creds-card"><span class="ce">🎓</span><span class="cn">工信部产教融合产业实践教授</span><span class="cs">湖南大学硕士研究生行业产业导师</span></div>
-        <div class="creds-card"><span class="ce">✍️</span><span class="cn">公众号「树懒老K」</span><span class="cs">16本书 · 12篇研报 · 31个专题 · 播客</span></div>
+        <div class="creds-card"><span class="ce">✍️</span><span class="cn">公众号「树懒老K」</span><span class="cs">19本书 · 12篇研报 · 31个专题 · 播客</span></div>
       </div>
     </div>
 
-    <!-- CASES -->
+    <!-- ═══ MODULE 8: Case Studies ═══ -->
     <div class="tr-section">
       <div class="tr-section-header">
         <h2>服务案例</h2>
@@ -3058,9 +3132,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="tr-case">
           <div class="tcase-org">医药流通 · 123人</div>
           <div class="tcase-title">某区域医药批发企业AI就绪度诊断+培训</div>
-          <div class="tcase-desc">为管理团队提供半天认知课+1天诊断工作坊，输出4A架构诊断报告和变革路线图。客户反馈：第一次把"AI转型"从一个模糊的口号变成了可执行的路线图。</div>
+          <div class="tcase-desc">为管理团队提供半天认知课+1天诊断工作坊，输出4A架构诊断报告和变革路线图。</div>
+          <div class="tcase-result">✦ 客户反馈：第一次把"AI转型"从模糊口号变成了可执行的路线图</div>
           <div class="tcase-tags">
-            <span class="tcase-tag">认知课</span>
+            <span class="tcase-tag">认知对齐</span>
             <span class="tcase-tag">诊断工作坊</span>
             <span class="tcase-tag">变革罗盘</span>
           </div>
@@ -3068,7 +3143,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="tr-case">
           <div class="tcase-org">精密制造 · 300+人</div>
           <div class="tcase-title">某汽车零部件企业AI原生岗位设计实战营</div>
-          <div class="tcase-desc">为技术+业务团队提供2天实战营，改造了3条核心业务流程，完成选型评估报告。客户在培训后一个月内启动了第一个AI项目。</div>
+          <div class="tcase-desc">为技术+业务团队提供2天实战营，改造了3条核心业务流程，完成选型评估报告。</div>
+          <div class="tcase-result">✦ 培训后一个月内启动了第一个AI项目</div>
           <div class="tcase-tags">
             <span class="tcase-tag">实战营</span>
             <span class="tcase-tag">流程重构</span>
@@ -3078,7 +3154,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="tr-case">
           <div class="tcase-org">快消零售 · 80+人</div>
           <div class="tcase-title">某区域快消品企业AI赋能销售管理培训</div>
-          <div class="tcase-desc">为销售+市场团队提供1天诊断工作坊，聚焦客户管理、销售预测、内容生产三大场景。课后团队直接用AI工具生成了第一批营销文案。</div>
+          <div class="tcase-desc">为销售+市场团队提供1天诊断工作坊，聚焦客户管理、销售预测、内容生产三大场景。</div>
+          <div class="tcase-result">✦ 课后团队直接用AI工具生成了第一批营销文案</div>
           <div class="tcase-tags">
             <span class="tcase-tag">诊断工作坊</span>
             <span class="tcase-tag">销售赋能</span>
@@ -3088,9 +3165,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="tr-case">
           <div class="tcase-org">装备制造 · 500+人</div>
           <div class="tcase-title">某工程机械企业AI转型认知课+技能演示</div>
-          <div class="tcase-desc">为全体中高层提供半天认知课，随后为技术团队演示制造业AI Skill工具。客户在认知课后调整了年度数字化预算，增设AI试点项目。</div>
+          <div class="tcase-desc">为全体中高层提供半天认知课，随后为技术团队演示制造业AI Skill工具。</div>
+          <div class="tcase-result">✦ 认知课后调整了年度数字化预算，增设AI试点项目</div>
           <div class="tcase-tags">
-            <span class="tcase-tag">认知课</span>
+            <span class="tcase-tag">认知对齐</span>
             <span class="tcase-tag">技能演示</span>
             <span class="tcase-tag">战略规划</span>
           </div>
@@ -3098,7 +3176,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="tr-case">
           <div class="tcase-org">企业服务 · 60+人</div>
           <div class="tcase-title">某SaaS企业知识管理+Agent应用实战营</div>
-          <div class="tcase-desc">为产品+技术团队提供2天实战营，聚焦组织知识管理和Agent应用场景设计。培训后两周内产出了第一个内部知识Agent原型。</div>
+          <div class="tcase-desc">为产品+技术团队提供2天实战营，聚焦组织知识管理和Agent应用场景设计。</div>
+          <div class="tcase-result">✦ 培训后两周内产出了第一个内部知识Agent原型</div>
           <div class="tcase-tags">
             <span class="tcase-tag">实战营</span>
             <span class="tcase-tag">知识管理</span>
@@ -3108,7 +3187,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="tr-case">
           <div class="tcase-org">电子高科技 · 150+人</div>
           <div class="tcase-title">某电子制造企业AI赋能研发+供应链诊断工作坊</div>
-          <div class="tcase-desc">为研发+供应链团队提供1天诊断工作坊，聚焦产品设计辅助、供应商评估、质量预测三大场景。课后团队用AI工具完成了首批供应商风险评估报告。</div>
+          <div class="tcase-desc">为研发+供应链团队提供1天诊断工作坊，聚焦产品设计辅助、供应商评估、质量预测三大场景。</div>
+          <div class="tcase-result">✦ 课后团队用AI工具完成了首批供应商风险评估报告</div>
           <div class="tcase-tags">
             <span class="tcase-tag">诊断工作坊</span>
             <span class="tcase-tag">研发赋能</span>
@@ -3118,20 +3198,46 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       </div>
     </div>
 
-    <!-- CTA -->
-    <div style="text-align:center;padding:32px 0 16px;border-top:1px solid var(--border);margin-top:40px;">
-      <p style="font-size:14px;color:var(--text-muted);margin-bottom:20px;line-height:1.7;">培训只是起点——从认知到落地，端到端陪跑<br>先做企业AI就绪度诊断，再选最匹配的服务组合</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-        <a href="mailto:wangguobao007@outlook.com?subject=赋能培训咨询" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border:1px solid var(--blue-200);border-radius:40px;font-size:13px;font-weight:500;color:var(--blue-600);background:#fff;cursor:pointer;text-decoration:none;transition:all .3s ease;box-shadow:0 1px 4px rgba(0,0,0,.02);">🎯 赋能培训</a>
-        <a href="mailto:wangguobao007@outlook.com?subject=咨询陪跑服务" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border:1px solid var(--blue-200);border-radius:40px;font-size:13px;font-weight:500;color:var(--blue-600);background:#fff;cursor:pointer;text-decoration:none;transition:all .3s ease;box-shadow:0 1px 4px rgba(0,0,0,.02);">🧭 咨询陪跑</a>
-        <a href="mailto:wangguobao007@outlook.com?subject=智能体定制开发" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border:1px solid var(--blue-200);border-radius:40px;font-size:13px;font-weight:500;color:var(--blue-600);background:#fff;cursor:pointer;text-decoration:none;transition:all .3s ease;box-shadow:0 1px 4px rgba(0,0,0,.02);">🤖 智能体定制</a>
-        <a href="mailto:wangguobao007@outlook.com?subject=培训课程咨询" style="display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:linear-gradient(135deg,var(--blue-400),var(--blue-500));color:#fff;border-radius:40px;font-size:14px;font-weight:600;text-decoration:none;transition:all .3s ease;box-shadow:0 4px 20px rgba(61,109,144,.25);" onmouseover="this.style.boxShadow='0 8px 30px rgba(61,109,144,.35)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='0 4px 20px rgba(61,109,144,.25)';this.style.transform='translateY(0)'">✉️ 预约咨询 · 定制方案</a>
+    <!-- ═══ MODULE 9: Multi-Tier Conversion Paths ═══ -->
+    <div class="tr-section">
+      <div class="tr-section-header">
+        <h2>开始你的第一步</h2>
+        <span class="line"></span>
+        <span class="sub">选择最适合你当前阶段的入口</span>
       </div>
+      <div class="tr-conv">
+        <!-- Low barrier -->
+        <div class="tr-conv-card free">
+          <div class="cv-step">STEP 1 · 先了解</div>
+          <span class="cv-icon">📋</span>
+          <h4>免费获取「AI就绪度自评清单」</h4>
+          <p class="cv-desc">15道题，5分钟完成，帮你在团队内部先做一次快速自诊。关注公众号即可获取。</p>
+          <a class="cv-btn" href="javascript:void(0)" onclick="alert('关注公众号「树懒老K」，发送关键词「AI自评」获取清单')">关注公众号获取</a>
+        </div>
+        <!-- Mid barrier -->
+        <div class="tr-conv-card diag">
+          <div class="cv-step">STEP 2 · 深诊断</div>
+          <span class="cv-icon">🎯</span>
+          <h4>预约「AI卡点诊断」工作坊</h4>
+          <p class="cv-desc">1天时间，带着你的团队和数据来，现场输出一份专属诊断报告和变革路线图。每月限5场。</p>
+          <a class="cv-btn" href="mailto:wangguobao007@outlook.com?subject=预约AI诊断工作坊">预约诊断工作坊</a>
+        </div>
+        <!-- High barrier -->
+        <div class="tr-conv-card premium">
+          <div class="cv-step">STEP 3 · 全陪跑</div>
+          <span class="cv-icon">🧭</span>
+          <h4>企业内训 · 咨询陪跑 · 智能体定制</h4>
+          <p class="cv-desc">从AI战略、组织变革到技术落地，端到端陪伴式交付。根据企业需求定制方案。</p>
+          <a class="cv-btn" href="mailto:wangguobao007@outlook.com?subject=企业内训/咨询陪跑/智能体定制">预约专属方案咨询</a>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--text-faint);text-align:center;margin-top:16px;line-height:1.7;">不确定从哪一步开始？发邮件到 <a href="mailto:wangguobao007@outlook.com?subject=培训课程咨询" style="color:var(--blue-400);text-decoration:underline;">wangguobao007@outlook.com</a>，告诉我你的行业和问题，我帮你推荐。</p>
     </div>
 
   </div>
   <footer class="footer">© 2026 树懒老K · 企业AI转型方法论</footer>
 </div>
+
 
 <!-- ===== ABOUT PAGE ===== -->
 <div class="page" id="page-about">
@@ -4222,6 +4328,15 @@ initReveal();
 renderMethodList();
 renderSkillsList();
 renderTopics();
+
+/* Training page: scroll to product card */
+function scrollToProduct(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  el.style.boxShadow = '0 0 0 3px var(--blue-400)';
+  setTimeout(function() { el.style.boxShadow = ''; }, 2000);
+}
 </script>
 </body>
 </html>
